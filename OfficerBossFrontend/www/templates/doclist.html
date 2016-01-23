@@ -1,0 +1,83 @@
+<ion-view cache-view="false" view-title="Document Management">
+	<ion-content>
+	<div class="row">
+		<div class="col col-80 center">
+			<h1 class="main-header" style="margin-top: 4vh;">Document List</h1>
+			<hr class="main-hr">
+			<div show-when="large" class="row padding-0">
+				<div class="col col-20 padding-0">
+					<a class="button button button-dark btn-new-task" href="#/app/adddoc">New Document </a>
+				</div>
+				<div class="col col-30 col-offset-50">
+
+					<label class="item item-input">
+						<i class="icon ion-search placeholder-icon"></i>
+						<input type="text" placeholder="Search">
+					</label>
+				
+				</div>
+			</div>
+
+			<ui class="list">
+			<div class="item item-divider item-divider-calm">
+				<div class="row">
+					<div show-when="large" class="col col-25 vertical-center-list-text">Title</div>
+					<div show-when="small" class="col col-85 vertical-center-list-text">Title</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Status</div>
+					<div show-when="large" class="col col-10 center-header vertical-center-list-text">Creator</div>
+					<div show-when="large" class="col col-15 center-header vertical-center-list-text">Created Date</div>
+					<div show-when="large" class="col col-15 center-header vertical-center-list-text">Last Modified</div>
+					<div class="col col-15 center-header vertical-center-list-text">Actions</div>
+				</div>
+			</div>
+				<li class="item" ng-repeat="document in documents">
+					<div class="row">
+					<div show-when="large" class="col col-25 vertical-center-list-text"> <a class="doclist-link" href="#/app/docdetail/{{document.documentId}}">{{document.documentName | limitTo: 33 }}{{document.documentName.length > 33 ? '...' : ''}}</a></div>
+					<div show-when="small" class="col col-85 vertical-center-list-text"><a class="doclist-link" href="#/app/docdetail">{{document.documentName | limitTo: 25 }}{{document.documentName.length > 25 ? '...' : ''}}</a></div>
+					
+					<!-- For draft -->
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text draft-status" ng-if="document.documentStatus === 'Draft'">{{document.documentStatus}}</div>
+					<!-- For Waiting for approval -->
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text waiting-for-approval-status" ng-if="document.documentStatus === 'Waiting for Approval'">{{document.documentStatus}}</div>
+					<!-- For Reject -->
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text reject-status" ng-if="document.documentStatus === 'Reject'">{{document.documentStatus}}</div>
+					<!-- For Approved -->
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text approved-status" ng-if="document.documentStatus === 'Approved'">{{document.documentStatus}}</div>
+					<!-- For Publish -->
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text publish-status" ng-if="document.documentStatus === 'Publish'">{{document.documentStatus}}</div>
+
+					<div show-when="large" class="col col-10 center-header vertical-center-list-text">{{user.firstname}}</div>
+					<div show-when="large" class="col col-15 center-header vertical-center-list-text">{{document.createdDate}}</div>
+					<div show-when="large" class="col col-15 center-header vertical-center-list-text">{{document.lastModifiedDate}}</div>
+					
+					<!-- officer action -->
+						<div show-when="large" class="col col-15">
+							<!-- more detail button -->
+							<a class="button button-positive button-circle icon ion-eye" href="#/app/docdetail/{{document.documentId}}" title="See Detail"></a>
+							<!-- edit button -->
+							<a class="button button-energized button-circle icon ion-edit" href="#/app/editdoc/{{document.documentId}}" 
+							ng-if="document.documentStatus !== 'Publish' &&
+							document.documentStatus !== 'Approved' && 
+							document.documentStatus !== 'Waiting for Approval'" title="Edit"></a>
+							<!-- publish button -->
+							<button class="button button button-balanced button-circle icon ion-ios-cloud-upload-outline"
+							ng-if="document.documentStatus === 'Approved'" title="Publish" ng-click="publish(document.documentId)"></button>
+							<!-- delete button -->
+							<button class="button button button-assertive button-circle icon ion-trash-a"
+							ng-if="document.documentStatus !== 'Waiting for Approval' && document.documentStatus !== 'Approved' && document.documentStatus !== 'Publish'" title="Delete" ng-click="delete(document.documentId)"></button>
+
+						</div>
+
+
+					
+					<div show-when="small" class="col col-15 center-header">
+						<a class="button button-calm" href="#/app/docdetail/{{document.documentId}}">More Detail</a>
+						
+					</div>
+				</div>
+				</li>
+		</ui>
+		</div>
+	</div>
+	</ion-content>
+</ion-view>

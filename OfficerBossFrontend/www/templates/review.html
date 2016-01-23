@@ -1,0 +1,76 @@
+<ion-view cache-view="false" view-title="Review Document">
+	<ion-content>
+	<div class="row">
+		<div class="col col-80 center">
+			<h1 class="main-header" style="margin-top: 4vh;">Review Document</h1>
+			<a href="#/app/doclistforboss" class="path-link">Document List</a><span> / {{doc.documentName}}</span>
+			<hr class="main-hr">
+			<div class="row">
+				<div class="col col-75 center">
+					<div class="list">
+					  <label class="item item-input item-stacked-label">
+					    <div class="row padding-0">
+					    	<span class="input-label">Name</span> 
+					    </div>
+					    <div class="row padding-0" style=" margin-top: 20px; margin-bottom: 20px;">
+					    	<h2><span style=" margin-top: 10px; margin-right: 10px;"> {{doc.documentName}} </span></h2>
+						</div>
+					  </label>
+					  <label class="item item-input item-stacked-label">
+					    <div class="row padding-0">
+					    	<span class="input-label">Uploaded File</span> 
+					    </div>
+					    <div class="row padding-0" style=" margin-top: 20px; margin-bottom: 20px;">
+					    	<span style=" margin-top: 10px; margin-right: 10px;"> filename </span><button class="button button-calm icon ion-ios-cloud-download-outline button-circle" style="padding: 0 12px;"></button>
+						</div>
+					  </label>
+
+					  <label class="item item-input item-stacked-label">
+					    <div class="row padding-0">
+					    	<span class="input-label">Description</span> 
+					    </div>
+					    <div class="row padding-0" style=" margin-top: 20px; margin-bottom: 20px;">
+					    	<h2><span style=" margin-top: 10px; margin-right: 10px;">{{doc.description}}</span></h2>
+						</div>
+					  </label>
+					  <label class="item item-input item-stacked-label" style="background: #F7FC7C;">
+					    <span class="input-label">Comment</span>
+					    
+					    <textarea rows="10" placeholder="Please provide your opinion about this document for further improvement." style="background: #F7FC7C;"></textarea>
+
+					  </label>
+					</div>
+					<div class="row" show-when="large">
+						
+						<div class="col col-50">
+							<button class="button button-full button-balanced" ng-click="approve(doc.documentId)">
+							  Approve
+							</button>
+						</div>
+						<div class="col col-50">
+							<button class="button button-full button-assertive" ng-click="reject(doc.documentId)">
+							  Decline
+							</button>
+						</div>
+					</div>
+					<div class="row" show-when="small">
+			
+							
+		
+							<button class="button button-full button-balanced">
+								Approve
+							</button>
+		
+				
+							<button class="button button-full button-assertive">
+								Decline
+							</button>
+			
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	</ion-content>
+</ion-view>

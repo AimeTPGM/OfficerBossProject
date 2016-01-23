@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: DocumentService
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: AimeTPGM
+Implementation-Vendor-Id: DocumentService
+Build-Jdk: 1.8.0_60
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

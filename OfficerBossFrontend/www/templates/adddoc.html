@@ -1,0 +1,67 @@
+<ion-view cache-view="false" view-title="Add Document">
+	<ion-content>
+	<div class="row">
+		<div class="col col-80 center">
+			<h1 class="main-header" style="margin-top: 4vh;">Add New Document</h1>
+			<a href="#/app/doclist" class="path-link">Document List</a><span> / Add New Document</span>
+			<hr class="main-hr">
+			<div class="row">
+				<div class="col col-75 center">
+					<form>
+						<div class="list">
+						  <label class="item item-input item-stacked-label">
+						    <span class="input-label">Document Name</span>
+						    <input type="text" placeholder="example: Document 01" ng-model="doc.name">
+						  </label>
+						  <label class="item item-input item-stacked-label">
+						    <div class="row padding-0"><span class="input-label">Upload File</span></div>
+						    <input id="uploadBtn" type="file" name="file" id="file" style="line-height:0; margin-top: 20px;">
+							
+						  </label>
+						  <label class="item item-input item-stacked-label">
+						    <span class="input-label">Description</span>
+						    
+						    <textarea id="description" rows="10" placeholder="What is this document used for?" ng-model="doc.desc"></textarea>
+
+						  </label>
+						</div>
+						<div class="row" show-when="large">
+							<div class="col col-33">
+								<button class="button button-full button-energized" ng-click="save()">
+								  Save Draft
+								</button>
+							</div>
+							<div class="col col-33">
+								<button class="button button-full button-balanced" ng-click="submit()">
+								  Submit
+								</button>
+							</div>
+							<div class="col col-33">
+								<button class="button button-full button-assertive" ng-click="reset()">
+								  Reset
+								</button>
+							</div>
+						</div>
+						<div class="row" show-when="small">
+				
+								<button class="button button-full button-energized">
+								  save draft
+								</button>
+			
+								<button class="button button-full button-balanced">
+								  submit
+								</button>
+			
+					
+								<button class="button button-full button-assertive">
+								  delete
+								</button>
+				
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	</ion-content>
+</ion-view>

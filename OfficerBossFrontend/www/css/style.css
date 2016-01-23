@@ -1,0 +1,111 @@
+/* Empty. Add your own CSS if you like */
+.center{
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.center-header{
+	text-align: center;
+}
+
+.vertical-center-list-text{
+	margin-top: 15px;
+}
+
+.button-circle{
+	border-radius: 50%;
+    padding: 0 10px;
+    min-width: 48px;
+}
+
+.item-divider-calm{
+	border-color: #0a9dc7;
+    background-color: #11c1f3;
+    /*background-image: linear-gradient(0deg, #0a9dc7, #0a9dc7 50%, transparent 50%);*/
+    color: #fff;
+}
+
+.doclist-link{
+	text-decoration: none;
+}
+
+.path-link{
+	text-decoration: none;
+}
+
+.draft-status{
+	color: #ffc900;
+}
+
+.waiting-for-approval-status{
+	color: #0a9dc7;
+}
+
+.reject-status{
+	color: #ef473a;
+}
+
+.approved-status{
+	color: #33cd5f;
+}
+
+.publish-status{
+	color: #444;
+}
+
+.all-content{
+    margin-top: 10vh;
+}
+
+.main-header{
+    color: #444;
+    margin-top: 10vh;
+}
+
+.main-hr{
+	margin-top: 4vh;
+	margin-bottom: 4vh;
+	color: #eee;
+	background: #eee;
+	border-width: 0px;
+	height: 3px;
+}
+
+.padding-0{
+	padding: 0;
+}
+
+.btn-new-task{
+	margin-bottom: 4vh;
+	width: 100%;
+}
+
+.download-file{
+	margin-top: 20px;
+	
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	position: absolute;
+	z-index: 1;
+}
+.inputfile + label {
+    color: white;
+    background-color: black;
+    display: inline-block;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: red;
+}
+.inputfile + label {
+	cursor: pointer;
+}
+.inputfile:focus + label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
