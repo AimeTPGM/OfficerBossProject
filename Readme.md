@@ -3,8 +3,8 @@ ionic framework
 download and install: http://ionicframework.com
 NOTE: requires nodejs
 
-change directory to ~/whatever/OfficerBossFrontend
-> cd ~/whatever/OfficerBossFrontend
+change directory to ~/whatever/OfficerBossProject/OfficerBossFrontend
+> cd ~/whatever/OfficerBossProject/OfficerBossFrontend
 
 run ionic server
 > $ ionic serve 
