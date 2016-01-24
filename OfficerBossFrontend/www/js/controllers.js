@@ -368,17 +368,34 @@ angular.module('starter.controllers', [])
         });
 
     }
-    $scope.reject = function(docid){
-      $http.get('http://localhost:8081/reject?documentid='+docid)
-        .success(function(data){
-          $scope.savedoc = data;
-          console.log('successfully reject document: change from aprove to reject');
-          $window.location.href=('#/app/doclistforboss');
+    $scope.reject = function(docid,approverid,reviewtext){
+      
+        $http.get('http://localhost:8081/reject?documentid='+docid)
+          .success(function(data){
+            
+            $scope.savedoc = data;
+            console.log('successfully reject document: change from aprove to reject');
+            $http.get('http://localhost:8083/createreview?documentid='+docid+'&approverid='+approverid+'&reviewdesc='+reviewtext)
+              .success(function(data){
+                
+                $scope.savedoc = data;
+                console.log('successfully reject document: change from aprove to reject');
+                
+                
+                $window.location.href=('#/app/doclistforboss');
 
-        })
-        .error(function(data){
-          console.log('cannot reach document-service port 8081')
-        });
+              })
+              .error(function(data){
+                console.log('cannot reach document-service port 8081')
+              });
+
+            $window.location.href=('#/app/doclistforboss');
+
+          })
+          .error(function(data){
+            console.log('cannot reach document-service port 8081')
+          });
+        
 
     }
 
