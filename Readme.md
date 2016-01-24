@@ -15,10 +15,12 @@ download: https://www.mongodb.org
 
 change directory to ~/whatever/AllService/data, example
 > cd ~/whatever/DocumentService/data
+
 NOTE: /data folder will not be able to be uploaded to github because of size limitation, please copy and paste OfficerBossProject to another directory before moving to the next step
 
 run mongo database for each service using command below
 > mongod --dbpath ~/whatever/WhateverService/data --port [MONGO_PORT_NUMBER]
+
 		Service			|	MONGO_PORT
 ------------------------|--------------
 Document Service		|	27018
