@@ -1,5 +1,9 @@
 package main.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 
 public class Review {
@@ -8,6 +12,7 @@ public class Review {
 	private String documentId;
 	private String approverId;
 	private String reviewDesc;
+	private String reviewDate;
 	
 	public void setReviewId(String id){
 		this.reviewId = id;
@@ -32,6 +37,13 @@ public class Review {
 	}
 	public String getReviewDesc(){
 		return reviewDesc;
+	}
+	public void setReviewDate(Date date){
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		this.reviewDate = dateFormat.format(date);
+	}
+	public String getReviewDate(){
+		return this.reviewDate;
 	}
 
 }
