@@ -14,7 +14,7 @@ public class MongoDBMain {
  
     public static void run() {
         try {
-        	System.out.println("connecting to mongodb at"+MONGO_HOST+":"+MONGO_PORT+"...\ndatabase name: "+DB_NAME+"\ncollection: "+REVIEW_COLLECTION);
+        	System.out.println("connecting to mongodb at "+MONGO_HOST+":"+MONGO_PORT+"...\ndatabase name: "+DB_NAME+"\ncollection: "+REVIEW_COLLECTION);
             mongo = new MongoClient(
                     MONGO_HOST, MONGO_PORT);
             System.out.println("connected!");

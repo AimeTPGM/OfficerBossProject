@@ -20,27 +20,29 @@ import mongodb.main.MongoDBMain;
 
 public class DocumentDAOImpl implements DocumentDAO{
 	private MongoOperations mongoOps;
-	private static final String DB_NAME = "documenttest";
-	private static final String DOCUMENT_COLLECTION = "documenttestonly";
+	private static final String DOCUMENT_COLLECTION = MongoDBMain.getCollection();
 	public static final MongoClient mongo = MongoDBMain.getMongoClient();
-	private static final DB db = mongo.getDB(DB_NAME);
 
 	public DocumentDAOImpl(MongoOperations mongoOps){
 		this.mongoOps=mongoOps;
     }
 	
 	public void create(Document document) {
-		System.out.println("Adding new document");
+		System.out.println("DAO: Adding new document");
 		this.mongoOps.insert(document, DOCUMENT_COLLECTION);
+		System.out.println("DAO: Added!");
 	}
 
 	public List<Document> getAllDocuments() {
+		System.out.println("DAO: Return all documents");
 		return this.mongoOps.findAll(Document.class, DOCUMENT_COLLECTION);
 	}
 
 
 	public Document readById(String id) {
+		System.out.println("DAO: Querying document id:"+id);
 		Query query = new Query(Criteria.where("_id").is(id));
+		System.out.println("DAO: Return document id:"+id);
         return this.mongoOps.findOne(query, Document.class, DOCUMENT_COLLECTION);
 	}
 
@@ -58,6 +60,7 @@ public class DocumentDAOImpl implements DocumentDAO{
 //		collection.update(searchQuery, newDocument);
 //		this.mongoOps.save(document, DOCUMENT_COLLECTION);
 		//TODO fixes bugs ... it does nothing 
+		System.out.println("DAO: Querying document id:"+document.getDocumentId());
 		Query query = new Query(Criteria.where("_id").is(document.getDocumentId()));
 		Update update = new Update();
 		update.set("name", document.getDocumentName());
@@ -65,14 +68,17 @@ public class DocumentDAOImpl implements DocumentDAO{
 		update.set("lastModifiedDate", document.getLastModifiedDate());
 		update.set("version", document.getVersion());
 		update.set("status", document.getDocumentStatus());
-		
+		System.out.println("DAO: Updating document id:"+document.getDocumentId());
 		this.mongoOps.findAndModify(query, update, Document.class, DOCUMENT_COLLECTION);
 		
 	}
 
 	public int deleteById(String id) {
+		System.out.println("DAO: Querying document id:"+id);
 		Query query = new Query(Criteria.where("_id").is(id));
+		System.out.println("DAO: Deleting document id:"+id);
         WriteResult result = this.mongoOps.remove(query, Document.class, DOCUMENT_COLLECTION);
+        System.out.println("DAO: Deleted!");
         return result.getN();
 	}
 

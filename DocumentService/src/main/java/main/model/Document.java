@@ -2,12 +2,10 @@ package main.model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
-import main.rest.documentstatus.DocumentStatus;
 
 public class Document {
 	

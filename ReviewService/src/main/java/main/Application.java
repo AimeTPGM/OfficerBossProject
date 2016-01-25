@@ -5,12 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import mongodb.main.MongoDBMain;
 
-//import mongodb.main.MongoDBMain;
-
 @SpringBootApplication
 public class Application {
 	public static void main(String[] args) {
-		System.out.println("Starting Document Service ...");
+		System.out.println("Starting Review Service ...");
 		MongoDBMain.run();
 		System.out.println("Starting Spring Application...");
 		SpringApplication.run(Application.class, args);

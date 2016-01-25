@@ -7,8 +7,8 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
         http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.5.xsd">
  
-<mongo:mongo host="localhost" port="27018" id="mongo" />
-<mongo:db-factory dbname="usertest" mongo-ref="mongo" id="mongoDbFactory" />
+<mongo:mongo host="localhost" port="27019" id="mongo" />
+<mongo:db-factory dbname="reviewtest" mongo-ref="mongo" id="mongoDbFactory" />
  
 <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
     <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />

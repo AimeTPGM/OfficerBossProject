@@ -6,10 +6,10 @@ import com.mongodb.MongoClient;
 
 public class MongoDBMain {
 	 
-    public static final String DB_NAME = "documenttest";
-    public static final String DOCUMENT_COLLECTION = "documenttestonly";
-    public static final String MONGO_HOST = "localhost";
-    public static final int MONGO_PORT = 27018;
+    private static final String DB_NAME = "documenttest";
+    private static final String DOCUMENT_COLLECTION = "documenttestonly";
+    private static final String MONGO_HOST = "localhost";
+    private static final int MONGO_PORT = 27018;
     private static MongoClient mongo;
  
     public static void run() {
@@ -27,6 +27,18 @@ public class MongoDBMain {
     
     public static MongoClient getMongoClient(){
     	return mongo;
+    }
+    public static String getDBName(){
+    	return DB_NAME;
+    }
+    public static String getCollection(){
+    	return DOCUMENT_COLLECTION;
+    }
+    public static String getHost(){
+    	return MONGO_HOST;
+    }
+    public static int getPort(){
+    	return MONGO_PORT;
     }
  
 }

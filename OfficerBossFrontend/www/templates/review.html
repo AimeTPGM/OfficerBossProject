@@ -93,12 +93,12 @@
 					<div class="row" show-when="large">
 						
 						<div class="col col-50">
-							<button class="button button-full button-balanced" ng-click="approve(doc.documentId)">
+							<button class="button button-full button-balanced" ng-click="approve(doc.documentId,approver.id)">
 							  Approve
 							</button>
 						</div>
 						<div class="col col-50">
-							<button class="button button-full button-assertive" ng-click="reject(doc.documentId)" ng-disabled="!reviewtext">
+							<button class="button button-full button-assertive" ng-click="reject(doc.documentId,approver.id)" ng-disabled="!reviewtext">
 							  Decline
 							</button>
 						</div>
