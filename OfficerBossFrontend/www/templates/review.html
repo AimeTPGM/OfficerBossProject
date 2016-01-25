@@ -36,7 +36,7 @@
 					  <label class="item item-input item-stacked-label" style="background: #F7FC7C;">
 					    <span class="input-label">Comment</span>
 					    
-					    <textarea rows="10" placeholder="Decline? Please provide your opinion about this document for further improvement." style="background: #F7FC7C;" ng-model="reviewtext"></textarea>
+					    <textarea rows="10" placeholder="Decline? Please provide your opinion about this document for further improvement." style="background: #F7FC7C;" ng-model="$parent.reviewtext"></textarea>
 
 					  </label>
 					  <div show-when="small">
@@ -93,12 +93,12 @@
 					<div class="row" show-when="large">
 						
 						<div class="col col-50">
-							<button class="button button-full button-balanced" ng-click="approve(doc.documentId,approver.id)">
+							<button class="button button-full button-balanced" ng-click="approve()">
 							  Approve
 							</button>
 						</div>
 						<div class="col col-50">
-							<button class="button button-full button-assertive" ng-click="reject(doc.documentId,approver.id)" ng-disabled="!reviewtext">
+							<button class="button button-full button-assertive" ng-click="reject()" ng-disabled="!reviewtext">
 							  Decline
 							</button>
 						</div>
@@ -107,12 +107,12 @@
 			
 							
 		
-							<button class="button button-full button-balanced">
+							<button class="button button-full button-balanced" ng-click="approve()">
 								Approve
 							</button>
 		
 				
-							<button class="button button-full button-assertive" ng-click="reject(doc.documentId)" ng-disabled="!reviewtext">
+							<button class="button button-full button-assertive" ng-click="reject()" ng-disabled="!reviewtext">
 								Decline
 							</button>
 			

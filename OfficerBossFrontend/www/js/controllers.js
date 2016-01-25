@@ -178,6 +178,18 @@ angular.module('starter.controllers', [])
     disableBack: true
   });
 
+  $http.get('http://localhost:8083/getreviewbydocumentid?documentid='+$stateParams.docId)
+    .success(function(data){
+      $scope.review = data;
+      
+      
+
+    })
+    .error(function(data){
+      console.log('cannot reach review-service port 8083')
+    });
+
+
   $http.get('http://localhost:8081/getdocument?documentid='+$stateParams.docId)
     .success(function(data){
       $scope.doc = data;
