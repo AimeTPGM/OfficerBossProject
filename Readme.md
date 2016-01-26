@@ -8,7 +8,7 @@ NOTE: requires nodejs
 
 change directory to ~/whatever/OfficerBossProject/Frontend
 
-> cd ~/whatever/OfficerBossProject/OfficerBossFrontend
+> cd ~/whatever/OfficerBossProject/Frontend
 
 run ionic server
 
