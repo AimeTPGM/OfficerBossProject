@@ -210,8 +210,8 @@ angular.module('starter.controllers', [])
           console.log('cannot reach document-service port 8082')
         });
 
-        $scope.docname = $scope.doc.documentName;
-        $scope.docdesc = $scope.doc.description;
+        // $scope.docname = "";
+        // $scope.docdesc = "";
 
         $scope.save = function(documentid){
           $http.get('http://localhost:8081/save?docId='+documentid+'&documentName='+$scope.docname+'&description='+$scope.docdesc)
