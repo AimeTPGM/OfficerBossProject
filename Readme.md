@@ -6,7 +6,7 @@ download and install: http://ionicframework.com
 
 NOTE: requires nodejs
 
-change directory to ~/whatever/OfficerBossProject/OfficerBossFrontend
+change directory to ~/whatever/OfficerBossProject/Frontend
 
 > cd ~/whatever/OfficerBossProject/OfficerBossFrontend
 
@@ -18,6 +18,8 @@ run ionic server
 ## MongoDB
 
 download and install: https://www.mongodb.org
+
+there is no data in ~/whatever/AllService/data yet because the size exceeds GitHub limit
 
 change directory to ~/whatever/AllService/data, example
 
@@ -51,3 +53,5 @@ download and install: https://spring.io
 Document Service		|	  localhost		| 	8081
 User Service			|	  localhost		| 	8082
 Review Service			|	  localhost		| 	8083
+
+# Have fun!
