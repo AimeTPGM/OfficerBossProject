@@ -12,7 +12,7 @@ so.. to avoid this problem, I suggest 3 ways, choose one you like
 
 1. copy and paste this project to somewhere else before developing and testing, or
 
-2. use another database path while running mongodb
+2. use another database path while running mongodb, or
 
 3. just follow the instruction but before push to github, you have to delete ~/AllServices/data and create an empty folder named data then push
 
@@ -49,7 +49,7 @@ change directory to ~/whatever/AllService/data, example
 
 > cd ~/whatever/DocumentService/data
 
-NOTE: /data folder will not be able to be uploaded to github because of size limitation, please copy and paste OfficerBossProject to another directory before moving to the next step
+NOTE: ~/data folder will not be able to be uploaded to github because of size limitation, please copy and paste OfficerBossProject to another directory before moving to the next step
 
 run mongo database for each service using command below
 
