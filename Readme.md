@@ -1,3 +1,27 @@
+# BIG NOTE
+
+THERE IS NO DATA IN DATABASE BECAUSE IT WILL EXCEED GITHUB LIMITATION
+
+before running this project please copy and paste this project to somewhere else
+
+because after do a black-box testing, the data will be stored in ~/your/directory/to/OfficerBossProject/Backend/AllServices/data
+
+and ~/data folder will be exceeded github size limitation
+
+so.. to avoid this problem, I suggest 3 ways, choose one you like 
+
+1. copy and paste this project to somewhere else before developing and testing, or
+
+2. use another database path while running mongodb
+
+3. just follow the instruction but before push to github, you have to delete ~/AllServices/data and create an empty folder named data then push
+
+then and you will still be able to test this project by your own current database data
+
+if you push a new update, don't forget to push .classpath and .project too! – I had made a mistake hahahah
+
+Thank you
+
 # Frontend
 
 ionic framework
