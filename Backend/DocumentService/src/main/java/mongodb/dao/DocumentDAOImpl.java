@@ -7,15 +7,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
 
 import main.model.Document;
-import main.rest.documentstatus.DocumentStatus;
 import mongodb.main.MongoDBMain;
 
 public class DocumentDAOImpl implements DocumentDAO{
@@ -47,19 +42,6 @@ public class DocumentDAOImpl implements DocumentDAO{
 	}
 
 	public void update(Document document) {
-//		BasicDBObject newDocument = new BasicDBObject();
-//		newDocument.append("$set", new BasicDBObject().append("name", document.getDocumentName()));
-//		newDocument.append("$set", new BasicDBObject().append("description", document.getDescription()));
-//		newDocument.append("$set", new BasicDBObject().append("lastModifiedDate", document.getLastModifiedDate()));
-//		newDocument.append("$set", new BasicDBObject().append("version", document.getVersion()));
-//		newDocument.append("$set", new BasicDBObject().append("status", document.getDocumentStatus()));
-//		
-//		BasicDBObject searchQuery = new BasicDBObject().append("documentId", document.getDocumentId());
-//		
-//		DBCollection collection = db.getCollection(DOCUMENT_COLLECTION);
-//		collection.update(searchQuery, newDocument);
-//		this.mongoOps.save(document, DOCUMENT_COLLECTION);
-		//TODO fixes bugs ... it does nothing 
 		System.out.println("DAO: Querying document id:"+document.getDocumentId());
 		Query query = new Query(Criteria.where("_id").is(document.getDocumentId()));
 		Update update = new Update();
@@ -80,6 +62,13 @@ public class DocumentDAOImpl implements DocumentDAO{
         WriteResult result = this.mongoOps.remove(query, Document.class, DOCUMENT_COLLECTION);
         System.out.println("DAO: Deleted!");
         return result.getN();
+	}
+
+	public List<Document> getAllDocumentsByUserId(String id) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("creatorId").is(id));
+		System.out.println("DAO: Return documents");
+		return mongoOps.find(query, Document.class, DOCUMENT_COLLECTION);
 	}
 
 }

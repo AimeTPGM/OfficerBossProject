@@ -9,6 +9,8 @@ public interface DocumentDAO {
     public void create(Document document);
     
     public List<Document> getAllDocuments();
+    
+    public List<Document> getAllDocumentsByUserId(String id);
      
     public Document readById(String id);
      

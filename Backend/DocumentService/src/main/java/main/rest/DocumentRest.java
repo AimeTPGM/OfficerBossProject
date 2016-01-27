@@ -55,15 +55,8 @@ public class DocumentRest {
 	public List<Document> getdocumentbyuserid(
 			@QueryParam("userid") String id) {
 		System.out.println("GET Request: getalldocumentsbyuserid");
-		List<Document> temp_documents = new ArrayList<Document>();
-		documents = documentDAO.getAllDocuments();
-		for (int i = 0; i < documents.size(); i++) {
-			if (documents.get(i).getCreator().equals(id)){
-				temp_documents.add(documents.get(i));
-			}
-		}
-		
-		return temp_documents;
+		documents = documentDAO.getAllDocumentsByUserId(id);
+		return documents;
 	}
 	
 	
