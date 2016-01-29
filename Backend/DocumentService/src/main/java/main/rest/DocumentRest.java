@@ -6,11 +6,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.client.RestTemplate;
@@ -69,13 +73,13 @@ public class DocumentRest {
 		document.setApprover("56a0d083d4c607b2e7a60a5c");
 	}
 
-	@GET
+	@POST
 	@Path("newdraft")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Document createNewDraftdocument(
-			@QueryParam("documentName") String name, 
-			@QueryParam("description") String description,
-			@QueryParam("creator") String creator) {
+//	@Produces(MediaType.APPLICATION_JSON)
+	public Response createNewDraftdocument(
+			@FormParam("documentName") String name, 
+			@FormParam("description") String description,
+			@FormParam("creator") String creator) {
 		System.out.println("GET Request: newdraft");
 		newdocument();
 		document.setDocumentName(name);
@@ -84,7 +88,7 @@ public class DocumentRest {
 		document.setCreator(creator);
 		document.setVersion(0.0);
 		documentDAO.create(document);
-		return document;
+		return Response.status(200).build();
 	}
 	
 	@GET
