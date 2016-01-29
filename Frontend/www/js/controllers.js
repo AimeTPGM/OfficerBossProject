@@ -143,16 +143,26 @@ angular.module('starter.controllers', [])
 
   $scope.save = function(){
     console.log($scope.doc);
-    $http.get('http://localhost:8081/newdraft?documentName='+$scope.doc.name+'&description='+$scope.doc.desc+'&creator=1')
-        .success(function(data){
-          $scope.savedoc = data;
-          console.log('successfully create new draft');
-          $window.location.href=('#/app/doclist');
-
-        })
-        .error(function(data){
-          console.log('cannot reach document-service port 8081')
-        });
+    
+    $http({
+        method: 'POST',
+        url: 'http://localhost:8081/newdraft',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj)
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            return str.join("&");
+        },
+        data: {documentName:$scope.doc.name, description:$scope.doc.desc, creator:1}
+    }).
+    success(function(data, status, headers, config) {
+        console.log('sent POST request: successfully create new draft');
+        console.log(data);
+      }).
+      error(function(data, status, headers, config) {
+        console.log('cannot reach document-service port 8081')
+      });
   }
   
   $scope.submit = function(){
