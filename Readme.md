@@ -1,5 +1,11 @@
 # BIG NOTE
 
+Jan, 29: IT MAY CAUSE Err: main.Application not found 
+from fixed directory in .classpath, I'm trying to figure out
+if you know how please tell me T_T
+
+======================================================================
+
 THERE IS NO DATA IN DATABASE BECAUSE IT WILL EXCEED GITHUB LIMITATION
 
 before running this project please copy and paste this project to somewhere else
@@ -60,6 +66,7 @@ run mongo database for each service using command below
 Document Service		|	27018
 User Service			|	27017
 Review Service			|	27019
+File Service 			|	27020
 
 to kill processes of mongodb (in case of ERR:addr is already in use)
 
@@ -77,5 +84,6 @@ download and install: https://spring.io
 Document Service		|	  localhost		| 	8081
 User Service			|	  localhost		| 	8082
 Review Service			|	  localhost		| 	8083
+File Service 			|	  localhost		|	8084
 
 # Have fun!
