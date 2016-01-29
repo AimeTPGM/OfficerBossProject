@@ -14,7 +14,7 @@ import main.model.User;
 
 public class UserDAOImpl implements UserDAO{
 	private MongoOperations mongoOps;
-	private static final String USER_COLLECTION = "usertestonly";
+	private static final String COLLECTION = "usertestonly";
 	
 	public UserDAOImpl(MongoOperations mongoOps){
         this.mongoOps=mongoOps;
@@ -22,11 +22,11 @@ public class UserDAOImpl implements UserDAO{
 	
 	public void create(User user) {
 		// TODO Auto-generated method stub
-		this.mongoOps.insert(user, USER_COLLECTION);
+		this.mongoOps.insert(user, COLLECTION);
 	}
 	
 	public List<User> getAllUsers(){
-		return this.mongoOps.findAll(User.class, USER_COLLECTION);
+		return this.mongoOps.findAll(User.class, COLLECTION);
 	}
 	
 	public List<BasicDBObject> getUserByRole(String role){
@@ -38,20 +38,20 @@ public class UserDAOImpl implements UserDAO{
 	public User readById(String id) {
 		// TODO Auto-generated method stub
 		Query query = new Query(Criteria.where("_id").is(id));
-        return this.mongoOps.findOne(query, User.class, USER_COLLECTION);
+        return this.mongoOps.findOne(query, User.class, COLLECTION);
 		
 	}
 
 	public void update(User user) {
 		// TODO Auto-generated method stub
-		this.mongoOps.save(user, USER_COLLECTION);
+		this.mongoOps.save(user, COLLECTION);
 		
 	}
 
 	public int deleteById(String id) {
 		// TODO Auto-generated method stub
 		Query query = new Query(Criteria.where("_id").is(id));
-        WriteResult result = this.mongoOps.remove(query, User.class, USER_COLLECTION);
+        WriteResult result = this.mongoOps.remove(query, User.class, COLLECTION);
         return result.getN();
 	}
 

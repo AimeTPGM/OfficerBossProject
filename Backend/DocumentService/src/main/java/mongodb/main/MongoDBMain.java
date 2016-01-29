@@ -7,14 +7,14 @@ import com.mongodb.MongoClient;
 public class MongoDBMain {
 	 
     private static final String DB_NAME = "documenttest";
-    private static final String DOCUMENT_COLLECTION = "documenttestonly";
+    private static final String COLLECTION = "documenttestonly";
     private static final String MONGO_HOST = "localhost";
     private static final int MONGO_PORT = 27018;
     private static MongoClient mongo;
  
     public static void run() {
         try {
-        	System.out.println("connecting to mongodb at"+MONGO_HOST+":"+MONGO_PORT+"...\ndatabase name: "+DB_NAME+"\ncollection: "+DOCUMENT_COLLECTION);
+        	System.out.println("connecting to mongodb at"+MONGO_HOST+":"+MONGO_PORT+"...\ndatabase name: "+DB_NAME+"\ncollection: "+COLLECTION);
             mongo = new MongoClient(
                     MONGO_HOST, MONGO_PORT);
             System.out.println("connected!");
@@ -32,7 +32,7 @@ public class MongoDBMain {
     	return DB_NAME;
     }
     public static String getCollection(){
-    	return DOCUMENT_COLLECTION;
+    	return COLLECTION;
     }
     public static String getHost(){
     	return MONGO_HOST;

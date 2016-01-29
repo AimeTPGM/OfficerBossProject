@@ -15,7 +15,7 @@ import mongodb.main.MongoDBMain;
 
 public class DocumentDAOImpl implements DocumentDAO{
 	private MongoOperations mongoOps;
-	private static final String DOCUMENT_COLLECTION = MongoDBMain.getCollection();
+	private static final String COLLECTION = MongoDBMain.getCollection();
 	public static final MongoClient mongo = MongoDBMain.getMongoClient();
 
 	public DocumentDAOImpl(MongoOperations mongoOps){
@@ -24,13 +24,13 @@ public class DocumentDAOImpl implements DocumentDAO{
 	
 	public void create(Document document) {
 		System.out.println("DAO: Adding new document");
-		this.mongoOps.insert(document, DOCUMENT_COLLECTION);
+		this.mongoOps.insert(document, COLLECTION);
 		System.out.println("DAO: Added!");
 	}
 
 	public List<Document> getAllDocuments() {
 		System.out.println("DAO: Return all documents");
-		return this.mongoOps.findAll(Document.class, DOCUMENT_COLLECTION);
+		return this.mongoOps.findAll(Document.class, COLLECTION);
 	}
 
 
@@ -38,7 +38,7 @@ public class DocumentDAOImpl implements DocumentDAO{
 		System.out.println("DAO: Querying document id:"+id);
 		Query query = new Query(Criteria.where("_id").is(id));
 		System.out.println("DAO: Return document id:"+id);
-        return this.mongoOps.findOne(query, Document.class, DOCUMENT_COLLECTION);
+        return this.mongoOps.findOne(query, Document.class, COLLECTION);
 	}
 
 	public void update(Document document) {
@@ -51,7 +51,7 @@ public class DocumentDAOImpl implements DocumentDAO{
 		update.set("version", document.getVersion());
 		update.set("status", document.getDocumentStatus());
 		System.out.println("DAO: Updating document id:"+document.getDocumentId());
-		this.mongoOps.findAndModify(query, update, Document.class, DOCUMENT_COLLECTION);
+		this.mongoOps.findAndModify(query, update, Document.class, COLLECTION);
 		
 	}
 
@@ -59,7 +59,7 @@ public class DocumentDAOImpl implements DocumentDAO{
 		System.out.println("DAO: Querying document id:"+id);
 		Query query = new Query(Criteria.where("_id").is(id));
 		System.out.println("DAO: Deleting document id:"+id);
-        WriteResult result = this.mongoOps.remove(query, Document.class, DOCUMENT_COLLECTION);
+        WriteResult result = this.mongoOps.remove(query, Document.class, COLLECTION);
         System.out.println("DAO: Deleted!");
         return result.getN();
 	}
@@ -68,7 +68,7 @@ public class DocumentDAOImpl implements DocumentDAO{
 		Query query = new Query();
 		query.addCriteria(Criteria.where("creatorId").is(id));
 		System.out.println("DAO: Return documents");
-		return mongoOps.find(query, Document.class, DOCUMENT_COLLECTION);
+		return mongoOps.find(query, Document.class, COLLECTION);
 	}
 
 }

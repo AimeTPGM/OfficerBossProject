@@ -3,18 +3,17 @@ package mongodb.main;
 import java.net.UnknownHostException;
 import com.mongodb.MongoClient;
 
-
 public class MongoDBMain {
 	 
-    private static final String DB_NAME = "reviewtest";
-    private static final String COLLECTION = "reviewtestonly";
-    private static final String MONGO_HOST = "localhost";
-    private static final int MONGO_PORT = 27019;
+    public static final String DB_NAME = "filetest";
+    public static final String COLLECTION = "filetestonly";
+    public static final String MONGO_HOST = "localhost";
+    public static final int MONGO_PORT = 27020;
     private static MongoClient mongo;
  
     public static void run() {
-        try {
-        	System.out.println("connecting to mongodb at "+MONGO_HOST+":"+MONGO_PORT+"...\ndatabase name: "+DB_NAME+"\ncollection: "+COLLECTION);
+    	try {
+        	System.out.println("connecting to mongodb at"+MONGO_HOST+":"+MONGO_PORT+"...\ndatabase name: "+DB_NAME+"\ncollection: "+COLLECTION);
             mongo = new MongoClient(
                     MONGO_HOST, MONGO_PORT);
             System.out.println("connected!");
@@ -24,7 +23,6 @@ public class MongoDBMain {
             e.printStackTrace();
         }
     }
-    
     public static MongoClient getMongoClient(){
     	return mongo;
     }
@@ -40,4 +38,5 @@ public class MongoDBMain {
     public static int getPort(){
     	return MONGO_PORT;
     }
+ 
 }
