@@ -1,10 +1,24 @@
-# BIG NOTE
+# Update
+
+Feb, 01: 
+
+- Register Function - 
+a basic function of registration is implemented (in User service)
+user's password will be encrypted by BCrypt which is recommended by Spring to use this one
+In the old way, we use SHA1 and (I'm not sure the name) but BCrypt is more modern 
+
+- File Service -
+I'M SORRY STILL BUG!!!!
+
+======================================================================
 
 Jan, 29: IT MAY CAUSE Err: main.Application not found 
 from fixed directory in .classpath, I'm trying to figure out
 if you know how please tell me T_T
 
 ======================================================================
+
+# BIG NOTE
 
 THERE IS NO DATA IN DATABASE BECAUSE IT WILL EXCEED GITHUB LIMITATION
 
@@ -74,6 +88,9 @@ to kill processes of mongodb (in case of ERR:addr is already in use)
 
 
 ## Spring API
+
+I implements it by JAX-RS (not Spring MVC)
+because it's less complexity and less memory consume (as fas as my knowledge)
 
 run it on Spring Tool Suite
 
