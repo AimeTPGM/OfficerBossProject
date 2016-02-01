@@ -9,6 +9,7 @@
   	<version>1.2.5.RELEASE</version>
   </parent>
   <dependencies>
+  <!-- jersey -->
   	<dependency>
   		<groupId>org.springframework.boot</groupId>
   		<artifactId>spring-boot-starter-web</artifactId>
@@ -17,6 +18,7 @@
   		<groupId>org.springframework.boot</groupId>
   		<artifactId>spring-boot-starter-jersey</artifactId>
   	</dependency>
+  	<!-- mongodb -->
   	<dependency>
 	    <groupId>org.springframework.data</groupId>
 	    <artifactId>spring-data-mongodb</artifactId>
@@ -31,5 +33,13 @@
 		<artifactId>mongo-java-driver</artifactId>
 		<version>2.12.3</version>
 	</dependency>
+	 <!-- password security -->
+	  <dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-crypto</artifactId>
+		<version>4.0.3.RELEASE</version>
+	</dependency>
   </dependencies>
+ 
+  
 </project>

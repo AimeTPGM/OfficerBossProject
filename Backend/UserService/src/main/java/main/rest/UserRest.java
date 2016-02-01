@@ -5,7 +5,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -18,6 +21,7 @@ import main.model.User;
 import main.rest.userstatus.Boss;
 import main.rest.userstatus.Officer;
 import mongodb.dao.UserDAO;
+import security.crypto.PasswordEncoderGenerator;
 
 @Named
 @Path("/")
@@ -56,6 +60,42 @@ public class UserRest {
 			@QueryParam("userid") String id) {
 		System.out.println("GET Request: delete user by id "+id);
 		return "deleted "+userDAO.deleteById(id)+" user";
+	}
+	
+	public User newUser(String firstname, String lastname, String email, String password){
+		user.setFirstname(firstname);
+		user.setLastname(lastname);
+		user.setEmail(email);
+		user.setPassword(PasswordEncoderGenerator.passwordEncoder(password));
+		return user;
+	}
+	
+	@POST
+	@Path("newofficer")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public User newOfficer(User u){
+		user = new User();
+		System.out.println(u.getPasssword());
+		user = newUser(u.getFirstname(), u.getLastname(), u.getEmail(), u.getPasssword());
+		System.out.println(user.getPasssword());
+		user.setUserStatus(new Officer());
+		userDAO.create(user);
+		return user;
+	}
+	
+	@POST
+	@Path("newboss")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public User newBoss(User u){
+		user = new User();
+		System.out.println(u.getPasssword());
+		user = newUser(u.getFirstname(), u.getLastname(), u.getEmail(), u.getPasssword());
+		System.out.println(user.getPasssword());
+		user.setUserStatus(new Boss());
+		userDAO.create(user);
+		return user;
 	}
 
 }

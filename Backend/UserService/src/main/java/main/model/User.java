@@ -47,5 +47,11 @@ public class User {
 		return this.status.getUserStatusName();
 	}
 	//TODO Do an authorization with password encryption
+	public void setPassword(String password){
+		this.password = password;
+	}
+	public String getPasssword(){
+		return this.password;
+	}
 
 }

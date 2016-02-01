@@ -12,7 +12,7 @@ public interface UserDAO {
     
     public List<User> getAllUsers();
     
-    public List<BasicDBObject> getUserByRole(String role);
+    public List<User> getUserByRole(String role);
      
     public User readById(String id);
      
