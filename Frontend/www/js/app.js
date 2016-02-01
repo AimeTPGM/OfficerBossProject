@@ -36,7 +36,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   })
     .state('forgotpw', {
     url: '/forgotpw',
-    templateUrl: 'templates/forgotpw.html'
+    templateUrl: 'templates/forgotpw.html',
+    controller: 'ForgotPasswordCtrl'
   })
     .state('app', {
     url: '/app',
