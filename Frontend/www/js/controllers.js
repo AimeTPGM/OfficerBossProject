@@ -3,46 +3,41 @@ angular.module('starter.controllers', [])
 .service('pathService', function() {
 
 })
+.service('fileUpload', ['$http', function ($http) {
+    this.uploadFileToUrl = function(file, uploadUrl){
+        var fd = new FormData();
+        fd.append('file', file);
+        $http.post(uploadUrl, fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': 'multipart/form-data'}
+        })
+        .success(function(){
+          console.log('fianlly..')
+        })
+        .error(function(){
+          console.log('cannot reach file-service port 8084')
+          console.log(uploadUrl)
+          console.log(file)
+        });
+    }
+}])
+
+.controller('LoginCtrl', function($scope, $ionicModal, $timeout, $state) {
+    $scope.goto=function(toState,params){ 
+     $state.go(toState,params) 
+    }
+})
+
+.controller('RegisterCtrl', function($scope, $ionicModal, $timeout, $state) {
+    $scope.goto=function(toState,params){ 
+     $state.go(toState,params) 
+    }
+})
+
+
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  // Form data for the login modal
-  $scope.loginData = {};
-
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
 })
 
 .controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window) {
@@ -133,7 +128,7 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('AddNewDocumentCtrl', function($window, $http, $scope, $stateParams,$ionicHistory) {
+.controller('AddNewDocumentCtrl', function($window, $http, $scope, $stateParams,$ionicHistory, fileUpload) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -143,7 +138,7 @@ angular.module('starter.controllers', [])
 
   $scope.save = function(){
     console.log($scope.doc);
-    
+    console.log($scope.doc.file);
     $http({
         method: 'POST',
         url: 'http://localhost:8081/newdraft',
@@ -155,10 +150,17 @@ angular.module('starter.controllers', [])
             return str.join("&");
         },
         data: {documentName:$scope.doc.name, description:$scope.doc.desc, creator:1}
+      
     }).
     success(function(data, status, headers, config) {
         console.log('sent POST request: successfully create new draft');
         console.log(data);
+
+        var file = $scope.myFile;
+        var uploadUrl = 'http://localhost:8084/upload';
+        fileUpload.uploadFileToUrl(file, uploadUrl);
+
+        $window.location.href=('#/app/doclist');
       }).
       error(function(data, status, headers, config) {
         console.log('cannot reach document-service port 8081')
@@ -224,7 +226,7 @@ angular.module('starter.controllers', [])
         // $scope.docdesc = "";
 
         $scope.save = function(documentid){
-          $http.get('http://localhost:8081/save?docId='+documentid+'&documentName='+$scope.docname+'&description='+$scope.docdesc)
+          $http.get('http://localhost:8081/save?docId='+documentid+'&documentName='+$scope.doc.documentName+'&description='+$scope.doc.description)
             .success(function(data){
               
               console.log('successfully save editing draft');
@@ -438,6 +440,22 @@ angular.module('starter.controllers', [])
     }
 
 })
+
+.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}])
 
 .directive('showWhen', ['$window', function($window) {
 
