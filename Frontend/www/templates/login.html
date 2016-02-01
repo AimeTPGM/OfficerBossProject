@@ -3,18 +3,18 @@
     <div class="row login">
       <div class="col col-50 center">
         <h1 class="main-header" style="margin-bottom: 2vh; text-align:center;">Document Management System</h1>
-        <form ng-submit="doLogin()">
+        <form ng-submit="login()">
           <div class="list">
             <label class="item item-input item-stacked-label">
               <span class="input-label">Email</span>
-              <input type="text" placeholder="Email">
+              <input type="text" placeholder="Email" ng-model="$parent.email" name="email">
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">Password</span>
-              <input type="password" placeholder="Password">
+              <input type="password" placeholder="Password" ng-model="$parent.pw" name="password">
             </label>
             <label class="item">
-              <button class="button button-block button-positive" type="submit">Login</button>
+               <input type="submit" id="submit" value="Login" class="button button-block button-positive" />
             </label>
           </div>
         </form>
@@ -22,7 +22,7 @@
           <button class="button button-clear" ng-click="goto('register')">Register</button>
           <button id="forgotpw" class="button button-clear" ng-click="goto('forgotpw')">Forgot Password?</button>
         </div>
-        <!-- <div>Temp: <button id="forgotpw" class="button button-clear" ng-click="goto('app.doclist')">Document List</button></div> -->
+        <div>Temp: <button id="forgotpw" class="button button-clear" ng-click="goto('app.doclist')">Document List</button></div>
       </div>
     </div>
   </ion-content>

@@ -22,6 +22,7 @@ import main.rest.userstatus.Boss;
 import main.rest.userstatus.Officer;
 import mongodb.dao.UserDAO;
 import security.crypto.PasswordEncoderGenerator;
+import security.crypto.SimpleAuthentication;
 
 @Named
 @Path("/")
@@ -96,6 +97,21 @@ public class UserRest {
 		user.setUserStatus(new Boss());
 		userDAO.create(user);
 		return user;
+	}
+	
+	@POST
+	@Path("login")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String simpleLogin(@FormParam("email") String email, 
+			@FormParam("password") String password){
+		String s="";
+		user = userDAO.readByEmail(email);
+		s = SimpleAuthentication.passwordMatcher(password, user.getPasssword());
+//		user = userDAO.readByEmail(u.getEmail());
+//		s = SimpleAuthentication.passwordMatcher(u.getPasssword(), user.getPasssword());
+		System.out.println(s);
+		return s;
 	}
 
 }

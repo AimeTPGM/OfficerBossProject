@@ -1,13 +1,11 @@
 package mongodb.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.WriteResult;
 
 import main.model.User;
@@ -40,8 +38,16 @@ public class UserDAOImpl implements UserDAO{
 	}
 
 	public User readById(String id) {
-		System.out.println("DAO: Querying user id:"+id);
+		System.out.println("DAO: Querying user by id:"+id);
 		Query query = new Query(Criteria.where("_id").is(id));
+		System.out.println("DAO: user found!");
+        return this.mongoOps.findOne(query, User.class, COLLECTION);
+		
+	}
+	
+	public User readByEmail(String email) {
+		System.out.println("DAO: Querying user by email:"+email);
+		Query query = new Query(Criteria.where("email").is(email));
 		System.out.println("DAO: user found!");
         return this.mongoOps.findOne(query, User.class, COLLECTION);
 		

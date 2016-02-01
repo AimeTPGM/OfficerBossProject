@@ -2,12 +2,21 @@
 
 Feb, 01: 
 
-- Register Function - 
+_Register Function_
 a basic function of registration is implemented (in User service)
 user's password will be encrypted by BCrypt which is recommended by Spring to use this one
 In the old way, we use SHA1 and (I'm not sure the name) but BCrypt is more modern 
+**remaining task**
+- find if email available to use
+- check password format
+- check email format
 
-- File Service -
+_Login function (in User service)_
+just a mock up one to check if(rawPW.equals(encodedPW)) by BCryptPasswordEncoder.match()
+**frontend bugs**
+- unexpected token m: Object.parse() T_T BUT! the password matching works!
+
+_File Service_
 I'M SORRY STILL BUG!!!!
 
 ======================================================================
@@ -20,7 +29,7 @@ if you know how please tell me T_T
 
 # BIG NOTE
 
-THERE IS NO DATA IN DATABASE BECAUSE IT WILL EXCEED GITHUB LIMITATION
+**THERE IS NO DATA IN DATABASE BECAUSE IT WILL EXCEED GITHUB LIMITATION**
 
 before running this project please copy and paste this project to somewhere else
 
