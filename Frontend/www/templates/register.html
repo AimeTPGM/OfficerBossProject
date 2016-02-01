@@ -1,0 +1,47 @@
+<ion-view cache-view="false" view-title="Edit Document">
+  <ion-content>
+    <div class="row">
+      <div class="col col-50 center">
+        <h1 class="main-header" style="margin-bottom: 2vh; text-align:center;">Register</h1>
+        <form ng-submit="doRegister()">
+          <div class="list">
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">First Name</span>
+              <input type="text" placeholder="John" required>
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Last Name</span>
+              <input type="text" placeholder="Smith" required>
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Email</span>
+              <input type="text" placeholder="john.s@example.com" required>
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Password</span>
+              <input type="password" placeholder="Password" required>
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Confirm Password</span>
+              <input type="password" placeholder="Confirm Password" required>
+            </label>
+            <label class="item item-input" style="padding-right: 10%;">
+              <span class="input-label">Select Your Role</span>
+              <ion-list style="width: 100%;">
+                <ion-radio ng-model="choice" ng-value="Boss">Boss</ion-radio>
+                <ion-radio ng-model="choice" ng-value="Officer">Officer</ion-radio>
+              </ion-list>
+            </label>
+            <label class="item">
+              <button class="button button-block button-positive" type="submit">Register</button>
+            </label>
+          </div>
+        </form>
+        <div class="login-option-btn-wrapper">
+          <button class="button button-clear" ng-click="goto('login')">Back</button>
+        </div>
+        <!-- <div>Temp: <button id="forgotpw" class="button button-clear" ng-click="goto('app.doclist')">Document List</button></div> -->
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
