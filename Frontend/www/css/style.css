@@ -1,4 +1,15 @@
-/* Empty. Add your own CSS if you like */
+.login{
+	padding-top: 23vh;
+}
+
+.login-option-btn-wrapper{
+	position: relative;
+}
+.login-option-btn-wrapper #forgotpw{
+	position: absolute;
+	right: 0;
+}
+
 .center{
 	margin-left: auto;
     margin-right: auto;
