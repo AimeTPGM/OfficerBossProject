@@ -1,6 +1,6 @@
 # Update Note
 
-Feb, 01: 
+### Feb, 01
 
 _Register Function_
 
@@ -30,7 +30,9 @@ I'M SORRY STILL BUG!!!!
 
 ======================================================================
 
-Jan, 29: IT MAY CAUSE Err: main.Application not found 
+#### Jan, 29: 
+
+IT MAY CAUSE Err: main.Application not found 
 from fixed directory in .classpath, I'm trying to figure out
 if you know how please tell me T_T
 
