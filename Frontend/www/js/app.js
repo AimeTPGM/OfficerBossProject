@@ -102,6 +102,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       }
     })
+    .state('app.dashboard', {
+      url: '/dashboard',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/dashboard.html'
+         
+
+        }
+      }
+    })
 ;
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
