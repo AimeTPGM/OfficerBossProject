@@ -1,15 +1,17 @@
 package main.model;
 
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
-public class File {
+public class MyFile {
 	@Id
 	private String id;
 	private String filename;
+	private InputStream inputStream;
 	private String documentId;
 	private String date;
 	
@@ -37,6 +39,13 @@ public class File {
 	public void setDate(Date date){
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		this.date = dateFormat.format(date);
+	}
+	
+	public void setInputStream(InputStream inputStream){
+		this.inputStream = inputStream;
+	}
+	public InputStream getInputStream(){
+		return inputStream;
 	}
 	
 	

@@ -1,26 +1,10 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ngFileUpload'])
 
 .service('pathService', function() {
 
 })
-.service('fileUpload', ['$http', function ($http) {
-    this.uploadFileToUrl = function(file, uploadUrl){
-        var fd = new FormData();
-        fd.append('file', file);
-        $http.post(uploadUrl, fd, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': 'multipart/form-data'}
-        })
-        .success(function(){
-          console.log('fianlly..')
-        })
-        .error(function(){
-          console.log('cannot reach file-service port 8084')
-          console.log(uploadUrl)
-          console.log(file)
-        });
-    }
-}])
+
+
 
 .controller('LoginCtrl', function($scope, $ionicModal, $timeout, $state, $http,$window) {
     $scope.goto=function(toState,params){ 
@@ -98,6 +82,41 @@ angular.module('starter.controllers', [])
     $scope.goto=function(toState,params){ 
      $state.go(toState,params) 
     }
+})
+
+.controller('FileCtrl', function($scope, $ionicModal, $timeout, $state, $http,Upload) {
+    $scope.goto=function(toState,params){ 
+     $state.go(toState,params) 
+    }
+
+    $scope.upload = function (file) {
+        Upload.upload({
+            url: 'http://localhost:8084/upload',
+            method: 'POST',
+            data: {file: file}
+        }).then(function (resp) {
+            console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+        }, function (resp) {
+            console.log('Error status: ' + resp.status);
+        }, function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+        });
+    };
+
+
+    $scope.testget = function(){
+      
+          $http.get('http://localhost:8084/upload')
+          .success(function(data){
+            console.log(data);
+            console.log('reached')
+          })
+          .error(function(data){
+            console.log('cannot reach file-service port 8084')
+          });
+    }
+
 })
 
 
@@ -195,7 +214,7 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('AddNewDocumentCtrl', function($window, $http, $scope, $stateParams,$ionicHistory, fileUpload) {
+.controller('AddNewDocumentCtrl', function($window, $http, $scope, $stateParams,$ionicHistory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -508,21 +527,6 @@ angular.module('starter.controllers', [])
 
 })
 
-.directive('fileModel', ['$parse', function ($parse) {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-            var model = $parse(attrs.fileModel);
-            var modelSetter = model.assign;
-            
-            element.bind('change', function(){
-                scope.$apply(function(){
-                    modelSetter(scope, element[0].files[0]);
-                });
-            });
-        }
-    };
-}])
 
 .directive('showWhen', ['$window', function($window) {
 

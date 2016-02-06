@@ -1,22 +1,84 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>FileService</groupId>
-  <artifactId>FileService</artifactId>
+  <groupId>TempFileService</groupId>
+  <artifactId>TempFileService</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  
   <parent>
   	<groupId>org.springframework.boot</groupId>
   	<artifactId>spring-boot-starter-parent</artifactId>
   	<version>1.2.5.RELEASE</version>
   </parent>
-  <dependencies>
-  	<dependency>
-  		<groupId>org.springframework.boot</groupId>
-  		<artifactId>spring-boot-starter-web</artifactId>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.springframework.boot</groupId>
-  		<artifactId>spring-boot-starter-jersey</artifactId>
-  	</dependency>
+
+	<dependencies>
+		<!-- jersey -->
+		<dependency>
+	  		<groupId>org.springframework.boot</groupId>
+	  		<artifactId>spring-boot-starter-web</artifactId>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>org.springframework.boot</groupId>
+	  		<artifactId>spring-boot-starter-jersey</artifactId>
+	  	</dependency>
+		
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.0.1</version>
+			<scope>provided</scope>
+			<exclusions>
+		        <exclusion>  <!-- declare the exclusion here -->
+					<groupId>javax.ws.rs</groupId>
+					<artifactId>jsr311-api</artifactId>
+		        </exclusion>
+		      </exclusions> 
+		</dependency>
+		
+		<!-- file -->
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-common</artifactId>
+			<version>2.17</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.glassfish.jersey.media</groupId>
+		    <artifactId>jersey-media-multipart</artifactId>
+		    <version>2.17</version>
+		    <exclusions>
+		        <exclusion>  
+					<groupId>com.sun.jersey.contribs</groupId>
+					<artifactId>jersey-multipart</artifactId>
+		        </exclusion>
+		      </exclusions> 
+		</dependency>
+		
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>2.17</version>
+			<exclusions>
+		        <exclusion> 
+					<groupId>com.sun.jersey</groupId>
+					<artifactId>jersey-server</artifactId>
+		        </exclusion>
+		        
+		      </exclusions> 
+		</dependency> 
+
+		
+		<dependency>
+			<groupId>org.jvnet.mimepull</groupId>
+			<artifactId>mimepull</artifactId>
+			<version>1.9.6</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.jhades</groupId>
+		    <artifactId>jhades</artifactId>
+		    <version>1.0.4</version>
+		</dependency>
+		
+		
+		<!-- mongodb -->
   	<dependency>
 	    <groupId>org.springframework.data</groupId>
 	    <artifactId>spring-data-mongodb</artifactId>
@@ -31,5 +93,14 @@
 		<artifactId>mongo-java-driver</artifactId>
 		<version>2.12.3</version>
 	</dependency>
-  </dependencies>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-core</artifactId>
+	</dependency>
+		
+		
+	
+		
+		
+	</dependencies>
 </project>
