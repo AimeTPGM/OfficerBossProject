@@ -4,7 +4,8 @@
 
 ##### File Service 
 
-Integrate with upload only [No mongodb]
+DONE!
+both upload and download T_T finally ...
 
 ======================================================================
 
