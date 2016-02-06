@@ -32,7 +32,9 @@ NOTE: requires nodejs
 
 change directory to ~/whatever/OfficerBossProject/Frontend
 
-> cd ~/whatever/OfficerBossProject/Frontend
+```
+cd ~/whatever/OfficerBossProject/Frontend
+```
 
 run ionic server
 
@@ -47,13 +49,17 @@ there is no data in ~/whatever/AllService/data yet because the size exceeds GitH
 
 change directory to ~/whatever/AllService/data, example
 
-> cd ~/whatever/DocumentService/data
+```
+cd ~/whatever/DocumentService/data
+```
 
 NOTE: ~/data folder will not be able to be uploaded to github because of size limitation, please copy and paste OfficerBossProject to another directory before moving to the next step
 
 run mongo database for each service using command below
 
-> mongod --dbpath ~/whatever/WhateverService/data --port [MONGO_PORT]
+```
+mongod --dbpath ~/whatever/WhateverService/data --port [MONGO_PORT]
+```
 
 		Service			|	MONGO_PORT
 ------------------------|--------------
@@ -64,7 +70,9 @@ File Service 			|	27020
 
 to kill processes of mongodb (in case of ERR:addr is already in use)
 
-> killall -15 mongod
+```
+killall -15 mongod
+```
 
 
 ## Spring API
