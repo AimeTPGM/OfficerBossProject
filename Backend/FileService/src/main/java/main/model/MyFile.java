@@ -13,7 +13,6 @@ public class MyFile {
 	private String filename;
 	private InputStream inputStream;
 	private String documentId;
-	private String date;
 	
 	public String getId() {
 		return id;
@@ -32,13 +31,6 @@ public class MyFile {
 	}
 	public void setDocumentId(String documentId) {
 		this.documentId = documentId;
-	}
-	public String getDate() {
-		return date;
-	}
-	public void setDate(Date date){
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		this.date = dateFormat.format(date);
 	}
 	
 	public void setInputStream(InputStream inputStream){
