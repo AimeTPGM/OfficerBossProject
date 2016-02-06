@@ -21,14 +21,3 @@ Document Service|		host	|	Port
 /publish				|	GET 	|documentId=String| publish document, status = Publish
 /reject					|	GET 	|documentId=String| reject document, status = Reject
 /delete					|	GET 	|documentId=String| delete
-
-
-# How to run MongoDB
-
-NOTE: ~/data folder will not be able to be uploaded to github because of size limitation, please copy and paste OfficerBossProject to another directory before moving to the next step
-
-run mongo database for this service using command below
-
-```
-mongod --dbpath ~/whatever/DocumentService/data --port 27018
-```

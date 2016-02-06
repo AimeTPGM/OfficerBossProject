@@ -1,6 +1,6 @@
-# Document Service
+# File Service
 
-Document Service|		host	|	Port			
+	Service 	|		host	|	Port			
 ----------------|---------------|--------
 	Spring		|	localhost	|  8084
 	Mongo		|	localhost	| 27020
@@ -16,14 +16,3 @@ Document Service|		host	|	Port
 /download	 |	GET	|documentid=String|download file by {document id}
 /upload	 	|	POST	|file=file, documentid=String|upload file
 
-
-
-# How to run MongoDB
-
-NOTE: ~/data folder will not be able to be uploaded to github because of size limitation, please copy and paste OfficerBossProject to another directory before moving to the next step
-
-run mongo database for this service using command below
-
-```
-mongod --dbpath ~/whatever/FileService/data --port 27020
-```
