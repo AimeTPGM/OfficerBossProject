@@ -448,6 +448,13 @@ angular.module('starter.controllers', ['ngFileUpload'])
       console.log('cannot reach review-service port 8083')
     });
 
+    $scope.download = function(){
+          var url = 'http://localhost:8084/download?documentId='+$stateParams.docId;
+          console.log(url)
+          $window.open(url);
+          
+    }
+
   $http.get('http://localhost:8081/getdocument?documentid='+$stateParams.docId)
     .success(function(data){
       $scope.doc = data;
@@ -479,18 +486,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
           console.log(data)
         });
 
-        $scope.download = function(){
 
-          $http.get('http://localhost:8084/download?documentId='+$scope.doc.documentId)
-          .success(function(data){
-            
-              
-          })
-          .error(function(data){
-            console.log('cannot reach file-service port 8084')
-            console.log(data)
-          });
-        }
       
 
     })
