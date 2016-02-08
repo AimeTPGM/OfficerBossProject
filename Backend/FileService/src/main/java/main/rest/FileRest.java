@@ -13,6 +13,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -65,6 +66,16 @@ public class FileRest {
 	}
 	
 	@GET
+	@Path("filedetail")
+	public Response getFileDetail(@QueryParam("documentId") String id){
+		MyFile temp = new MyFile();
+		temp = fileDAO.readByDocumentId(id);
+		String filename = temp.getFilename();
+		return Response.ok().entity(filename)
+                .build();
+	}
+	
+	@GET
 	@Path("download")
 	public Response downloadFile(@QueryParam("documentId") final String documentId){
 		final MyFile temp = fileDAO.readByDocumentId(documentId);
@@ -94,17 +105,47 @@ public class FileRest {
                 .build();
 		
 	}
+	
+	@GET
+	@Path("downloadbyid")
+	public Response downloadFileById(@QueryParam("id") final String id){
+		final InputStream temp = fileDAO.readById(id);
+		StreamingOutput fileStream =  new StreamingOutput() 
+        {
+            public void write(java.io.OutputStream output) throws IOException, WebApplicationException 
+            {
+                try
+                {
+                    InputStream in = temp;
+                    byte[] bytes = new byte[1024];
+                    int read = 0;
+                    while ((read = in.read(bytes)) != -1) {
+    					output.write(bytes, 0, read);
+    				}
+                    output.flush();
+                } 
+                catch (Exception e) 
+                {
+                    throw new WebApplicationException("File Not Found !!");
+                }
+            }
+        };
+        return Response
+                .ok(fileStream, MediaType.APPLICATION_OCTET_STREAM)
+                .header("content-disposition","attachment; filename =")
+                .build();
+		
+	}
 
 	@POST
-    @Path("/upload")
+    @Path("upload")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response uploadFile( @FormDataParam("file") InputStream fileIS, 
+	public Response uploadFile(@FormDataParam("file") InputStream fileIS, 
 			@FormDataParam("file") FormDataContentDisposition fileDetail, 
-			@FormDataParam("documentId") String documentId) {
+			@FormDataParam("documentId") String documentId) throws IOException {
 
 	    if (fileDetail ==null || fileIS==null) return Response.status(400).build();
-
-
+	   
 	    
 	    System.out.println("======= Upload to mongo =============");
 	    System.out.println("documentId:" +documentId);
@@ -113,7 +154,7 @@ public class FileRest {
 	    
 	    String location ="/Users/AimeTPGM/Downloads/"+fileDetail.getFileName();
 	    System.out.println("before write ["+location+"]");
-	    writeToFile(fileIS, location );
+//	    writeToFile(fileIS, location );
 	    String output = "File saved to  server location : " + location;
 	    System.out.println("file written ["+location+"]");
 	    return Response.status(200).entity(output).build();
@@ -131,6 +172,7 @@ public class FileRest {
 				out = new FileOutputStream(new File(uploadedFileLocation));
 				while ((read = uploadedInputStream.read(bytes)) != -1) {
 					out.write(bytes, 0, read);
+					
 				}
 				out.flush();
 				out.close();
@@ -140,5 +182,6 @@ public class FileRest {
 			}
 
 		}
+	
 	
 }

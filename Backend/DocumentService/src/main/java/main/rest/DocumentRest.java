@@ -1,5 +1,8 @@
 package main.rest;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,8 +19,11 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import main.model.Document;
 import main.rest.documentstatus.*;
@@ -25,7 +31,9 @@ import mongodb.dao.DocumentDAO;
 
 @Named
 @Path("/")
-public class DocumentRest {
+public class DocumentRest{
+	
+
 	private Document document;
 	private Date date;
 	private static List<Document> documents = new ArrayList<Document>();
@@ -75,12 +83,15 @@ public class DocumentRest {
 
 	@POST
 	@Path("newdraft")
-//	@Produces(MediaType.APPLICATION_JSON)
-	public Response createNewDraftdocument(
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Document createNewDraftdocument(
 			@FormParam("documentName") String name, 
 			@FormParam("description") String description,
-			@FormParam("creator") String creator) {
+			@FormParam("creator") String creator
+			) {
 		System.out.println("GET Request: newdraft");
+		
 		newdocument();
 		document.setDocumentName(name);
 		document.setDescription(description);
@@ -88,7 +99,8 @@ public class DocumentRest {
 		document.setCreator(creator);
 		document.setVersion(0.0);
 		documentDAO.create(document);
-		return Response.status(200).build();
+		
+		return document;
 	}
 	
 	@GET
@@ -110,17 +122,21 @@ public class DocumentRest {
 	}
 	
 
-	@GET
+	@POST
 	@Path("save")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Document savedocument(
-			@QueryParam("docId") String id,
-			@QueryParam("documentName") String name, 
-			@QueryParam("description") String description) {
+			@FormParam("documentId") String id, 
+			@FormParam("documentName") String name,
+			@FormParam("description") String description
+		) {
 		System.out.println("GET Request: save");
 		date = new Date();
 		document = documentDAO.readById(id);
-		if (document == null) System.err.println("null");
+		if (document == null) {
+			System.err.println("null");
+		}
 		document.setDocumentName(name);
 		document.setDescription(description);
 		document.setLastModifiedDate(date);

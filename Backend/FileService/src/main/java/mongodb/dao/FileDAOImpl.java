@@ -46,7 +46,7 @@ public class FileDAOImpl implements FileDAO{
 		BasicDBObject query = new BasicDBObject();
 		query.put("documentId", documentId);
 		GridFSDBFile result = gfs.findOne(query);
-		System.out.println("DAO: returning a file");
+		System.out.println("DAO: returning a file, filename: "+result.getFilename());
 		temp.setFilename(result.getFilename());
 		temp.setInputStream(result.getInputStream());
 		return temp;

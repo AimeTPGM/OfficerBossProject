@@ -89,7 +89,12 @@ angular.module('starter.controllers', ['ngFileUpload'])
      $state.go(toState,params) 
     }
 
+   
+
     $scope.upload = function (file) {
+     
+        console.log(file.size)
+      
         Upload.upload({
             url: 'http://localhost:8084/upload',
             method: 'POST',
@@ -99,6 +104,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
             console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
         }, function (resp) {
             console.log('Error status: ' + resp.status);
+            console.log(resp.config.data)
         }, function (evt) {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             $scope.progress = progressPercentage;
@@ -107,17 +113,6 @@ angular.module('starter.controllers', ['ngFileUpload'])
     };
 
 
-    $scope.testget = function(){
-      
-          $http.get('http://localhost:8084/upload')
-          .success(function(data){
-            console.log(data);
-            console.log('reached')
-          })
-          .error(function(data){
-            console.log('cannot reach file-service port 8084')
-          });
-    }
 
 })
 
@@ -223,7 +218,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   $scope.doc = {};
   var blank = {};
-  $scope.savedDocData = {};
+  $scope.savedDocData = null;
 
   $scope.upload = function (file) {
     if(!$scope.doc.name){ $scope.doc.name = "Untitled"; }
@@ -250,7 +245,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
         Upload.upload({
             url: 'http://localhost:8084/upload',
             method: 'POST',
-            data: {file: file, documentId: data.documentid}
+            data: {file: file, documentId: data.documentId}
         }).then(function (resp) {
             
             $scope.filename = resp.config.data.file.name;
@@ -279,8 +274,9 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   $scope.save = function(){
     console.log($scope.doc);
-    console.log($scope.doc.file);
-    $http({
+    if(!$scope.savedDocData){
+      console.log("creating new draft")
+      $http({
         method: 'POST',
         url: 'http://localhost:8081/newdraft',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -302,6 +298,35 @@ angular.module('starter.controllers', ['ngFileUpload'])
       error(function(data, status, headers, config) {
         console.log('cannot reach document-service port 8081')
       });
+    }
+
+    else {
+      console.log("updating current draft")
+      $http({
+        method: 'POST',
+        url: 'http://localhost:8081/save',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj)
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            return str.join("&");
+        },
+        data: {documentId: $scope.savedDocData.documentId, documentName:$scope.doc.name, description:$scope.doc.desc}
+      
+    }).
+    success(function(data, status, headers, config) {
+        console.log('sent POST request: successfully updated current draft');
+        console.log(data);
+
+        $window.location.href=('#/app/doclist');
+      }).
+      error(function(data, status, headers, config) {
+        console.log('cannot reach document-service port 8081')
+      });
+    }
+    
+    
   }
   
   $scope.submit = function(){
@@ -358,9 +383,6 @@ angular.module('starter.controllers', ['ngFileUpload'])
         .error(function(data){
           console.log('cannot reach document-service port 8082')
         });
-
-        // $scope.docname = "";
-        // $scope.docdesc = "";
 
         $scope.save = function(documentid){
           $http.get('http://localhost:8081/save?docId='+documentid+'&documentName='+$scope.doc.documentName+'&description='+$scope.doc.description)
@@ -446,6 +468,29 @@ angular.module('starter.controllers', ['ngFileUpload'])
         .error(function(data){
           console.log('cannot reach user-service port 8082')
         });
+
+      $http.get('http://localhost:8084/filedetail?documentId='+$scope.doc.documentId)
+        .success(function(data){
+          $scope.filename = data;
+            
+        })
+        .error(function(data){
+          console.log('cannot reach file-service port 8084')
+          console.log(data)
+        });
+
+        $scope.download = function(){
+
+          $http.get('http://localhost:8084/download?documentId='+$scope.doc.documentId)
+          .success(function(data){
+            
+              
+          })
+          .error(function(data){
+            console.log('cannot reach file-service port 8084')
+            console.log(data)
+          });
+        }
       
 
     })
