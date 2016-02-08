@@ -15,7 +15,16 @@
 						  </label>
 						  <label class="item item-input item-stacked-label">
 						    <div class="row padding-0"><span class="input-label">Upload File</span></div>
-						    <input id="uploadBtn" type="file" name="file" id="file" style="line-height:0; margin-top: 20px;" file-model="myFile"/>
+						    <div class="row row-center padding-0">
+						    	<div class="col-25">
+						    		<button class="button button-calm" ngf-select="upload($file)" style="margin-top: 15px;margin-bottom: 15px; width:90%;">Select a File</button>
+						    	</div>
+						    	<div class="col-75">
+						    		<span ng-show="showFilename()">uploaded: {{filename}}</button>
+						    	</div>
+						    </div>
+						    
+						   
 
 							
 						  </label>

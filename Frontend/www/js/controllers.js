@@ -101,6 +101,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
             console.log('Error status: ' + resp.status);
         }, function (evt) {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            $scope.progress = progressPercentage;
             console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
         });
     };
@@ -215,13 +216,66 @@ angular.module('starter.controllers', ['ngFileUpload'])
 })
 
 
-.controller('AddNewDocumentCtrl', function($window, $http, $scope, $stateParams,$ionicHistory) {
+.controller('AddNewDocumentCtrl', function($window, $http, $scope, $stateParams,$ionicHistory,Upload) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
 
   $scope.doc = {};
   var blank = {};
+  $scope.savedDocData = {};
+
+  $scope.upload = function (file) {
+    if(!$scope.doc.name){ $scope.doc.name = "Untitled"; }
+    if(!$scope.doc.desc){ $scope.doc.desc = "no description";}
+    console.log($scope.doc);
+
+      $http({
+        method: 'POST',
+        url: 'http://localhost:8081/newdraft',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj)
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            return str.join("&");
+        },
+        data: {documentName:$scope.doc.name, description:$scope.doc.desc, creator:1}
+      
+    }).
+    success(function(data, status, headers, config) {
+        console.log('sent POST request: successfully create new draft');
+        console.log(data);
+        $scope.savedDocData = data;
+        Upload.upload({
+            url: 'http://localhost:8084/upload',
+            method: 'POST',
+            data: {file: file, documentId: data.documentid}
+        }).then(function (resp) {
+            
+            $scope.filename = resp.config.data.file.name;
+            $scope.showFilename = function(){
+              return true;
+            }
+            console.log('Success ' + resp.config.data.file.name + ' uploaded. Response: ' + resp.data);
+        }, function (resp) {
+            console.log('Error status: ' + resp.status);
+        }, function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            $scope.progress = progressPercentage;
+            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+        });
+        // $window.location.href=('#/app/doclist');
+      }).
+      error(function(data, status, headers, config) {
+        console.log('cannot reach document-service port 8081')
+      });
+
+
+
+
+        
+    };
 
   $scope.save = function(){
     console.log($scope.doc);
@@ -242,10 +296,6 @@ angular.module('starter.controllers', ['ngFileUpload'])
     success(function(data, status, headers, config) {
         console.log('sent POST request: successfully create new draft');
         console.log(data);
-
-        var file = $scope.myFile;
-        var uploadUrl = 'http://localhost:8084/upload';
-        fileUpload.uploadFileToUrl(file, uploadUrl);
 
         $window.location.href=('#/app/doclist');
       }).
