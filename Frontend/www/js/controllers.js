@@ -330,7 +330,10 @@ angular.module('starter.controllers', ['ngFileUpload'])
   }
   
   $scope.submit = function(){
-    $http.get('http://localhost:8081/newdocument?documentName='+$scope.doc.name+'&description='+$scope.doc.desc+'&creator=1')
+    console.log($scope.doc);
+    if(!$scope.savedDocData){
+      console.log("creating new document");
+      $http.get('http://localhost:8081/newdocument?documentName='+$scope.doc.name+'&description='+$scope.doc.desc+'&creator=1')
         .success(function(data){
           $scope.savedoc = data;
           console.log('successfully create new document: waiting for approval');
@@ -340,6 +343,45 @@ angular.module('starter.controllers', ['ngFileUpload'])
         .error(function(data){
           console.log('cannot reach document-service port 8081')
         });
+
+    }
+    else {
+      console.log("updating current document")
+      $http({
+        method: 'POST',
+        url: 'http://localhost:8081/save',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj)
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            return str.join("&");
+        },
+        data: {documentId: $scope.savedDocData.documentId, documentName:$scope.doc.name, description:$scope.doc.desc}
+      
+    }).
+    success(function(data, status, headers, config) {
+        console.log('sent POST request: successfully updated current draft');
+        console.log(data);
+
+        $window.location.href=('#/app/doclist');
+      }).
+      error(function(data, status, headers, config) {
+        console.log('cannot reach document-service port 8081')
+      });
+
+      $http.get('http://localhost:8081/submit?documentid='+$scope.savedDocData.documentId)
+        .success(function(data){
+          $scope.savedoc = data;
+          console.log('successfully create new document: waiting for approval');
+          $window.location.href=('#/app/doclist');
+
+        })
+        .error(function(data){
+          console.log('cannot reach document-service port 8081')
+        });
+    }
+    
   }
 
   $scope.reset = function(){
