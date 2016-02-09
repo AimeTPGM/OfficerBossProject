@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('DocumentDetailCtrl', function($scope, $stateParams,$ionicHistory, $http,$window, FileService) {
+.controller('DocumentDetailCtrl', function($scope, $stateParams,$ionicHistory, $http,$window, FileService, DocumentService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -40,9 +40,6 @@ angular.module('starter.controllers')
           console.log('cannot reach user-service port 8082')
         });
 
-       // TODO Complete Refactor this code 
-        // $scope.filename = FileService.getFileDetail($scope.doc.documentId);
-
       $http.get('http://localhost:8084/filedetail?documentId='+$scope.doc.documentId)
         .success(function(data){
           $scope.filename = data;
@@ -62,17 +59,9 @@ angular.module('starter.controllers')
     });
   
 
-    $scope.publish = function(id){
-      $http.get('http://localhost:8081/publish?documentid='+id)
-        .success(function(data){
-          console.log('successfully publish document');
-          $window.location.href=('#/app/doclist');
-
-        })
-        .error(function(data){
-          console.log('cannot reach document-service port 8081')
-        });
-    }
+     $scope.publish = function(docId){
+      DocumentService.publish(id);
+    } 
 
     $scope.delete = function(id){
       $http.get('http://localhost:8081/delete?documentid='+id)
@@ -86,17 +75,8 @@ angular.module('starter.controllers')
         });
     }
 
-    $scope.submit = function(docid){
-      $http.get('http://localhost:8081/submit?documentid='+docid)
-        .success(function(data){
-          $scope.savedoc = data;
-          console.log('successfully submit document: change from draft to waiting for approval');
-          $window.location.href=('#/app/doclist');
-
-        })
-        .error(function(data){
-          console.log('cannot reach document-service port 8081')
-        });
+    $scope.submit = function(docId){
+      DocumentService.submit(docId);
 
     }
 

@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window) {
+.controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, DocumentService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -33,15 +33,7 @@ angular.module('starter.controllers')
         });
     }
   $scope.publish = function(id){
-      $http.get('http://localhost:8081/publish?documentid='+id)
-        .success(function(data){
-          console.log('successfully publish document');
-          $window.location.reload();
-
-        })
-        .error(function(data){
-          console.log('cannot reach document-service port 8081')
-        });
+      DocumentService.publish(id);
     }  
         
 })

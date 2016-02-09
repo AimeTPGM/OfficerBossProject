@@ -1,8 +1,12 @@
 angular.module('starter.controllers', ['ngFileUpload'])
 
-.service('DocumentService', function() {
+.service('DocumentService', function($http,$window) {
 
   this.newdraft = function(){
+
+  }
+
+  this.newdoc = function(){
 
   }
 
@@ -10,7 +14,16 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   }
 
-  this.submit = function(){
+  this.submit = function(docId){
+    $http.get('http://localhost:8081/submit?documentid='+docId)
+        .success(function(data){
+          console.log('successfully submit document: change to waiting for approval');
+          $window.location.href=('#/app/doclist');
+
+        })
+        .error(function(data){
+          console.log('cannot reach document-service port 8081')
+        });
 
   }
 
@@ -18,8 +31,20 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   }
 
-  this.publish = function(){
+  this.publish = function(docId){
+      $http.get('http://localhost:8081/publish?documentid='+docId)
+        .success(function(data){
+          console.log('successfully publish document');
+          $window.location.reload();
 
+        })
+        .error(function(data){
+          console.log('cannot reach document-service port 8081')
+        });
+  }
+
+  this.getDocumentDetail = function(){
+    
   }
 
 })

@@ -151,23 +151,13 @@ angular.module('starter.controllers')
     success(function(data, status, headers, config) {
         console.log('sent POST request: successfully updated current draft');
         console.log(data);
-
+        DocmentService.submit($scope.savedDocData.documentId);
         $window.location.href=('#/app/doclist');
       }).
       error(function(data, status, headers, config) {
         console.log('cannot reach document-service port 8081')
       });
 
-      $http.get('http://localhost:8081/submit?documentid='+$scope.savedDocData.documentId)
-        .success(function(data){
-          $scope.savedoc = data;
-          console.log('successfully create new document: waiting for approval');
-          $window.location.href=('#/app/doclist');
-
-        })
-        .error(function(data){
-          console.log('cannot reach document-service port 8081')
-        });
     }
     
   }
