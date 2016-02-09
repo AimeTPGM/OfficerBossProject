@@ -6,13 +6,75 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   }
 
+  this.save = function(){
+
+  }
+
   this.submit = function(){
+
+  }
+
+  this.delete = function(){
+
+  }
+
+  this.publish = function(){
 
   }
 
 })
 
-.service('FileService', function(Upload) {
+
+.service('ReviewService', function($http,$window) {
+
+  this.getReview = function(){
+
+  }
+
+  this.approve = function(docId,approverId,reviewText){
+    $http.get('http://localhost:8083/createreview?documentid='+docId+'&approverid='+approverId+'&reviewdesc='+reviewText)
+        .success(function(data){
+        console.log('created review from '+approverId+' review text: '+reviewText);
+        $http.get('http://localhost:8081/approve?documentid='+docId)
+          .success(function(data){
+            console.log('successfully approve document: change from waiting for approval to aprove');
+            $window.location.href=('#/app/doclistforboss');
+
+          })
+          .error(function(data){
+            console.log('cannot reach document-service port 8081')
+          });
+                
+        })
+        .error(function(data){
+          console.log('cannot reach review-service port 8083')
+        });
+  }
+
+  this.reject = function(docId,approverId,reviewText){
+
+    $http.get('http://localhost:8083/createreview?documentid='+docId+'&approverid='+approverId+'&reviewdesc='+reviewText)
+          .success(function(data){
+            console.log('created review from '+approverId+' review text: '+reviewText);
+            $http.get('http://localhost:8081/reject?documentid='+docId)
+              .success(function(data){
+                console.log('successfully reject document: change from approve to reject');
+                $window.location.href=('#/app/doclistforboss');
+              })
+              .error(function(data){
+                console.log('cannot reach document-service port 8081')
+              });
+          })
+          .error(function(data){
+            console.log('cannot reach review-service port 8083')
+          });
+
+  }
+
+})
+
+.service('FileService', function(Upload, $http, $window,$q) {
+
 
   this.upload = function (file, docId) {
      
@@ -33,6 +95,26 @@ angular.module('starter.controllers', ['ngFileUpload'])
             console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
         });
     };
+
+    this.getFileDetail = function(docId){
+      
+      $http.get('http://localhost:8084/filedetail?documentId='+docId)
+        .success(function(data){
+          
+        })
+        .error(function(data){
+          console.log('cannot reach file-service port 8084')
+          console.log(data)
+        });
+ 
+
+    }
+
+    this.download = function(docId){
+      var url = 'http://localhost:8084/download?documentId='+docId;
+          console.log(url)
+          $window.open(url);
+    }
 
 })
 

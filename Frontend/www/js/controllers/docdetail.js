@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('DocumentDetailCtrl', function($scope, $stateParams,$ionicHistory, $http,$window) {
+.controller('DocumentDetailCtrl', function($scope, $stateParams,$ionicHistory, $http,$window, FileService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -16,10 +16,7 @@ angular.module('starter.controllers')
     });
 
     $scope.download = function(){
-          var url = 'http://localhost:8084/download?documentId='+$stateParams.docId;
-          console.log(url)
-          $window.open(url);
-          
+          FileService.download($stateParams.docId);
     }
 
   $http.get('http://localhost:8081/getdocument?documentid='+$stateParams.docId)
@@ -42,6 +39,9 @@ angular.module('starter.controllers')
         .error(function(data){
           console.log('cannot reach user-service port 8082')
         });
+
+       // TODO Complete Refactor this code 
+        // $scope.filename = FileService.getFileDetail($scope.doc.documentId);
 
       $http.get('http://localhost:8084/filedetail?documentId='+$scope.doc.documentId)
         .success(function(data){

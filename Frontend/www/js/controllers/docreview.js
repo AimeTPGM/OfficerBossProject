@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('DocumentReviewCtrl', function($scope, $stateParams,$ionicHistory, $http, $window) {
+.controller('DocumentReviewCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, ReviewService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -13,11 +13,8 @@ angular.module('starter.controllers')
       approverid = $scope.doc.approver;
 
       $scope.download = function(){
-          var url = 'http://localhost:8084/download?documentId='+$stateParams.docId;
-          console.log(url)
-          $window.open(url);
-          
-    }
+          FileService.download($stateParams.docId);   
+      }
 
       $http.get('http://localhost:8082/getuser?userid='+$scope.doc.creator)
         .success(function(data){
@@ -53,48 +50,15 @@ angular.module('starter.controllers')
     });
     $scope.reviewtext = "";
     $scope.approve = function(){
-      $scope.reviewtext = 'approved!';
-      $http.get('http://localhost:8083/createreview?documentid='+documentid+'&approverid='+approverid+'&reviewdesc='+$scope.reviewtext)
-        .success(function(data){
-        console.log('created review from '+approverid+' review text: '+$scope.reviewtext);
-        $http.get('http://localhost:8081/approve?documentid='+documentid)
-          .success(function(data){
-            $scope.savedoc = data;
-            console.log('successfully approve document: change from waiting for approval to aprove');
-            $window.location.href=('#/app/doclistforboss');
-
-          })
-          .error(function(data){
-            console.log('cannot reach document-service port 8081')
-          });
-                
-        })
-        .error(function(data){
-          console.log('cannot reach review-service port 8083')
-        });
-
-
-      
+      if($scope.reviewtext == ""){
+        $scope.reviewtext = 'Approved!';
+      }
+      ReviewService.approve($stateParams.docId,approverid,$scope.reviewtext);
 
     }
     $scope.reject = function(){
-        
-        $http.get('http://localhost:8083/createreview?documentid='+documentid+'&approverid='+approverid+'&reviewdesc='+$scope.reviewtext)
-          .success(function(data){
-            console.log('created review from '+approverid+' review text: '+$scope.reviewtext);
-            $http.get('http://localhost:8081/reject?documentid='+documentid)
-              .success(function(data){
-                console.log('successfully reject document: change from approve to reject');
-                $window.location.href=('#/app/doclistforboss');
-              })
-              .error(function(data){
-                console.log('cannot reach document-service port 8081')
-              });
-          })
-          .error(function(data){
-            console.log('cannot reach review-service port 8083')
-          });
 
+      ReviewService.reject($stateParams.docId,approverid,$scope.reviewtext);
     }
 
 })

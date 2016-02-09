@@ -15,6 +15,10 @@ angular.module('starter.controllers')
       console.log('cannot reach review-service port 8083')
     });
 
+    $scope.download = function(){
+          FileService.download($stateParams.docId);   
+      }
+
 
   $http.get('http://localhost:8081/getdocument?documentid='+$stateParams.docId)
     .success(function(data){
