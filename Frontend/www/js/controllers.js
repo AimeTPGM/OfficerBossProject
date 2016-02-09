@@ -548,6 +548,14 @@ angular.module('starter.controllers', ['ngFileUpload'])
     .success(function(data){
       $scope.doc = data;
       approverid = $scope.doc.approver;
+
+      $scope.download = function(){
+          var url = 'http://localhost:8084/download?documentId='+$stateParams.docId;
+          console.log(url)
+          $window.open(url);
+          
+    }
+
       $http.get('http://localhost:8082/getuser?userid='+$scope.doc.creator)
         .success(function(data){
           $scope.creator = data;
@@ -563,6 +571,15 @@ angular.module('starter.controllers', ['ngFileUpload'])
         })
         .error(function(data){
           console.log('cannot reach user-service port 8082')
+        });
+        $http.get('http://localhost:8084/filedetail?documentId='+$scope.doc.documentId)
+        .success(function(data){
+          $scope.filename = data;
+            
+        })
+        .error(function(data){
+          console.log('cannot reach file-service port 8084')
+          console.log(data)
         });
         
         
