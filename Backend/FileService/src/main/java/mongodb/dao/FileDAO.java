@@ -1,6 +1,10 @@
 package mongodb.dao;
 
 import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+
+import com.mongodb.DBObject;
 
 import main.model.MyFile;
 
@@ -8,7 +12,7 @@ public interface FileDAO {
 	 
     public void create(InputStream inputStream, String filename, String documentId);
     
-    public void getAllFiles();
+    public List<Map> getAllFiles();
     
     public MyFile readByDocumentId(String id);
      

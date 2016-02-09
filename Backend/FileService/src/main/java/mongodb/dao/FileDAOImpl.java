@@ -1,12 +1,17 @@
 package mongodb.dao;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
@@ -33,11 +38,19 @@ public class FileDAOImpl implements FileDAO{
 		System.out.println("DAO: success");
 	}
 
-	public void getAllFiles() {
+	public List<Map> getAllFiles() {
+		List<Map> files = new ArrayList<Map>();
+		Map<String, String> filesdetail = new HashMap<String, String>();
 		DBCursor cursor = gfs.getFileList();
 		while (cursor.hasNext()) {
-			System.out.println(cursor.next());
+			filesdetail.clear();
+			DBObject temp = cursor.next();
+			System.out.println(temp);
+			filesdetail.put("documentId", (String) temp.get("documentId"));
+			filesdetail.put("filename", (String) temp.get("filename"));
+			files.add(filesdetail);
 		}
+		return files;
 	}
 
 	public MyFile readByDocumentId(String documentId) {
@@ -46,9 +59,15 @@ public class FileDAOImpl implements FileDAO{
 		BasicDBObject query = new BasicDBObject();
 		query.put("documentId", documentId);
 		GridFSDBFile result = gfs.findOne(query);
-		System.out.println("DAO: returning a file, filename: "+result.getFilename());
-		temp.setFilename(result.getFilename());
-		temp.setInputStream(result.getInputStream());
+		if (result != null){
+			System.out.println("DAO: returning a file, filename: "+result.getFilename());
+			temp.setFilename(result.getFilename());
+			temp.setInputStream(result.getInputStream());
+		}
+		else {
+			temp = null;
+		}
+		
 		return temp;
 	}
 

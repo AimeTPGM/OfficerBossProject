@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Named;
 import javax.ws.rs.Consumes;
@@ -28,6 +30,8 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.mongodb.DBObject;
+
 import main.model.MyFile;
 import mongodb.dao.FileDAO;
 
@@ -43,9 +47,10 @@ public class FileRest {
 //	
 	@GET
 	@Path("files")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllFile(){
-		fileDAO.getAllFiles();
-		return Response.ok()
+		List<Map> files = fileDAO.getAllFiles();
+		return Response.ok().entity(files)
                 .build();
 	}
 	
@@ -70,6 +75,7 @@ public class FileRest {
 	public Response getFileDetail(@QueryParam("documentId") String id){
 		MyFile temp = new MyFile();
 		temp = fileDAO.readByDocumentId(id);
+		if(temp == null) return Response.status(404).entity("File not Found").build();
 		String filename = temp.getFilename();
 		return Response.ok().entity(filename)
                 .build();
