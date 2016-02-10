@@ -4,6 +4,21 @@ angular.module('starter.controllers')
     disableBack: true
   });
 
+   $scope.publish = function(docId){
+      DocumentService.publish(docId);
+    }
+
+    $scope.delete = function(docId){
+      DocumentService.delete(docId);
+      $window.location.href=('#/app/doclist');
+    }
+
+    $scope.submit = function(docId){
+      DocumentService.submit(docId)
+
+    }
+
+
   $http.get('http://localhost:8083/getreviewbydocumentid?documentid='+$stateParams.docId)
     .success(function(data){
       $scope.review = data;
@@ -40,6 +55,9 @@ angular.module('starter.controllers')
           console.log('cannot reach user-service port 8082')
         });
 
+       // TODO Complete Refactor this code 
+        // $scope.filename = FileService.getFileDetail($scope.doc.documentId);
+
       $http.get('http://localhost:8084/filedetail?documentId='+$scope.doc.documentId)
         .success(function(data){
           $scope.filename = data;
@@ -59,27 +77,7 @@ angular.module('starter.controllers')
     });
   
 
-     $scope.publish = function(docId){
-      DocumentService.publish(id);
-    } 
-
-    $scope.delete = function(id){
-      $http.get('http://localhost:8081/delete?documentid='+id)
-        .success(function(data){
-          console.log('successfully delete document');
-          $window.location.href=('#/app/doclist');
-
-        })
-        .error(function(data){
-          console.log('cannot reach document-service port 8081')
-        });
-    }
-
-    $scope.submit = function(docId){
-      DocumentService.submit(docId);
-
-    }
-
+   
     
 
 })

@@ -21,19 +21,13 @@ angular.module('starter.controllers')
       console.log('cannot reach document-service port 8081')
   });
 
-  $scope.delete = function(id){
-      $http.get('http://localhost:8081/delete?documentid='+id)
-        .success(function(data){
-          console.log('successfully delete document');
-          $window.location.reload();
+  $scope.delete = function(docId){
+    DocumentService.delete(docId);
 
-        })
-        .error(function(data){
-          console.log('cannot reach document-service port 8081')
-        });
+    $window.location.reload();
     }
-  $scope.publish = function(id){
-      DocumentService.publish(id);
+  $scope.publish = function(docId){
+      DocumentService.publish(docId)
     }  
         
 })
