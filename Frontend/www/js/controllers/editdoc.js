@@ -41,43 +41,15 @@ angular.module('starter.controllers')
         });
 
         $scope.save = function(documentid){
-          $http.get('http://localhost:8081/save?docId='+documentid+'&documentName='+$scope.doc.documentName+'&description='+$scope.doc.description)
-            .success(function(data){
-              
-              console.log('successfully save editing draft');
-              $window.location.href=('#/app/doclist');
-
-            })
-            .error(function(data){
-              console.log('cannot reach document-service port 8081')
-            });
-          $window.location.href=('#/app/doclist');
+          DocumentService.save($stateParams.docId,$scope.doc.documentName,$scope.doc.description);
         }
-        $scope.submit = function(documentid){
-          alert('submit!');
-          $http.get('http://localhost:8081/submit?documentid='+documentid)
-            .success(function(data){
-              $scope.savedoc = data;
-              console.log('successfully submit document: change from draft to waiting for approval');
-              $window.location.href=('#/app/doclist');
-
-            })
-            .error(function(data){
-              console.log('cannot reach document-service port 8081')
-            });
+        $scope.submit = function(docId){
+          DocumentService.submit(docId);
         }
 
-        $scope.delete = function(documentid){
-        $http.get('http://localhost:8081/delete?documentid='+documentid)
-          .success(function(data){
-            console.log('successfully delete document');
-            $window.location.href=('#/app/doclist');
-
-          })
-          .error(function(data){
-            console.log('cannot reach document-service port 8081')
-          });
-    }
+        $scope.delete = function(docId){
+        DocumentService.delete(docId)
+        }
 
         
     })
