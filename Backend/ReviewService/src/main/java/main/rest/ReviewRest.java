@@ -61,6 +61,19 @@ public class ReviewRest {
 	}
 	
 	@GET
+	@Path("deleteById")
+	public void deleteById(@QueryParam("id") String id){
+		reviewDAO.deleteByReviewId(id);
+	}
+	
+	@GET
+	@Path("deleteByDocumentId")
+	public void deleteByDocumentId(@QueryParam("documentId") String documentId){
+		reviewDAO.deleteByDocumentId(documentId);
+	}
+	
+	
+	@GET
 	@Path("createreview")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Review createReview(
