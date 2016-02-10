@@ -5,6 +5,13 @@
 	Spring		|	localhost	|  8083
 	Mongo		|	localhost	| 27019
 
+# Mongo
+
+	Properties	|	Value
+----------------|-----------
+DB Name | reviewtest
+COLLECTION | reviewtestonly
+
 # API
 
 

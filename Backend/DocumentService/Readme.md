@@ -5,6 +5,13 @@ Document Service|		host	|	Port
 	Spring		|	localhost	|  8081
 	Mongo		|	localhost	| 27018
 
+# Mongo
+
+	Properties	|	Value
+----------------|-----------
+DB Name | documenttest
+COLLECTION | documenttestonly
+
 # API
 
 
