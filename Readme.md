@@ -67,6 +67,7 @@ Document Service		|	27018
 User Service			|	27017
 Review Service			|	27019
 File Service 			|	27020
+Folder Service 			|	27021
 
 to kill processes of mongodb (in case of ERR:addr is already in use)
 
@@ -90,5 +91,6 @@ Document Service		|	  localhost		| 	8081
 User Service			|	  localhost		| 	8082
 Review Service			|	  localhost		| 	8083
 File Service 			|	  localhost		|	8084
+Folder Service 			|	  localhost		|	8085
 
 # Have fun!
