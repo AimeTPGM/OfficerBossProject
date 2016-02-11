@@ -16,9 +16,30 @@ public class Folder {
 	private String lastUpdate;
 	private String folderStatus;
 	private String numberOfDocument;
+	private String creatorId;
 	
 	public Folder(){
 		documentIdList = new ArrayList<String>();
+	}
+	
+	public Folder(String folderName, Date date, FolderStatus folderStatus, String creatorId){
+		setFolderName(folderName);
+		setLastUpdate(date);
+		setFolderStatus(folderStatus);
+		setCreatorId(creatorId);
+		documentIdList = new ArrayList<String>();
+		setNumberOfDocument(documentIdList.size());
+		
+	}
+	
+	public Folder(List<String> documentIdList, String folderName, Date date, FolderStatus folderStatus, String creatorId){
+		setFolderName(folderName);
+		setLastUpdate(date);
+		setFolderStatus(folderStatus);
+		setCreatorId(creatorId);
+		this.documentIdList = documentIdList;
+		setNumberOfDocument(documentIdList.size());
+		
 	}
 	
 	public void setId(String id){
@@ -69,5 +90,12 @@ public class Folder {
 		return this.folderName;
 	}
 	
+	public void setCreatorId(String creatorId){
+		this.creatorId = creatorId;
+	}
+	
+	public String getCreatorId(){
+		return this.creatorId;
+	}
 
 }
