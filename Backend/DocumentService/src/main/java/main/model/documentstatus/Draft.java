@@ -1,4 +1,4 @@
-package main.rest.documentstatus;
+package main.model.documentstatus;
 
 public class Draft extends DocumentStatus{
 	private String documentStatusName = "Draft";

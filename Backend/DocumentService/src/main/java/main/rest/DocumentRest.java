@@ -26,7 +26,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import main.model.Document;
-import main.rest.documentstatus.*;
+import main.model.documentstatus.*;
 import mongodb.dao.DocumentDAO;
 
 @Named

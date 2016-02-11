@@ -1,4 +1,4 @@
-package main.rest.documentstatus;
+package main.model.documentstatus;
 
 public abstract class DocumentStatus {
 	private String allowEdittingPosition;

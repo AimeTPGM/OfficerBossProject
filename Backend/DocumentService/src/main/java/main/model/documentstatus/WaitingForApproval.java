@@ -1,4 +1,4 @@
-package main.rest.documentstatus;
+package main.model.documentstatus;
 
 public class WaitingForApproval extends DocumentStatus{
 	private String documentStatusName = "Waiting for Approval";
