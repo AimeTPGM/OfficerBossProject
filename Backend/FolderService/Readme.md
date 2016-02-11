@@ -21,5 +21,5 @@ COLLECTION | foldertestonly
 /folder	|	GET |folderId=String| Return folder by {folder id}
 /addDocument|	GET 	|documentId=String|add new document by {document id}
 /deleteDocument	|	GET	|documentId=String|delete document by {document id}
-/deleteById	 |	GET	|folderId=String|delete folder by {folder id}
+/deleteById	 |	GET	|file=file, documentid=String|delete folder by {folder id}
 
