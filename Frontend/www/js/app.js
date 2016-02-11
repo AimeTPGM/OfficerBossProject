@@ -45,6 +45,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
+    .state('app.folderlist', {
+      url: '/folderlist',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/folderlist.html',
+          controller: 'FolderListCtrl'
+        }
+      }
+    })
     .state('app.doclist', {
       url: '/doclist',
       views: {
