@@ -4,11 +4,27 @@
 		<div class="col col-80 center">
 			<h1 class="main-header" style="margin-top: 4vh;">Folder List</h1>
 			<hr class="main-hr">
-			<div show-when="large" class="row padding-0">
-				<div class="col col-20 padding-0">
-					<a class="button button button-dark btn-new-task" href="#/app/adddoc">New Folder</a>
+			<div show-when="large" class="row padding-0 header-action-button">
+
+				<div class="col col-20 padding-0" ng-show="showBtn()">
+					<a class="button button button-dark btn-new-task"  ng-click="newFolder()">New Folder</a>
+					
 				</div>
-				<div class="col col-30 col-offset-50">
+				<div class="col col-40 padding-0 btn-new-task" ng-show="showForm()">
+					<form>
+						<div class="row padding-0">
+							<label class="item item-input ">
+								<i class="icon ion-folder placeholder-icon"></i>
+								<input type="text" placeholder="folder name?">
+							</label>
+							
+							<button class="button button-dark" ng-click="addFolder()"> Add
+							</button>
+						</div>
+						
+					</form>
+				</div>
+				<div class="col col-30 search">
 
 					<label class="item item-input">
 						<i class="icon ion-search placeholder-icon"></i>
@@ -60,3 +76,14 @@
 	</div>
 	</ion-content>
 </ion-view>
+
+<script id="my-modal.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <h1 class="title">My Modal title</h1>
+    </ion-header-bar>
+    <ion-content>
+      Hello!
+    </ion-content>
+  </ion-modal-view>
+</script>

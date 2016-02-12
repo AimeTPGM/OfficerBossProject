@@ -19,6 +19,17 @@
 	text-align: center;
 }
 
+.header-action-button{
+	position: relative;
+}
+
+.header-action-button .search{
+	position: absolute;
+	right: 0;
+	max-width: 30%;
+}
+
+
 .vertical-center-list-text{
 	margin-top: 15px;
 }
