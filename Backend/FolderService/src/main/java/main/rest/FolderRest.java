@@ -83,9 +83,10 @@ public class FolderRest {
 	
 	@GET
 	@Path("addDocument")
-	public Response addDocument(@QueryParam("documentId") String id){
+	public Response addDocument(@QueryParam("documentId") String id,
+			@QueryParam("documentId") String documentId){
 		folder = folderDAO.readById(id);
-		folder.getDocumentList().add(id);
+		folder.getDocumentList().add(documentId);
 		folderDAO.update(folder);
 		return Response.status(200).entity(folder).build();
 	}
