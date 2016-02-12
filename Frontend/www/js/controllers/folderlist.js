@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('FolderListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, DocumentService) {
+.controller('FolderListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, FolderService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -31,6 +31,9 @@ angular.module('starter.controllers')
 	  $scope.showForm = function(){
 	  	return false;
 	  }
+
+
+
   }
 
 

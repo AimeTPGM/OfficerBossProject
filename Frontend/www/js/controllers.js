@@ -216,6 +216,43 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
 })
 
+.service('FolderService', function(Upload, $http, $window) {
+  this.newFolder = function(folderName, creatorId){
+    $http({
+        method: 'POST',
+        url: 'http://localhost:8085/createFolder',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj)
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            return str.join("&");
+        },
+        data: {folderName: folderName, creatorId: creatorId}
+      
+    }).
+    success(function(data, status, headers, config) {
+        console.log('sent POST request: add new folder');
+        console.log(data);
+
+        $window.location.href=('#/app/folderlist');
+      }).
+      error(function(data, status, headers, config) {
+        console.log('cannot reach folder-service port 8085')
+      });
+
+  }
+
+  this.delete = function(){
+
+  }
+
+  this.update = function(){
+    
+  }
+
+})
+
 
 .directive('showWhen', ['$window', function($window) {
 
