@@ -48,8 +48,14 @@ public class FolderRest {
 	@Path("folder")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getFolder(@QueryParam("folderId") String id) {
-		folder = new Folder();
 		folder = folderDAO.readById(id);
+		return Response.status(200).entity(folder).build();
+	}
+	
+	@GET
+	@Path("gerFolderByCreatorId")
+	public Response getFolderByCreatorId(@QueryParam("creatorId") String id) {
+		folder = folderDAO.readByCreatorId(id);
 		return Response.status(200).entity(folder).build();
 	}
 	
