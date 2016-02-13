@@ -47,6 +47,12 @@ angular.module('starter.controllers')
 
   }
 
+  $scope.delete = function(folderId){
+    FolderService.delete(folderId);
+    $window.location.reload();
+  }
+  
+
   $http.get('http://localhost:8085/getFolderByCreatorId?creatorId=1')
         .success(function(data){
           console.log('return folders')
