@@ -51,6 +51,7 @@ angular.module('starter.controllers')
     FolderService.delete(folderId);
     $window.location.reload();
   }
+
   
 
   $http.get('http://localhost:8085/getFolderByCreatorId?creatorId=1')
