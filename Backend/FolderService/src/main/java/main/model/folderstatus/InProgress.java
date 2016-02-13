@@ -1,7 +1,7 @@
 package main.model.folderstatus;
 
-public class Incompleted implements FolderStatus{
-	private String documentStatusName = "Incompleted";
+public class InProgress implements FolderStatus{
+	private String documentStatusName = "In Progress";
 	
 	public String getFolderStatusName(){
 		return documentStatusName;

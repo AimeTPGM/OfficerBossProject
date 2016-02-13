@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import main.model.Folder;
 import main.model.folderstatus.Empty;
+import main.model.folderstatus.InProgress;
 import mongodb.dao.FolderDAO;
 
 
@@ -88,6 +89,7 @@ public class FolderRest {
 			@QueryParam("documentId") String documentId){
 		folder = folderDAO.readById(id);
 		folder.getDocumentList().add(documentId);
+		folder.setFolderStatus(new InProgress());
 		folderDAO.update(folder);
 		return Response.status(200).entity(folder).build();
 	}
