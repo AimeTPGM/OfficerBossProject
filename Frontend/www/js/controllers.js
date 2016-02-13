@@ -243,12 +243,54 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   }
 
-  this.delete = function(){
+  this.delete = function(folderId){
+    $http.get('http://localhost:8085/deleteById?folderId='+folderId)
+        .success(function(data){
+          console.log('successfully delete folder: '+folderId)
+        })
+        .error(function(data){
+          console.log('cannot reach folder-service port 8085')
+          console.log(data)
+        });
 
   }
 
-  this.update = function(){
-    
+  this.update = function(folderId, folderName){
+    $http({
+        method: 'POST',
+        url: 'http://localhost:8085/update',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj)
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            return str.join("&");
+        },
+        data: {folderId: folderId, folderName: folderName}
+      
+    }).
+    success(function(data, status, headers, config) {
+        console.log('sent POST request: update folder');
+        console.log(data);
+
+        $window.location.href=('#/app/folderlist');
+      }).
+      error(function(data, status, headers, config) {
+        console.log('cannot reach folder-service port 8085')
+      });
+
+  }
+
+  this.addDocument = function(folderId, documentId){
+      $http.get('http://localhost:8085/addDocument?folderId='+folderId)
+        .success(function(data){
+          console.log('successfully add new document')
+        })
+        .error(function(data){
+          console.log('cannot reach folder-service port 8085')
+          console.log(data)
+        });
+
   }
 
 })
