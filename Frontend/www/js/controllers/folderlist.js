@@ -4,7 +4,7 @@ angular.module('starter.controllers')
     disableBack: true
   });
 
-  $scope.folderName = "";
+  $scope.tempFolder = {};
 
   $scope.showBtn = function(){
   	return true;
@@ -34,12 +34,14 @@ angular.module('starter.controllers')
 	  $scope.showForm = function(){
 	  	return false;
 	  }
-    if (!$scope.folderName){
-      FolderService.newFolder($scope.folderName, 1);
+    if ($scope.tempFolder.folderName){
+      FolderService.newFolder($scope.tempFolder.folderName, 1);
       $window.location.reload();
     }
     else {
-      alert('please enter foldername')
+      $scope.tempFolder.folderName = "Untitled";
+      FolderService.newFolder($scope.tempFolder.folderName, 1);
+      $window.location.reload();
     }
 
 
