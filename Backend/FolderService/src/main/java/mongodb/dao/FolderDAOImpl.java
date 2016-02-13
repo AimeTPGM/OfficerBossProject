@@ -66,11 +66,11 @@ public class FolderDAOImpl implements FolderDAO{
 		return this.mongoOps.findOne(query, Folder.class, COLLECTION);
 	}
 	
-	public Folder readByCreatorId(String id) {
-		System.out.println("DAO: Querying folder id:"+id);
+	public List<Folder> readByCreatorId(String id) {
+		System.out.println("DAO: Querying folders by creator id:"+id);
 		Query query = new Query(Criteria.where("creatorId").is(id));
 		System.out.println("DAO: Return folder");
-		return this.mongoOps.findOne(query, Folder.class, COLLECTION);
+		return this.mongoOps.find(query, Folder.class, COLLECTION);
 	}
 	
 	

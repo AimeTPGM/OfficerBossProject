@@ -37,34 +37,38 @@
 			<ui class="list">
 			<div class="item item-divider item-divider-calm">
 				<div class="row">
-					<div show-when="large" class="col col-50 vertical-center-list-text">Folder Name</div>
+					<div show-when="large" class="col col-20 vertical-center-list-text">Folder Name</div>
 					<div show-when="small" class="col col-85 vertical-center-list-text">Folder Name</div>
-					<div show-when="large" class="col col-10 center-header vertical-center-list-text">Status</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Creator</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Status</div>
 					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Last Update</div>
-					<div show-when="large" class="col col-20 center-header vertical-center-list-text">No. of Documents</div>
+					<div show-when="large" class="col col-10 center-header vertical-center-list-text">Documents</div>
+					<div show-when="large" class="col col-10 center-header vertical-center-list-text">Action</div>
 				
 				</div>
 			</div>
-				<li class="item">
+				<li class="item" ng-repeat="folder in folders">
 					<div class="row">
 
 					
-					<div show-when="large">
-						<div class="col col-50 vertical-center-list-text">{{folders.folderName}}</div>
-						<!-- For Incompleted -->
-						<div show-when="large" class="col col-10 center-header vertical-center-list-text reject-status" ng-if="document.documentStatus === 'Incompleted'">{{folders.folderStatus}}</div>
+					
+						<div show-when="large" class="col col-20 vertical-center-list-text">{{folder.folderName}}</div>
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text">{{folder.creatorId}}</div>
+						<!-- For In progress -->
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text reject-status" ng-if="document.documentStatus === 'Incompleted'">{{folder.folderStatus}}</div>
 						<!-- For Completed -->
-						<div class="col col-10 center-header vertical-center-list-text approved-status" ng-if="document.documentStatus === 'Completed'">{{folder.folderStatus}}</div>
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text approved-status" ng-if="document.documentStatus === 'Completed'">{{folder.folderStatus}}</div>
 						<!-- For Empty -->
-						<div class="col col-10 center-header vertical-center-list-text publish-status" ng-if="document.documentStatus === 'Empty'">{{folder.folderStatus}}</div>
-						<div class="col col-20 center-header vertical-center-list-text">{{folders.lastUpdate}}</div>
-						<div class="col col-20 center-header vertical-center-list-text">{{folder.numberOfDocument}}</div>
-					</div>
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text publish-status" ng-if="folder.folderStatus === 'Empty'">{{folder.folderStatus}}</div>
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text">{{folder.lastUpdate}}</div>
+						<div show-when="large" class="col col-10 center-header vertical-center-list-text">{{folder.numberOfDocuments}}</div>
+						<div show-when="large" class="col col-10 center-header vertical-center-list-text">Action</div>
+					
 
-					<div show-when="small">
+					
 						<div show-when="small" class="col col-85 vertical-center-list-text">{{folder.folderName}}</div>
-						<a class="button button-calm" href="#/app/doclist">More Detail</a>
-					</div>
+						<a show-when="small" class="button button-calm" href="#/app/doclist">More Detail</a>
+		
 					
 					
 					

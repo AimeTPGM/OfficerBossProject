@@ -3,6 +3,9 @@ angular.module('starter.controllers')
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
+
+  $scope.folderName = "";
+
   $scope.showBtn = function(){
   	return true;
   }
@@ -33,7 +36,7 @@ angular.module('starter.controllers')
 	  }
     if (!$scope.folderName){
       FolderService.newFolder($scope.folderName, 1);
-      $window.location.reaload();
+      $window.location.reload();
     }
     else {
       alert('please enter foldername')
@@ -44,7 +47,7 @@ angular.module('starter.controllers')
 
   $http.get('http://localhost:8085/getFolderByCreatorId?creatorId=1')
         .success(function(data){
-          console.log('successfully add new document')
+          console.log('return folders')
           $scope.folders = data;
           console.log($scope.folders)
         })

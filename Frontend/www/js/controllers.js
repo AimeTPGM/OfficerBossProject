@@ -2,6 +2,8 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
 .service('DocumentService', function($http,$window) {
 
+
+
   this.newdraft = function(){
 
   }

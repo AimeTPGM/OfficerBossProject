@@ -12,7 +12,7 @@ public interface FolderDAO {
 	
 	public Folder readById(String id);
 	
-	public Folder readByCreatorId(String id);
+	public List<Folder> readByCreatorId(String id);
 	
 	public void update(Folder folder);
 	

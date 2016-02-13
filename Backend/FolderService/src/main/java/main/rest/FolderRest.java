@@ -53,10 +53,11 @@ public class FolderRest {
 	}
 	
 	@GET
-	@Path("gerFolderByCreatorId")
+	@Path("getFolderByCreatorId")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getFolderByCreatorId(@QueryParam("creatorId") String id) {
-		folder = folderDAO.readByCreatorId(id);
-		return Response.status(200).entity(folder).build();
+		folders = folderDAO.readByCreatorId(id);
+		return Response.status(200).entity(folders).build();
 	}
 	
 	@POST
