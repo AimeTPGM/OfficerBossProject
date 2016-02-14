@@ -4,6 +4,8 @@ angular.module('starter.controllers')
     disableBack: true
   });
 
+  $scope.savedDocData = null;
+
   $http.get('http://localhost:8083/getreviewbydocumentid?documentid='+$stateParams.docId)
     .success(function(data){
       $scope.review = data;
@@ -50,15 +52,54 @@ angular.module('starter.controllers')
           console.log(data)
         });
 
+        $scope.upload = function(file){
+          $http({
+              method: 'POST',
+              url: 'http://localhost:8081/save',
+              headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+              transformRequest: function(obj) {
+                  var str = [];
+                  for(var p in obj)
+                  str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                  return str.join("&");
+              },
+              data: {documentName:$scope.doc.name, description:$scope.doc.desc, documentId: $stateParams.docId}
+            
+          }).success(function(data, status, headers, config) {
+            FileService.delete($stateParams.docId)
+            FileService.upload(file, data.documentId)
+            $scope.savedDocData = data;
+            $http.get('http://localhost:8084/filedetail?documentId='+data.documentId)
+            .success(function(data){
+              $scope.filename = data;
+                
+            })
+            .error(function(data){
+              console.log('cannot reach file-service port 8084')
+              console.log(data)
+            });
+
+          }).
+          error(function(data, status, headers, config) {
+            console.log('cannot reach document-service port 8081')
+          });
+
+
+        }
+
         $scope.save = function(documentid){
 
           DocumentService.save($stateParams.docId,$scope.doc.documentName,$scope.doc.description);
         }
         $scope.submit = function(docId, docStatus){
+          
           if(docStatus != 'Draft'){
-            DocumentService.updateNoNewFile($scope.doc.documentName,$scope.doc.description,1,docId,$stateParams.folderId);
+            
+              DocumentService.updateNoNewFile($scope.doc.documentName,$scope.doc.description,1,docId,$stateParams.folderId);
+            
           }
           else{
+
             DocumentService.submit(docId);
           }
           
