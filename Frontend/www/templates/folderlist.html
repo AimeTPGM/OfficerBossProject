@@ -82,7 +82,7 @@
 
 					
 					
-						<div show-when="large" class="col col-20 vertical-center-list-text">{{folder.folderName}}</div>
+						<a show-when="large" class="col col-20 vertical-center-list-text doclist-link" href="#/app/doclist/{{folder.id}}">{{folder.folderName}}</a>
 						<div show-when="large" class="col col-20 center-header vertical-center-list-text">{{folder.creatorId}}</div>
 						<!-- For In progress -->
 						<div show-when="large" class="col col-20 center-header vertical-center-list-text reject-status" ng-if="document.documentStatus === 'Incompleted'">{{folder.folderStatus}}</div>
@@ -100,7 +100,7 @@
 					
 
 					
-						<div show-when="small" class="col col-85 vertical-center-list-text">{{folder.folderName}}</div>
+						<a show-when="small" class="col col-85 vertical-center-list-text doclist-link" href="#/app/doclist/{{folder.id}}">{{folder.folderName}}</a>
 						<a show-when="small" class="button button-calm" href="#/app/doclist/{{folder.folderId}}" style="margin-right:10px;">More Detail</a>
 						<button show-when="small" class="button button button-assertive button-circle icon ion-trash-a" ng-if="folder.folderStatus !== 'Completed'" title="Delete" ng-click="delete(folder.id)"></button>
 		
@@ -115,14 +115,3 @@
 	</div>
 	</ion-content>
 </ion-view>
-
-<script id="my-modal.html" type="text/ng-template">
-  <ion-modal-view>
-    <ion-header-bar>
-      <h1 class="title">My Modal title</h1>
-    </ion-header-bar>
-    <ion-content>
-      Hello!
-    </ion-content>
-  </ion-modal-view>
-</script>

@@ -55,7 +55,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     })
     .state('app.doclist', {
-      url: '/doclist',
+      url: '/doclist/:folderId',
       views: {
         'menuContent': {
           templateUrl: 'templates/doclist.html',
