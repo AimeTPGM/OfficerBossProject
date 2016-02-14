@@ -72,15 +72,6 @@ public class DocumentRest{
 	}
 	
 	
-	public void newdocument(){
-		date = new Date();
-		document = new Document();
-		document.setCreatedDate(date);
-		document.setLastModifiedDate(date);
-		//TODO ask Prof. about approver - officer system
-		document.setApprover("56a0d083d4c607b2e7a60a5c");
-	}
-
 	@POST
 	@Path("newdraft")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -88,16 +79,13 @@ public class DocumentRest{
 	public Document createNewDraftdocument(
 			@FormParam("documentName") String name, 
 			@FormParam("description") String description,
-			@FormParam("creator") String creator
+			@FormParam("creator") String creatorId
 			) {
 		System.out.println("GET Request: newdraft");
 		
-		newdocument();
-		document.setDocumentName(name);
-		document.setDescription(description);
-		document.setDocumentStatus(new Draft().getDocumentStatusName());
-		document.setCreator(creator);
-		document.setVersion(0.0);
+		date = new Date();
+		document = new Document(name, description, date, new Draft(), creatorId, "56a0d083d4c607b2e7a60a5c", "0.0");
+		
 		documentDAO.create(document);
 		
 		return document;
@@ -109,14 +97,10 @@ public class DocumentRest{
 	public Document createNewdocument(
 			@QueryParam("documentName") String name, 
 			@QueryParam("description") String description,
-			@QueryParam("creator") String creator) {
+			@QueryParam("creator") String creatorId) {
 		System.out.println("GET Request: newdocument");
-		newdocument();
-		document.setDocumentName(name);
-		document.setDescription(description);
-		document.setDocumentStatus(new WaitingForApproval().getDocumentStatusName());
-		document.setCreator(creator);
-		document.setVersion(1.0);
+		date = new Date();
+		document = new Document(name, description, date, new WaitingForApproval(), creatorId, "56a0d083d4c607b2e7a60a5c", "0.0");
 		documentDAO.create(document);
 		return document;
 	}

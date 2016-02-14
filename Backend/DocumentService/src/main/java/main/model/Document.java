@@ -6,6 +6,8 @@ import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
+import main.model.documentstatus.DocumentStatus;
+
 
 public class Document {
 	
@@ -19,6 +21,35 @@ public class Document {
 	private String version;
 	private String creatorId;
 	private String approverId;
+//	private boolean lastFile;
+	
+	public Document(){
+		
+	}
+	
+	public Document(String name, String description, Date date, DocumentStatus status, String creatorId, String approverId, String version){
+		this.name = name;
+		this.description = description;
+		this.status = status.getDocumentStatusName();
+		this.creatorId = creatorId;
+		this.approverId = approverId;
+		this.version = version;
+		setCreatedDate(date);
+		setLastModifiedDate(date);
+	}
+	
+	
+//	public Document(String name, String description, Date date, DocumentStatus status, String creatorId, String approverId, boolean lastFile, String version){
+//		this.name = name;
+//		this.description = description;
+//		this.status = status.getDocumentStatusName();
+//		this.creatorId = creatorId;
+//		this.approverId = approverId;
+//		this.lastFile = lastFile;
+//		this.version = version;
+//		setCreatedDate(date);
+//		setLastModifiedDate(date);
+//	}
 	
 	public void setDocumentId(String id){
 		documentId = id;
@@ -76,5 +107,11 @@ public class Document {
 	public String getApprover(){
 		return approverId;
 	}
+//	public void setLastFile(boolean lastFile){
+//		this.lastFile = lastFile;
+//	}
+//	public boolean getLastFile(){
+//		return lastFile;
+//	}
 
 }
