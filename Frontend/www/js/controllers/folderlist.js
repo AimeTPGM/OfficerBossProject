@@ -65,6 +65,14 @@ angular.module('starter.controllers')
           console.log(data)
         });
 
+  $http.get('http://localhost:8082/getuser?userid=1')
+    .success(function(data){
+      $scope.user = data;
+    })
+    .error(function(data){
+      console.log('cannot reach user-service port 8082')
+    });
+
 
   
 

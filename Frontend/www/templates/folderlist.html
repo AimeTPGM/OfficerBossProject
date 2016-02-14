@@ -83,7 +83,7 @@
 					
 					
 						<a show-when="large" class="col col-20 vertical-center-list-text doclist-link" href="#/app/doclist/{{folder.id}}">{{folder.folderName}}</a>
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text">{{folder.creatorId}}</div>
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text">{{user.firstname}}</div>
 						<!-- For In progress -->
 						<div show-when="large" class="col col-20 center-header vertical-center-list-text reject-status" ng-if="document.documentStatus === 'Incompleted'">{{folder.folderStatus}}</div>
 						<!-- For Completed -->
