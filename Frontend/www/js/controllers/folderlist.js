@@ -5,6 +5,7 @@ angular.module('starter.controllers')
   });
 
   $scope.tempFolder = {};
+  
 
   $scope.showBtn = function(){
   	return true;
@@ -49,7 +50,7 @@ angular.module('starter.controllers')
 
   $scope.delete = function(folderId){
     FolderService.delete(folderId);
-    $window.location.reload();
+    
   }
 
   
@@ -59,6 +60,15 @@ angular.module('starter.controllers')
           console.log('return folders')
           $scope.folders = data;
           console.log($scope.folders)
+          console.log($scope.folders.length)
+          if($scope.folders.length == 0){
+            $scope.noDocument = function(){
+              return true;
+            } 
+          }
+          else{
+            return false;
+          }
         })
         .error(function(data){
           console.log('cannot reach folder-service port 8085')

@@ -302,6 +302,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
           $http.get('http://localhost:8085/deleteById?folderId='+folderId)
             .success(function(data){
               console.log('successfully delete folder: '+folderId)
+              $window.location.reload();
             })
             .error(function(data){
               console.log('cannot reach folder-service port 8085')
@@ -313,7 +314,6 @@ angular.module('starter.controllers', ['ngFileUpload'])
           console.log('cannot reach folder-service port 8085')
           console.log(data)
         });
-
 
 
     

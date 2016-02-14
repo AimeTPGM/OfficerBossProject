@@ -1,4 +1,4 @@
-<ion-view cache-view="false" view-title="Folder management">
+<ion-view cache-view="false" view-title="Document management">
 	<ion-content>
 	<div class="row">
 		<div class="col col-80 center">
@@ -97,6 +97,11 @@
 					
 					
 				</div>
+				</li>
+				<li class="item" ng-show="noDocument()">
+					<div style="text-align: center;color: #999;padding: 50px;">
+						There is no document yet, <a class="doclist-link" href="#/app/adddoc/{{folder.id}}">create one</a>!
+					</div>
 				</li>
 		</ui>
 		</div>
