@@ -55,7 +55,7 @@ angular.module('starter.controllers')
             console.log(data);
             $scope.savedFolder = data;
             FolderService.addDocument(data.id, $scope.savedDocData.documentId);
-            FileService.upload(file,data.documentId);
+            FileService.upload(file,$scope.savedDocData.documentId);
 
           
           }).
@@ -171,6 +171,7 @@ angular.module('starter.controllers')
               console.log('sent POST request: add new folder');
               console.log(data);
               $scope.savedFolder = data;
+
               FolderService.addDocument(data.id, $scope.savedDocData.documentId);
               $window.location.href=('#/app/folderlist');
 

@@ -1,5 +1,13 @@
 angular.module('starter.controllers', ['ngFileUpload'])
 
+.service('BackgroundService', function($http,$window,DocumentService){
+  this.deleteAll = function(){
+
+  }
+
+
+})
+
 .service('DocumentService', function($http,$window,FolderService) {
 
 
@@ -168,7 +176,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   this.upload = function (file, docId) {
      
-        console.log("File service from cintroller: uploading file ("+file.size+")");
+        console.log("File service from controller: uploading file ("+file.size+") to document id: "+docId);
       
         Upload.upload({
             url: 'http://localhost:8084/upload',
@@ -248,15 +256,69 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   }
 
+
   this.delete = function(folderId){
-    $http.get('http://localhost:8085/deleteById?folderId='+folderId)
+    $http.get('http://localhost:8085/folder?folderId='+folderId)
         .success(function(data){
-          console.log('successfully delete folder: '+folderId)
+          for (var i = 0; i < data.numberOfDocuments; i++) {
+            var docId = data.documentList[i];
+            console.log('docId: '+docId)
+           console.log('deleting document');
+            $http.get('http://localhost:8081/delete?documentid='+docId)
+                .success(function(data){
+                  console.log('successfully delete document');
+                  
+
+                })
+                .error(function(data){
+                  console.log('cannot reach document-service port 8081')
+                });
+            console.log('deleting review');
+            $http.get('http://localhost:8083/deleteByDocumentId?documentId='+docId)
+                .success(function(data){
+                  console.log('successfully delete review');
+                  
+
+                })
+                .error(function(data){
+                  console.log('cannot reach review-service port 8083')
+                });
+
+            console.log('deleting file')
+            $http.get('http://localhost:8084/deletebydocid?documentId='+docId)
+                .success(function(data){
+                  console.log('successfully delete file');
+                  
+
+                })
+                .error(function(data){
+                  console.log('cannot reach file-service port 8084')
+                });
+
+
+
+          };
+
+          $http.get('http://localhost:8085/deleteById?folderId='+folderId)
+            .success(function(data){
+              console.log('successfully delete folder: '+folderId)
+            })
+            .error(function(data){
+              console.log('cannot reach folder-service port 8085')
+              console.log(data)
+            });
+
         })
         .error(function(data){
           console.log('cannot reach folder-service port 8085')
           console.log(data)
         });
+
+
+
+    
+
+
 
   }
 
