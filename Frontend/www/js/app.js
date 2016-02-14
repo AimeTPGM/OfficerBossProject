@@ -73,7 +73,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     })
     .state('app.adddoc', {
-      url: '/adddoc',
+      url: '/adddoc/:folderId',
       views: {
         'menuContent': {
           templateUrl: 'templates/adddoc.html',

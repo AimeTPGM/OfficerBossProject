@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngFileUpload'])
 
-.service('DocumentService', function($http,$window) {
+.service('DocumentService', function($http,$window,FolderService) {
 
 
 
@@ -8,12 +8,13 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   }
 
-  this.newdoc = function(docName,docDesc,creatorId){
+  this.newdoc = function(docName,docDesc,creatorId,folderId){
 
     $http.get('http://localhost:8081/newdocument?documentName='+docName+'&description='+docDesc+'&creator='+creatorId)
         .success(function(data){
           $scope.savedoc = data;
           console.log('successfully create new document: waiting for approval');
+          FolderService.addDocument(folderId, data.documentId);
           $window.location.href=('#/app/doclist');
 
         })
@@ -94,6 +95,9 @@ angular.module('starter.controllers', ['ngFileUpload'])
         .error(function(data){
           console.log('cannot reach file-service port 8084')
         });
+
+    console.log('delete documentid from folder')
+    FolderService.deleteDocument(folderId,docId);
 
   }
 
@@ -283,8 +287,8 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   }
 
-  this.addDocument = function(folderId, documentId){
-      $http.get('http://localhost:8085/addDocument?folderId='+folderId)
+  this.addDocument = function(folderId, docId){
+      $http.get('http://localhost:8085/addDocument?folderId='+folderId+'&documentId='+docId)
         .success(function(data){
           console.log('successfully add new document')
         })
@@ -293,6 +297,17 @@ angular.module('starter.controllers', ['ngFileUpload'])
           console.log(data)
         });
 
+  }
+
+  this.deleteDocument = function(folderId,docId){
+    $http.get('http://localhost:8085/addDocument?folderId='+folderId+'&documentId='+docId)
+        .success(function(data){
+          console.log('successfully delete document')
+        })
+        .error(function(data){
+          console.log('cannot reach folder-service port 8085')
+          console.log(data)
+        });
   }
 
 })

@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('AddNewDocumentCtrl', function($window, $http, $scope, $stateParams,$ionicHistory,Upload, FileService, DocumentService) {
+.controller('AddNewDocumentCtrl', function($window, $http, $scope, $stateParams,$ionicHistory,Upload, FileService, DocumentService, FolderService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -7,10 +7,24 @@ angular.module('starter.controllers')
   $scope.doc = {};
   var blank = {};
   $scope.savedDocData = null;
+  $scope.folderId = $stateParams.folderId;
+
+  $http.get('http://localhost:8085/folder?folderId='+$stateParams.folderId)
+  .success(function(data){
+    console.log(data)
+    $scope.folder = data;
+    
+  })
+  .error(function(data){
+      console.log('cannot reach folder-service port 8085')
+  });
 
   $scope.upload = function (file) {
+    // if it never been uploaded
     if(!$scope.savedDocData){
+    // if there is no document name
     if(!$scope.doc.name){ $scope.doc.name = "Untitled"; }
+    // if there is no description
     if(!$scope.doc.desc){ $scope.doc.desc = "no description";}
     console.log($scope.doc);
 
@@ -31,8 +45,8 @@ angular.module('starter.controllers')
         console.log('sent POST request: successfully create new draft');
         console.log(data);
         $scope.savedDocData = data;
+        FolderService.addDocument($scope.folderId, data.documentId);
         FileService.upload(file,data.documentId);
-        
       }).
       error(function(data, status, headers, config) {
         console.log('cannot reach document-service port 8081')
@@ -48,6 +62,7 @@ angular.module('starter.controllers')
 
   $scope.save = function(){
     console.log($scope.doc);
+    // if it never been uploaded 
     if(!$scope.savedDocData){
       console.log("creating new draft")
       $http({
@@ -67,6 +82,7 @@ angular.module('starter.controllers')
         console.log('sent POST request: successfully create new draft');
         console.log(data);
         $scope.savedDocData = data;
+        FolderService.addDocument($scope.folderId, data.documentId);
         $window.location.href=('#/app/doclist');
       }).
       error(function(data, status, headers, config) {
@@ -84,9 +100,11 @@ angular.module('starter.controllers')
   
   $scope.submit = function(){
     console.log($scope.doc);
+    // if it never been uploaded
     if(!$scope.savedDocData){
       console.log("creating new document");
-      DocumentService.newdoc($scope.doc.name,$scope.doc.desc,1);
+      DocumentService.newdoc($scope.doc.name,$scope.doc.desc,1,$scope.folderId);
+
 
     }
     else {
@@ -103,7 +121,7 @@ angular.module('starter.controllers')
        $scope.doc = angular.copy(blank);
     }
     else{
-      DocumentService.delete($scope.savedDocData.documentId);
+      DocumentService.delete($scope.savedDocData.documentId,$scope.folderId);
       document.getElementById("filename").style.display = "none";
       $scope.doc = angular.copy(blank);
     }
