@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col col-80 center">
 			<h1 class="main-header" style="margin-top: 4vh;">Editing: {{doc.documentName}}</h1>
-			<a href="#/app/doclist" class="path-link">Document List</a><span> / Editing: <a class="path-link" href="#/docdetail/{{doc.documentId}}">{{doc.documentName}}</a></span>
+			<a href="#/app/folderlist" class="path-link">Document List</a><span> / Editing: <a class="path-link" href="#/docdetail/{{doc.documentId}}">{{doc.documentName}}</a></span>
 
 			
 			<!-- For draft -->
@@ -32,10 +32,18 @@
 						    </div>
 						    <div style="margin-top: 20px; margin-bottom: 20px;">
 						    	<div class="row padding-0">
-						    		<span style=" margin-top: 10px; margin-right: 10px;"> filename </span><button class="button button-calm icon ion-ios-cloud-download-outline button-circle" style="padding: 0 12px;"></button>
+						    		<span style=" margin-top: 10px; margin-right: 10px;"> {{filename}} </span>
+					    			<button ng-click="download()" target="_self" href="http://localhost:8084/downloaddocumentId={{doc.documentId}}" class="button button-calm icon ion-ios-cloud-download-outline button-circle" style="padding: 0 12px;"></button>
 						    	</div>
 						    	<div class="row padding-0">
-						    		<input id="uploadBtn" type="file" name="file" id="file" style="line-height:0; margin-top: 20px;">
+						    		
+							    	<div class="col-25">
+							    		<button class="button button-calm" ngf-select="upload($file)" style="margin-top: 15px;margin-bottom: 15px; width:90%;">Select a File</button>
+							    	</div>
+							    	<div class="col-75">
+							    		<span ng-show="showFilename()" id="filename" style="display:none;">uploaded: {{filename}}</button>
+							    	</div>
+						    
 						    	</div>
 							</div>
 						  </label>
@@ -114,7 +122,7 @@
 									</a>
 								</div>
 								<div class="col col-33">
-									<button class="button button-full button-balanced" ng-click="submit(doc.documentId)">
+									<button class="button button-full button-balanced" ng-click="submit(doc.documentId, doc.documentStatus)">
 									  Submit
 									</button>
 								</div>
@@ -139,7 +147,7 @@
 			</form>
 
 						<div ng-if="doc.documentStatus === 'Waiting for Approval' || doc.documentStatus === 'Publish'" >
-									<a class="button button-block button-dark" href="#/app/doclist">
+									<a class="button button-block button-dark" href="#/app/folderlist">
 									  Back
 									</a>
 						</div>

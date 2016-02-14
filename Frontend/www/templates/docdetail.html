@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col col-80 center">
 			<h1 class="main-header" style="margin-top: 4vh;">Document Detail</h1>
-			<a href="#/app/doclist" class="path-link">Document List</a><span> / {{doc.documentName}}</span>
+			<a href="#/app/folderlist" class="path-link">Document List</a><span> / {{doc.documentName}}</span>
 
 			
 			<!-- For draft -->
@@ -134,7 +134,7 @@
 			</form>
 
 					<div ng-if="doc.documentStatus === 'Waiting for Approval' || doc.documentStatus === 'Publish'" >
-								<a class="button button-block button-dark" href="#/app/doclist">
+								<a class="button button-block button-dark" href="#/app/folderlist">
 								  Back
 								</a>
 					</div>
