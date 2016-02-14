@@ -58,7 +58,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: '/doclist/:folderId',
       views: {
         'menuContent': {
-          templateUrl: 'templates/doclist.html',
+          templateUrl: 'templates/history.html',
           controller: 'DocumentListCtrl'
         }
       }

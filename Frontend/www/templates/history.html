@@ -2,21 +2,13 @@
 	<ion-content>
 	<div class="row">
 		<div class="col col-80 center">
-			<h1 class="main-header" style="margin-top: 4vh;">Document List of {{folder.folderName}}</h1>
-			<hr class="main-hr">
+			<h1 class="main-header" style="margin-top: 4vh;">History of {{folder.folderName}}</h1>
 			<div show-when="large" class="row padding-0">
-				<div class="col col-20 padding-0">
-					<a class="button button button-dark btn-new-task" href="#/app/adddoc/{{folder.id}}">New Document </a>
-				</div>
-				<div class="col col-30 col-offset-50">
-
-					<label class="item item-input">
-						<i class="icon ion-search placeholder-icon"></i>
-						<input type="text" placeholder="Search">
-					</label>
-				
-				</div>
+				<a href="#/app/folderlist" class="path-link">Document List&nbsp;</a><span>  / History of {{folder.folderName}}</span>
 			</div>
+
+			<hr class="main-hr">
+			
 
 			<ui class="list">
 			<div class="item item-divider item-divider-calm">
