@@ -89,6 +89,7 @@ public class FolderRest {
 			@QueryParam("documentId") String documentId){
 		folder = folderDAO.readById(id);
 		folder.getDocumentList().add(documentId);
+		folder.setNumberOfDocument(folder.getDocumentList().size());
 		folder.setFolderStatus(new InProgress());
 		folderDAO.update(folder);
 		return Response.status(200).entity(folder).build();
@@ -96,15 +97,18 @@ public class FolderRest {
 	
 	@GET
 	@Path("deleteDocument")
-	public Response deleteDocument(@QueryParam("documentId") String id){
+	public Response deleteDocument(@QueryParam("folderId") String id, 
+			@QueryParam("documentId") String documentId){
 		folder = folderDAO.readById(id);
 		List<String> temp = folder.getDocumentList();
 		for (int i = 0; i < temp.size(); i++) {
-			if(temp.get(i).equals(id)) {
+			if(temp.get(i).equals(documentId)) {
 				temp.remove(i);
 				break;
 			}
 		}
+		folder.setNumberOfDocument(temp.size());
+		folder.setDocumentList(temp);
 		folderDAO.update(folder);
 		return Response.status(200).entity(folder).build();
 	}

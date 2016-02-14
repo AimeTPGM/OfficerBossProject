@@ -23,6 +23,6 @@ COLLECTION | foldertestonly
 /createFolder |	GET 	| folderName=String, creatorId=String | create new folder
 /update |	POST	| folderId=String, folderName=String | change folder name
 /addDocument|	GET 	|id=String, documentId=String|add new document by {document id} to folder {id}
-/deleteDocument	|	GET	|documentId=String|delete document by {document id}
+/deleteDocument	|	GET	|folderId=String, documentId=String|delete document by {document id}
 /deleteById	 |	GET	|file=file, documentid=String|delete folder by {folder id}
 
