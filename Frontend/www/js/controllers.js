@@ -8,7 +8,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
 })
 
-.service('DocumentService', function($http,$window,FolderService) {
+.service('DocumentService', function($http,$window,FolderService, FileService) {
 
 
 
@@ -30,6 +30,23 @@ angular.module('starter.controllers', ['ngFileUpload'])
         });
 
   }
+  this.updateNoNewFile = function(docName,docDesc,creatorId,docId,folderId){
+    $http.get('http://localhost:8081/newdocument?documentName='+docName+'&description='+docDesc+'&creator='+creatorId)
+        .success(function(data){
+          console.log('successfully create new document: waiting for approval');
+          FolderService.addDocument(folderId, data.documentId);
+          FileService.copy(docId,data.documentId);
+          $window.location.href=('#/app/folderlist');
+
+        })
+        .error(function(data){
+          console.log('cannot reach document-service port 8081')
+        });
+
+  }
+  this.updateWithNewFile = function(){
+
+  }
 
   this.save = function(docId,docName,docDesc){
     $http({
@@ -46,7 +63,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
       
     }).
     success(function(data, status, headers, config) {
-        console.log('sent POST request: successfully updated current draft');
+        console.log('sent POST request: successfully updated current document : '+data.documentStatus);
         console.log(data);
 
         $window.location.href=('#/app/folderlist');
@@ -224,6 +241,17 @@ angular.module('starter.controllers', ['ngFileUpload'])
         .error(function(data){
           console.log('cannot reach file-service port 8084')
           console.log(data)
+        });
+    }
+
+    this.copy = function(copyFrom, copyTo){
+      $http.get('http://localhost:8084/copy?copyFrom='+copyFrom+'&copyTo='+copyTo)
+        .success(function(data){
+          console.log(data);
+
+        })
+        .error(function(data){
+          console.log('cannot reach file-service port 8084')
         });
     }
 

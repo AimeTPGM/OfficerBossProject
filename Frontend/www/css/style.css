@@ -33,6 +33,10 @@
 	white-space: initial;
 }
 
+.last{
+	background: #FDFFCE;
+}
+
 .vertical-center-list-text{
 	margin-top: 15px;
 }

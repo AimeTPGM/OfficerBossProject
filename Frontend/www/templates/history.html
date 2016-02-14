@@ -21,7 +21,7 @@
 					<div class="col col-15 center-header vertical-center-list-text">Actions</div>
 				</div>
 			</div>
-				<li class="item" ng-repeat="document in documents track by $index" ng-class="isLast($last)">
+				<li class="item" ng-repeat="document in documents" ng-class="isLast($last)">
 					<div class="row">
 					<div show-when="large" class="col col-25 vertical-center-list-text"> <a class="doclist-link" href="#/app/docdetail/{{document.documentId}}">{{document.documentName | limitTo: 33 }}{{document.documentName.length > 33 ? '...' : ''}}</a></div>
 					<div show-when="small" class="col col-85 vertical-center-list-text"><a class="doclist-link" href="#/app/docdetail">{{document.documentName | limitTo: 25 }}{{document.documentName.length > 25 ? '...' : ''}}</a></div>

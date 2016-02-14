@@ -82,7 +82,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     })
     .state('app.editdoc', {
-      url: '/editdoc/:docId',
+      url: '/editdoc/:folderId/:docId',
       views: {
         'menuContent': {
           templateUrl: 'templates/editdoc.html',

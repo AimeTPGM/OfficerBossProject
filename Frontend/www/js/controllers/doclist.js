@@ -16,13 +16,23 @@ angular.module('starter.controllers')
         return false;
       }
      var j = 0;
+     $scope.documents = $scope.folder.documentList;
      for (var i = 0; i < $scope.folder.numberOfDocuments; i++) {
 
+      console.log($scope.folder.documentList[i])
       $http.get('http://localhost:8081/getdocument?documentid='+$scope.folder.documentList[i])
           .success(function(data){
+
+
+            for (var j = 0; j < $scope.documents.length; j++) {
+              if($scope.documents[j] == data.documentId){
+                $scope.documents[j] = data;
+                break;
+              }
+            };
+
             
-            $scope.documents[j] = data;
-            j++;
+            
 
           })
           .error(function(data){
@@ -54,7 +64,14 @@ angular.module('starter.controllers')
     }
   $scope.publish = function(docId){
       DocumentService.publish(docId)
-    }  
+    }
+
+    $scope.isLast = function(check) {
+    var cssClass = check ? 'last' : null;
+    return cssClass;
+    };
+
+  
         
 })
 

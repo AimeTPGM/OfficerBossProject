@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('EditDocumentCtrl', function($scope, $stateParams,$ionicHistory,$http,$window, $state) {
+.controller('EditDocumentCtrl', function($scope, $stateParams,$ionicHistory,$http,$window, $state, DocumentService, FileService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -40,11 +40,28 @@ angular.module('starter.controllers')
           console.log('cannot reach document-service port 8082')
         });
 
+        $http.get('http://localhost:8084/filedetail?documentId='+$scope.doc.documentId)
+        .success(function(data){
+          $scope.filename = data;
+            
+        })
+        .error(function(data){
+          console.log('cannot reach file-service port 8084')
+          console.log(data)
+        });
+
         $scope.save = function(documentid){
+
           DocumentService.save($stateParams.docId,$scope.doc.documentName,$scope.doc.description);
         }
-        $scope.submit = function(docId){
-          DocumentService.submit(docId);
+        $scope.submit = function(docId, docStatus){
+          if(docStatus != 'Draft'){
+            DocumentService.updateNoNewFile($scope.doc.documentName,$scope.doc.description,1,docId,$stateParams.folderId);
+          }
+          else{
+            DocumentService.submit(docId);
+          }
+          
         }
 
         $scope.delete = function(docId){
