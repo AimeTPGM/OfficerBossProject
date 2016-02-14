@@ -92,7 +92,7 @@
 						<div show-when="large" class="col col-20 center-header vertical-center-list-text publish-status" ng-if="folder.folderStatus === 'Empty'">{{folder.folderStatus}}</div>
 						<div show-when="large" class="col col-20 center-header vertical-center-list-text">{{folder.lastUpdate}}</div>
 						<div show-when="large" class="col col-10 center-header vertical-center-list-text">{{folder.numberOfDocuments}}</div>
-						<div show-when="large" class="col col-10 center-header vertical-center-list-text">
+						<div show-when="large" class="col col-10 center-header">
 							<a class="button button-positive button-circle icon ion-eye" href="#/app/doclist/{{folder.folderId}}" title="See Detail"></a>
 							<button class="button button button-assertive button-circle icon ion-trash-a"
 							ng-if="folder.folderStatus !== 'Completed'" title="Delete" ng-click="delete(folder.id)"></button>
