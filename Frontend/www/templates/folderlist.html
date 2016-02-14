@@ -1,29 +1,17 @@
-<ion-view cache-view="false" view-title="Document Management">
+<ion-view cache-view="false" view-title="Folder management">
 	<ion-content>
 	<div class="row">
 		<div class="col col-80 center">
-			<h1 class="main-header" style="margin-top: 4vh;">Folder List</h1>
+			<h1 class="main-header" style="margin-top: 4vh;">Document List</h1>
 			<hr class="main-hr">
 			<div show-when="large" class="row padding-0 header-action-button">
 
 				<div class="col col-20 padding-0" ng-show="showBtn()">
-					<a class="button button button-dark btn-new-task"  ng-click="newFolder()">New Folder</a>
+					
+					<a class="button button button-dark btn-new-task" href="#/app/adddoc/{{folder.id}}">New Document </a>
 					
 				</div>
-				<div class="col col-40 padding-0 btn-new-task" ng-show="showForm()">
-					<form>
-						<div class="row padding-0">
-							<label class="item item-input ">
-								<i class="icon ion-folder placeholder-icon"></i>
-								<input type="text" placeholder="folder name?" name="folderName" ng-model="tempFolder.folderName">
-							</label>
-							
-							<button class="button button-dark" ng-click="addFolder()"> Add
-							</button>
-						</div>
-						
-					</form>
-				</div>
+				
 				<div class="col col-30 search">
 
 					<label class="item item-input">
@@ -67,12 +55,12 @@
 			<ui class="list">
 			<div class="item item-divider item-divider-calm">
 				<div class="row">
-					<div show-when="large" class="col col-20 vertical-center-list-text">Folder Name</div>
-					<div show-when="small" class="col col-85 vertical-center-list-text">Folder Name</div>
+					<div show-when="large" class="col col-20 vertical-center-list-text">Title</div>
+					<div show-when="small" class="col col-85 vertical-center-list-text">Title</div>
 					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Creator</div>
 					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Status</div>
 					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Last Update</div>
-					<div show-when="large" class="col col-10 center-header vertical-center-list-text">Documents</div>
+					<div show-when="large" class="col col-10 center-header vertical-center-list-text word-wrap">History of Documents</div>
 					<div show-when="large" class="col col-10 center-header vertical-center-list-text">Action</div>
 				
 				</div>
@@ -85,12 +73,12 @@
 						<a show-when="large" class="col col-20 vertical-center-list-text doclist-link" href="#/app/doclist/{{folder.id}}">{{folder.folderName}}</a>
 						<div show-when="large" class="col col-20 center-header vertical-center-list-text">{{user.firstname}}</div>
 						<!-- For In progress -->
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text reject-status" ng-if="document.documentStatus === 'Incompleted'">{{folder.folderStatus}}</div>
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text draft-status" ng-if="folder.folderStatus === 'In Progress'">{{folder.folderStatus}}</div>
 						<!-- For Completed -->
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text approved-status" ng-if="document.documentStatus === 'Completed'">{{folder.folderStatus}}</div>
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text approve-status" ng-if="folder.folderStatus === 'Completed'">{{folder.folderStatus}}</div>
 						<!-- For Empty -->
 						<div show-when="large" class="col col-20 center-header vertical-center-list-text publish-status" ng-if="folder.folderStatus === 'Empty'">{{folder.folderStatus}}</div>
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text">{{folder.lastUpdate}}</div>
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{folder.lastUpdate}}</div>
 						<div show-when="large" class="col col-10 center-header vertical-center-list-text">{{folder.numberOfDocuments}}</div>
 						<div show-when="large" class="col col-10 center-header">
 							<a class="button button-positive button-circle icon ion-eye" href="#/app/doclist/{{folder.folderId}}" title="See Detail"></a>

@@ -8,14 +8,13 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   }
 
-  this.newdoc = function(docName,docDesc,creatorId,folderId){
+  this.newdoc = function(docName,docDesc,creatorId){
 
     $http.get('http://localhost:8081/newdocument?documentName='+docName+'&description='+docDesc+'&creator='+creatorId)
         .success(function(data){
-          $scope.savedoc = data;
           console.log('successfully create new document: waiting for approval');
           FolderService.addDocument(folderId, data.documentId);
-          $window.location.href=('#/app/doclist');
+          $window.location.href=('#/app/folderlist');
 
         })
         .error(function(data){
@@ -42,7 +41,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
         console.log('sent POST request: successfully updated current draft');
         console.log(data);
 
-        $window.location.href=('#/app/doclist');
+        $window.location.href=('#/app/folderlist');
       }).
       error(function(data, status, headers, config) {
         console.log('cannot reach document-service port 8081')
@@ -54,7 +53,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
     $http.get('http://localhost:8081/submit?documentid='+docId)
         .success(function(data){
           console.log('successfully submit document: change to waiting for approval');
-          $window.location.href=('#/app/doclist');
+          $window.location.href=('#/app/folderlist');
 
         })
         .error(function(data){

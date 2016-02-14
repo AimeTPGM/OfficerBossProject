@@ -7,17 +7,7 @@ angular.module('starter.controllers')
   $scope.doc = {};
   var blank = {};
   $scope.savedDocData = null;
-  $scope.folderId = $stateParams.folderId;
-
-  $http.get('http://localhost:8085/folder?folderId='+$stateParams.folderId)
-  .success(function(data){
-    console.log(data)
-    $scope.folder = data;
-    
-  })
-  .error(function(data){
-      console.log('cannot reach folder-service port 8085')
-  });
+  $scope.savedFolder = null;
 
   $scope.upload = function (file) {
     // if it never been uploaded
@@ -45,8 +35,35 @@ angular.module('starter.controllers')
         console.log('sent POST request: successfully create new draft');
         console.log(data);
         $scope.savedDocData = data;
-        FolderService.addDocument($scope.folderId, data.documentId);
-        FileService.upload(file,data.documentId);
+
+        //new Folder
+        $http({
+        method: 'POST',
+        url: 'http://localhost:8085/createFolder',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj)
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            return str.join("&");
+        },
+        data: {folderName: $scope.doc.name, creatorId: 1}
+      
+        }).
+        success(function(data, status, headers, config) {
+            console.log('sent POST request: add new folder');
+            console.log(data);
+            $scope.savedFolder = data;
+            FolderService.addDocument(data.id, $scope.savedDocData.documentId);
+            FileService.upload(file,data.documentId);
+
+          
+          }).
+          error(function(data, status, headers, config) {
+            console.log('cannot reach folder-service port 8085')
+          });
+
+        
       }).
       error(function(data, status, headers, config) {
         console.log('cannot reach document-service port 8081')
@@ -82,8 +99,35 @@ angular.module('starter.controllers')
         console.log('sent POST request: successfully create new draft');
         console.log(data);
         $scope.savedDocData = data;
-        FolderService.addDocument($scope.folderId, data.documentId);
-        $window.location.href=('#/app/doclist');
+
+        //new Folder
+        $http({
+        method: 'POST',
+        url: 'http://localhost:8085/createFolder',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj)
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            return str.join("&");
+        },
+        data: {folderName: $scope.doc.name, creatorId: 1}
+      
+        }).
+        success(function(data, status, headers, config) {
+            console.log('sent POST request: add new folder');
+            console.log(data);
+            $scope.savedFolder = data;
+            FolderService.addDocument(data.id, $scope.savedDocData.documentId);
+            $window.location.href=('#/app/folderlist');
+
+          
+          }).
+          error(function(data, status, headers, config) {
+            console.log('cannot reach folder-service port 8085')
+          });
+
+        
       }).
       error(function(data, status, headers, config) {
         console.log('cannot reach document-service port 8081')
@@ -103,7 +147,43 @@ angular.module('starter.controllers')
     // if it never been uploaded
     if(!$scope.savedDocData){
       console.log("creating new document");
-      DocumentService.newdoc($scope.doc.name,$scope.doc.desc,1,$scope.folderId);
+
+      $http.get('http://localhost:8081/newdocument?documentName='+$scope.doc.name+'&description='+$scope.doc.desc+'&creator=1')
+        .success(function(data){
+          console.log('successfully create new document: waiting for approval');
+          $scope.savedDocData = data;
+         
+          //new Folder
+          $http({
+          method: 'POST',
+          url: 'http://localhost:8085/createFolder',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj)
+              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              return str.join("&");
+          },
+          data: {folderName: $scope.doc.name, creatorId: 1}
+        
+          }).
+          success(function(data, status, headers, config) {
+              console.log('sent POST request: add new folder');
+              console.log(data);
+              $scope.savedFolder = data;
+              FolderService.addDocument(data.id, $scope.savedDocData.documentId);
+              $window.location.href=('#/app/folderlist');
+
+            
+            }).
+            error(function(data, status, headers, config) {
+              console.log('cannot reach folder-service port 8085')
+            });
+
+        })
+        .error(function(data){
+          console.log('cannot reach document-service port 8081')
+        });
 
 
     }
@@ -121,7 +201,7 @@ angular.module('starter.controllers')
        $scope.doc = angular.copy(blank);
     }
     else{
-      DocumentService.delete($scope.savedDocData.documentId,$scope.folderId);
+      DocumentService.delete($scope.savedDocData.documentId,$scope.savedFolder.id);
       document.getElementById("filename").style.display = "none";
       $scope.doc = angular.copy(blank);
     }

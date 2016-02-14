@@ -29,6 +29,9 @@
 	max-width: 30%;
 }
 
+.word-wrap{
+	white-space: initial;
+}
 
 .vertical-center-list-text{
 	margin-top: 15px;
