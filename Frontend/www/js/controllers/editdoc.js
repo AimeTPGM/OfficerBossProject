@@ -94,8 +94,14 @@ angular.module('starter.controllers')
         $scope.submit = function(docId, docStatus){
           
           if(docStatus != 'Draft'){
-            
-              DocumentService.updateNoNewFile($scope.doc.documentName,$scope.doc.description,1,docId,$stateParams.folderId);
+            if(!$scope.savedDocData){
+               DocumentService.updateNoNewFile($scope.doc.documentName,$scope.doc.description,1,docId,$stateParams.folderId);
+
+            }
+            else{
+              DocumentService.save(docId,$scope.doc.documentName,$scope.doc.description);
+              DocumentService.submit(docId);
+            }
             
           }
           else{
