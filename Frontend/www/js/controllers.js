@@ -36,6 +36,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
           console.log('successfully create new document: waiting for approval');
           FolderService.addDocument(folderId, data.documentId);
           FileService.copy(docId,data.documentId);
+          FolderService.update(folderId, docName);
           $window.location.href=('#/app/folderlist');
 
         })
@@ -66,7 +67,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
         console.log('sent POST request: successfully updated current document : '+data.documentStatus);
         console.log(data);
 
-        $window.location.href=('#/app/folderlist');
+        
       }).
       error(function(data, status, headers, config) {
         console.log('cannot reach document-service port 8081')
@@ -366,8 +367,6 @@ angular.module('starter.controllers', ['ngFileUpload'])
     success(function(data, status, headers, config) {
         console.log('sent POST request: update folder');
         console.log(data);
-
-        $window.location.href=('#/app/folderlist');
       }).
       error(function(data, status, headers, config) {
         console.log('cannot reach folder-service port 8085')

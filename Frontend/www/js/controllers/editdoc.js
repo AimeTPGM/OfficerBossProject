@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('EditDocumentCtrl', function($scope, $stateParams,$ionicHistory,$http,$window, $state, DocumentService, FileService) {
+.controller('EditDocumentCtrl', function($scope, $stateParams,$ionicHistory,$http,$window, $state, DocumentService, FolderService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -90,6 +90,8 @@ angular.module('starter.controllers')
         $scope.save = function(documentid){
 
           DocumentService.save($stateParams.docId,$scope.doc.documentName,$scope.doc.description);
+          FolderService.update($stateParams.folderId, $scope.doc.documentName);
+          $window.location.href=('#/app/folderlist');
         }
         $scope.submit = function(docId, docStatus){
           

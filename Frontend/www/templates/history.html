@@ -37,7 +37,7 @@
 					<!-- For Publish -->
 					<div show-when="large" class="col col-15 center-header vertical-center-list-text publish-status" ng-if="document.documentStatus === 'Publish'">{{document.documentStatus}}</div>
 
-					<div show-when="large" class="col col-15 center-header vertical-center-list-text">{{user.firstname}}</div>
+					<div show-when="large" class="col col-15 center-header vertical-center-list-text word-wrap">{{approver.lastname}} {{approver.firstname}}</div>
 					<div show-when="large" class="col col-15 center-header vertical-center-list-text word-wrap">{{document.lastModifiedDate}}</div>
 					
 					<div show-when="large" class="col col-15" ng-if="!$last">

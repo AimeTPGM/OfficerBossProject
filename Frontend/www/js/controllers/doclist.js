@@ -27,6 +27,15 @@ angular.module('starter.controllers')
             for (var j = 0; j < $scope.documents.length; j++) {
               if($scope.documents[j] == data.documentId){
                 $scope.documents[j] = data;
+                $http.get('http://localhost:8082/getuser?userid='+data.approver)
+                  .success(function(data){
+                    $scope.approver = data;
+
+                  })
+                  .error(function(data){
+                    console.log('cannot reach user-service port 8082')
+                  });
+
                 break;
               }
             };
