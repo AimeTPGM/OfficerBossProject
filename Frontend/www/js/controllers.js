@@ -129,7 +129,6 @@ angular.module('starter.controllers', ['ngFileUpload'])
     $http.get('http://localhost:8081/publish?documentid='+docId)
         .success(function(data){
           console.log('successfully publish document');
-          $window.location.reload();
 
         })
         .error(function(data){
@@ -392,6 +391,19 @@ angular.module('starter.controllers', ['ngFileUpload'])
     $http.get('http://localhost:8085/addDocument?folderId='+folderId+'&documentId='+docId)
         .success(function(data){
           console.log('successfully delete document')
+        })
+        .error(function(data){
+          console.log('cannot reach folder-service port 8085')
+          console.log(data)
+        });
+  }
+
+  this.complete = function(folderId){
+    $http.get('http://localhost:8085/complete?folderId='+folderId)
+        .success(function(data){
+          console.log('successfully change folder status to completed')
+          $window.location.reload();
+
         })
         .error(function(data){
           console.log('cannot reach folder-service port 8085')
