@@ -26,3 +26,4 @@ COLLECTION | foldertestonly
 /deleteDocument	|	GET	|folderId=String, documentId=String|delete document by {document id}
 /deleteById	 |	GET	|file=file, documentid=String|delete folder by {folder id}
 /complete |	GET 	| folderId=String | change folder: {folder id} status to Completed
+/unpublished |	GET 	| folderId=String | change folder: {folder id} status to Unpublished

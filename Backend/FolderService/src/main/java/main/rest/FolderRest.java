@@ -22,6 +22,7 @@ import main.model.Folder;
 import main.model.folderstatus.Completed;
 import main.model.folderstatus.Empty;
 import main.model.folderstatus.InProgress;
+import main.model.folderstatus.Unpublished;
 import mongodb.dao.FolderDAO;
 
 
@@ -67,8 +68,7 @@ public class FolderRest {
 	public Response createFolder(
 			@FormParam("folderName") String folderName,
 			@FormParam("creatorId") String creatorId){
-		Date date = new Date();
-		folder = new Folder(folderName, date, new Empty(), creatorId);
+		folder = new Folder(folderName, getDate(), new Empty(), creatorId);
 		folderDAO.create(folder);
 		return Response.status(200).entity(folder).build();
 	}
@@ -80,6 +80,7 @@ public class FolderRest {
 			@FormParam("folderName") String folderName){
 		folder = folderDAO.readById(id);
 		folder.setFolderName(folderName);
+		folder.setLastUpdate(getDate());
 		folderDAO.update(folder);
 		return Response.status(200).entity(folder).build();
 	}
@@ -92,6 +93,7 @@ public class FolderRest {
 		folder.getDocumentList().add(documentId);
 		folder.setNumberOfDocument(folder.getDocumentList().size());
 		folder.setFolderStatus(new InProgress());
+		folder.setLastUpdate(getDate());
 		folderDAO.update(folder);
 		return Response.status(200).entity(folder).build();
 	}
@@ -110,6 +112,7 @@ public class FolderRest {
 		}
 		folder.setNumberOfDocument(temp.size());
 		folder.setDocumentList(temp);
+		folder.setLastUpdate(getDate());
 		folderDAO.update(folder);
 		return Response.status(200).entity(folder).build();
 	}
@@ -126,11 +129,28 @@ public class FolderRest {
 	@Path("complete")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response completeById(@QueryParam("folderId") String id){
-		System.out.println("Change folder status to complete, folder id: "+id);
+		System.out.println("Change folder status to \"Completed\", folder id: "+id);
 		folder = folderDAO.readById(id);
 		folder.setFolderStatus(new Completed());
 		folderDAO.update(folder);
+		folder.setLastUpdate(getDate());
 		return Response.status(200).entity(folder).build();
+	}
+	
+	@GET
+	@Path("unpublished")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response unpublishedById(@QueryParam("folderId") String id){
+		System.out.println("Change folder status to \"Unpublished\", folder id: "+id);
+		folder = folderDAO.readById(id);
+		folder.setFolderStatus(new Unpublished());
+		folder.setLastUpdate(getDate());
+		folderDAO.update(folder);
+		return Response.status(200).entity(folder).build();
+	}
+	
+	public Date getDate(){
+		return new Date();
 	}
 	
 }
