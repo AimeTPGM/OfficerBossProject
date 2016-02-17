@@ -409,6 +409,18 @@ angular.module('starter.controllers', ['ngFileUpload'])
           console.log(data)
         });
   }
+  this.unpublished = function(folderId){
+    $http.get('http://localhost:8085/unpublished?folderId='+folderId)
+        .success(function(data){
+          console.log('successfully change folder status to unpublished')
+          $window.location.reload();
+
+        })
+        .error(function(data){
+          console.log('cannot reach folder-service port 8085')
+          console.log(data)
+        });
+  }
 
 })
 
