@@ -68,7 +68,7 @@ public class FolderRest {
 	public Response createFolder(
 			@FormParam("folderName") String folderName,
 			@FormParam("creatorId") String creatorId){
-		folder = new Folder(folderName, getDate(), new Empty(), creatorId);
+		folder = new Folder(folderName, new Date(), new Empty(), creatorId);
 		folderDAO.create(folder);
 		return Response.status(200).entity(folder).build();
 	}
@@ -80,7 +80,7 @@ public class FolderRest {
 			@FormParam("folderName") String folderName){
 		folder = folderDAO.readById(id);
 		folder.setFolderName(folderName);
-		folder.setLastUpdate(getDate());
+		folder.setLastUpdate(new Date());
 		folderDAO.update(folder);
 		return Response.status(200).entity(folder).build();
 	}
@@ -93,7 +93,7 @@ public class FolderRest {
 		folder.getDocumentList().add(documentId);
 		folder.setNumberOfDocument(folder.getDocumentList().size());
 		folder.setFolderStatus(new InProgress());
-		folder.setLastUpdate(getDate());
+		folder.setLastUpdate(new Date());
 		folderDAO.update(folder);
 		return Response.status(200).entity(folder).build();
 	}
@@ -112,7 +112,7 @@ public class FolderRest {
 		}
 		folder.setNumberOfDocument(temp.size());
 		folder.setDocumentList(temp);
-		folder.setLastUpdate(getDate());
+		folder.setLastUpdate(new Date());
 		folderDAO.update(folder);
 		return Response.status(200).entity(folder).build();
 	}
@@ -133,7 +133,7 @@ public class FolderRest {
 		folder = folderDAO.readById(id);
 		folder.setFolderStatus(new Completed());
 		folderDAO.update(folder);
-		folder.setLastUpdate(getDate());
+		folder.setLastUpdate(new Date());
 		return Response.status(200).entity(folder).build();
 	}
 	
@@ -144,13 +144,9 @@ public class FolderRest {
 		System.out.println("Change folder status to \"Unpublished\", folder id: "+id);
 		folder = folderDAO.readById(id);
 		folder.setFolderStatus(new Unpublished());
-		folder.setLastUpdate(getDate());
+		folder.setLastUpdate(new Date());
 		folderDAO.update(folder);
 		return Response.status(200).entity(folder).build();
-	}
-	
-	public Date getDate(){
-		return new Date();
 	}
 	
 }
