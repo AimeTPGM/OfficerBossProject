@@ -3,7 +3,8 @@
 State | Path | templateUrl | Controller
 ----|----|----|----
 login | /login | templates/login.html | LoginCtrl
-register | /register | templates/register.html | forgotpw'| /forgotpw | templates/forgotpw.html | ForgotPasswordCtrl
+register | /register | templates/register.html | 
+forgotpw | /forgotpw | templates/forgotpw.html | ForgotPasswordCtrl
 app | /app | templates/menu.html | AppCtrl
 app.doc | /doc | templates/doclist.html | DocumentListCtrl
 app.history | /doc/:folderId/history | templates/history.html | HistoryCtrl
@@ -16,6 +17,12 @@ app.dashboard | /dashboard | templates/dashboard.html |
 app.file | /file | templates/testAddfile.html | FileCtrl
 
 # controller.js
+
+## Directives
+
+directive | value | Description
+----|----|----
+showWhen | large, small | for responsive web development
 
 ## Services
 
@@ -61,9 +68,3 @@ addDocument | folderId, docId | yes
 deleteDocument | folderId, docId | yes
 complete | folderId | yes
 unpublished | folderId | yes
-
-## Directives
-
-directive | value | Description
-----|----|----
-showWhen | large, small | for responsive web development
