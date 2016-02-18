@@ -1,90 +1,91 @@
 angular.module('starter.controllers')
-.controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, DocumentService, FolderService) {
+.controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, FolderService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
+
+  $scope.tempFolder = {};
   
-  $http.get('http://localhost:8085/folder?folderId='+$stateParams.folderId)
-  .success(function(data){
-    console.log('folder')
-    console.log(data)
-    $scope.folder = data;
-    $scope.documents = {};
-    if($scope.folder.numberOfDocuments > 0){
-      console.log('this folder has '+$scope.folder.numberOfDocuments+' documents')
-      $scope.noDocument = function(){
-        return false;
-      }
-     var j = 0;
-     $scope.documents = $scope.folder.documentList;
-     for (var i = 0; i < $scope.folder.numberOfDocuments; i++) {
 
-      console.log($scope.folder.documentList[i])
-      $http.get('http://localhost:8081/getdocument?documentid='+$scope.folder.documentList[i])
-          .success(function(data){
+  $scope.showBtn = function(){
+  	return true;
+  }
+
+  $scope.showForm = function(){
+  	return false;
+  }
 
 
-            for (var j = 0; j < $scope.documents.length; j++) {
-              if($scope.documents[j] == data.documentId){
-                $scope.documents[j] = data;
-                $http.get('http://localhost:8082/getuser?userid='+data.approver)
-                  .success(function(data){
-                    $scope.approver = data;
+  $scope.newFolder = function(){
+  	$scope.showBtn = function(){
+	  	return false;
+	  }
 
-                  })
-                  .error(function(data){
-                    console.log('cannot reach user-service port 8082')
-                  });
+	  $scope.showForm = function(){
+	  	return true;
+	  }
 
-                break;
-              }
-            };
+  }
 
-            
-            
+  $scope.addFolder= function(){
+  	$scope.showBtn = function(){
+	  	return true;
+	  }
 
-          })
-          .error(function(data){
-            console.log('cannot reach user-service port 8082')
-          });
-       
-     };
-     
-        
-      
-      
+	  $scope.showForm = function(){
+	  	return false;
+	  }
+    if ($scope.tempFolder.folderName){
+      FolderService.newFolder($scope.tempFolder.folderName, 1);
+      $window.location.reload();
     }
-    else{
-      $scope.noDocument = function(){
-        return true;
-      }
+    else {
+      $scope.tempFolder.folderName = "Untitled";
+      FolderService.newFolder($scope.tempFolder.folderName, 1);
+      $window.location.reload();
     }
+
+
+  }
+
+  $scope.delete = function(folderId){
+    FolderService.delete(folderId);
     
-  })
-  .error(function(data){
-      console.log('cannot reach folder-service port 8085')
-  });
-
-
-  $scope.delete = function(docId){
-    DocumentService.delete(docId);
-
-    $window.location.reload();
-    }
-  $scope.publish = function(docId){
-    console.log('publish document: '+docId)
-      DocumentService.publish(docId)
-      console.log('change folder status: '+$stateParams.folderId)
-      FolderService.complete($stateParams.folderId)
-
-    }
-
-    $scope.isLast = function(check) {
-    var cssClass = check ? 'last' : null;
-    return cssClass;
-    };
+  }
 
   
+
+  $http.get('http://localhost:8085/getFolderByCreatorId?creatorId=1')
+        .success(function(data){
+          console.log('return folders')
+          $scope.folders = data;
+          console.log($scope.folders)
+          console.log($scope.folders.length)
+          if($scope.folders.length == 0){
+            $scope.noDocument = function(){
+              return true;
+            } 
+          }
+          else{
+            return false;
+          }
+        })
+        .error(function(data){
+          console.log('cannot reach folder-service port 8085')
+          console.log(data)
+        });
+
+  $http.get('http://localhost:8082/getuser?userid=1')
+    .success(function(data){
+      $scope.user = data;
+    })
+    .error(function(data){
+      console.log('cannot reach user-service port 8082')
+    });
+
+
+  
+
         
 })
 

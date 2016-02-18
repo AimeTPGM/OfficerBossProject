@@ -10,7 +10,7 @@ angular.module('starter.controllers')
 
     $scope.delete = function(docId){
       DocumentService.delete(docId);
-      $window.location.href=('#/app/doclist');
+      $window.location.href=('#/app/doc');
     }
 
     $scope.submit = function(docId){

@@ -45,21 +45,21 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
-    .state('app.folderlist', {
-      url: '/folderlist',
+    .state('app.doc', {
+      url: '/doc',
       views: {
         'menuContent': {
-          templateUrl: 'templates/folderlist.html',
-          controller: 'FolderListCtrl'
+          templateUrl: 'templates/doclist.html',
+          controller: 'DocumentListCtrl'
         }
       }
     })
-    .state('app.doclist', {
-      url: '/doclist/:folderId',
+    .state('app.history', {
+      url: '/doc/:folderId/history',
       views: {
         'menuContent': {
           templateUrl: 'templates/history.html',
-          controller: 'DocumentListCtrl'
+          controller: 'HistoryCtrl'
         }
       }
     })
@@ -72,8 +72,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       }
     })
-    .state('app.adddoc', {
-      url: '/adddoc/:folderId',
+    .state('app.newdoc', {
+      url: '/doc/:folderId/new',
       views: {
         'menuContent': {
           templateUrl: 'templates/adddoc.html',
@@ -82,7 +82,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     })
     .state('app.editdoc', {
-      url: '/editdoc/:folderId/:docId',
+      url: '/doc/:folderId/:docId/edit',
       views: {
         'menuContent': {
           templateUrl: 'templates/editdoc.html',
@@ -92,7 +92,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     })
 
     .state('app.docdetail', {
-      url: '/docdetail/:docId',
+      url: '/doc/:folderId/:docId',
       views: {
         'menuContent': {
           templateUrl: 'templates/docdetail.html',
@@ -102,7 +102,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     })
     .state('app.review', {
-      url: '/review/:docId',
+      url: '/doc/:folderId/:docId',
       views: {
         'menuContent': {
           templateUrl: 'templates/review.html',

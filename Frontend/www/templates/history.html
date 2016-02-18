@@ -4,7 +4,7 @@
 		<div class="col col-80 center">
 			<h1 class="main-header" style="margin-top: 4vh;">History of {{folder.folderName}}</h1>
 			<div show-when="large" class="row padding-0">
-				<a href="#/app/folderlist" class="path-link">Document List&nbsp;</a><span>  / History of {{folder.folderName}}</span>
+				<a href="#/app/doc" class="path-link">Document List&nbsp;</a><span>  / History of {{folder.folderName}}</span>
 			</div>
 
 			<hr class="main-hr">
@@ -23,8 +23,8 @@
 			</div>
 				<li class="item" ng-repeat="document in documents" ng-class="isLast($last)">
 					<div class="row">
-					<div show-when="large" class="col col-25 vertical-center-list-text"> <a class="doclist-link" href="#/app/docdetail/{{document.documentId}}">{{document.documentName | limitTo: 33 }}{{document.documentName.length > 33 ? '...' : ''}}</a></div>
-					<div show-when="small" class="col col-85 vertical-center-list-text"><a class="doclist-link" href="#/app/docdetail">{{document.documentName | limitTo: 25 }}{{document.documentName.length > 25 ? '...' : ''}}</a></div>
+					<div show-when="large" class="col col-25 vertical-center-list-text"> <a class="doclist-link" href="#/app/doc/{{folder.id}}/{{document.documentId}}">{{document.documentName | limitTo: 33 }}{{document.documentName.length > 33 ? '...' : ''}}</a></div>
+					<div show-when="small" class="col col-85 vertical-center-list-text"><a class="doclist-link" href="#/app/doc/{{folder.id}}/{{document.documentId}}">{{document.documentName | limitTo: 25 }}{{document.documentName.length > 25 ? '...' : ''}}</a></div>
 					
 					<!-- For draft -->
 					<div show-when="large" class="col col-15 center-header vertical-center-list-text draft-status" ng-if="document.documentStatus === 'Draft'">{{document.documentStatus}}</div>
@@ -42,15 +42,15 @@
 					
 					<div show-when="large" class="col col-15" ng-if="!$last">
 						<!-- more detail button -->
-							<a class="button button-positive button-circle icon ion-eye" href="#/app/docdetail/{{document.documentId}}" title="See Detail"></a>
+							<a class="button button-positive button-circle icon ion-eye" href="#/app/doc/{{folder.id}}/{{document.documentId}}" title="See Detail"></a>
 					</div>
 
 					<!-- officer action -->
 						<div show-when="large" class="col col-15" ng-if="$last">
 							<!-- more detail button -->
-							<a class="button button-positive button-circle icon ion-eye" href="#/app/docdetail/{{document.documentId}}" title="See Detail"></a>
+							<a class="button button-positive button-circle icon ion-eye" href="#/app/doc/{{folder.id}}/{{document.documentId}}" title="See Detail"></a>
 							<!-- edit button -->
-							<a class="button button-energized button-circle icon ion-edit" href="#/app/editdoc/{{folder.id}}/{{document.documentId}}" 
+							<a class="button button-energized button-circle icon ion-edit" href="#/app/doc/{{folder.id}}/{{document.documentId}}/edit" 
 							ng-if="document.documentStatus !== 'Publish' &&
 							document.documentStatus !== 'Approved' && 
 							document.documentStatus !== 'Waiting for Approval'" title="Edit"></a>
@@ -66,16 +66,12 @@
 
 					
 					<div show-when="small" class="col col-15 center-header">
-						<a class="button button-calm" href="#/app/docdetail/{{document.documentId}}">More Detail</a>
+						<a class="button button-calm" href="#/app/doc/{{folder.id}}/{{document.documentId}}">More Detail</a>
 						
 					</div>
 				</div>
 				</li>
-				<li class="item" ng-show="noDocument()">
-					<div style="text-align: center;color: #999;padding: 50px;">
-						There is no document yet, <a class="doclist-link" href="#/app/adddoc/{{folder.id}}">create one</a>!
-					</div>
-				</li>
+				
 		</ui>
 		</div>
 	</div>

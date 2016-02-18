@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col col-80 center">
 			<h1 class="main-header" style="margin-top: 4vh;">Editing: {{doc.documentName}}</h1>
-			<a href="#/app/folderlist" class="path-link">Document List</a><span> / Editing: <a class="path-link" href="#/docdetail/{{doc.documentId}}">{{doc.documentName}}</a></span>
+			<a href="#/app/doc" class="path-link">Document List</a><span> / Editing: <a class="path-link" href="#/doc/{{folder.id}}/{{doc.documentId}}">{{doc.documentName}}</a></span>
 
 			
 			<!-- For draft -->
@@ -25,7 +25,7 @@
 						  <label class="item item-input item-stacked-label">
 						    <span class="input-label">Document Name</span>
 						    <input type="text" ng-model="doc.documentName" ng-required="true">
-
+						</label>
 						  <label class="item item-input item-stacked-label">
 						    <div class="row padding-0">
 						    	<span class="input-label">Uploaded File</span> 
@@ -157,7 +157,7 @@
 			</form>
 
 						<div ng-if="doc.documentStatus === 'Waiting for Approval' || doc.documentStatus === 'Publish'" >
-									<a class="button button-block button-dark" href="#/app/folderlist">
+									<a class="button button-block button-dark" href="#/app/doc">
 									  Back
 									</a>
 						</div>
