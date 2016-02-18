@@ -21,35 +21,24 @@ public class Document {
 	private String version;
 	private String creatorId;
 	private String approverId;
-//	private boolean lastFile;
+	private int majorVersion;
+	private int minorVersion;
 	
 	public Document(){
 		
 	}
 	
-	public Document(String name, String description, Date date, DocumentStatus status, String creatorId, String approverId, String version){
+	public Document(String name, String description, Date date, DocumentStatus status, String creatorId, String approverId, int majorVersion, int minorVersion){
 		this.name = name;
 		this.description = description;
 		this.status = status.getDocumentStatusName();
 		this.creatorId = creatorId;
 		this.approverId = approverId;
-		this.version = version;
+		this.version = majorVersion+"."+minorVersion;
 		setCreatedDate(date);
 		setLastModifiedDate(date);
 	}
 	
-	
-//	public Document(String name, String description, Date date, DocumentStatus status, String creatorId, String approverId, boolean lastFile, String version){
-//		this.name = name;
-//		this.description = description;
-//		this.status = status.getDocumentStatusName();
-//		this.creatorId = creatorId;
-//		this.approverId = approverId;
-//		this.lastFile = lastFile;
-//		this.version = version;
-//		setCreatedDate(date);
-//		setLastModifiedDate(date);
-//	}
 	
 	public void setDocumentId(String id){
 		documentId = id;
@@ -89,12 +78,32 @@ public class Document {
 	public String getLastModifiedDate(){
 		return lastModifiedDate;
 	}
-	public void setVersion(Double version){
-		this.version = version+"";
+	public void setVersion(int majorVersion, int minorVersion){
+		this.version = majorVersion+"."+minorVersion;
 	}
 	public String getVersion(){
 		return version;
 	}
+	public int getMajorVersion() {
+		return majorVersion;
+	}
+
+
+	public void setMajorVersion(int majorVersion) {
+		this.majorVersion = majorVersion;
+	}
+
+
+	public int getMinorVersion() {
+		return minorVersion;
+	}
+
+
+	public void setMinorVersion(int minorVersion) {
+		this.minorVersion = minorVersion;
+	}
+
+
 	public void setCreator(String creatorId){
 		this.creatorId = creatorId;
 	}
@@ -107,11 +116,5 @@ public class Document {
 	public String getApprover(){
 		return approverId;
 	}
-//	public void setLastFile(boolean lastFile){
-//		this.lastFile = lastFile;
-//	}
-//	public boolean getLastFile(){
-//		return lastFile;
-//	}
 
 }

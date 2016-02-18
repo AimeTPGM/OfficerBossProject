@@ -1,8 +1,5 @@
 package main.rest;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,11 +16,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
 import main.model.Document;
 import main.model.documentstatus.*;
@@ -35,7 +29,6 @@ public class DocumentRest{
 	
 
 	private Document document;
-	private Date date;
 	private static List<Document> documents = new ArrayList<Document>();
 	private ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
 	private DocumentDAO documentDAO = ctx.getBean("documentDAO", DocumentDAO.class);
@@ -43,32 +36,44 @@ public class DocumentRest{
 	@Inject
 	private RestTemplate restTemplate;
 	
+	public Response okStatus(Object obj){
+		return Response.status(200).entity(obj).build();
+	}
+	
+	public Response notFoundStatus(Object obj){
+		return Response.status(404).entity(obj).build();
+	}
+	
 	
 	@GET
 	@Path("getalldocuments")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Document> getAllDocuments() {
+	public Response getAllDocuments() {
 		System.out.println("GET Request: getalldocuments");
-		return documentDAO.getAllDocuments();
+		documents = documentDAO.getAllDocuments();
+		return okStatus(documents);
 	}
 	
 	@GET
 	@Path("getdocument")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Document getdocument(
+	public Response getdocument(
 			@QueryParam("documentid") String id) {
 		System.out.println("GET Request: getdocument");
-		return documentDAO.readById(id);
+		document = documentDAO.readById(id);
+		if(document == null) return notFoundStatus("404 Document Not Found");
+		return okStatus(document);
 	}
 	
 	@GET
 	@Path("getalldocumentsbyuserid")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Document> getdocumentbyuserid(
+	public Response getdocumentbyuserid(
 			@QueryParam("userid") String id) {
 		System.out.println("GET Request: getalldocumentsbyuserid");
 		documents = documentDAO.getAllDocumentsByUserId(id);
-		return documents;
+		if(documents == null) return notFoundStatus("404 Document Lists not Found");
+		return okStatus(documents);
 	}
 	
 	
@@ -76,33 +81,30 @@ public class DocumentRest{
 	@Path("newdraft")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Document createNewDraftdocument(
+	public Response createNewDraftdocument(
 			@FormParam("documentName") String name, 
 			@FormParam("description") String description,
 			@FormParam("creator") String creatorId
 			) {
 		System.out.println("GET Request: newdraft");
 		
-		date = new Date();
-		document = new Document(name, description, date, new Draft(), creatorId, "56a0d083d4c607b2e7a60a5c", "0.0");
-		
+		document = new Document(name, description, new Date(), new Draft(), creatorId, "56a0d083d4c607b2e7a60a5c",0,1);
 		documentDAO.create(document);
 		
-		return document;
+		return okStatus(document);
 	}
 	
 	@GET
 	@Path("newdocument")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Document createNewdocument(
+	public Response createNewdocument(
 			@QueryParam("documentName") String name, 
 			@QueryParam("description") String description,
 			@QueryParam("creator") String creatorId) {
 		System.out.println("GET Request: newdocument");
-		date = new Date();
-		document = new Document(name, description, date, new WaitingForApproval(), creatorId, "56a0d083d4c607b2e7a60a5c", "0.0");
+		document = new Document(name, description, new Date(), new WaitingForApproval(), creatorId, "56a0d083d4c607b2e7a60a5c", 1,0);
 		documentDAO.create(document);
-		return document;
+		return okStatus(document);
 	}
 	
 
@@ -110,80 +112,91 @@ public class DocumentRest{
 	@Path("save")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Document savedocument(
+	public Response savedocument(
 			@FormParam("documentId") String id, 
 			@FormParam("documentName") String name,
 			@FormParam("description") String description
 		) {
 		System.out.println("GET Request: save");
-		date = new Date();
 		document = documentDAO.readById(id);
-		if (document == null) {
-			System.err.println("null");
-		}
+		if (document == null) return notFoundStatus("404 Document not Found");
+		
+		int minorVersion = document.getMinorVersion();
 		document.setDocumentName(name);
 		document.setDescription(description);
-		document.setLastModifiedDate(date);
+		document.setLastModifiedDate(new Date());
+		document.setVersion(document.getMajorVersion(), minorVersion++);
 		documentDAO.update(document);
-		return document;
+		return okStatus(document);
 	}
 	
 	@GET
 	@Path("submit")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Document submitdocumentToApprove(
+	public Response submitdocumentToApprove(
 			@QueryParam("documentid") String id) {
 		System.out.println("GET Request: submit");
 		document = documentDAO.readById(id);
+		if (document == null) return notFoundStatus("404 Document not Found");
+		
+		int majorVersion = document.getMajorVersion();
 		document.setDocumentStatus(new WaitingForApproval().getDocumentStatusName());
+		document.setLastModifiedDate(new Date());
+		document.setVersion(majorVersion++, document.getMinorVersion());
 		documentDAO.update(document);
-		return document;
+		return okStatus(document);
 	}
 	
 	@GET
 	@Path("approve")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Document approveThedocument(
+	public Response approveThedocument(
 			@QueryParam("documentid") String id) {
 		System.out.println("GET Request: approve");
 		document = documentDAO.readById(id);
+		if (document == null) return notFoundStatus("404 Document not Found");
 		document.setDocumentStatus(new Approved().getDocumentStatusName());
+		document.setLastModifiedDate(new Date());
 		documentDAO.update(document);
-		return document;
+		return okStatus(document);
 	}
 	
 	@GET
 	@Path("publish")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Document publishThedocument(
+	public Response publishThedocument(
 			@QueryParam("documentid") String id) {
 		System.out.println("GET Request: publish");
 		document = documentDAO.readById(id);
+		if (document == null) return notFoundStatus("404 Document not Found");
 		document.setDocumentStatus(new Publish().getDocumentStatusName());
 		documentDAO.update(document);
-		return document;
+		return okStatus(document);
 	}
 	
 	@GET
 	@Path("reject")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Document rejectDocument(
+	public Response rejectDocument(
 			@QueryParam("documentid") String id) {
 		System.out.println("GET Request: reject");
 		document = documentDAO.readById(id);
+		if (document == null) return notFoundStatus("404 Document not Found");
 		document.setDocumentStatus(new Reject().getDocumentStatusName());
+		document.setLastModifiedDate(new Date());
 		documentDAO.update(document);
-		return document;
+		return okStatus(document);
 	}
 	
 	@GET
 	@Path("delete")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void deleteDocument(
+	public Response deleteDocument(
 			@QueryParam("documentid") String id) {
 		System.out.println("GET Request: delete");
 		int temp = documentDAO.deleteById(id);
 		System.out.println("deleted "+temp+" document(s)");
+		return okStatus("Deleted!");
 	}
 	
 
