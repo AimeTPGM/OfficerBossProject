@@ -14,6 +14,17 @@ public class Review {
 	private String reviewDesc;
 	private String reviewDate;
 	
+	public Review(){
+		
+	}
+	
+	public Review(String documentId, String approverId, String reviewDesc, Date date){
+		this.documentId = documentId;
+		this.approverId = approverId;
+		this.reviewDesc = reviewDesc;
+		setReviewDate(date);
+	}
+	
 	public void setReviewId(String id){
 		this.reviewId = id;
 	}

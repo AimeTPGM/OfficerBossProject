@@ -1,6 +1,5 @@
 package main.rest;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.client.RestTemplate;
@@ -22,73 +22,77 @@ import mongodb.dao.ReviewDAO;
 @Path("/")
 public class ReviewRest {
 	private Review review;
-	private List<Review> reviews = new ArrayList<Review>();
-	private Date date;
+	private List<Review> reviews;
 	private ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
 	private ReviewDAO reviewDAO = ctx.getBean("reviewDAO", ReviewDAO.class);
 	
 	@Inject
 	private RestTemplate restTemplate;
 	
+	public Response okStatus(Object obj){
+		return Response.status(200).entity(obj).build();
+	}
+	
+	public Response notFoundStatus(Object obj){
+		return Response.status(404).entity(obj).build();
+	}
+	
 	
 	@GET
 	@Path("getreviewbydocumentid")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Review getReviewByDocumentId(@QueryParam("documentid") String id) {
+	public Response getReviewByDocumentId(@QueryParam("documentid") String id) {
 		review = reviewDAO.readByDocumentId(id);
-		return review;
+		return okStatus(review);
 	}
 	
 	@GET
 	@Path("getreviews")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Review> getReviews() {
-		review = new Review();
-		return reviewDAO.getAllReview();
+	public Response getReviews() {
+		reviews = reviewDAO.getAllReview();
+		return okStatus(reviews);
 	}
 	
 	@GET
 	@Path("getreview")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Review getReview(@QueryParam("reviewid") String id) {
+	public Response getReview(@QueryParam("reviewid") String id) {
 		review = reviewDAO.readByReviewId(id);
-		//TODO if the document has no review?
-		return review;
+		if(review == null) return notFoundStatus("404 Review not Found");
+		return okStatus(review);
 	}
 	
-	public String getNoReview(){
-		return "No commment from approver yet";
+	public Response getNoReview(){
+		return okStatus("No commment from approver yet");
 	}
 	
 	@GET
 	@Path("deleteById")
-	public void deleteById(@QueryParam("id") String id){
+	public Response deleteById(@QueryParam("id") String id){
 		reviewDAO.deleteByReviewId(id);
+		return okStatus("Deleted!");
 	}
 	
 	@GET
 	@Path("deleteByDocumentId")
-	public void deleteByDocumentId(@QueryParam("documentId") String documentId){
+	public Response deleteByDocumentId(@QueryParam("documentId") String documentId){
 		reviewDAO.deleteByDocumentId(documentId);
+		return okStatus("Deleted!");
 	}
 	
 	
 	@GET
 	@Path("createreview")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Review createReview(
-			@QueryParam("documentid") String id,
+	public Response createReview(
+			@QueryParam("documentid") String documentId,
 			@QueryParam("approverid") String approverId,
-			@QueryParam("reviewdesc") String desc) {
-		System.out.println("here");
-		date = new Date();
-		review = new Review();
-		review.setDocumentId(id);
-		review.setApproverId(approverId);
-		review.setReviewDesc(desc);
-		review.setReviewDate(date);
+			@QueryParam("reviewdesc") String reviewDesc) {
+
+		review = new Review(documentId, approverId, reviewDesc, new Date());
 		reviewDAO.create(review);
-		return review;
+		return okStatus(review);
 	}
 	
 
