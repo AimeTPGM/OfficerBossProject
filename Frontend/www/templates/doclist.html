@@ -70,10 +70,12 @@
 
 					
 					
-						<a show-when="large" class="col col-20 vertical-center-list-text doclist-link" href="#/app/doc/{{folder.id}}/history">{{folder.folderName}}</a>
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text">{{user.firstname}}</div>
+						<a show-when="large" class="col col-20 vertical-center-list-text doclist-link" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}">{{folder.folderName}}</a>
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{user.firstname}} {{user.lastname}}</div>
 						<!-- For In progress -->
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text draft-status" ng-if="folder.folderStatus === 'In Progress'">{{folder.folderStatus}}</div>
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text draft-status word-wrap" ng-if="folder.folderStatus === 'In Progress'">{{folder.folderStatus}}</div>
+						<!-- For Unpublished -->
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-warp waiting-for-approval-status" ng-if="folder.folderStatus === 'Unpublished'">{{folder.folderStatus}}</div>
 						<!-- For Completed -->
 						<div show-when="large" class="col col-20 center-header vertical-center-list-text approve-status" ng-if="folder.folderStatus === 'Completed'">{{folder.folderStatus}}</div>
 						<!-- For Empty -->
@@ -81,15 +83,15 @@
 						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{folder.lastUpdate}}</div>
 						<div show-when="large" class="col col-10 center-header vertical-center-list-text">{{folder.numberOfDocuments}}</div>
 						<div show-when="large" class="col col-10">
-							<a class="button button-positive button-circle icon ion-eye" href="#/app/doc/{{folder.id}}/history" title="See Detail"></a>
+							<a class="button button-positive button-circle icon ion-eye" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}" title="See Detail"></a>
 							<button class="button button button-assertive button-circle icon ion-trash-a"
 							ng-if="folder.folderStatus !== 'Completed'" title="Delete" ng-click="delete(folder.id)"></button>
 						</div>
 					
 
 					
-						<a show-when="small" class="col col-85 vertical-center-list-text doclist-link" href="#/app/doc/{{folder.id}}/history">{{folder.folderName}}</a>
-						<a show-when="small" class="button button-calm" href="#/app/doc/{{folder.id}}/history" style="margin-right:10px;">More Detail</a>
+						<a show-when="small" class="col col-85 vertical-center-list-text doclist-link" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}">{{folder.folderName}}</a>
+						<a show-when="small" class="button button-calm" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}" style="margin-right:10px;">More Detail</a>
 						<button show-when="small" class="button button button-assertive button-circle icon ion-trash-a" ng-if="folder.folderStatus !== 'Completed'" title="Delete" ng-click="delete(folder.id)"></button>
 		
 					
@@ -100,7 +102,7 @@
 				</li>
 				<li class="item" ng-show="noDocument()">
 					<div style="text-align: center;color: #999;padding: 50px;">
-						There is no document yet, <a class="doclist-link" href="#/app/adddoc/{{folder.id}}">create one</a>!
+						There is no document yet, <a class="doclist-link" href="#/app/doc/{{folder.id}}/new">create one</a>!
 					</div>
 				</li>
 		</ui>

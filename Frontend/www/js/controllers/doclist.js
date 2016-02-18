@@ -56,24 +56,29 @@ angular.module('starter.controllers')
   
 
   $http.get('http://localhost:8085/getFolderByCreatorId?creatorId=1')
-        .success(function(data){
-          console.log('return folders')
-          $scope.folders = data;
-          console.log($scope.folders)
-          console.log($scope.folders.length)
-          if($scope.folders.length == 0){
-            $scope.noDocument = function(){
-              return true;
-            } 
-          }
-          else{
-            return false;
-          }
-        })
-        .error(function(data){
+    .success(function(data){
+      console.log('return folders')
+      $scope.folders = data;
+      console.log($scope.folders)
+      for (var i = 0; i < $scope.folders.length; i++) {
+        var index = $scope.folders[i].documentList.length - 1;
+        $scope.folders[i].lastDocId = $scope.folders[i].documentList[index];
+      };
+      if($scope.folders.length == 0){
+        $scope.noDocument = function(){
+          return true;
+        } 
+      }
+      else{
+      return false;
+      }
+
+      
+    })
+    .error(function(data){
           console.log('cannot reach folder-service port 8085')
           console.log(data)
-        });
+    });
 
   $http.get('http://localhost:8082/getuser?userid=1')
     .success(function(data){
