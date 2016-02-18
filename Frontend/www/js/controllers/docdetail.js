@@ -18,12 +18,63 @@ angular.module('starter.controllers')
 
     }
 
+    $scope.onChange = function(){
+      console.log($scope.selectedVersion);
+      // $window.location.href='#/app/doc/'+$stateParams.folderId+'/'+docId;
+    }
+
+    $scope.isDocument = function(docId){
+      console.log(docId+":"+$stateParams.docId)
+      if(docId == $stateParams.docId) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+
+
+
+  $http.get('http://localhost:8085/folder?folderId='+$stateParams.folderId)
+    .success(function(data){
+      $scope.folder = data;
+      
+      $scope.versions = {};
+      var j = 0;
+      for (var i = 0; i < $scope.folder.documentList.length; i++) {
+        var tempDocId = $scope.folder.documentList[i];
+        $http.get('http://localhost:8081/getdocument?documentid='+tempDocId)
+          .success(function(data){
+            var temp = {};
+            temp.version = data.version;
+            temp.docId = tempDocId;
+            $scope.versions[j] = temp;
+            $scope.versions[j].docId = data.documentId;
+            j++;
+
+            
+            
+          })
+          .error(function(data){
+            console.log('cannot reach document-service port 8081')
+
+          });
+      };
+
+
+    })
+    .error(function(data){
+      console.log('cannot reach folder-service port 8085')
+    });
+
+    $scope.download = function(){
+          FileService.download($stateParams.docId);
+    }
+
 
   $http.get('http://localhost:8083/getreviewbydocumentid?documentid='+$stateParams.docId)
     .success(function(data){
       $scope.review = data;
-      
-      
 
     })
     .error(function(data){
@@ -37,6 +88,7 @@ angular.module('starter.controllers')
   $http.get('http://localhost:8081/getdocument?documentid='+$stateParams.docId)
     .success(function(data){
       $scope.doc = data;
+      console.log(data)
       
       $http.get('http://localhost:8082/getuser?userid='+$scope.doc.creator)
         .success(function(data){
@@ -54,9 +106,6 @@ angular.module('starter.controllers')
         .error(function(data){
           console.log('cannot reach user-service port 8082')
         });
-
-       // TODO Complete Refactor this code 
-        // $scope.filename = FileService.getFileDetail($scope.doc.documentId);
 
       $http.get('http://localhost:8084/filedetail?documentId='+$scope.doc.documentId)
         .success(function(data){

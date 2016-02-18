@@ -3,13 +3,16 @@
 	<div class="row">
 		<div class="col col-80 center">
 			<h1 class="main-header" style="margin-top: 4vh;">Document Detail</h1>
-			<a href="#/app/doc" class="path-link">Document List</a><span> / {{doc.documentName}}</span>
+			<a href="#/app/doc" class="path-link">Document List</a>
+			<span> / </span>
+			<a href="#/app/doc/{{folder.id}}/history" class="path-link"> Document History </a>
+			<span> / {{doc.documentName}}</span>
 
 			
 			<!-- For draft -->
 			<span class="draft-status" ng-if="doc.documentStatus === 'Draft'">({{doc.documentStatus}})</span>
 			<!-- For Waiting for approval -->
-			<span class="waiting-for-approval-status" ng-if="document.documentStatus === 'Waiting for Approval'">({{doc.documentStatus}})</span>
+			<span class="waiting-for-approval-status" ng-if="doc.documentStatus === 'Waiting for Approval'">({{doc.documentStatus}})</span>
 			<!-- For Reject -->
 			<span class="reject-status" ng-if="doc.documentStatus === 'Reject'">({{doc.documentStatus}})</span>
 			<!-- For Approved -->
@@ -17,10 +20,10 @@
 			<!-- For Publish -->
 			<span class="publish-status" ng-if="doc.documentStatus === 'Publish'">({{doc.documentStatus}})</span>
 
-			<select>
-				<option>Version x.x.x</option>
-				<option>Version x.x.y</option>
-				<option selected>Version x.x.z</option>
+			<select onchange="location = this.options[this.selectedIndex].value;">
+				
+
+				<option ng-selected="version.docId === doc.documentId" ng-repeat="version in versions track by $index" value="#/app/doc/{{folder.id}}/{{version.docId}}">Version {{version.version}}</option>
 			</select>
 
 			<hr class="main-hr">
