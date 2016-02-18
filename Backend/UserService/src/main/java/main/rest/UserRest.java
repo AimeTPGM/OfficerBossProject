@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.client.RestTemplate;
@@ -34,84 +35,76 @@ public class UserRest {
 	
 	@Inject
 	private RestTemplate restTemplate;
-
+	
+	public Response okStatus(Object obj){
+		return Response.status(200).entity(obj).build();
+	}
+	
+	public Response notFoundStatus(Object obj){
+		return Response.status(404).entity(obj).build();
+	}
+	
 	
 	@GET
 	@Path("getusers")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<User> getUsers() {
+	public Response getUsers() {
         List<User> users = userDAO.getAllUsers();
         System.out.println("GET Request: get all users");
-		return users;
+		return okStatus(users);
 	}
 	
 	@GET
 	@Path("getuser")
 	@Produces(MediaType.APPLICATION_JSON)
-	public User getUser(
+	public Response getUser(
 			@QueryParam("userid") String id) {
 		System.out.println("GET Request: get user by id "+id);
-		return userDAO.readById(id);
+		user = userDAO.readById(id);
+		if (user == null) return notFoundStatus("404 User not Found");
+		return okStatus(user);
 	}
 	
 	@GET
 	@Path("deleteuser")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String deleteUser(
+	public Response deleteUser(
 			@QueryParam("userid") String id) {
 		System.out.println("GET Request: delete user by id "+id);
-		return "deleted "+userDAO.deleteById(id)+" user";
+		int temp = userDAO.deleteById(id);
+		return okStatus("Deleted!");
 	}
-	
-	public User newUser(String firstname, String lastname, String email, String password){
-		user.setFirstname(firstname);
-		user.setLastname(lastname);
-		user.setEmail(email);
-		user.setPassword(PasswordEncoderGenerator.passwordEncoder(password));
-		return user;
-	}
-	
+
 	@POST
 	@Path("newofficer")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public User newOfficer(User u){
-		user = new User();
-		System.out.println(u.getPasssword());
-		user = newUser(u.getFirstname(), u.getLastname(), u.getEmail(), u.getPasssword());
-		System.out.println(user.getPasssword());
-		user.setUserStatus(new Officer());
+	public Response newOfficer(User u){
+		
+		user = new User(u.getFirstname(), u.getLastname(), u.getEmail(),PasswordEncoderGenerator.passwordEncoder(u.getPasssword()),new Officer());
 		userDAO.create(user);
-		return user;
+		return okStatus(user);
 	}
 	
 	@POST
 	@Path("newboss")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public User newBoss(User u){
-		user = new User();
-		System.out.println(u.getPasssword());
-		user = newUser(u.getFirstname(), u.getLastname(), u.getEmail(), u.getPasssword());
-		System.out.println(user.getPasssword());
-		user.setUserStatus(new Boss());
+	public Response newBoss(User u){
+		user = new User(u.getFirstname(), u.getLastname(), u.getEmail(),PasswordEncoderGenerator.passwordEncoder(u.getPasssword()),new Boss());
 		userDAO.create(user);
-		return user;
+		return okStatus(user);
 	}
 	
 	@POST
 	@Path("login")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String simpleLogin(@FormParam("email") String email, 
+	public Response simpleLogin(@FormParam("email") String email, 
 			@FormParam("password") String password){
-		String s="";
 		user = userDAO.readByEmail(email);
-		s = SimpleAuthentication.passwordMatcher(password, user.getPasssword());
-//		user = userDAO.readByEmail(u.getEmail());
-//		s = SimpleAuthentication.passwordMatcher(u.getPasssword(), user.getPasssword());
-		System.out.println(s);
-		return s;
+		String temp = SimpleAuthentication.passwordMatcher(password, user.getPasssword());
+		return okStatus(temp);
 	}
 
 }
