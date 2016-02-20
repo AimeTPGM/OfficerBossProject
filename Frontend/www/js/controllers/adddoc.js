@@ -219,6 +219,7 @@ angular.module('starter.controllers')
               console.log(data);
               $scope.savedFolder = data;
 
+              console.log('adding new doc '+$scope.savedDocData.documentId)
               FolderService.addDocument(data.id, $scope.savedDocData.documentId);
               $window.location.href=('#/app/doc');
 

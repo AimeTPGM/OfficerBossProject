@@ -124,7 +124,7 @@
 						  
 
 						</div>
-						<div ng-if="doc.documentStatus === 'Draft' || doc.documentStatus === 'Reject'">
+						<div ng-if="doc.editable">
 							<div class="row" show-when="large">
 								<div class="col col-33">
 									<a class="button button-full button-energized" ng-click="save(doc.documentId)">
@@ -156,13 +156,13 @@
 						</div>
 			</form>
 
-						<div ng-if="doc.documentStatus === 'Waiting for Approval' || doc.documentStatus === 'Publish'" >
+						<div ng-if="doc.editable == false" >
 									<a class="button button-block button-dark" href="#/app/doc">
 									  Back
 									</a>
 						</div>
 
-						<div ng-if="doc.documentStatus === 'Approved'" >
+						<div ng-if="doc.documentStatus === 'Approved' && doc.editable == false" >
 									<a class="button button-block button-balanced">
 									  Publish
 									</a>

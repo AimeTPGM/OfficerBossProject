@@ -134,15 +134,16 @@ angular.module('starter.controllers', ['ngFileUpload'])
         });
   }
 
-  this.editable = function(docId){
+  this.editable = function(docId, editable){
     $http.get('http://localhost:8081/getdocument?documentid='+docId)
         .success(function(data){
           console.log('successfully get document');
           if(data.documentStatus == 'Reject' || data.documentStatus == 'Draft'){
             console.log(docId+" "+data.documentStatus)
-            $http.get('http://localhost:8081/editable?documentId='+docId)
+            var temp = editable;
+            $http.get('http://localhost:8081/editable?documentId='+docId+'&&editable='+temp)
               .success(function(data){
-                console.log('successfully set document editable to true');
+                console.log('successfully set document editable to '+temp);
 
               })
               .error(function(data){

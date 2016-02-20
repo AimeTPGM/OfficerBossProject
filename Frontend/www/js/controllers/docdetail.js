@@ -34,6 +34,7 @@ angular.module('starter.controllers')
           }
         
       }).success(function(data, status, headers, config) {
+        DocumentService.editable($stateParams.docId, false);
         FolderService.addDocument($stateParams.folderId, data.documentId);
         DocumentService.submit(data.documentId);
 

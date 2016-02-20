@@ -69,13 +69,15 @@ angular.module('starter.controllers')
                 },
                 data: {documentName: $scope.doc.documentName, 
                   description: $scope.doc.description, 
-                  documentId: $stateParams.docId,
+                  documentId: $stateParams.docId
                 }
               
             }).success(function(data, status, headers, config) {
               $scope.savedDocData = data;
+              DocumentService.editable($stateParams.docId, false);
               FolderService.update($stateParams.folderId, $scope.doc.documentName);
               FolderService.addDocument($stateParams.folderId, data.documentId);
+              DocumentService.editable(data.documentId, true);
               //Upload file
               Upload.upload({
               url: 'http://localhost:8084/upload',
@@ -171,8 +173,10 @@ angular.module('starter.controllers')
               
             }).success(function(data, status, headers, config) {
               $scope.savedDocData = data;
+              DocumentService.editable($stateParams.docId, false);
               FolderService.update($stateParams.folderId, $scope.doc.documentName);
               FolderService.addDocument($stateParams.folderId, data.documentId);
+              DocumentService.editable($data.documentId, true);
 
             }).
             error(function(data, status, headers, config) {
@@ -232,6 +236,7 @@ angular.module('starter.controllers')
                 
               }).success(function(data, status, headers, config) {
                 $scope.savedDocData = data;
+                DocumentService.editable($stateParams.docId, false);
                 FolderService.update($stateParams.folderId, $scope.doc.documentName);
                 FolderService.addDocument($stateParams.folderId, data.documentId);
                 FileService.copy($stateParams.docId, $scope.savedDocData.documentId)
