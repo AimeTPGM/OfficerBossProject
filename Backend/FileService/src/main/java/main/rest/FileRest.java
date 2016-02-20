@@ -1,12 +1,7 @@
 package main.rest;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -24,13 +19,7 @@ import javax.ws.rs.core.StreamingOutput;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
-import org.springframework.data.mongodb.gridfs.GridFsOperations;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.mongodb.DBObject;
 
 import main.model.MyFile;
 import mongodb.dao.FileDAO;
@@ -42,9 +31,7 @@ import mongodb.dao.FileDAO;
 public class FileRest {
 	private ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
 	private FileDAO fileDAO = ctx.getBean("fileDAO", FileDAO.class);
-//	private GridFsOperations gridOperations = 
-//            (GridFsOperations) ctx.getBean("gridFsTemplate");
-//	
+
 	@GET
 	@Path("files")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -156,38 +143,31 @@ public class FileRest {
 	    System.out.println("======= Upload to mongo =============");
 	    System.out.println("documentId:" +documentId);
 	    fileDAO.create(fileIS, fileDetail.getFileName(), documentId);
-	    System.out.println("======= Upload to local =============");
+	  
 	    
-	    String location ="/Users/AimeTPGM/Downloads/"+fileDetail.getFileName();
-	    System.out.println("before write ["+location+"]");
-//	    writeToFile(fileIS, location );
-	    String output = "File saved to  server location : " + location;
-	    System.out.println("file written ["+location+"]");
+	  
+	    String output = "File saved to  server";
+	 
 	    return Response.status(200).entity(output).build();
 	}
 	
-	private void writeToFile(InputStream uploadedInputStream,
-			String uploadedFileLocation) {
-
-			try {
-				OutputStream out = new FileOutputStream(new File(
-						uploadedFileLocation));
-				int read = 0;
-				byte[] bytes = new byte[1024];
-
-				out = new FileOutputStream(new File(uploadedFileLocation));
-				while ((read = uploadedInputStream.read(bytes)) != -1) {
-					out.write(bytes, 0, read);
-					
-				}
-				out.flush();
-				out.close();
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
-
-		}
+	@GET
+	@Path("copy")
+	public Response copyFile(@QueryParam("copyFrom") String copyFromId,
+			@QueryParam("copyTo") String copyToId) throws IOException {
+		
+		MyFile temp = new MyFile();
+		temp = fileDAO.readByDocumentId(copyFromId);
+		if(temp == null) System.out.println("TEMP IS NULL");
+		System.out.println(copyFromId);
+		System.out.println(copyToId);
+		
+		temp.setDocumentId(copyToId);
+		fileDAO.create(temp.getInputStream(), temp.getFilename(), temp.getDocumentId());
+		String output = "successfully copy file from document: "+copyFromId+" to "+copyToId;
+		System.out.println(output);
+	    return Response.status(200).entity(output).build();
+	}
 	
 	
 }
