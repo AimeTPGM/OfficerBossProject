@@ -51,7 +51,7 @@
 					
 					
 						<a show-when="large" class="col col-20 vertical-center-list-text doclist-link" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}">{{folder.folderName}}</a>
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{user.firstname}} {{user.lastname}}</div>
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{user.lastname}} {{user.firstname}}</div>
 						<!-- For In progress -->
 						<div show-when="large" class="col col-20 center-header vertical-center-list-text draft-status word-wrap" ng-if="folder.folderStatus === 'In Progress'">{{folder.folderStatus}}</div>
 						<!-- For Unpublished -->
