@@ -28,3 +28,4 @@ COLLECTION | documenttestonly
 /publish				|	GET 	|documentId=String| publish document, status = Publish
 /reject					|	GET 	|documentId=String| reject document, status = Reject
 /delete					|	GET 	|documentId=String| delete
+/newEditDraft			|	POST	|documentName=String, description=String, documentId=String| create new draft for edit document from reject document
