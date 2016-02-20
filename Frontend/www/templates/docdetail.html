@@ -23,7 +23,7 @@
 			<select onchange="location = this.options[this.selectedIndex].value;">
 				
 
-				<option selected="version.docId === doc.documentId" ng-repeat="version in versions track by $index" value="#/app/doc/{{folder.id}}/{{version.docId}}">Version {{version.version}}</option>
+				<option ng-selected="version.docId === doc.documentId" ng-repeat="version in versions track by $index" value="#/app/doc/{{folder.id}}/{{version.docId}}">Version {{version.version}}</option>
 			</select>
 
 			<hr class="main-hr">
