@@ -8,7 +8,7 @@
 
 				<div class="col col-20 padding-0">
 					
-					<a class="button button button-dark btn-new-task" href="#/app/doc/{{folder.id}}/new">New Document </a>
+					<a class="button button button-dark btn-new-task" href="#/app/doc/new">New Document </a>
 					
 				</div>
 				
@@ -72,7 +72,7 @@
 					
 						<a show-when="small" class="col col-85 vertical-center-list-text doclist-link" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}">{{folder.folderName}}</a>
 						<a show-when="small" class="button button-calm" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}" style="margin-right:10px;">More Detail</a>
-						<button show-when="small" class="button button button-assertive button-circle icon ion-trash-a" ng-if="folder.folderStatus !== 'Completed'" title="Delete" ng-click="delete(folder.id)"></button>
+						<button show-when="small" class="button button button-assertive button-circle icon ion-trash-a" ng-if="folder.folderStatus !== 'Completed' && folder.folderStatus !== 'Unpublished'" title="Delete" ng-click="delete(folder.id)"></button>
 		
 					
 					
@@ -82,7 +82,7 @@
 				</li>
 				<li class="item" ng-show="noDocument()">
 					<div style="text-align: center;color: #999;padding: 50px;">
-						There is no document yet, <a class="doclist-link" href="#/app/doc/{{folder.id}}/new">create one</a>!
+						There is no document yet, <a class="doclist-link" href="#/app/doc/new">create one</a>!
 					</div>
 				</li>
 		</ui>

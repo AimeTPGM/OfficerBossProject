@@ -17,12 +17,13 @@ angular.module('starter.controllers')
                 if (alldoc[i].creatorId == temp_users[j].userId){
                   $scope.documents[i].creatorName = temp_users[j].lastname+" "+temp_users[j].firstname;
                   $scope.documents[i].lastDocId = $scope.documents[i].documentList[($scope.documents[i].documentList.length)-1];
+                  console.log($scope.documents[i]);
                   break;
                 }
               };
           };
 
-          console.log($scope.documents);
+          
             
         })
         .error(function(data){

@@ -55,7 +55,24 @@ angular.module('starter.controllers')
             console.log(data);
             $scope.savedFolder = data;
             FolderService.addDocument(data.id, $scope.savedDocData.documentId);
-            FileService.upload(file,$scope.savedDocData.documentId);
+            // FileService.upload(file,$scope.savedDocData.documentId);
+            Upload.upload({
+                url: 'http://localhost:8084/upload',
+                method: 'POST',
+                data: {file: file, documentId: $scope.savedDocData.documentId}
+            }).then(function (resp) {
+                $scope.filename = resp.config.data.file.name;
+                $scope.showFileName = function(){
+                  return true;
+                }
+                console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+            }, function (resp) {
+                console.log('Error status: ' + resp.status);
+                console.log(resp.config.data)
+            }, function (evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+            });
 
           
           }).
@@ -72,7 +89,24 @@ angular.module('starter.controllers')
     }
 
     else{
-      FileService.upload(file,$scope.savedDocData.documentId);
+      // FileService.upload(file,$scope.savedDocData.documentId);
+       Upload.upload({
+                url: 'http://localhost:8084/upload',
+                method: 'POST',
+                data: {file: file, documentId: $scope.savedDocData.documentId}
+            }).then(function (resp) {
+              $scope.showFileName = function(){
+                  return true;
+                }
+                $scope.filename = resp.config.data.file.name;
+                console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+            }, function (resp) {
+                console.log('Error status: ' + resp.status);
+                console.log(resp.config.data)
+            }, function (evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+            });
       
     }   
   };
@@ -119,7 +153,8 @@ angular.module('starter.controllers')
             console.log(data);
             $scope.savedFolder = data;
             FolderService.addDocument(data.id, $scope.savedDocData.documentId);
-            $window.location.href=('#/app/folderlist');
+            //Save box here
+            $window.location.href=('#/app/doc');
 
           
           }).
@@ -137,6 +172,9 @@ angular.module('starter.controllers')
     else {
       console.log("updating current draft")
       DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
+      //Save box here
+      $window.location.href=('#/app/doc');
+      
     }
     
     
@@ -173,7 +211,7 @@ angular.module('starter.controllers')
               $scope.savedFolder = data;
 
               FolderService.addDocument(data.id, $scope.savedDocData.documentId);
-              $window.location.href=('#/app/folderlist');
+              $window.location.href=('#/app/doc');
 
             
             }).

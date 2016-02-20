@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('DocumentReviewCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, ReviewService,FileService) {
+.controller('DocumentReviewCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, ReviewService,FileService,ReviewService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });

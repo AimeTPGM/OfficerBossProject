@@ -22,7 +22,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
         .success(function(data){
           console.log('successfully create new document: waiting for approval');
           FolderService.addDocument(folderId, data.documentId);
-          $window.location.href=('#/app/folderlist');
+          $window.location.href=('#/app/doc');
 
         })
         .error(function(data){
@@ -37,15 +37,12 @@ angular.module('starter.controllers', ['ngFileUpload'])
           FolderService.addDocument(folderId, data.documentId);
           FileService.copy(docId,data.documentId);
           FolderService.update(folderId, docName);
-          $window.location.href=('#/app/folderlist');
+          $window.location.href=('#/app/doc');
 
         })
         .error(function(data){
           console.log('cannot reach document-service port 8081')
         });
-
-  }
-  this.updateWithNewFile = function(){
 
   }
 
@@ -79,7 +76,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
     $http.get('http://localhost:8081/submit?documentid='+docId)
         .success(function(data){
           console.log('successfully submit document: change to waiting for approval');
-          $window.location.href=('#/app/folderlist');
+          $window.location.href=('#/app/doc');
 
         })
         .error(function(data){
@@ -143,7 +140,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
           console.log('successfully get document');
           if(data.documentStatus == 'Reject'){
             console.log(docId+" "+data.documentStatus)
-            $http.get('http://localhost:8081/editable?documentid='+docId)
+            $http.get('http://localhost:8081/editable?documentId='+docId)
               .success(function(data){
                 console.log('successfully set document editable to true');
 
@@ -168,7 +165,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
 })
 
 
-.service('ReviewService', function($http,$window) {
+.service('ReviewService', function($http,$window,FolderService) {
 
   this.getReview = function(){
 
@@ -306,7 +303,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
         console.log('sent POST request: add new folder');
         console.log(data);
 
-        $window.location.href=('#/app/folderlist');
+        
       }).
       error(function(data, status, headers, config) {
         console.log('cannot reach folder-service port 8085')
