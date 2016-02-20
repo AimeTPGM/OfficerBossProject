@@ -38,7 +38,10 @@
 					
 					
 						<a show-when="large" class="col col-20 vertical-center-list-text doclist-link" href="#/app/doc/{{document.id}}/{{document.lastDocId}}/review" ng-if="document.lastDocData.documentStatus === 'Waiting for Approval'">{{document.folderName}}</a>
-						<div show-when="large" class="col col-20 vertical-center-list-text doclist-link" ng-if="document.lastDocData.documentStatus !== 'Waiting for Approval'">{{document.folderName}}</div>
+						<a show-when="large" class="col col-20 vertical-center-list-text doclist-link" href="#/app/doc/{{document.id}}/{{document.lastDocId}}" ng-if="document.lastDocData.documentStatus === 'Approved' || folder.lastDocData.documentStatus === 'Publish'">{{document.folderName}}</a>
+						<div show-when="large" class="col col-20 vertical-center-list-text doclist-link" ng-if="document.lastDocData.documentStatus === 'Reject'">{{document.folderName}}</div>
+
+
 						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{document.creatorName}}</div>
 						
 						
