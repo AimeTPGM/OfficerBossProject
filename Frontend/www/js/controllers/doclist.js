@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, FolderService) {
+.controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, FolderService, DocumentService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -21,6 +21,7 @@ angular.module('starter.controllers')
       for (var i = 0; i < $scope.folders.length; i++) {
         var index = $scope.folders[i].documentList.length - 1;
         $scope.folders[i].lastDocId = $scope.folders[i].documentList[index];
+        DocumentService.editable($scope.folders[i].documentList[index]);
       };
       if($scope.folders.length == 0){
         $scope.noDocument = function(){
@@ -28,7 +29,7 @@ angular.module('starter.controllers')
         } 
       }
       else{
-      return false;
+        return false;
       }
 
       

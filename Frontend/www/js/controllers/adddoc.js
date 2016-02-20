@@ -115,6 +115,11 @@ angular.module('starter.controllers')
     console.log($scope.doc);
     // if it never been uploaded 
     if(!$scope.savedDocData){
+       // if there is no document name
+    if(!$scope.doc.name){ $scope.doc.name = "Untitled"; }
+    // if there is no description
+    if(!$scope.doc.desc){ $scope.doc.desc = "no description";}
+    
       console.log("creating new draft")
       $http({
         method: 'POST',

@@ -211,32 +211,34 @@ angular.module('starter.controllers')
         $scope.submit = function(docId, docStatus){
 
           if(!$scope.savedDocData){
-            $http({
-                method: 'POST',
-                url: 'http://localhost:8081/newEditDraft',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function(obj) {
-                    var str = [];
-                    for(var p in obj)
-                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                    return str.join("&");
-                },
-                data: {documentName:$scope.doc.documentName, 
-                  description:$scope.doc.description, 
-                  documentId: $stateParams.docId
-                }
+            // may be it doesnt have to create new
+            DocumentService.submit($scope.savedDocData.documentId);
+            // $http({
+            //     method: 'POST',
+            //     url: 'http://localhost:8081/newEditDraft',
+            //     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            //     transformRequest: function(obj) {
+            //         var str = [];
+            //         for(var p in obj)
+            //         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            //         return str.join("&");
+            //     },
+            //     data: {documentName:$scope.doc.documentName, 
+            //       description:$scope.doc.description, 
+            //       documentId: $stateParams.docId
+            //     }
               
-            }).success(function(data, status, headers, config) {
-              $scope.savedDocData = data;
-              FolderService.update($stateParams.folderId, $scope.doc.documentName);
-              FolderService.addDocument($stateParams.folderId, data.documentId);
-              FileService.copy($stateParams.docId, $scope.savedDocData.documentId)
-              DocumentService.submit($scope.savedDocData.documentId);
+            // }).success(function(data, status, headers, config) {
+            //   $scope.savedDocData = data;
+            //   FolderService.update($stateParams.folderId, $scope.doc.documentName);
+            //   FolderService.addDocument($stateParams.folderId, data.documentId);
+            //   FileService.copy($stateParams.docId, $scope.savedDocData.documentId)
+            //   DocumentService.submit($scope.savedDocData.documentId);
 
-            }).
-            error(function(data, status, headers, config) {
-              console.log('cannot reach document-service port 8081')
-            });
+            // }).
+            // error(function(data, status, headers, config) {
+            //   console.log('cannot reach document-service port 8081')
+            // });
 
           }
           else{

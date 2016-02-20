@@ -14,29 +14,30 @@ angular.module('starter.controllers')
     }
 
     $scope.submit = function(docId){
-      $http({
-          method: 'POST',
-          url: 'http://localhost:8081/newEditDraft',
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-          transformRequest: function(obj) {
-              var str = [];
-              for(var p in obj)
-              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-              return str.join("&");
-          },
-          data: {documentName:$scope.doc.documentName, 
-            description:$scope.doc.description, 
-            documentId: $stateParams.docId
-          }
+      DocumentService.submit(docId);
+      // $http({
+      //     method: 'POST',
+      //     url: 'http://localhost:8081/newEditDraft',
+      //     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      //     transformRequest: function(obj) {
+      //         var str = [];
+      //         for(var p in obj)
+      //         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+      //         return str.join("&");
+      //     },
+      //     data: {documentName:$scope.doc.documentName, 
+      //       description:$scope.doc.description, 
+      //       documentId: $stateParams.docId
+      //     }
         
-      }).success(function(data, status, headers, config) {
-        FolderService.addDocument($stateParams.folderId, data.documentId);
-        DocumentService.submit(data.documentId);
+      // }).success(function(data, status, headers, config) {
+      //   FolderService.addDocument($stateParams.folderId, data.documentId);
+      //   DocumentService.submit(data.documentId);
 
-      }).
-      error(function(data, status, headers, config) {
-        console.log('cannot reach document-service port 8081')
-      });
+      // }).
+      // error(function(data, status, headers, config) {
+      //   console.log('cannot reach document-service port 8081')
+      // });
 
     }
 
@@ -45,8 +46,8 @@ angular.module('starter.controllers')
   $http.get('http://localhost:8085/folder?folderId='+$stateParams.folderId)
     .success(function(data){
       $scope.folder = data;
-      var lastDocId = $scope.folder.documentList[($scope.folder.documentList.length)-1];
-      DocumentService.editable(lastDocId);
+      // var lastDocId = $scope.folder.documentList[($scope.folder.documentList.length)-1];
+      
       
       $scope.versions = {};
       var j = 0;
