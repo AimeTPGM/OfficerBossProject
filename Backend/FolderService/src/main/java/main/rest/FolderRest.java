@@ -19,10 +19,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.client.RestTemplate;
 
 import main.model.Folder;
-import main.model.folderstatus.Completed;
-import main.model.folderstatus.Empty;
-import main.model.folderstatus.InProgress;
-import main.model.folderstatus.Unpublished;
 import mongodb.dao.FolderDAO;
 
 
@@ -68,7 +64,7 @@ public class FolderRest {
 	public Response createFolder(
 			@FormParam("folderName") String folderName,
 			@FormParam("creatorId") String creatorId){
-		folder = new Folder(folderName, new Date(), new Empty(), creatorId);
+		folder = new Folder(folderName, new Date(), creatorId);
 		folderDAO.create(folder);
 		return Response.status(200).entity(folder).build();
 	}
@@ -92,7 +88,6 @@ public class FolderRest {
 		folder = folderDAO.readById(id);
 		folder.getDocumentList().add(documentId);
 		folder.setNumberOfDocument(folder.getDocumentList().size());
-		folder.setFolderStatus(new InProgress());
 		folder.setLastUpdate(new Date());
 		folderDAO.update(folder);
 		return Response.status(200).entity(folder).build();
@@ -131,7 +126,6 @@ public class FolderRest {
 	public Response completeById(@QueryParam("folderId") String id){
 		System.out.println("Change folder status to \"Completed\", folder id: "+id);
 		folder = folderDAO.readById(id);
-		folder.setFolderStatus(new Completed());
 		folderDAO.update(folder);
 		folder.setLastUpdate(new Date());
 		return Response.status(200).entity(folder).build();
@@ -141,9 +135,8 @@ public class FolderRest {
 	@Path("unpublished")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response unpublishedById(@QueryParam("folderId") String id){
-		System.out.println("Change folder status to \"Unpublished\", folder id: "+id);
+		System.out.println("Update Last Update Date after Approve");
 		folder = folderDAO.readById(id);
-		folder.setFolderStatus(new Unpublished());
 		folder.setLastUpdate(new Date());
 		folderDAO.update(folder);
 		return Response.status(200).entity(folder).build();

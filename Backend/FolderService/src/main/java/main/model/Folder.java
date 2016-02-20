@@ -6,15 +6,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import main.model.folderstatus.FolderStatus;
-
 
 public class Folder {
 	private String id;
 	private String folderName;
 	private List<String> documentIdList;
 	private String lastUpdate;
-	private String folderStatus;
 	private String numberOfDocument;
 	private String creatorId;
 	
@@ -22,10 +19,9 @@ public class Folder {
 		documentIdList = new ArrayList<String>();
 	}
 	
-	public Folder(String folderName, Date date, FolderStatus folderStatus, String creatorId){
+	public Folder(String folderName, Date date, String creatorId){
 		setFolderName(folderName);
 		setLastUpdate(date);
-		setFolderStatus(folderStatus);
 		setCreatorId(creatorId);
 		documentIdList = new ArrayList<String>();
 		setNumberOfDocument(documentIdList.size());
@@ -76,12 +72,6 @@ public class Folder {
 	}
 	public String getLastUpdate(){
 		return lastUpdate;
-	}
-	public void setFolderStatus(FolderStatus folderStatus){
-		this.folderStatus = folderStatus.getFolderStatusName();
-	}
-	public String getFolderStatus(){
-		return this.folderStatus;
 	}
 	public void setFolderName(String folderName){
 		this.folderName = folderName;

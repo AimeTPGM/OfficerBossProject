@@ -41,7 +41,6 @@ public class FolderDAOImpl implements FolderDAO{
 		update.set("folderName", folder.getFolderName());
 		update.set("documentIdList", folder.getDocumentList());
 		update.set("lastUpdate", folder.getLastUpdate());
-		update.set("folderStatus", folder.getFolderStatus());
 		update.set("numberOfDocument", folder.getNumberOfDocuments());
 		update.set("creatorId", folder.getCreatorId());
 		System.out.println("DAO: Updating folder id:"+folder.getId());
