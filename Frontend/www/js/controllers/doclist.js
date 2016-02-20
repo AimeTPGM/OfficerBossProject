@@ -17,12 +17,25 @@ angular.module('starter.controllers')
     .success(function(data){
       console.log('return folders')
       $scope.folders = data;
-      console.log($scope.folders)
+      var j=0;
       for (var i = 0; i < $scope.folders.length; i++) {
         var index = $scope.folders[i].documentList.length - 1;
         $scope.folders[i].lastDocId = $scope.folders[i].documentList[index];
         DocumentService.editable($scope.folders[i].documentList[index]);
+
+        $http.get('http://localhost:8081/getdocument?documentid='+$scope.folders[i].lastDocId)
+          .success(function(data){
+            // $scope.folders[i].lastDocData = data;
+            $scope.folders[j].lastDocData = data;
+            console.log($scope.folders[j])
+            j++;
+          })
+          .error(function(data){
+            console.log('cannot reach document-service port 8081')
+          });
+
       };
+      console.log($scope.folders)
       if($scope.folders.length == 0){
         $scope.noDocument = function(){
           return true;

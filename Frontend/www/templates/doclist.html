@@ -52,27 +52,33 @@
 					
 						<a show-when="large" class="col col-20 vertical-center-list-text doclist-link" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}">{{folder.folderName}}</a>
 						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{user.lastname}} {{user.firstname}}</div>
-						<!-- For In progress -->
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text draft-status word-wrap" ng-if="folder.folderStatus === 'In Progress'">{{folder.folderStatus}}</div>
-						<!-- For Unpublished -->
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-warp waiting-for-approval-status" ng-if="folder.folderStatus === 'Unpublished'">{{folder.folderStatus}}</div>
-						<!-- For Completed -->
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text approve-status" ng-if="folder.folderStatus === 'Completed'">{{folder.folderStatus}}</div>
-						<!-- For Empty -->
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text publish-status" ng-if="folder.folderStatus === 'Empty'">{{folder.folderStatus}}</div>
+
+
+						<!-- For draft -->
+						<div show-when="large" class="col col-15 center-header vertical-center-list-text draft-status word-wrap" ng-if="folder.lastDocData.documentStatus === 'Draft'">{{folder.lastDocData.documentStatus}}</div>
+						<!-- For Waiting for approval -->
+						<div show-when="large" class="col col-15 center-header vertical-center-list-text waiting-for-approval-status word-wrap" ng-if="folder.lastDocData.documentStatus === 'Waiting for Approval'">{{folder.lastDocData.documentStatus}}</div>
+						<!-- For Reject -->
+						<div show-when="large" class="col col-15 center-header vertical-center-list-text reject-status word-wrap" ng-if="folder.lastDocData.documentStatus === 'Reject'">{{folder.lastDocData.documentStatus}}</div>
+						<!-- For Approved -->
+						<div show-when="large" class="col col-15 center-header vertical-center-list-text approved-status word-wrap" ng-if="folder.lastDocData.documentStatus === 'Approved'">{{folder.lastDocData.documentStatus}}</div>
+						<!-- For Publish -->
+						<div show-when="large" class="col col-15 center-header vertical-center-list-text publish-status word-wrap" ng-if="folder.lastDocData.documentStatus === 'Publish'">{{folder.lastDocData.documentStatus}}</div>
+
+
 						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{folder.lastUpdate}}</div>
 						<div show-when="large" class="col col-10 center-header vertical-center-list-text">{{folder.numberOfDocuments}}</div>
 						<div show-when="large" class="col col-10">
 							<a class="button button-positive button-circle icon ion-eye" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}" title="See Detail"></a>
 							<button class="button button button-assertive button-circle icon ion-trash-a"
-							ng-if="folder.folderStatus !== 'Completed' && folder.folderStatus !== 'Unpublished'" title="Delete" ng-click="delete(folder.id)"></button>
+							ng-if="folder.lastDocData.editable" title="Delete" ng-click="delete(folder.id)"></button>
 						</div>
 					
 
 					
 						<a show-when="small" class="col col-85 vertical-center-list-text doclist-link" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}">{{folder.folderName}}</a>
 						<a show-when="small" class="button button-calm" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}" style="margin-right:10px;">More Detail</a>
-						<button show-when="small" class="button button button-assertive button-circle icon ion-trash-a" ng-if="folder.folderStatus !== 'Completed' && folder.folderStatus !== 'Unpublished'" title="Delete" ng-click="delete(folder.id)"></button>
+						<button show-when="small" class="button button button-assertive button-circle icon ion-trash-a" ng-if="folder.lastDocData.editable" title="Delete" ng-click="delete(folder.id)"></button>
 		
 					
 					
