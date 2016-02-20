@@ -88,7 +88,7 @@ public class DocumentRest{
 			) {
 		System.out.println("GET Request: newdraft");
 		
-		document = new Document(name, description, new Date(), new Draft(), creatorId, "56a0d083d4c607b2e7a60a5c",0,1);
+		document = new Document(name, description, new Date(), new Draft(), creatorId, "56a0d083d4c607b2e7a60a5c",0,1,true);
 		documentDAO.create(document);
 		
 		return okStatus(document);
@@ -102,7 +102,7 @@ public class DocumentRest{
 			@QueryParam("description") String description,
 			@QueryParam("creator") String creatorId) {
 		System.out.println("GET Request: newdocument");
-		document = new Document(name, description, new Date(), new WaitingForApproval(), creatorId, "56a0d083d4c607b2e7a60a5c", 1,0);
+		document = new Document(name, description, new Date(), new WaitingForApproval(), creatorId, "56a0d083d4c607b2e7a60a5c", 1,0,false);
 		documentDAO.create(document);
 		return okStatus(document);
 	}
@@ -143,6 +143,7 @@ public class DocumentRest{
 		document.setDocumentStatus(new WaitingForApproval().getDocumentStatusName());
 		document.setLastModifiedDate(new Date());
 		document.setVersion(majorVersion++, document.getMinorVersion());
+		document.setEditable(false);
 		documentDAO.update(document);
 		return okStatus(document);
 	}
@@ -157,6 +158,7 @@ public class DocumentRest{
 		if (document == null) return notFoundStatus("404 Document not Found");
 		document.setDocumentStatus(new Approved().getDocumentStatusName());
 		document.setLastModifiedDate(new Date());
+		document.setEditable(false);
 		documentDAO.update(document);
 		return okStatus(document);
 	}
@@ -170,6 +172,7 @@ public class DocumentRest{
 		document = documentDAO.readById(id);
 		if (document == null) return notFoundStatus("404 Document not Found");
 		document.setDocumentStatus(new Publish().getDocumentStatusName());
+		document.setEditable(false);
 		documentDAO.update(document);
 		return okStatus(document);
 	}
@@ -184,6 +187,20 @@ public class DocumentRest{
 		if (document == null) return notFoundStatus("404 Document not Found");
 		document.setDocumentStatus(new Reject().getDocumentStatusName());
 		document.setLastModifiedDate(new Date());
+		document.setEditable(false);
+		documentDAO.update(document);
+		return okStatus(document);
+	}
+	
+	@GET
+	@Path("editable")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response setEditable(
+			@QueryParam("documentId") String id) {
+		System.out.println("GET Request: reject");
+		document = documentDAO.readById(id);
+		if (document == null) return notFoundStatus("404 Document not Found");
+		document.setEditable(true);
 		documentDAO.update(document);
 		return okStatus(document);
 	}

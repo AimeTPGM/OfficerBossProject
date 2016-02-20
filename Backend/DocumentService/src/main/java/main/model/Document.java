@@ -23,12 +23,13 @@ public class Document {
 	private String approverId;
 	private int majorVersion;
 	private int minorVersion;
+	private boolean editable;
 	
 	public Document(){
 		
 	}
 	
-	public Document(String name, String description, Date date, DocumentStatus status, String creatorId, String approverId, int majorVersion, int minorVersion){
+	public Document(String name, String description, Date date, DocumentStatus status, String creatorId, String approverId, int majorVersion, int minorVersion, boolean editable){
 		this.name = name;
 		this.description = description;
 		this.status = status.getDocumentStatusName();
@@ -40,6 +41,14 @@ public class Document {
 	}
 	
 	
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
 	public void setDocumentId(String id){
 		documentId = id;
 	}
