@@ -121,11 +121,14 @@ public class DocumentRest{
 		document = documentDAO.readById(id);
 		if (document == null) return notFoundStatus("404 Document not Found");
 		
-		int minorVersion = document.getMinorVersion();
 		document.setDocumentName(name);
 		document.setDescription(description);
 		document.setLastModifiedDate(new Date());
-		document.setVersion(document.getMajorVersion(), minorVersion++);
+		int temp = document.getMinorVersion();
+		
+		temp++;
+		document.setMinorVersion(temp);
+		document.setVersion(document.getMajorVersion(), temp);
 		documentDAO.update(document);
 		return okStatus(document);
 	}
@@ -142,7 +145,10 @@ public class DocumentRest{
 		int majorVersion = document.getMajorVersion();
 		document.setDocumentStatus(new WaitingForApproval().getDocumentStatusName());
 		document.setLastModifiedDate(new Date());
-		document.setVersion(majorVersion++, document.getMinorVersion());
+		int temp = majorVersion;
+		temp++;
+		document.setMajorVersion(temp);
+		document.setVersion(temp, document.getMinorVersion());
 		document.setEditable(false);
 		documentDAO.update(document);
 		return okStatus(document);
@@ -197,7 +203,6 @@ public class DocumentRest{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response setEditable(
 			@QueryParam("documentId") String id) {
-		System.out.println("GET Request: reject");
 		document = documentDAO.readById(id);
 		if (document == null) return notFoundStatus("404 Document not Found");
 		document.setEditable(true);
@@ -215,6 +220,27 @@ public class DocumentRest{
 		System.out.println("deleted "+temp+" document(s)");
 		return okStatus("Deleted!");
 	}
+	
+	@POST
+	@Path("newEditDraft")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createNewEditDraftdocument(
+			@FormParam("documentName") String name, 
+			@FormParam("description") String description,
+			@FormParam("documentId") String documentId
+			) {
+		System.out.println("GET Request: newdraft");
+		document = documentDAO.readById(documentId);
+		int temp = document.getMinorVersion();
+		temp++;
+		Document newDocument = new Document(name, description, new Date(), new Draft(), document.getCreator(), "56a0d083d4c607b2e7a60a5c",document.getMajorVersion(),temp,true);
+		documentDAO.create(newDocument);
+		
+		return okStatus(newDocument);
+	}
+	
+	
 	
 
 }

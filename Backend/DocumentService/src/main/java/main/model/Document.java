@@ -35,7 +35,9 @@ public class Document {
 		this.status = status.getDocumentStatusName();
 		this.creatorId = creatorId;
 		this.approverId = approverId;
-		this.version = majorVersion+"."+minorVersion;
+		this.majorVersion = majorVersion;
+		this.minorVersion = minorVersion;
+		setVersion(majorVersion, minorVersion);
 		setCreatedDate(date);
 		setLastModifiedDate(date);
 	}

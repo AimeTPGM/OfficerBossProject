@@ -47,9 +47,14 @@ public class DocumentDAOImpl implements DocumentDAO{
 		Update update = new Update();
 		update.set("name", document.getDocumentName());
 		update.set("description", document.getDescription());
+		update.set("status", document.getDocumentStatus());
 		update.set("lastModifiedDate", document.getLastModifiedDate());
 		update.set("version", document.getVersion());
-		update.set("status", document.getDocumentStatus());
+		update.set("approverId", document.getApprover());
+		update.set("majorVersion", document.getMajorVersion());
+		update.set("minorVersion", document.getMinorVersion());
+		update.set("editable", document.isEditable());
+		
 		System.out.println("DAO: Updating document id:"+document.getDocumentId());
 		this.mongoOps.findAndModify(query, update, Document.class, COLLECTION);
 		
