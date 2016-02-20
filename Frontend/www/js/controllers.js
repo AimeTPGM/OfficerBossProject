@@ -137,6 +137,34 @@ angular.module('starter.controllers', ['ngFileUpload'])
         });
   }
 
+  this.editable = function(docId){
+    $http.get('http://localhost:8081/getdocument?documentid='+docId)
+        .success(function(data){
+          console.log('successfully get document');
+          if(data.documentStatus == 'Reject'){
+            console.log(docId+" "+data.documentStatus)
+            $http.get('http://localhost:8081/editable?documentid='+docId)
+              .success(function(data){
+                console.log('successfully set document editable to true');
+
+              })
+              .error(function(data){
+                console.log('cannot reach document-service port 8081')
+              });
+          }
+          else{
+            console.log(docId+" "+data.documentStatus+" then not setEditable")
+          }
+        })
+        .error(function(data){
+          console.log('cannot reach document-service port 8081')
+        });
+
+
+
+    
+  }
+
 })
 
 

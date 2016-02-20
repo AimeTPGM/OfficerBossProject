@@ -23,6 +23,8 @@ angular.module('starter.controllers')
   $http.get('http://localhost:8085/folder?folderId='+$stateParams.folderId)
     .success(function(data){
       $scope.folder = data;
+      var lastDocId = $scope.folder.documentList[($scope.folder.documentList.length)-1];
+      DocumentService.editable(lastDocId);
       
       $scope.versions = {};
       var j = 0;
@@ -36,7 +38,7 @@ angular.module('starter.controllers')
             $scope.versions[j] = temp;
             $scope.versions[j].docId = data.documentId;
             j++;
-
+            
             
             
           })
@@ -45,6 +47,10 @@ angular.module('starter.controllers')
 
           });
       };
+
+
+      
+
 
 
     })
