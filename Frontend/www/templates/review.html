@@ -2,9 +2,23 @@
 	<ion-content>
 	<div class="row">
 		<div class="col col-80 center">
-			<h1 class="main-header" style="margin-top: 4vh;">Review Document</h1>
-			<a href="#/app/doclistforboss" class="path-link">Document List</a><span> / {{doc.documentName}}</span>
+			<h1 class="main-header" style="margin-top: 4vh;">Review: {{doc.documentName}}</h1>
+
+			<a href="#/app/doclistforboss" class="path-link">Document List</a>
+			<span> / </span>
+			<a href="#/app/doc/{{folder.id}}/history" class="path-link"> History </a>
+			<span> / {{doc.documentName}}</span>
+
+			<select onchange="location = this.options[this.selectedIndex].value;">
+				
+
+				<option selected="version.docId === doc.documentId" ng-repeat="version in versions track by $index" value="#/app/doc/{{folder.id}}/{{version.docId}}">Version {{version.version}}</option>
+			</select>
+
 			<hr class="main-hr">
+
+
+
 			<div class="row">
 				<div class="col col-75 center">
 					<div class="list">

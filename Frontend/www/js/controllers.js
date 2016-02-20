@@ -146,13 +146,15 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   }
 
-  this.approve = function(docId,approverId,reviewText){
+  this.approve = function(docId,approverId,reviewText,folderId){
     $http.get('http://localhost:8083/createreview?documentid='+docId+'&approverid='+approverId+'&reviewdesc='+reviewText)
         .success(function(data){
         console.log('created review from '+approverId+' review text: '+reviewText);
         $http.get('http://localhost:8081/approve?documentid='+docId)
           .success(function(data){
             console.log('successfully approve document: change from waiting for approval to aprove');
+            FolderService.unpublished(folderId);
+
             $window.location.href=('#/app/doclistforboss');
 
           })
@@ -413,7 +415,6 @@ angular.module('starter.controllers', ['ngFileUpload'])
     $http.get('http://localhost:8085/unpublished?folderId='+folderId)
         .success(function(data){
           console.log('successfully change folder status to unpublished')
-          $window.location.reload();
 
         })
         .error(function(data){

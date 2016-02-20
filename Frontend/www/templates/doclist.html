@@ -6,7 +6,7 @@
 			<hr class="main-hr">
 			<div show-when="large" class="row padding-0 header-action-button">
 
-				<div class="col col-20 padding-0" ng-show="showBtn()">
+				<div class="col col-20 padding-0">
 					
 					<a class="button button button-dark btn-new-task" href="#/app/doc/{{folder.id}}/new">New Document </a>
 					
@@ -22,26 +22,6 @@
 				</div>
 			</div>
 
-			<div show-when="small" class="row">
-				<a class="button button button-dark btn-new-task"  ng-click="newFolder()">New Folder</a>
-					
-	
-				<div class="btn-new-task" ng-show="showForm()">
-					<form>
-						<div class="row padding-0">
-							<label class="item item-input ">
-								<i class="icon ion-folder placeholder-icon"></i>
-								<input type="text" placeholder="folder name?" name="folderName" ng-model="tempFolder.folderName">
-							</label>
-							
-							<button class="button button-dark" ng-click="addFolder()"> Add
-							</button>
-						</div>
-						
-					</form>
-				</div>
-				
-			</div>
 
 				<div show-when="small" class="search btn-new-task row">
 
@@ -57,7 +37,7 @@
 				<div class="row">
 					<div show-when="large" class="col col-20 vertical-center-list-text">Title</div>
 					<div show-when="small" class="col col-85 vertical-center-list-text">Title</div>
-					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Creator</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Approver</div>
 					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Status</div>
 					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Last Update</div>
 					<div show-when="large" class="col col-10 center-header vertical-center-list-text word-wrap">History of Documents</div>
@@ -85,7 +65,7 @@
 						<div show-when="large" class="col col-10">
 							<a class="button button-positive button-circle icon ion-eye" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}" title="See Detail"></a>
 							<button class="button button button-assertive button-circle icon ion-trash-a"
-							ng-if="folder.folderStatus !== 'Completed'" title="Delete" ng-click="delete(folder.id)"></button>
+							ng-if="folder.folderStatus !== 'Completed' && folder.folderStatus !== 'Unpublished'" title="Delete" ng-click="delete(folder.id)"></button>
 						</div>
 					
 

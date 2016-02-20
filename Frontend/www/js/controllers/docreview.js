@@ -7,6 +7,38 @@ angular.module('starter.controllers')
   var documentid = $stateParams.docId;
   var approverid = "";
 
+   $http.get('http://localhost:8085/folder?folderId='+$stateParams.folderId)
+    .success(function(data){
+      $scope.folder = data;
+      
+      $scope.versions = {};
+      var j = 0;
+      for (var i = 0; i < $scope.folder.documentList.length; i++) {
+        var tempDocId = $scope.folder.documentList[i];
+        $http.get('http://localhost:8081/getdocument?documentid='+tempDocId)
+          .success(function(data){
+            var temp = {};
+            temp.version = data.version;
+            temp.docId = tempDocId;
+            $scope.versions[j] = temp;
+            $scope.versions[j].docId = data.documentId;
+            j++;
+
+            
+            
+          })
+          .error(function(data){
+            console.log('cannot reach document-service port 8081')
+
+          });
+      };
+
+
+    })
+    .error(function(data){
+      console.log('cannot reach folder-service port 8085')
+    });
+
   $http.get('http://localhost:8081/getdocument?documentid='+$stateParams.docId)
     .success(function(data){
       $scope.doc = data;
@@ -53,7 +85,7 @@ angular.module('starter.controllers')
       if($scope.reviewtext == ""){
         $scope.reviewtext = 'Approved!';
       }
-      ReviewService.approve($stateParams.docId,approverid,$scope.reviewtext);
+      ReviewService.approve($stateParams.docId,approverid,$scope.reviewtext,$stateParams.folderId);
 
     }
     $scope.reject = function(){

@@ -102,7 +102,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     })
     .state('app.review', {
-      url: '/doc/:folderId/:docId',
+      url: '/doc/:folderId/:docId/review',
       views: {
         'menuContent': {
           templateUrl: 'templates/review.html',

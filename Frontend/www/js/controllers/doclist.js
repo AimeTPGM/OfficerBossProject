@@ -5,48 +5,6 @@ angular.module('starter.controllers')
   });
 
   $scope.tempFolder = {};
-  
-
-  $scope.showBtn = function(){
-  	return true;
-  }
-
-  $scope.showForm = function(){
-  	return false;
-  }
-
-
-  $scope.newFolder = function(){
-  	$scope.showBtn = function(){
-	  	return false;
-	  }
-
-	  $scope.showForm = function(){
-	  	return true;
-	  }
-
-  }
-
-  $scope.addFolder= function(){
-  	$scope.showBtn = function(){
-	  	return true;
-	  }
-
-	  $scope.showForm = function(){
-	  	return false;
-	  }
-    if ($scope.tempFolder.folderName){
-      FolderService.newFolder($scope.tempFolder.folderName, 1);
-      $window.location.reload();
-    }
-    else {
-      $scope.tempFolder.folderName = "Untitled";
-      FolderService.newFolder($scope.tempFolder.folderName, 1);
-      $window.location.reload();
-    }
-
-
-  }
 
   $scope.delete = function(folderId){
     FolderService.delete(folderId);
@@ -80,7 +38,7 @@ angular.module('starter.controllers')
           console.log(data)
     });
 
-  $http.get('http://localhost:8082/getuser?userid=1')
+  $http.get('http://localhost:8082/getuser?userid=56a0d083d4c607b2e7a60a5c')
     .success(function(data){
       $scope.user = data;
     })

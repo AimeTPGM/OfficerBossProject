@@ -4,27 +4,25 @@ angular.module('starter.controllers')
     disableBack: true
   });
 
-
-  // For boss
-  $http.get('http://localhost:8081/getalldocuments')
+  $http.get('http://localhost:8085/folders')
     .success(function(data){
       $scope.documents = data;
       var alldoc = data;
 
       $http.get('http://localhost:8082/getusers')
         .success(function(data){
-          $scope.users = data;
           var temp_users = data;
           for (var i = 0; i < alldoc.length; i++) {
               for (var j = 0; j < temp_users.length; j++) {
-                if (alldoc[i].creator == temp_users[j].userId){
-                  $scope.documents[i].creatorName = temp_users[j].firstname;
+                if (alldoc[i].creatorId == temp_users[j].userId){
+                  $scope.documents[i].creatorName = temp_users[j].lastname+" "+temp_users[j].firstname;
+                  $scope.documents[i].lastDocId = $scope.documents[i].documentList[($scope.documents[i].documentList.length)-1];
                   break;
                 }
               };
           };
 
-          console.log(alldoc);
+          console.log($scope.documents);
             
         })
         .error(function(data){

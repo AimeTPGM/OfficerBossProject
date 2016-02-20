@@ -18,21 +18,6 @@ angular.module('starter.controllers')
 
     }
 
-    $scope.onChange = function(){
-      console.log($scope.selectedVersion);
-      // $window.location.href='#/app/doc/'+$stateParams.folderId+'/'+docId;
-    }
-
-    $scope.isDocument = function(docId){
-      console.log(docId+":"+$stateParams.docId)
-      if(docId == $stateParams.docId) {
-        return true;
-      }
-      else {
-        return false;
-      }
-    }
-
 
 
   $http.get('http://localhost:8085/folder?folderId='+$stateParams.folderId)
