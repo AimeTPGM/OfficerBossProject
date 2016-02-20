@@ -28,10 +28,9 @@ public class Folder {
 		
 	}
 	
-	public Folder(List<String> documentIdList, String folderName, Date date, FolderStatus folderStatus, String creatorId){
+	public Folder(List<String> documentIdList, String folderName, Date date, String creatorId){
 		setFolderName(folderName);
 		setLastUpdate(date);
-		setFolderStatus(folderStatus);
 		setCreatorId(creatorId);
 		this.documentIdList = documentIdList;
 		setNumberOfDocument(documentIdList.size());
