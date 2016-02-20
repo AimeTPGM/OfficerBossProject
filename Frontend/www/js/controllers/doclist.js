@@ -8,7 +8,7 @@ angular.module('starter.controllers')
 
   $scope.delete = function(folderId){
     FolderService.delete(folderId);
-    
+    $window.location.href=('#/app/doc');
   }
 
   
