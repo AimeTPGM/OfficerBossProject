@@ -118,7 +118,7 @@
 								</a>
 							</div>
 							<div class="col col-33">
-								<button class="button button-full button-balanced" ng-click="submit(doc.documentId)">
+								<button class="button button-full button-balanced" ng-click="submit(doc.documentId, doc.documentStatus)">
 								  Submit
 								</button>
 							</div>
@@ -132,7 +132,7 @@
 								<a class="button button-full button-energized col-33" href="#/app/doc/{{folder.id}}/{{doc.documentId}}/edit">
 								  Edit
 								</a>
-								<button class="button button-full button-balanced" ng-click="submit(doc.documentId)">
+								<button class="button button-full button-balanced" ng-click="submit(doc.documentId, doc.documentStatus)">
 								  Submit
 								</button>
 								<button class="button button-full button-assertive" ng-click="delete(doc.documentId)">

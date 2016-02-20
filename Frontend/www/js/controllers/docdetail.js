@@ -13,32 +13,36 @@ angular.module('starter.controllers')
       $window.location.href=('#/app/doc');
     }
 
-    $scope.submit = function(docId){
-      DocumentService.submit(docId);
-      // $http({
-      //     method: 'POST',
-      //     url: 'http://localhost:8081/newEditDraft',
-      //     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      //     transformRequest: function(obj) {
-      //         var str = [];
-      //         for(var p in obj)
-      //         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-      //         return str.join("&");
-      //     },
-      //     data: {documentName:$scope.doc.documentName, 
-      //       description:$scope.doc.description, 
-      //       documentId: $stateParams.docId
-      //     }
+    $scope.submit = function(docId, docStatus){
+      if(docStatus == 'Draft'){
+        DocumentService.submit(docId);
+      }
+      else if(docStatus == 'Reject'){
+         $http({
+          method: 'POST',
+          url: 'http://localhost:8081/newEditDraft',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj)
+              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              return str.join("&");
+          },
+          data: {documentName:$scope.doc.documentName, 
+            description:$scope.doc.description, 
+            documentId: $stateParams.docId
+          }
         
-      // }).success(function(data, status, headers, config) {
-      //   FolderService.addDocument($stateParams.folderId, data.documentId);
-      //   DocumentService.submit(data.documentId);
+      }).success(function(data, status, headers, config) {
+        FolderService.addDocument($stateParams.folderId, data.documentId);
+        DocumentService.submit(data.documentId);
 
-      // }).
-      // error(function(data, status, headers, config) {
-      //   console.log('cannot reach document-service port 8081')
-      // });
+      }).
+      error(function(data, status, headers, config) {
+        console.log('cannot reach document-service port 8081')
+      });
 
+      }
     }
 
 

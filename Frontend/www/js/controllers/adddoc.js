@@ -190,6 +190,10 @@ angular.module('starter.controllers')
     // if it never been uploaded
     if(!$scope.savedDocData){
       console.log("creating new document");
+         // if there is no document name
+    if(!$scope.doc.name){ $scope.doc.name = "Untitled"; }
+    // if there is no description
+    if(!$scope.doc.desc){ $scope.doc.desc = "no description";}
 
       $http.get('http://localhost:8081/newdocument?documentName='+$scope.doc.name+'&description='+$scope.doc.desc+'&creator=1')
         .success(function(data){
@@ -245,9 +249,10 @@ angular.module('starter.controllers')
        $scope.doc = angular.copy(blank);
     }
     else{
-      DocumentService.delete($scope.savedDocData.documentId,$scope.savedFolder.id);
+      FolderService.delete($scope.savedFolder.id);
       document.getElementById("filename").style.display = "none";
       $scope.doc = angular.copy(blank);
+      $window.location.reload();
     }
    
   }
