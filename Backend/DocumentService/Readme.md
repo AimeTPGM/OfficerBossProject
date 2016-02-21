@@ -17,11 +17,11 @@ COLLECTION | documenttestonly
 
 		Path			|	Type	|		Parameter(s)	|	Description
 ------------------------|-----------|-----------------------|----------
-/getalldocuments		|	GET		| |Return all documents
-/getdocument			|	GET 	|documentid=String|Return document by {documentid}
-/getalldocumentsbyuserid|	GET 	|userid=String|Return document by {userid}
-/newdraft	 			|	POST	|documentName=String, description=String, creator=String|create new draft
-/newdocument			|	GET 	|documentName=String, description=String, creator=String|create new document, status = Waiting for Approval
+/getDocuments		|	GET		| |Return all documents
+/getDocument			|	GET 	|documentId=String|Return document by {document id}
+/getDocumentsByUserId|	GET 	|userid=String|Return document by {userid}
+/newDraft	 			|	POST	|documentName=String, description=String, creator=String|create new draft
+/newDocument			|	GET 	|documentName=String, description=String, creator=String|create new document, status = Waiting for Approval
 /save					|	GET 	|documentId=String, documentName=String, description=String| update document, status = current status
 /submit					|	GET 	|documentId=String| submit document, status = Waiting for Approval
 /approve				|	GET 	|documentId=String| approve document, status = Approve
