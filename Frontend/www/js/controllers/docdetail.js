@@ -129,7 +129,7 @@ angular.module('starter.controllers')
           console.log('cannot reach user-service port 8082')
         });
 
-      $http.get('http://localhost:8084/filedetail?documentId='+$scope.doc.documentId)
+      $http.get('http://localhost:8084/fileDetail?documentId='+$scope.doc.documentId)
         .success(function(data){
           $scope.filename = data;
             

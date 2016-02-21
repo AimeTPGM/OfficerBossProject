@@ -19,7 +19,7 @@ COLLECTION | filetestonly
 ------------------------|-----------|-----------------------|----------
 /files		|	GET		| | Return all files
 /delete			|	GET |id=String|delete file by {file id}
-/deletebydocid|	GET 	|documentid=String|delete file by {document id}
-/download	 |	GET	|documentid=String|download file by {document id}
-/upload	 	|	POST	|file=file, documentid=String|upload file
+/deleteByDocumentId|	GET 	|documentId=String|delete file by {document id}
+/download	 |	GET	|documentId=String|download file by {document id}
+/upload	 	|	POST	|file=file, documentId=String|upload file
 

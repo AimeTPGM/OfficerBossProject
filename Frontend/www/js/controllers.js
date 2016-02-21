@@ -108,7 +108,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
         });
 
     console.log('deleting file')
-    $http.get('http://localhost:8084/deletebydocid?documentId='+docId)
+    $http.get('http://localhost:8084/deleteByDocumentId?documentId='+docId)
         .success(function(data){
           console.log('successfully delete file');
           
@@ -243,7 +243,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
     this.getFileDetail = function(docId){
       
-      $http.get('http://localhost:8084/filedetail?documentId='+docId)
+      $http.get('http://localhost:8084/fileDetail?documentId='+docId)
         .success(function(data){
           
         })
@@ -262,7 +262,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
     }
 
     this.delete = function(docId){
-       $http.get('http://localhost:8084/deletebydocid?documentId='+docId)
+       $http.get('http://localhost:8084/deleteByDocumentId?documentId='+docId)
         .success(function(data){
           
         })
@@ -341,7 +341,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
                 });
 
             console.log('deleting file')
-            $http.get('http://localhost:8084/deletebydocid?documentId='+docId)
+            $http.get('http://localhost:8084/deleteByDocumentId?documentId='+docId)
                 .success(function(data){
                   console.log('successfully delete file');
                   

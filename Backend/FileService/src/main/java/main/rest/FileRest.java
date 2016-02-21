@@ -50,7 +50,7 @@ public class FileRest {
 	}
 	
 	@GET
-	@Path("deletebydocid")
+	@Path("deleteByDocumentId")
 	public Response deleteFileByDocumentId(@QueryParam("documentId") String documentId){
 		fileDAO.deleteByDocumentId(documentId);
 		return Response.ok()
@@ -58,7 +58,7 @@ public class FileRest {
 	}
 	
 	@GET
-	@Path("filedetail")
+	@Path("fileDetail")
 	public Response getFileDetail(@QueryParam("documentId") String id){
 		MyFile temp = new MyFile();
 		temp = fileDAO.readByDocumentId(id);
@@ -100,7 +100,7 @@ public class FileRest {
 	}
 	
 	@GET
-	@Path("downloadbyid")
+	@Path("downloadById")
 	public Response downloadFileById(@QueryParam("id") final String id){
 		final InputStream temp = fileDAO.readById(id);
 		StreamingOutput fileStream =  new StreamingOutput() 

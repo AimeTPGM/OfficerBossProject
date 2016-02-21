@@ -67,7 +67,7 @@ angular.module('starter.controllers')
 
 
   $scope.delete = function(docId){
-    DocumentService.delete(docId);
+    FolderService.delete($stateParams.folderId);
 
     $window.location.reload();
     }
