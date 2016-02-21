@@ -138,3 +138,20 @@
 	outline: 1px dotted #000;
 	outline: -webkit-focus-ring-color auto 5px;
 }
+
+.publish-list-container{
+	height: 100vh;
+	border-right: 1px solid #F2F2F2;
+}
+.publish-document-detail-container{
+	height: 100vh;
+}
+.publish-document-detail-container .detail-container{
+	border: 1px solid #F2F2F2;
+	height: 82vh;
+	overflow: scroll;
+	color: #555;
+}
+.publish-document-detail-container .detail-container .seperator{
+	border: 1px solid #F2F2F2;
+}

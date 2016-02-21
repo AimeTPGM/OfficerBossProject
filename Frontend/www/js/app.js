@@ -111,6 +111,18 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       }
     })
+    .state('app.publishdocument', {
+        url: '/publish',
+        views: {
+        'menuContent': {
+          templateUrl: 'templates/publish/doclist.html',
+          controller: 'DocumentReviewCtrl'
+
+        }
+      }
+    })
+  
+
     .state('app.dashboard', {
       url: '/dashboard',
       views: {
