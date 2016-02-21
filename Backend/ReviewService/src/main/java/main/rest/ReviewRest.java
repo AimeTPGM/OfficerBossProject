@@ -39,7 +39,7 @@ public class ReviewRest {
 	
 	
 	@GET
-	@Path("getreviewbydocumentid")
+	@Path("getReviewByDocumentId")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getReviewByDocumentId(@QueryParam("documentId") String id) {
 		review = reviewDAO.readByDocumentId(id);
@@ -47,7 +47,7 @@ public class ReviewRest {
 	}
 	
 	@GET
-	@Path("getreviews")
+	@Path("getReviews")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getReviews() {
 		reviews = reviewDAO.getAllReview();
@@ -55,9 +55,9 @@ public class ReviewRest {
 	}
 	
 	@GET
-	@Path("getreview")
+	@Path("getReview")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getReview(@QueryParam("reviewid") String id) {
+	public Response getReview(@QueryParam("reviewId") String id) {
 		review = reviewDAO.readByReviewId(id);
 		if(review == null) return notFoundStatus("404 Review not Found");
 		return okStatus(review);
@@ -83,12 +83,12 @@ public class ReviewRest {
 	
 	
 	@GET
-	@Path("createreview")
+	@Path("createReview")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createReview(
 			@QueryParam("documentId") String documentId,
-			@QueryParam("approverid") String approverId,
-			@QueryParam("reviewdesc") String reviewDesc) {
+			@QueryParam("approverId") String approverId,
+			@QueryParam("reviewDesc") String reviewDesc) {
 
 		review = new Review(documentId, approverId, reviewDesc, new Date());
 		reviewDAO.create(review);

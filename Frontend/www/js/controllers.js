@@ -173,7 +173,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
   }
 
   this.approve = function(docId,approverId,reviewText,folderId){
-    $http.get('http://localhost:8083/createreview?documentId='+docId+'&approverid='+approverId+'&reviewdesc='+reviewText)
+    $http.get('http://localhost:8083/createReview?documentId='+docId+'&approverId='+approverId+'&reviewDesc='+reviewText)
         .success(function(data){
         console.log('created review from '+approverId+' review text: '+reviewText);
         $http.get('http://localhost:8081/approve?documentId='+docId)
@@ -196,7 +196,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   this.reject = function(docId,approverId,reviewText){
 
-    $http.get('http://localhost:8083/createreview?documentId='+docId+'&approverid='+approverId+'&reviewdesc='+reviewText)
+    $http.get('http://localhost:8083/createReview?documentId='+docId+'&approverId='+approverId+'&reviewDesc='+reviewText)
           .success(function(data){
             console.log('created review from '+approverId+' review text: '+reviewText);
             $http.get('http://localhost:8081/reject?documentId='+docId)

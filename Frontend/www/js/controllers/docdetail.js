@@ -94,7 +94,7 @@ angular.module('starter.controllers')
     }
 
 
-  $http.get('http://localhost:8083/getreviewbydocumentid?documentId='+$stateParams.docId)
+  $http.get('http://localhost:8083/getReviewByDocumentId?documentId='+$stateParams.docId)
     .success(function(data){
       $scope.review = data;
 
