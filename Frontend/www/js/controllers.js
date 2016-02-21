@@ -18,7 +18,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   this.newdoc = function(docName,docDesc,creatorId){
 
-    $http.get('http://localhost:8081/newdocument?documentName='+docName+'&description='+docDesc+'&creator='+creatorId)
+    $http.get('http://localhost:8081/newDocument?documentName='+docName+'&description='+docDesc+'&creatorId='+creatorId)
         .success(function(data){
           console.log('successfully create new document: waiting for approval');
           FolderService.addDocument(folderId, data.documentId);
@@ -31,7 +31,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   }
   this.updateNoNewFile = function(docName,docDesc,creatorId,docId,folderId){
-    $http.get('http://localhost:8081/newdocument?documentName='+docName+'&description='+docDesc+'&creator='+creatorId)
+    $http.get('http://localhost:8081/newDocument?documentName='+docName+'&description='+docDesc+'&creatorId='+creatorId)
         .success(function(data){
           console.log('successfully create new document: waiting for approval');
           FolderService.addDocument(folderId, data.documentId);

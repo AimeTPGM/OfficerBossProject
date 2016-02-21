@@ -66,10 +66,10 @@ public class DocumentRest{
 	}
 	
 	@GET
-	@Path("getalldocumentsbyuserid")
+	@Path("getDocumentsByUserId")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDocumentByUserId(
-			@QueryParam("userid") String id) {
+			@QueryParam("userId") String id) {
 		System.out.println("GET Request: getalldocumentsbyuserid");
 		documents = documentDAO.getAllDocumentsByUserId(id);
 		if(documents == null) return notFoundStatus("404 Document Lists not Found");
@@ -78,13 +78,13 @@ public class DocumentRest{
 	
 	
 	@POST
-	@Path("newdraft")
+	@Path("newDraft")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createNewDraftdocument(
 			@FormParam("documentName") String name, 
 			@FormParam("description") String description,
-			@FormParam("creator") String creatorId
+			@FormParam("creatorId") String creatorId
 			) {
 		System.out.println("GET Request: newdraft");
 		
@@ -95,12 +95,12 @@ public class DocumentRest{
 	}
 	
 	@GET
-	@Path("newdocument")
+	@Path("newDocument")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createNewDocument(
 			@QueryParam("documentName") String name, 
 			@QueryParam("description") String description,
-			@QueryParam("creator") String creatorId) {
+			@QueryParam("creatorId") String creatorId) {
 		System.out.println("GET Request: newdocument");
 		document = new Document(name, description, new Date(), new WaitingForApproval(), creatorId, "56a0d083d4c607b2e7a60a5c", 1,0,false);
 		documentDAO.create(document);

@@ -20,7 +20,7 @@ angular.module('starter.controllers')
 
       $http({
         method: 'POST',
-        url: 'http://localhost:8081/newdraft',
+        url: 'http://localhost:8081/newDraft',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         transformRequest: function(obj) {
             var str = [];
@@ -28,7 +28,7 @@ angular.module('starter.controllers')
             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
             return str.join("&");
         },
-        data: {documentName:$scope.doc.name, description:$scope.doc.desc, creator:1}
+        data: {documentName:$scope.doc.name, description:$scope.doc.desc, creatorId:1}
       
     }).
     success(function(data, status, headers, config) {
@@ -123,7 +123,7 @@ angular.module('starter.controllers')
       console.log("creating new draft")
       $http({
         method: 'POST',
-        url: 'http://localhost:8081/newdraft',
+        url: 'http://localhost:8081/newDraft',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         transformRequest: function(obj) {
             var str = [];
@@ -131,7 +131,7 @@ angular.module('starter.controllers')
             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
             return str.join("&");
         },
-        data: {documentName:$scope.doc.name, description:$scope.doc.desc, creator:1}
+        data: {documentName:$scope.doc.name, description:$scope.doc.desc, creatorId:1}
       
     }).
     success(function(data, status, headers, config) {
@@ -195,7 +195,7 @@ angular.module('starter.controllers')
     // if there is no description
     if(!$scope.doc.desc){ $scope.doc.desc = "no description";}
 
-      $http.get('http://localhost:8081/newdocument?documentName='+$scope.doc.name+'&description='+$scope.doc.desc+'&creator=1')
+      $http.get('http://localhost:8081/newDocument?documentName='+$scope.doc.name+'&description='+$scope.doc.desc+'&creatorId=1')
         .success(function(data){
           console.log('successfully create new document: waiting for approval');
           $scope.savedDocData = data;
