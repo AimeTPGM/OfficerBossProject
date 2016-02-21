@@ -75,7 +75,6 @@ angular.module('starter.controllers')
     console.log('publish document: '+docId)
       DocumentService.publish(docId)
       console.log('change folder status: '+$stateParams.folderId)
-      FolderService.complete($stateParams.folderId)
 
     }
 

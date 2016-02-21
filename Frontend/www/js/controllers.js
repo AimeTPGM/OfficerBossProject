@@ -179,7 +179,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
         $http.get('http://localhost:8081/approve?documentid='+docId)
           .success(function(data){
             console.log('successfully approve document: change from waiting for approval to aprove');
-            FolderService.unpublished(folderId);
+            
 
             $window.location.href=('#/app/doclistforboss');
 
@@ -418,30 +418,6 @@ angular.module('starter.controllers', ['ngFileUpload'])
     $http.get('http://localhost:8085/addDocument?folderId='+folderId+'&documentId='+docId)
         .success(function(data){
           console.log('successfully delete document')
-        })
-        .error(function(data){
-          console.log('cannot reach folder-service port 8085')
-          console.log(data)
-        });
-  }
-
-  this.complete = function(folderId){
-    $http.get('http://localhost:8085/complete?folderId='+folderId)
-        .success(function(data){
-          console.log('successfully change folder status to completed')
-          $window.location.reload();
-
-        })
-        .error(function(data){
-          console.log('cannot reach folder-service port 8085')
-          console.log(data)
-        });
-  }
-  this.unpublished = function(folderId){
-    $http.get('http://localhost:8085/unpublished?folderId='+folderId)
-        .success(function(data){
-          console.log('successfully change folder status to unpublished')
-
         })
         .error(function(data){
           console.log('cannot reach folder-service port 8085')

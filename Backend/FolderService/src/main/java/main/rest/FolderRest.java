@@ -119,27 +119,7 @@ public class FolderRest {
 		String response = "deleted!";
 		return Response.status(200).entity(response).build();
 	}
+
 	
-	@GET
-	@Path("complete")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response completeById(@QueryParam("folderId") String id){
-		System.out.println("Change folder status to \"Completed\", folder id: "+id);
-		folder = folderDAO.readById(id);
-		folderDAO.update(folder);
-		folder.setLastUpdate(new Date());
-		return Response.status(200).entity(folder).build();
-	}
-	
-	@GET
-	@Path("unpublished")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response unpublishedById(@QueryParam("folderId") String id){
-		System.out.println("Update Last Update Date after Approve");
-		folder = folderDAO.readById(id);
-		folder.setLastUpdate(new Date());
-		folderDAO.update(folder);
-		return Response.status(200).entity(folder).build();
-	}
 	
 }
