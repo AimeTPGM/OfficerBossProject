@@ -48,7 +48,7 @@ public class DocumentRest{
 	@GET
 	@Path("getalldocuments")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllDocuments() {
+	public Response getDocuments() {
 		System.out.println("GET Request: getalldocuments");
 		documents = documentDAO.getAllDocuments();
 		return okStatus(documents);
@@ -57,7 +57,7 @@ public class DocumentRest{
 	@GET
 	@Path("getdocument")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getdocument(
+	public Response getDocument(
 			@QueryParam("documentid") String id) {
 		System.out.println("GET Request: getdocument");
 		document = documentDAO.readById(id);
@@ -68,7 +68,7 @@ public class DocumentRest{
 	@GET
 	@Path("getalldocumentsbyuserid")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getdocumentbyuserid(
+	public Response getDocumentByUserId(
 			@QueryParam("userid") String id) {
 		System.out.println("GET Request: getalldocumentsbyuserid");
 		documents = documentDAO.getAllDocumentsByUserId(id);
@@ -88,7 +88,7 @@ public class DocumentRest{
 			) {
 		System.out.println("GET Request: newdraft");
 		
-		document = new Document(name, description, new Date(), new Draft(), creatorId, "56a0d083d4c607b2e7a60a5c",0,1,true);
+		document = new Document(name, description, new Date(), new Draft(), creatorId, "56a0d083d4c607b2e7a60a5c",0,1,false);
 		documentDAO.create(document);
 		
 		return okStatus(document);
@@ -97,7 +97,7 @@ public class DocumentRest{
 	@GET
 	@Path("newdocument")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createNewdocument(
+	public Response createNewDocument(
 			@QueryParam("documentName") String name, 
 			@QueryParam("description") String description,
 			@QueryParam("creator") String creatorId) {
@@ -112,7 +112,7 @@ public class DocumentRest{
 	@Path("save")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response savedocument(
+	public Response saveDocument(
 			@FormParam("documentId") String id, 
 			@FormParam("documentName") String name,
 			@FormParam("description") String description
@@ -136,7 +136,7 @@ public class DocumentRest{
 	@GET
 	@Path("submit")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response submitdocumentToApprove(
+	public Response submitDocument(
 			@QueryParam("documentid") String id) {
 		System.out.println("GET Request: submit");
 		document = documentDAO.readById(id);
@@ -157,7 +157,7 @@ public class DocumentRest{
 	@GET
 	@Path("approve")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response approveThedocument(
+	public Response approveDocument(
 			@QueryParam("documentid") String id) {
 		System.out.println("GET Request: approve");
 		document = documentDAO.readById(id);
@@ -172,7 +172,7 @@ public class DocumentRest{
 	@GET
 	@Path("publish")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response publishThedocument(
+	public Response publishDocument(
 			@QueryParam("documentid") String id) {
 		System.out.println("GET Request: publish");
 		document = documentDAO.readById(id);
@@ -202,10 +202,10 @@ public class DocumentRest{
 	@Path("editable")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response setEditable(
-			@QueryParam("documentId") String id) {
+			@QueryParam("documentId") String id, @QueryParam("editable") boolean editable) {
 		document = documentDAO.readById(id);
 		if (document == null) return notFoundStatus("404 Document not Found");
-		document.setEditable(true);
+		document.setEditable(editable);
 		documentDAO.update(document);
 		return okStatus(document);
 	}
@@ -234,10 +234,24 @@ public class DocumentRest{
 		document = documentDAO.readById(documentId);
 		int temp = document.getMinorVersion();
 		temp++;
-		Document newDocument = new Document(name, description, new Date(), new Draft(), document.getCreator(), "56a0d083d4c607b2e7a60a5c",document.getMajorVersion(),temp,true);
+		Document newDocument = new Document(name, description, new Date(), new Draft(), document.getCreator(), "56a0d083d4c607b2e7a60a5c",document.getMajorVersion(),temp,false);
 		documentDAO.create(newDocument);
 		
 		return okStatus(newDocument);
+	}
+	
+	@GET
+	@Path("unpublished")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response unpublishedDocument(
+			@QueryParam("documentId") String id) {
+		System.out.println("GET Request: publish");
+		document = documentDAO.readById(id);
+		if (document == null) return notFoundStatus("404 Document not Found");
+		document.setDocumentStatus(new Approved().getDocumentStatusName());
+		document.setEditable(false);
+		documentDAO.update(document);
+		return okStatus(document);
 	}
 	
 	

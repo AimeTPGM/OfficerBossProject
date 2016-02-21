@@ -29,3 +29,4 @@ COLLECTION | documenttestonly
 /reject					|	GET 	|documentId=String| reject document, status = Reject
 /delete					|	GET 	|documentId=String| delete
 /newEditDraft			|	POST	|documentName=String, description=String, documentId=String| create new draft for edit document from reject document
+/unpublished			| 	GET 	|documentId=String|	unpublished the document {document id} change status to Approved
