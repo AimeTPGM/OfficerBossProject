@@ -46,7 +46,7 @@ public class UserRest {
 	
 	
 	@GET
-	@Path("getusers")
+	@Path("users")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUsers() {
         List<User> users = userDAO.getAllUsers();
@@ -55,10 +55,10 @@ public class UserRest {
 	}
 	
 	@GET
-	@Path("getuser")
+	@Path("user")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUser(
-			@QueryParam("userid") String id) {
+			@QueryParam("userId") String id) {
 		System.out.println("GET Request: get user by id "+id);
 		user = userDAO.readById(id);
 		if (user == null) return notFoundStatus("404 User not Found");
@@ -76,7 +76,7 @@ public class UserRest {
 	}
 
 	@POST
-	@Path("newofficer")
+	@Path("newOfficer")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response newOfficer(User u){
@@ -87,7 +87,7 @@ public class UserRest {
 	}
 	
 	@POST
-	@Path("newboss")
+	@Path("newBoss")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response newBoss(User u){

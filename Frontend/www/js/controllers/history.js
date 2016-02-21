@@ -27,7 +27,7 @@ angular.module('starter.controllers')
             for (var j = 0; j < $scope.documents.length; j++) {
               if($scope.documents[j] == data.documentId){
                 $scope.documents[j] = data;
-                $http.get('http://localhost:8082/getuser?userid='+data.approver)
+                $http.get('http://localhost:8082/user?userId='+data.approver)
                   .success(function(data){
                     $scope.approver = data;
 

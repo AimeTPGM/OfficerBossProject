@@ -9,7 +9,7 @@ angular.module('starter.controllers')
       $scope.documents = data;
       var alldoc = data;
       var temp = {};
-      $http.get('http://localhost:8082/getusers')
+      $http.get('http://localhost:8082/users')
         .success(function(data){
           var temp_users = data;
           for (var i = 0; i < alldoc.length; i++) {

@@ -71,7 +71,7 @@ angular.module('starter.controllers')
 
    
 
-  $http.get('http://localhost:8082/getuser?userid=56a0d083d4c607b2e7a60a5c')
+  $http.get('http://localhost:8082/user?userId=56a0d083d4c607b2e7a60a5c')
     .success(function(data){
       $scope.user = data;
     })

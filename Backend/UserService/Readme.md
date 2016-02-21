@@ -17,7 +17,8 @@ COLLECTION | usertestonly
 
 	Path		|	Type	|	Parameter(s)	|	Description
 ------------------------|-----------|-----------------------|----------
-/getusers	|	GET		| | Return all users
-/getuser|	GET 	|userid=String|get user by {user id}
-/newofficer|	POST |user=JSON|create new officer user
-/newboss|	POST	|user=JSON|create new boss
+/users	|	GET		| | Return all users
+/user|	GET 	|userId=String|get user by {user id}
+/newOfficer|	POST |user=JSON|create new officer user
+/newBoss|	POST	|user=JSON|create new boss
+/login |	POST	|email=String, password=String | dummy login, check password == realPassword.BCrypt

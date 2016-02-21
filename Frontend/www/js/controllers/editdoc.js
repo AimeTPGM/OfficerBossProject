@@ -27,7 +27,7 @@ angular.module('starter.controllers')
     .success(function(data){
       $scope.doc = data;
       // get creator
-      $http.get('http://localhost:8082/getuser?userId='+$scope.doc.creator)
+      $http.get('http://localhost:8082/user?userId='+$scope.doc.creator)
         .success(function(data){
           $scope.creator = data;
             
@@ -36,7 +36,7 @@ angular.module('starter.controllers')
           console.log('cannot reach user-service port 8082')
         });
         // get approver
-      $http.get('http://localhost:8082/getuser?userid='+$scope.doc.approver)
+      $http.get('http://localhost:8082/user?userId='+$scope.doc.approver)
         .success(function(data){
           $scope.approver = data;
             

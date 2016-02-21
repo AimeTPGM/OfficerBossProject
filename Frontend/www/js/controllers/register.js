@@ -11,13 +11,13 @@ angular.module('starter.controllers')
 
       $http({
         method: 'POST',
-        url: 'http://localhost:8082/newboss',
+        url: 'http://localhost:8082/newOfficer',
         headers: {'Content-Type': 'application/json'},
         data: $scope.user
     
     })
       .success(function(data, status, headers, config) {
-        console.log('sent POST request: successfully create new boss');
+        console.log('sent POST request: successfully create new officer');
         console.log(data);
 
 
