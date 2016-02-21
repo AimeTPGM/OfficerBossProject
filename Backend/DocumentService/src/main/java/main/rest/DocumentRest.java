@@ -46,7 +46,7 @@ public class DocumentRest{
 	
 	
 	@GET
-	@Path("getalldocuments")
+	@Path("getDocuments")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDocuments() {
 		System.out.println("GET Request: getalldocuments");
@@ -55,10 +55,10 @@ public class DocumentRest{
 	}
 	
 	@GET
-	@Path("getdocument")
+	@Path("getDocument")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDocument(
-			@QueryParam("documentid") String id) {
+			@QueryParam("documentId") String id) {
 		System.out.println("GET Request: getdocument");
 		document = documentDAO.readById(id);
 		if(document == null) return notFoundStatus("404 Document Not Found");
@@ -137,7 +137,7 @@ public class DocumentRest{
 	@Path("submit")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response submitDocument(
-			@QueryParam("documentid") String id) {
+			@QueryParam("documentId") String id) {
 		System.out.println("GET Request: submit");
 		document = documentDAO.readById(id);
 		if (document == null) return notFoundStatus("404 Document not Found");
@@ -158,7 +158,7 @@ public class DocumentRest{
 	@Path("approve")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response approveDocument(
-			@QueryParam("documentid") String id) {
+			@QueryParam("documentId") String id) {
 		System.out.println("GET Request: approve");
 		document = documentDAO.readById(id);
 		if (document == null) return notFoundStatus("404 Document not Found");
@@ -187,7 +187,7 @@ public class DocumentRest{
 	@Path("reject")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response rejectDocument(
-			@QueryParam("documentid") String id) {
+			@QueryParam("documentId") String id) {
 		System.out.println("GET Request: reject");
 		document = documentDAO.readById(id);
 		if (document == null) return notFoundStatus("404 Document not Found");
@@ -214,7 +214,7 @@ public class DocumentRest{
 	@Path("delete")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteDocument(
-			@QueryParam("documentid") String id) {
+			@QueryParam("documentId") String id) {
 		System.out.println("GET Request: delete");
 		int temp = documentDAO.deleteById(id);
 		System.out.println("deleted "+temp+" document(s)");

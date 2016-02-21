@@ -26,7 +26,7 @@ angular.module('starter.controllers')
           console.log(temp)
           for (var i = 0; i < alldoc.length; i++) {
             console.log(temp[i])
-                $http.get('http://localhost:8081/getdocument?documentId='+temp[i])
+                $http.get('http://localhost:8081/getDocument?documentId='+temp[i])
                   .success(function(data){
                     for (var j = 0; j < alldoc.length; j++) {
                       if(temp[j] == data.documentId){

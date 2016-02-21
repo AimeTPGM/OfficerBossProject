@@ -23,7 +23,7 @@ angular.module('starter.controllers')
       }
 
 
-  $http.get('http://localhost:8081/getdocument?documentId='+$stateParams.docId)
+  $http.get('http://localhost:8081/getDocument?documentId='+$stateParams.docId)
     .success(function(data){
       $scope.doc = data;
       // get creator
