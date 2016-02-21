@@ -57,6 +57,9 @@ angular.module('starter.controllers')
     })
     .error(function(data){
       console.log('cannot reach document-service port 8081')
+       $scope.showNoConnection = function(){
+            return true;
+          }
     });
         
 })
