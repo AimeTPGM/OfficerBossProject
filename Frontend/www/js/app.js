@@ -49,7 +49,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: '/doc',
       views: {
         'menuContent': {
-          templateUrl: 'templates/doclist.html',
+          templateUrl: 'templates/document/doclist.html',
           controller: 'DocumentListCtrl'
         }
       }
@@ -58,7 +58,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: '/doc/:folderId/history',
       views: {
         'menuContent': {
-          templateUrl: 'templates/history.html',
+          templateUrl: 'templates/document/history.html',
           controller: 'HistoryCtrl'
         }
       }
@@ -76,7 +76,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: '/doc/new',
       views: {
         'menuContent': {
-          templateUrl: 'templates/adddoc.html',
+          templateUrl: 'templates/document/adddoc.html',
           controller: 'AddNewDocumentCtrl'
         }
       }
@@ -85,7 +85,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: '/doc/:folderId/:docId/edit',
       views: {
         'menuContent': {
-          templateUrl: 'templates/editdoc.html',
+          templateUrl: 'templates/document/editdoc.html',
           controller: 'EditDocumentCtrl'
         }
       }
@@ -95,7 +95,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: '/doc/:folderId/:docId',
       views: {
         'menuContent': {
-          templateUrl: 'templates/docdetail.html',
+          templateUrl: 'templates/document/docdetail.html',
           controller: 'DocumentDetailCtrl'
 
         }
@@ -105,7 +105,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: '/doc/:folderId/:docId/review',
       views: {
         'menuContent': {
-          templateUrl: 'templates/review.html',
+          templateUrl: 'templates/boss/review.html',
           controller: 'DocumentReviewCtrl'
 
         }
