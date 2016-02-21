@@ -58,7 +58,7 @@ angular.module('starter.controllers')
       var j = 0;
       for (var i = 0; i < $scope.folder.documentList.length; i++) {
         var tempDocId = $scope.folder.documentList[i];
-        $http.get('http://localhost:8081/getdocument?documentid='+tempDocId)
+        $http.get('http://localhost:8081/getdocument?documentId='+tempDocId)
           .success(function(data){
             var temp = {};
             temp.version = data.version;
@@ -94,7 +94,7 @@ angular.module('starter.controllers')
     }
 
 
-  $http.get('http://localhost:8083/getreviewbydocumentid?documentid='+$stateParams.docId)
+  $http.get('http://localhost:8083/getreviewbydocumentid?documentId='+$stateParams.docId)
     .success(function(data){
       $scope.review = data;
 
@@ -107,7 +107,7 @@ angular.module('starter.controllers')
           FileService.download($stateParams.docId);
     }
 
-  $http.get('http://localhost:8081/getdocument?documentid='+$stateParams.docId)
+  $http.get('http://localhost:8081/getdocument?documentId='+$stateParams.docId)
     .success(function(data){
       $scope.doc = data;
       console.log(data)

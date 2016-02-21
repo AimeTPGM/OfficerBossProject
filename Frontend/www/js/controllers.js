@@ -73,7 +73,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
   }
 
   this.submit = function(docId){
-    $http.get('http://localhost:8081/submit?documentid='+docId)
+    $http.get('http://localhost:8081/submit?documentId='+docId)
         .success(function(data){
           console.log('successfully submit document: change to waiting for approval');
           $window.location.href=('#/app/doc');
@@ -87,7 +87,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   this.delete = function(docId){
     console.log('deleting document');
-    $http.get('http://localhost:8081/delete?documentid='+docId)
+    $http.get('http://localhost:8081/delete?documentId='+docId)
         .success(function(data){
           console.log('successfully delete document');
           
@@ -118,13 +118,13 @@ angular.module('starter.controllers', ['ngFileUpload'])
           console.log('cannot reach file-service port 8084')
         });
 
-    console.log('delete documentid from folder')
+    console.log('delete documentId from folder')
     FolderService.deleteDocument(folderId,docId);
 
   }
 
   this.publish = function(docId){
-    $http.get('http://localhost:8081/publish?documentid='+docId)
+    $http.get('http://localhost:8081/publish?documentId='+docId)
         .success(function(data){
           console.log('successfully publish document');
 
@@ -135,7 +135,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
   }
 
   this.editable = function(docId, editable){
-    $http.get('http://localhost:8081/getdocument?documentid='+docId)
+    $http.get('http://localhost:8081/getdocument?documentId='+docId)
         .success(function(data){
           console.log('successfully get document');
           if(data.documentStatus == 'Reject' || data.documentStatus == 'Draft'){
@@ -173,10 +173,10 @@ angular.module('starter.controllers', ['ngFileUpload'])
   }
 
   this.approve = function(docId,approverId,reviewText,folderId){
-    $http.get('http://localhost:8083/createreview?documentid='+docId+'&approverid='+approverId+'&reviewdesc='+reviewText)
+    $http.get('http://localhost:8083/createreview?documentId='+docId+'&approverid='+approverId+'&reviewdesc='+reviewText)
         .success(function(data){
         console.log('created review from '+approverId+' review text: '+reviewText);
-        $http.get('http://localhost:8081/approve?documentid='+docId)
+        $http.get('http://localhost:8081/approve?documentId='+docId)
           .success(function(data){
             console.log('successfully approve document: change from waiting for approval to aprove');
             
@@ -196,10 +196,10 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   this.reject = function(docId,approverId,reviewText){
 
-    $http.get('http://localhost:8083/createreview?documentid='+docId+'&approverid='+approverId+'&reviewdesc='+reviewText)
+    $http.get('http://localhost:8083/createreview?documentId='+docId+'&approverid='+approverId+'&reviewdesc='+reviewText)
           .success(function(data){
             console.log('created review from '+approverId+' review text: '+reviewText);
-            $http.get('http://localhost:8081/reject?documentid='+docId)
+            $http.get('http://localhost:8081/reject?documentId='+docId)
               .success(function(data){
                 console.log('successfully reject document: change from approve to reject');
                 $window.location.href=('#/app/doclistforboss');
@@ -320,7 +320,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
             var docId = data.documentList[i];
             console.log('docId: '+docId)
            console.log('deleting document');
-            $http.get('http://localhost:8081/delete?documentid='+docId)
+            $http.get('http://localhost:8081/delete?documentId='+docId)
                 .success(function(data){
                   console.log('successfully delete document');
                   

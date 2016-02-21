@@ -4,7 +4,6 @@ angular.module('starter.controllers')
     disableBack: true
   });
 
-  var documentid = $stateParams.docId;
   var approverid = "";
 
    $http.get('http://localhost:8085/folder?folderId='+$stateParams.folderId)
@@ -15,7 +14,7 @@ angular.module('starter.controllers')
       var j = 0;
       for (var i = 0; i < $scope.folder.documentList.length; i++) {
         var tempDocId = $scope.folder.documentList[i];
-        $http.get('http://localhost:8081/getdocument?documentid='+tempDocId)
+        $http.get('http://localhost:8081/getdocument?documentId='+tempDocId)
           .success(function(data){
             var temp = {};
             temp.version = data.version;
@@ -39,7 +38,7 @@ angular.module('starter.controllers')
       console.log('cannot reach folder-service port 8085')
     });
 
-  $http.get('http://localhost:8081/getdocument?documentid='+$stateParams.docId)
+  $http.get('http://localhost:8081/getdocument?documentId='+$stateParams.docId)
     .success(function(data){
       $scope.doc = data;
       approverid = $scope.doc.approver;

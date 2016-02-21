@@ -173,7 +173,7 @@ public class DocumentRest{
 	@Path("publish")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response publishDocument(
-			@QueryParam("documentid") String id) {
+			@QueryParam("documentId") String id) {
 		System.out.println("GET Request: publish");
 		document = documentDAO.readById(id);
 		if (document == null) return notFoundStatus("404 Document not Found");

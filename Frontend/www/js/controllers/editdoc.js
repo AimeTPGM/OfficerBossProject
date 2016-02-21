@@ -7,7 +7,7 @@ angular.module('starter.controllers')
   $scope.savedDocData = null;
   var count = 0;
 
-  $http.get('http://localhost:8083/getreviewbydocumentid?documentid='+$stateParams.docId)
+  $http.get('http://localhost:8083/getreviewbydocumentid?documentId='+$stateParams.docId)
     .success(function(data){
       $scope.review = data;
       
@@ -23,11 +23,11 @@ angular.module('starter.controllers')
       }
 
 
-  $http.get('http://localhost:8081/getdocument?documentid='+$stateParams.docId)
+  $http.get('http://localhost:8081/getdocument?documentId='+$stateParams.docId)
     .success(function(data){
       $scope.doc = data;
       // get creator
-      $http.get('http://localhost:8082/getuser?userid='+$scope.doc.creator)
+      $http.get('http://localhost:8082/getuser?userId='+$scope.doc.creator)
         .success(function(data){
           $scope.creator = data;
             

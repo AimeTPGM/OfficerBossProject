@@ -26,7 +26,7 @@ angular.module('starter.controllers')
       var j = 0;
       for (var i = 0; i < $scope.folders.length; i++) {
         console.log(temp[i])
-        $http.get('http://localhost:8081/getdocument?documentid='+temp[i])
+        $http.get('http://localhost:8081/getdocument?documentId='+temp[i])
           .success(function(data){
 
             for (var j = 0; j < $scope.folders.length; j++) {

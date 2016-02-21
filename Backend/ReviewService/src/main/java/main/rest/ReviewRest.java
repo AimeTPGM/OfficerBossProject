@@ -41,7 +41,7 @@ public class ReviewRest {
 	@GET
 	@Path("getreviewbydocumentid")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getReviewByDocumentId(@QueryParam("documentid") String id) {
+	public Response getReviewByDocumentId(@QueryParam("documentId") String id) {
 		review = reviewDAO.readByDocumentId(id);
 		return okStatus(review);
 	}
@@ -86,7 +86,7 @@ public class ReviewRest {
 	@Path("createreview")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createReview(
-			@QueryParam("documentid") String documentId,
+			@QueryParam("documentId") String documentId,
 			@QueryParam("approverid") String approverId,
 			@QueryParam("reviewdesc") String reviewDesc) {
 
