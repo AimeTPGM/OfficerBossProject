@@ -23,12 +23,18 @@
 			</div>
 
 
-				<div show-when="small" class="search btn-new-task row">
-
+				<div show-when="small" class="search btn-new-task padding-0">
+					<div class="row padding-0">
+						<a class="button button button-dark btn-new-task" href="#/app/doc/new">New Document </a>
+					</div>
+					<div class="row padding-0">
 						<label class="item item-input" style="width:100%;">
 							<i class="icon ion-search placeholder-icon"></i>
 							<input type="text" placeholder="Search">
 						</label>
+					</div>
+					
+						
 				</div>
 
 
@@ -89,6 +95,12 @@
 				<li class="item" ng-show="noDocument()">
 					<div style="text-align: center;color: #999;padding: 50px;">
 						There is no document yet, <a class="doclist-link" href="#/app/doc/new">create one</a>!
+					</div>
+				</li>
+				
+				<li class="item" ng-show="showNoConnection()">
+					<div style="text-align: center;color: #999;padding: 50px;">
+						We're sorry. The services are not available.
 					</div>
 				</li>
 		</ui>

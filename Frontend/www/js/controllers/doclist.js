@@ -55,6 +55,9 @@ angular.module('starter.controllers')
       if($scope.folders.length == 0){
         $scope.noDocument = function(){
           return true;
+          $scope.showNoConnection = function(){
+            return false;
+          }
         } 
       }
       else{
@@ -67,6 +70,9 @@ angular.module('starter.controllers')
     .error(function(data){
           console.log('cannot reach folder-service port 8085')
           console.log(data)
+          $scope.showNoConnection = function(){
+            return true;
+          }
     });
 
    
