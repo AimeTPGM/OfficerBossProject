@@ -1,0 +1,56 @@
+package main.rest;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.client.RestTemplate;
+
+import main.model.PublishDocument;
+
+@Named
+@Path("/")
+public class PublishDocumentRest {
+	
+	private PublishDocument publishDocument;
+	private List<PublishDocument> publishDocumentList;
+	
+//	private ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+//	private FolderDAO folderDAO = ctx.getBean("folderDAO", FolderDAO.class);
+	
+	@Inject
+	private RestTemplate restTemplate;
+	
+	@GET
+	@Path("publishDocuments")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response publishDocuments(){
+		//TODO return publishDocuments
+		return Response.status(200).entity(publishDocumentList).build();
+	}
+	
+	@GET
+	@Path("publishDocument")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response publishDocument(@QueryParam("documentId") String documentId){
+		//TODO return publishDocument by document id
+		Response res = restTemplate.getForObject("http://localhost:8081/publish?documentId=", Response.class);
+		return Response.status(200).entity(publishDocument).build();
+	}
+	
+	@GET
+	@Path("unpublished")
+	public Response unpublishDocument(@QueryParam("documentId") String documentId){
+		//TODO remove publish document from list
+		return Response.status(200).entity("Unpublised the document: "+documentId).build();
+	}
+
+}

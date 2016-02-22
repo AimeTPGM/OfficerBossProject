@@ -12,6 +12,9 @@ public class PublishDocument {
 	public PublishDocument(){
 		
 	}
+	public PublishDocument(String documentId, String publishDate){
+		
+	}
 	public PublishDocument(String documentId){
 		this.documentId = documentId;
 	}
