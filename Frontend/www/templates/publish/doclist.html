@@ -2,25 +2,44 @@
 	<ion-content>
 		<div class="row padding-0">
 			<div class="col col-20 publish-list-container padding-0">
-				<ul class="list">
-				    <li class="item">
-				      Document 1
-				    </li>
-				    <li class="item">
-				      Document 2
+				<ul class="list" ng-show="showList()">
+				    <li class="item" ng-repeat="publishDocument in publishDocumentList" ng-click="detail({{publishDocument.documentId}}, {{publishDocument.publishDate}})">
+				      {{publishDocument.documentName}}
 				    </li>
 				</ul>
+				<div class="no-padding word-wrap list-no-document" ng-show="noService()">
+					<h3>No Service</h3>
+				</div>
+				<div class="no-padding word-wrap list-no-document" ng-show="noDocument()">
+					<h1>0</h1> 
+					<h3>published document</h3>
+				</div>
 			</div>
+			
 			<div class="col col-80 publish-document-detail-container padding-0">
-				<div class="col col-90 center">
-					<h1 class="main-header" style="margin-top: 4vh;">Document Name</h1>
+				<div class="no-document" ng-show="notFound()">
+					<h1>404 Document not Found</h1>
+				</div>
+				<div class="no-select" ng-show="noSelect()">
+					<h4>Please select publish document on the list to see detail</h4>
+				</div>
+				<div class="no-service" ng-show="noService()">
+					<h1>We're sorry!</h1>
+					<h4>The services are not available, Please try again later.</h4>
+				</div>
+				<div class="no-document" ng-show="noDocument()">
+					<h3>There are no published document.</h3>
+				</div>
+
+				<div class="col col-90 center" ng-show="detailShow()">
+					<h1 class="main-header" style="margin-top: 4vh;">{{doc.documentName}}</h1>
 					<div class="detail-container">
 						<div class="row">
 							<div class="col col-20">
 								Version
 							</div>
 							<div class="col col-80">
-								blabla
+								{{doc.version}}
 							</div>
 						</div>
 						<div class="row">
@@ -28,7 +47,7 @@
 								Creator
 							</div>
 							<div class="col col-80">
-								blabla
+								{{doc.creatorId}}
 							</div>
 						</div>
 						<div class="row">
@@ -36,7 +55,7 @@
 								Approver
 							</div>
 							<div class="col col-80">
-								blabla
+								{{doc.approverId}}
 							</div>
 						</div>
 						<div class="row">
@@ -44,7 +63,7 @@
 								Publish Date
 							</div>
 							<div class="col col-80">
-								blabla
+								{{doc.publishDate}}
 							</div>
 						</div>
 					<hr class="seperator">
@@ -54,10 +73,10 @@
 							Attachment(s) 
 							</div>
 							<div class="row">
-								[download button] filename 1 
+								[download button] dummy filename 1 
 							</div>
 							<div class="row">
-								[download button] filename 2
+								[download button] dummy filename 2
 							</div>
 						</div>
 						<div class="col col-20">
@@ -70,7 +89,7 @@
 							Description
 						</div>
 						<div class="row">
-							bla bla bla bla
+							{{doc.description}}
 						</div>
 					</div>
 				</div>

@@ -116,7 +116,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         views: {
         'menuContent': {
           templateUrl: 'templates/publish/doclist.html',
-          controller: 'DocumentReviewCtrl'
+          controller: 'PublishDocumentCtrl'
 
         }
       }

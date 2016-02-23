@@ -155,3 +155,32 @@
 .publish-document-detail-container .detail-container .seperator{
 	border: 1px solid #F2F2F2;
 }
+.publish-document-detail-container .no-service{
+	margin-top: 40vh;
+	text-align: center;
+}
+.publish-document-detail-container .no-document,
+.publish-document-detail-container .no-select{
+	margin-top: 45vh;
+	text-align: center;
+}
+.publish-document-detail-container .no-service h1, 
+.publish-document-detail-container .no-document h1,
+.publish-document-detail-container .no-select h1{
+	color:#999;
+}
+.publish-document-detail-container .no-service h4,
+.publish-document-detail-container .no-select h4,
+.publish-document-detail-container .no-document h3
+{
+	color:#999;
+}
+
+.list-no-document{
+	margin-top: 40vh;
+	text-align: center;
+}
+.list-no-document h1,
+.list-no-document h3{
+	color: #999;
+}
