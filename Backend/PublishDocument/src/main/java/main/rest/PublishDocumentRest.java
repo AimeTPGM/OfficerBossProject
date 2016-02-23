@@ -1,5 +1,6 @@
 package main.rest;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,11 +43,21 @@ public class PublishDocumentRest {
 	@Path("publishDocument")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response publishDocument(@QueryParam("documentId") String documentId){
-		//TODO return publishDocument by document id
+
 		publishDocument = publishDocumentDAO.readById(documentId);
 		if(publishDocument == null) return Response.status(404).entity("404 publish document not found").build();
 		return Response.status(200).entity(publishDocument).build();
 	}
+	
+	@GET
+	@Path("addPublishDocument")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response publishDocument(@QueryParam("documentId") String documentId, @QueryParam("documentName") String documentName){
+		publishDocument = new PublishDocument(documentId, new Date(), documentName);
+		publishDocumentDAO.create(publishDocument);
+		return Response.status(200).entity(publishDocument).build();
+	}
+	
 	
 	@GET
 	@Path("unpublished")

@@ -10,12 +10,21 @@ public class PublishDocument {
 	@Id
 	private String id;
 	private String documentId;
+	private String documentName;
+	public String getDocumentName() {
+		return documentName;
+	}
+	public void setDocumentName(String documentName) {
+		this.documentName = documentName;
+	}
 	private String publishDate;
 	public PublishDocument(){
 		
 	}
-	public PublishDocument(String documentId, String publishDate){
-		
+	public PublishDocument(String documentId, Date publishDate, String documentName){
+		setDocumentId(documentId);
+		setPublishDate(publishDate);
+		setDocumentName(documentName);
 	}
 	public PublishDocument(String documentId){
 		this.documentId = documentId;
