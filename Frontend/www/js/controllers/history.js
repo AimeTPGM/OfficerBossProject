@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('HistoryCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, DocumentService, FolderService) {
+.controller('HistoryCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, DocumentService, FolderService,PublishDocumentService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -71,9 +71,10 @@ angular.module('starter.controllers')
 
     $window.location.reload();
     }
-  $scope.publish = function(docId){
+  $scope.publish = function(docId, docName){
     console.log('publish document: '+docId)
       DocumentService.publish(docId)
+      PublishDocumentService.addDocument(docId, docName)
       console.log('change folder status: '+$stateParams.folderId)
 
     }

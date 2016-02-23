@@ -59,7 +59,7 @@
 							document.documentStatus !== 'Waiting for Approval'" title="Edit"></a>
 							<!-- publish button -->
 							<button class="button button button-balanced button-circle icon ion-ios-cloud-upload-outline"
-							ng-if="document.documentStatus === 'Approved'" title="Publish" ng-click="publish(document.documentId)"></button>
+							ng-if="document.documentStatus === 'Approved'" title="Publish" ng-click="publish(document.documentId, document.documentName)"></button>
 							<!-- delete button -->
 							<button class="button button button-assertive button-circle icon ion-trash-a"
 							ng-if="document.documentStatus !== 'Waiting for Approval' && document.documentStatus !== 'Approved' && document.documentStatus !== 'Publish'" title="Delete" ng-click="delete(document.documentId)"></button>

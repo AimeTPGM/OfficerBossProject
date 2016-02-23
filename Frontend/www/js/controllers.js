@@ -427,6 +427,20 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
 })
 
+.service('PublishDocumentService', function($http) {
+
+  this.addDocument = function(docId, docName){
+    $http.get('http://localhost:8086/addPublishDocument?documentId='+docId+'&documentName='+docName)
+        .success(function(data){
+          console.log('successfully add new publish document')
+        })
+        .error(function(data){
+          console.log('cannot reach publish-document-service port 8086')
+          console.log(data)
+        });
+  }
+})
+
 
 .directive('showWhen', ['$window', function($window) {
 

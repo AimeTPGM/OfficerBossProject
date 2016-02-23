@@ -149,7 +149,7 @@
 					</div>
 
 					<div ng-if="doc.documentStatus === 'Approved' && doc.editable == false" >
-								<a class="button button-block button-balanced" ng-click="publish(doc.documentId)">
+								<a class="button button-block button-balanced" ng-click="publish(doc.documentId, doc.documentName)">
 								  Publish
 								</a>
 					</div>

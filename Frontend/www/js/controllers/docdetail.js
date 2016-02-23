@@ -1,11 +1,12 @@
 angular.module('starter.controllers')
-.controller('DocumentDetailCtrl', function($scope, $stateParams,$ionicHistory, $http,$window, FileService, DocumentService,FolderService) {
+.controller('DocumentDetailCtrl', function($scope, $stateParams,$ionicHistory, $http,$window, FileService, DocumentService,FolderService,PublishDocumentService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
 
    $scope.publish = function(docId){
       DocumentService.publish(docId);
+      PublishDocumentService.addDocument(docId, docName)
     }
 
     $scope.delete = function(docId){
