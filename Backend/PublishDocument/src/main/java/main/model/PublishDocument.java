@@ -4,8 +4,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.data.annotation.Id;
+
 public class PublishDocument {
-	
+	@Id
 	private String id;
 	private String documentId;
 	private String publishDate;

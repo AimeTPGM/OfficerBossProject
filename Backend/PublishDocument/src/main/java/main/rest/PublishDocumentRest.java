@@ -15,6 +15,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.client.RestTemplate;
 
 import main.model.PublishDocument;
+import mongodb.dao.PublishDocumentDAO;
 
 @Named
 @Path("/")
@@ -23,8 +24,8 @@ public class PublishDocumentRest {
 	private PublishDocument publishDocument;
 	private List<PublishDocument> publishDocumentList;
 	
-//	private ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
-//	private FolderDAO folderDAO = ctx.getBean("folderDAO", FolderDAO.class);
+	private ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+	private PublishDocumentDAO publishDocumentDAO = ctx.getBean("publishDocumentDAO", PublishDocumentDAO.class);
 	
 	@Inject
 	private RestTemplate restTemplate;
@@ -33,7 +34,7 @@ public class PublishDocumentRest {
 	@Path("publishDocuments")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response publishDocuments(){
-		//TODO return publishDocuments
+		publishDocumentList = publishDocumentDAO.getPublishDocumentList();
 		return Response.status(200).entity(publishDocumentList).build();
 	}
 	
@@ -42,7 +43,8 @@ public class PublishDocumentRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response publishDocument(@QueryParam("documentId") String documentId){
 		//TODO return publishDocument by document id
-		Response res = restTemplate.getForObject("http://localhost:8081/publish?documentId=", Response.class);
+		publishDocument = publishDocumentDAO.readById(documentId);
+		if(publishDocument == null) return Response.status(404).entity("404 publish document not found").build();
 		return Response.status(200).entity(publishDocument).build();
 	}
 	
@@ -50,6 +52,7 @@ public class PublishDocumentRest {
 	@Path("unpublished")
 	public Response unpublishDocument(@QueryParam("documentId") String documentId){
 		//TODO remove publish document from list
+		publishDocumentDAO.delete(documentId);
 		return Response.status(200).entity("Unpublised the document: "+documentId).build();
 	}
 
