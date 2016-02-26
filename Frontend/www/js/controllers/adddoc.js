@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('AddNewDocumentCtrl', function($window, $http, $scope, $stateParams,$ionicHistory,Upload, FileService, DocumentService, FolderService) {
+.controller('AddNewDocumentCtrl', function($window, $http, $scope, $stateParams,$ionicHistory,Upload, FileService, DocumentService, FolderService, BackendPath) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -20,7 +20,7 @@ angular.module('starter.controllers')
 
       $http({
         method: 'POST',
-        url: 'http://localhost:8081/newDraft',
+        url: BackendPath.documentServicePath+'/newDraft',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         transformRequest: function(obj) {
             var str = [];
@@ -39,7 +39,7 @@ angular.module('starter.controllers')
         //new Folder
         $http({
         method: 'POST',
-        url: 'http://localhost:8085/createFolder',
+        url: BackendPath.folderServicePath+'/createFolder',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         transformRequest: function(obj) {
             var str = [];
@@ -57,7 +57,7 @@ angular.module('starter.controllers')
             FolderService.addDocument(data.id, $scope.savedDocData.documentId);
             // FileService.upload(file,$scope.savedDocData.documentId);
             Upload.upload({
-                url: 'http://localhost:8084/upload',
+                url: BackendPath.fileServicePath+'/upload',
                 method: 'POST',
                 data: {file: file, documentId: $scope.savedDocData.documentId}
             }).then(function (resp) {
@@ -77,13 +77,13 @@ angular.module('starter.controllers')
           
           }).
           error(function(data, status, headers, config) {
-            console.log('cannot reach folder-service port 8085')
+            console.log('cannot reach '+BackendPath.folderServicePath)
           });
 
         
       }).
       error(function(data, status, headers, config) {
-        console.log('cannot reach document-service port 8081')
+        console.log('cannot reach '+BackendPath.documentServicePath)
       });
 
     }
@@ -91,7 +91,7 @@ angular.module('starter.controllers')
     else{
       // FileService.upload(file,$scope.savedDocData.documentId);
        Upload.upload({
-                url: 'http://localhost:8084/upload',
+                url: BackendPath.fileServicePath+'/upload',
                 method: 'POST',
                 data: {file: file, documentId: $scope.savedDocData.documentId}
             }).then(function (resp) {
@@ -123,7 +123,7 @@ angular.module('starter.controllers')
       console.log("creating new draft")
       $http({
         method: 'POST',
-        url: 'http://localhost:8081/newDraft',
+        url: BackendPath.documentServicePath+'/newDraft',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         transformRequest: function(obj) {
             var str = [];
@@ -142,7 +142,7 @@ angular.module('starter.controllers')
         //new Folder
         $http({
         method: 'POST',
-        url: 'http://localhost:8085/createFolder',
+        url: BackendPath.folderServicePath+'/createFolder',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         transformRequest: function(obj) {
             var str = [];
@@ -164,13 +164,13 @@ angular.module('starter.controllers')
           
           }).
           error(function(data, status, headers, config) {
-            console.log('cannot reach folder-service port 8085')
+            console.log('cannot reach '+BackendPath.folderServicePath)
           });
 
         
       }).
       error(function(data, status, headers, config) {
-        console.log('cannot reach document-service port 8081')
+        console.log('cannot reach '+BackendPath.documentServicePath)
       });
     }
 
@@ -195,7 +195,7 @@ angular.module('starter.controllers')
     // if there is no description
     if(!$scope.doc.desc){ $scope.doc.desc = "no description";}
 
-      $http.get('http://localhost:8081/newDocument?documentName='+$scope.doc.name+'&description='+$scope.doc.desc+'&creatorId=1')
+      $http.get(BackendPath.documentServicePath+'/newDocument?documentName='+$scope.doc.name+'&description='+$scope.doc.desc+'&creatorId=1')
         .success(function(data){
           console.log('successfully create new document: waiting for approval');
           $scope.savedDocData = data;
@@ -203,7 +203,7 @@ angular.module('starter.controllers')
           //new Folder
           $http({
           method: 'POST',
-          url: 'http://localhost:8085/createFolder',
+          url: BackendPath.folderServicePath+'/createFolder',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           transformRequest: function(obj) {
               var str = [];
@@ -226,12 +226,12 @@ angular.module('starter.controllers')
             
             }).
             error(function(data, status, headers, config) {
-              console.log('cannot reach folder-service port 8085')
+              console.log('cannot reach '+BackendPath.folderServicePath)
             });
 
         })
         .error(function(data){
-          console.log('cannot reach document-service port 8081')
+          console.log('cannot reach '+BackendPath.documentServicePath)
         });
 
 

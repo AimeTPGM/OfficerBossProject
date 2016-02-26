@@ -1,6 +1,6 @@
 angular.module('starter.controllers')
-.controller('PublishDocumentCtrl', function($scope, $ionicModal, $timeout, $http) {
-	$http.get('http://localhost:8086/publishDocuments')
+.controller('PublishDocumentCtrl', function($scope, $ionicModal, $timeout, $http, BackendPath) {
+	$http.get(BackendPath.publishDocumentServicePath+'/publishDocuments')
         .success(function(data){
           if(data.length == 0){
           	showNoDocument();
@@ -8,7 +8,7 @@ angular.module('starter.controllers')
           	$scope.publishDocumentList = data;
           	showNoSelect();
           	$scope.detail = function(docId, publishDate){
-          		$http.get('http://localhost:8081/getDocument?documentId='+docId)
+          		$http.get(BackendPath.documentServicePath+'/getDocument?documentId='+docId)
 			        .success(function(data){
 			          $scope.doc = data;
 			          $scope.doc.publishDate = publishDate;
@@ -16,7 +16,7 @@ angular.module('starter.controllers')
 			          
 			        })
 			        .error(function(data){
-			          console.log('cannot reach publish-document-service port 8086')
+			          console.log('cannot reach '+BackendPath.documentServicePath)
 			          showNotFound();
 			        });
           	}
@@ -24,7 +24,7 @@ angular.module('starter.controllers')
             
         })
         .error(function(data){
-          console.log('cannot reach publish-document-service port 8086')
+          console.log('cannot reach '+BackendPath.publishDocumentServicePath)
           showNoService();
         });
 

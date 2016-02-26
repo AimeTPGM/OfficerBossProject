@@ -1,10 +1,10 @@
 angular.module('starter.controllers')
-.controller('HistoryCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, DocumentService, FolderService,PublishDocumentService) {
+.controller('HistoryCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, DocumentService, FolderService,PublishDocumentService,BackendPath) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
   
-  $http.get('http://localhost:8085/folder?folderId='+$stateParams.folderId)
+  $http.get(BackendPath.folderServicePath+'/folder?folderId='+$stateParams.folderId)
   .success(function(data){
     console.log('folder')
     console.log(data)
@@ -20,20 +20,20 @@ angular.module('starter.controllers')
      for (var i = 0; i < $scope.folder.numberOfDocuments; i++) {
 
       console.log($scope.folder.documentList[i])
-      $http.get('http://localhost:8081/getDocument?documentId='+$scope.folder.documentList[i])
+      $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+$scope.folder.documentList[i])
           .success(function(data){
 
 
             for (var j = 0; j < $scope.documents.length; j++) {
               if($scope.documents[j] == data.documentId){
                 $scope.documents[j] = data;
-                $http.get('http://localhost:8082/user?userId='+data.approver)
+                $http.get(BackendPath.userServicePath+'/user?userId='+data.approver)
                   .success(function(data){
                     $scope.approver = data;
 
                   })
                   .error(function(data){
-                    console.log('cannot reach user-service port 8082')
+                    console.log('cannot reach '+BackendPath.userServicePath)
                   });
 
                 break;
@@ -45,7 +45,7 @@ angular.module('starter.controllers')
 
           })
           .error(function(data){
-            console.log('cannot reach user-service port 8082')
+            console.log('cannot reach '+BackendPath.userServicePath)
           });
        
      };
@@ -62,7 +62,7 @@ angular.module('starter.controllers')
     
   })
   .error(function(data){
-      console.log('cannot reach folder-service port 8085')
+      console.log('cannot reach '+BackendPath.folderServicePath)
   });
 
 

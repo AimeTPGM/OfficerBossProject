@@ -1,9 +1,8 @@
 angular.module('starter.controllers')
-.controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, FolderService, DocumentService) {
+.controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, FolderService, DocumentService, BackendPath) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
-
   
 
   $scope.delete = function(folderId){
@@ -11,7 +10,7 @@ angular.module('starter.controllers')
     $window.location.href=('#/app/doc');
   }
 
-  $http.get('http://localhost:8085/getFolderByCreatorId?creatorId=1')
+  $http.get(BackendPath.folderServicePath+'/getFolderByCreatorId?creatorId=1')
     .success(function(data){
       console.log('return folders')
       $scope.folders = data;
@@ -26,7 +25,7 @@ angular.module('starter.controllers')
       var j = 0;
       for (var i = 0; i < $scope.folders.length; i++) {
         console.log(temp[i])
-        $http.get('http://localhost:8081/getDocument?documentId='+temp[i])
+        $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+temp[i])
           .success(function(data){
 
             for (var j = 0; j < $scope.folders.length; j++) {
@@ -46,7 +45,7 @@ angular.module('starter.controllers')
             
           })
           .error(function(data){
-            console.log('cannot reach document-service port 8081')
+            console.log('cannot reach '+BackendPath.documentServicePath)
           });
         
       };
@@ -68,8 +67,7 @@ angular.module('starter.controllers')
       
     })
     .error(function(data){
-          console.log('cannot reach folder-service port 8085')
-          console.log(data)
+          console.log('cannot reach '+BackendPath.folderServicePath)
           $scope.showNoConnection = function(){
             return true;
           }
@@ -77,12 +75,12 @@ angular.module('starter.controllers')
 
    
 
-  $http.get('http://localhost:8082/user?userId=56a0d083d4c607b2e7a60a5c')
+  $http.get(BackendPath.userServicePath+'/user?userId=56a0d083d4c607b2e7a60a5c')
     .success(function(data){
       $scope.user = data;
     })
     .error(function(data){
-      console.log('cannot reach user-service port 8082')
+      console.log('cannot reach '+BackendPath.userServicePath)
     });
 
 

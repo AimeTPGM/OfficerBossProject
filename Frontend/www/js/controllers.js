@@ -1,14 +1,18 @@
 angular.module('starter.controllers', ['ngFileUpload'])
 
-.service('BackgroundService', function($http,$window,DocumentService){
-  this.deleteAll = function(){
-
-  }
+.service('BackendPath', function(){
+  this.documentServicePath = "http://localhost:8081";
+  this.userServicePath = "http://localhost:8082";
+  this.reviewServicePath = "http://localhost:8083";
+  this.fileServicePath = "http://localhost:8084";
+  this.folderServicePath = "http://localhost:8085";
+  this.publishDocumentServicePath = "http://localhost:8086";
+  
 
 
 })
 
-.service('DocumentService', function($http,$window,FolderService, FileService) {
+.service('DocumentService', function($http,$window,FolderService, FileService,BackendPath) {
 
 
 
@@ -18,7 +22,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   this.newdoc = function(docName,docDesc,creatorId){
 
-    $http.get('http://localhost:8081/newDocument?documentName='+docName+'&description='+docDesc+'&creatorId='+creatorId)
+    $http.get(BackendPath.documentServicePath+'/newDocument?documentName='+docName+'&description='+docDesc+'&creatorId='+creatorId)
         .success(function(data){
           console.log('successfully create new document: waiting for approval');
           FolderService.addDocument(folderId, data.documentId);
@@ -26,12 +30,12 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
         })
         .error(function(data){
-          console.log('cannot reach document-service port 8081')
+          console.log('cannot reach '+BackendPath.documentServicePath)
         });
 
   }
   this.updateNoNewFile = function(docName,docDesc,creatorId,docId,folderId){
-    $http.get('http://localhost:8081/newDocument?documentName='+docName+'&description='+docDesc+'&creatorId='+creatorId)
+    $http.get(BackendPath.documentServicePath+'/newDocument?documentName='+docName+'&description='+docDesc+'&creatorId='+creatorId)
         .success(function(data){
           console.log('successfully create new document: waiting for approval');
           FolderService.addDocument(folderId, data.documentId);
@@ -41,7 +45,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
         })
         .error(function(data){
-          console.log('cannot reach document-service port 8081')
+          console.log('cannot reach '+BackendPath.documentServicePath)
         });
 
   }
@@ -49,7 +53,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
   this.save = function(docId,docName,docDesc){
     $http({
         method: 'POST',
-        url: 'http://localhost:8081/save',
+        url: BackendPath.documentServicePath+'/save',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         transformRequest: function(obj) {
             var str = [];
@@ -67,55 +71,55 @@ angular.module('starter.controllers', ['ngFileUpload'])
         
       }).
       error(function(data, status, headers, config) {
-        console.log('cannot reach document-service port 8081')
+        console.log('cannot reach '+BackendPath.documentServicePath)
       });
 
   }
 
   this.submit = function(docId){
-    $http.get('http://localhost:8081/submit?documentId='+docId)
+    $http.get(BackendPath.documentServicePath+'/submit?documentId='+docId)
         .success(function(data){
           console.log('successfully submit document: change to waiting for approval');
           $window.location.href=('#/app/doc');
 
         })
         .error(function(data){
-          console.log('cannot reach document-service port 8081')
+          console.log('cannot reach '+BackendPath.documentServicePath)
         });
 
   }
 
   this.delete = function(docId){
     console.log('deleting document');
-    $http.get('http://localhost:8081/delete?documentId='+docId)
+    $http.get(BackendPath.documentServicePath+'/delete?documentId='+docId)
         .success(function(data){
           console.log('successfully delete document');
           
 
         })
         .error(function(data){
-          console.log('cannot reach document-service port 8081')
+          console.log('cannot reach '+BackendPath.documentServicePath)
         });
     console.log('deleting review');
-    $http.get('http://localhost:8083/deleteByDocumentId?documentId='+docId)
+    $http.get(BackendPath.reviewServicePath+'/deleteByDocumentId?documentId='+docId)
         .success(function(data){
           console.log('successfully delete review');
           
 
         })
         .error(function(data){
-          console.log('cannot reach review-service port 8083')
+          console.log('cannot reach '+BackendPath.reviewServicePath)
         });
 
     console.log('deleting file')
-    $http.get('http://localhost:8084/deleteByDocumentId?documentId='+docId)
+    $http.get(BackendPath.fileServicePath+'/deleteByDocumentId?documentId='+docId)
         .success(function(data){
           console.log('successfully delete file');
           
 
         })
         .error(function(data){
-          console.log('cannot reach file-service port 8084')
+          console.log('cannot reach '+BackendPath.fileServicePath)
         });
 
     console.log('delete documentId from folder')
@@ -124,30 +128,30 @@ angular.module('starter.controllers', ['ngFileUpload'])
   }
 
   this.publish = function(docId){
-    $http.get('http://localhost:8081/publish?documentId='+docId)
+    $http.get(BackendPath.documentServicePath+'/publish?documentId='+docId)
         .success(function(data){
           console.log('successfully publish document');
 
         })
         .error(function(data){
-          console.log('cannot reach document-service port 8081')
+          console.log('cannot reach '+BackendPath.documentServicePath)
         });
   }
 
   this.editable = function(docId, editable){
-    $http.get('http://localhost:8081/getdocument?documentId='+docId)
+    $http.get(BackendPath.documentServicePath+'/getdocument?documentId='+docId)
         .success(function(data){
           console.log('successfully get document');
           if(data.documentStatus == 'Reject' || data.documentStatus == 'Draft'){
             console.log(docId+" "+data.documentStatus)
             var temp = editable;
-            $http.get('http://localhost:8081/editable?documentId='+docId+'&&editable='+temp)
+            $http.get(BackendPath.documentServicePath+'/editable?documentId='+docId+'&&editable='+temp)
               .success(function(data){
                 console.log('successfully set document editable to '+temp);
 
               })
               .error(function(data){
-                console.log('cannot reach document-service port 8081')
+                console.log('cannot reach '+BackendPath.documentServicePath)
               });
           }
           else{
@@ -155,7 +159,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
           }
         })
         .error(function(data){
-          console.log('cannot reach document-service port 8081')
+          console.log('cannot reach '+BackendPath.documentServicePath)
         });
 
 
@@ -166,17 +170,17 @@ angular.module('starter.controllers', ['ngFileUpload'])
 })
 
 
-.service('ReviewService', function($http,$window,FolderService) {
+.service('ReviewService', function($http,$window,FolderService,BackendPath) {
 
   this.getReview = function(){
 
   }
 
   this.approve = function(docId,approverId,reviewText,folderId){
-    $http.get('http://localhost:8083/createReview?documentId='+docId+'&approverId='+approverId+'&reviewDesc='+reviewText)
+    $http.get(BackendPath.reviewServicePath+'/createReview?documentId='+docId+'&approverId='+approverId+'&reviewDesc='+reviewText)
         .success(function(data){
         console.log('created review from '+approverId+' review text: '+reviewText);
-        $http.get('http://localhost:8081/approve?documentId='+docId)
+        $http.get(BackendPath.documentServicePath+'/approve?documentId='+docId)
           .success(function(data){
             console.log('successfully approve document: change from waiting for approval to aprove');
             
@@ -185,38 +189,38 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
           })
           .error(function(data){
-            console.log('cannot reach document-service port 8081')
+            console.log('cannot reach '+BackendPath.documentServicePath)
           });
                 
         })
         .error(function(data){
-          console.log('cannot reach review-service port 8083')
+          console.log('cannot reach '+BackendPath.reviewServicePath)
         });
   }
 
   this.reject = function(docId,approverId,reviewText){
 
-    $http.get('http://localhost:8083/createReview?documentId='+docId+'&approverId='+approverId+'&reviewDesc='+reviewText)
+    $http.get(BackendPath.reviewServicePath+'/createReview?documentId='+docId+'&approverId='+approverId+'&reviewDesc='+reviewText)
           .success(function(data){
             console.log('created review from '+approverId+' review text: '+reviewText);
-            $http.get('http://localhost:8081/reject?documentId='+docId)
+            $http.get(BackendPath.documentServicePath+'/reject?documentId='+docId)
               .success(function(data){
                 console.log('successfully reject document: change from approve to reject');
                 $window.location.href=('#/app/doclistforboss');
               })
               .error(function(data){
-                console.log('cannot reach document-service port 8081')
+                console.log('cannot reach '+BackendPath.documentServicePath)
               });
           })
           .error(function(data){
-            console.log('cannot reach review-service port 8083')
+            console.log('cannot reach '+BackendPath.reviewServicePath)
           });
 
   }
 
 })
 
-.service('FileService', function(Upload, $http, $window) {
+.service('FileService', function(Upload, $http, $window,BackendPath) {
 
 
   this.upload = function (file, docId) {
@@ -224,7 +228,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
         console.log("File service from controller: uploading file ("+file.size+") to document id: "+docId);
       
         Upload.upload({
-            url: 'http://localhost:8084/upload',
+            url: BackendPath.fileServicePath+'/upload',
             method: 'POST',
             data: {file: file, documentId: docId}
         }).then(function (resp) {
@@ -243,12 +247,12 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
     this.getFileDetail = function(docId){
       
-      $http.get('http://localhost:8084/fileDetail?documentId='+docId)
+      $http.get(BackendPath.fileServicePath+'/fileDetail?documentId='+docId)
         .success(function(data){
           
         })
         .error(function(data){
-          console.log('cannot reach file-service port 8084')
+          console.log('cannot reach '+BackendPath.fileServicePath)
           console.log(data)
         });
  
@@ -256,40 +260,40 @@ angular.module('starter.controllers', ['ngFileUpload'])
     }
 
     this.download = function(docId){
-      var url = 'http://localhost:8084/download?documentId='+docId;
+      var url = BackendPath.fileServicePath+'/download?documentId='+docId;
       console.log(url)
       $window.open(url);
     }
 
     this.delete = function(docId){
-       $http.get('http://localhost:8084/deleteByDocumentId?documentId='+docId)
+       $http.get(BackendPath.fileServicePath+'/deleteByDocumentId?documentId='+docId)
         .success(function(data){
           
         })
         .error(function(data){
-          console.log('cannot reach file-service port 8084')
+          console.log('cannot reach '+BackendPath.fileServicePath)
           console.log(data)
         });
     }
 
     this.copy = function(copyFrom, copyTo){
-      $http.get('http://localhost:8084/copy?copyFrom='+copyFrom+'&copyTo='+copyTo)
+      $http.get(BackendPath.fileServicePath+'/copy?copyFrom='+copyFrom+'&copyTo='+copyTo)
         .success(function(data){
           console.log(data);
 
         })
         .error(function(data){
-          console.log('cannot reach file-service port 8084')
+          console.log('cannot reach '+BackendPath.fileServicePath)
         });
     }
 
 })
 
-.service('FolderService', function(Upload, $http, $window) {
+.service('FolderService', function(Upload, $http, $window,BackendPath) {
   this.newFolder = function(folderName, creatorId){
     $http({
         method: 'POST',
-        url: 'http://localhost:8085/createFolder',
+        url: BackendPath.folderServicePath+'/createFolder',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         transformRequest: function(obj) {
             var str = [];
@@ -307,67 +311,67 @@ angular.module('starter.controllers', ['ngFileUpload'])
         
       }).
       error(function(data, status, headers, config) {
-        console.log('cannot reach folder-service port 8085')
+        console.log('cannot reach '+BackendPath.folderServicePath)
       });
 
   }
 
 
   this.delete = function(folderId){
-    $http.get('http://localhost:8085/folder?folderId='+folderId)
+    $http.get(BackendPath.folderServicePath+'/folder?folderId='+folderId)
         .success(function(data){
           for (var i = 0; i < data.numberOfDocuments; i++) {
             var docId = data.documentList[i];
             console.log('docId: '+docId)
            console.log('deleting document');
-            $http.get('http://localhost:8081/delete?documentId='+docId)
+            $http.get(BackendPath.documentServicePath+'/delete?documentId='+docId)
                 .success(function(data){
                   console.log('successfully delete document');
                   
 
                 })
                 .error(function(data){
-                  console.log('cannot reach document-service port 8081')
+                  console.log('cannot reach '+BackendPath.documentServicePath)
                 });
             console.log('deleting review');
-            $http.get('http://localhost:8083/deleteByDocumentId?documentId='+docId)
+            $http.get(BackendPath.reviewServicePath+'/deleteByDocumentId?documentId='+docId)
                 .success(function(data){
                   console.log('successfully delete review');
                   
 
                 })
                 .error(function(data){
-                  console.log('cannot reach review-service port 8083')
+                  console.log('cannot reach '+BackendPath.reviewServicePath)
                 });
 
             console.log('deleting file')
-            $http.get('http://localhost:8084/deleteByDocumentId?documentId='+docId)
+            $http.get(BackendPath.fileServicePath+'/deleteByDocumentId?documentId='+docId)
                 .success(function(data){
                   console.log('successfully delete file');
                   
 
                 })
                 .error(function(data){
-                  console.log('cannot reach file-service port 8084')
+                  console.log('cannot reach '+BackendPath.fileServicePath)
                 });
 
 
 
           };
 
-          $http.get('http://localhost:8085/deleteById?folderId='+folderId)
+          $http.get(BackendPath.folderServicePath+'/deleteById?folderId='+folderId)
             .success(function(data){
               console.log('successfully delete folder: '+folderId)
               $window.location.reload();
             })
             .error(function(data){
-              console.log('cannot reach folder-service port 8085')
+              console.log('cannot reach '+BackendPath.folderServicePath)
               console.log(data)
             });
 
         })
         .error(function(data){
-          console.log('cannot reach folder-service port 8085')
+          console.log('cannot reach '+BackendPath.folderServicePath)
           console.log(data)
         });
 
@@ -381,7 +385,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
   this.update = function(folderId, folderName){
     $http({
         method: 'POST',
-        url: 'http://localhost:8085/update',
+        url: BackendPath.folderServicePath+'/update',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         transformRequest: function(obj) {
             var str = [];
@@ -397,45 +401,45 @@ angular.module('starter.controllers', ['ngFileUpload'])
         console.log(data);
       }).
       error(function(data, status, headers, config) {
-        console.log('cannot reach folder-service port 8085')
+        console.log('cannot reach '+BackendPath.folderServicePath)
       });
 
   }
 
   this.addDocument = function(folderId, docId){
-      $http.get('http://localhost:8085/addDocument?folderId='+folderId+'&documentId='+docId)
+      $http.get(BackendPath.folderServicePath+'/addDocument?folderId='+folderId+'&documentId='+docId)
         .success(function(data){
           console.log('successfully add new document')
         })
         .error(function(data){
-          console.log('cannot reach folder-service port 8085')
+          console.log('cannot reach '+BackendPath.folderServicePath)
           console.log(data)
         });
 
   }
 
   this.deleteDocument = function(folderId,docId){
-    $http.get('http://localhost:8085/addDocument?folderId='+folderId+'&documentId='+docId)
+    $http.get(BackendPath.folderServicePath+'/addDocument?folderId='+folderId+'&documentId='+docId)
         .success(function(data){
           console.log('successfully delete document')
         })
         .error(function(data){
-          console.log('cannot reach folder-service port 8085')
+          console.log('cannot reach '+BackendPath.folderServicePath)
           console.log(data)
         });
   }
 
 })
 
-.service('PublishDocumentService', function($http) {
+.service('PublishDocumentService', function($http,BackendPath) {
 
   this.addDocument = function(docId, docName){
-    $http.get('http://localhost:8086/addPublishDocument?documentId='+docId+'&documentName='+docName)
+    $http.get(BackendPath.publishDocumentServicePath+'/addPublishDocument?documentId='+docId+'&documentName='+docName)
         .success(function(data){
           console.log('successfully add new publish document')
         })
         .error(function(data){
-          console.log('cannot reach publish-document-service port 8086')
+          console.log('cannot reach '+BackendPath.publishDocumentServicePath)
           console.log(data)
         });
   }

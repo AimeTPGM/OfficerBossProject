@@ -1,15 +1,15 @@
 angular.module('starter.controllers')
-.controller('DocumentListForBossCtrl', function($scope, $stateParams,$ionicHistory, $http) {
+.controller('DocumentListForBossCtrl', function($scope, $stateParams,$ionicHistory, $http, BackendPath) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
 
-  $http.get('http://localhost:8085/folders')
+  $http.get(BackendPath.folderServicePath+'/folders')
     .success(function(data){
       $scope.documents = data;
       var alldoc = data;
       var temp = {};
-      $http.get('http://localhost:8082/users')
+      $http.get(BackendPath.userServicePath+'/users')
         .success(function(data){
           var temp_users = data;
           for (var i = 0; i < alldoc.length; i++) {
@@ -26,7 +26,7 @@ angular.module('starter.controllers')
           console.log(temp)
           for (var i = 0; i < alldoc.length; i++) {
             console.log(temp[i])
-                $http.get('http://localhost:8081/getDocument?documentId='+temp[i])
+                $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+temp[i])
                   .success(function(data){
                     for (var j = 0; j < alldoc.length; j++) {
                       if(temp[j] == data.documentId){
@@ -37,7 +37,7 @@ angular.module('starter.controllers')
                     };
                   })
                   .error(function(data){
-                    console.log('cannot reach document-service port 8081')
+                    console.log('cannot reach '+BackendPath.documentServicePath)
                   });
 
           };
@@ -46,7 +46,7 @@ angular.module('starter.controllers')
             
         })
         .error(function(data){
-          console.log('cannot reach user-service port 8082')
+          console.log('cannot reach '+BackendPath.userServicePath)
         });
 
 
@@ -56,7 +56,7 @@ angular.module('starter.controllers')
         
     })
     .error(function(data){
-      console.log('cannot reach document-service port 8081')
+      console.log('cannot reach '+BackendPath.documentServicePath)
        $scope.showNoConnection = function(){
             return true;
           }

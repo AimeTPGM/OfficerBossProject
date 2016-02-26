@@ -1,12 +1,12 @@
 angular.module('starter.controllers')
-.controller('DocumentReviewCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, ReviewService,FileService,ReviewService) {
+.controller('DocumentReviewCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, ReviewService,FileService,ReviewService,BackendPath) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
 
   var approverid = "";
 
-   $http.get('http://localhost:8085/folder?folderId='+$stateParams.folderId)
+   $http.get(BackendPath.folderServicePath+'/folder?folderId='+$stateParams.folderId)
     .success(function(data){
       $scope.folder = data;
       
@@ -14,7 +14,7 @@ angular.module('starter.controllers')
       var j = 0;
       for (var i = 0; i < $scope.folder.documentList.length; i++) {
         var tempDocId = $scope.folder.documentList[i];
-        $http.get('http://localhost:8081/getDocument?documentId='+tempDocId)
+        $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+tempDocId)
           .success(function(data){
             var temp = {};
             temp.version = data.version;
@@ -27,7 +27,7 @@ angular.module('starter.controllers')
             
           })
           .error(function(data){
-            console.log('cannot reach document-service port 8081')
+            console.log('cannot reach '+BackendPath.documentServicePath)
 
           });
       };
@@ -35,10 +35,10 @@ angular.module('starter.controllers')
 
     })
     .error(function(data){
-      console.log('cannot reach folder-service port 8085')
+      console.log('cannot reach '+BackendPath.folderServicePath)
     });
 
-  $http.get('http://localhost:8081/getDocument?documentId='+$stateParams.docId)
+  $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+$stateParams.docId)
     .success(function(data){
       $scope.doc = data;
       approverid = $scope.doc.approver;
@@ -47,29 +47,29 @@ angular.module('starter.controllers')
           FileService.download($stateParams.docId);   
       }
 
-      $http.get('http://localhost:8082/user?userId='+$scope.doc.creator)
+      $http.get(BackendPath.userServicePath+'/user?userId='+$scope.doc.creator)
         .success(function(data){
           $scope.creator = data;
             
         })
         .error(function(data){
-          console.log('cannot reach user-service port 8082')
+          console.log('cannot reach '+BackendPath.userServicePath)
         });
-      $http.get('http://localhost:8082/user?userId='+$scope.doc.approver)
+      $http.get(BackendPath.userServicePath+'/user?userId='+$scope.doc.approver)
         .success(function(data){
           $scope.approver = data;
             
         })
         .error(function(data){
-          console.log('cannot reach user-service port 8082')
+          console.log('cannot reach '+BackendPath.userServicePath)
         });
-        $http.get('http://localhost:8084/fileDetail?documentId='+$scope.doc.documentId)
+        $http.get(BackendPath.fileServicePath+'/fileDetail?documentId='+$scope.doc.documentId)
         .success(function(data){
           $scope.filename = data;
             
         })
         .error(function(data){
-          console.log('cannot reach file-service port 8084')
+          console.log('cannot reach '+BackendPath.fileServicePath)
           console.log(data)
         });
         
@@ -77,7 +77,7 @@ angular.module('starter.controllers')
 
     })
     .error(function(data){
-      console.log('cannot reach document-service port 8081')
+      console.log('cannot reach '+BackendPath.documentServicePath)
     });
     $scope.reviewtext = "";
     $scope.approve = function(){

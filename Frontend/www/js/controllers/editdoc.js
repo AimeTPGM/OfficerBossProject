@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('EditDocumentCtrl', function($scope, $stateParams,$ionicHistory,$http,$window, $state, DocumentService, FolderService, FileService, Upload) {
+.controller('EditDocumentCtrl', function($scope, $stateParams,$ionicHistory,$http,$window, $state, DocumentService, FolderService, FileService, Upload, BackendPath) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -7,7 +7,7 @@ angular.module('starter.controllers')
   $scope.savedDocData = null;
   var count = 0;
 
-  $http.get('http://localhost:8083/getReviewByDocumentId?documentId='+$stateParams.docId)
+  $http.get(BackendPath.reviewServicePath+'/getReviewByDocumentId?documentId='+$stateParams.docId)
     .success(function(data){
       $scope.review = data;
       
@@ -15,7 +15,7 @@ angular.module('starter.controllers')
 
     })
     .error(function(data){
-      console.log('cannot reach review-service port 8083')
+      console.log('cannot reach '+BackendPath.reviewServicePath)
     });
 
     $scope.download = function(){
@@ -23,35 +23,35 @@ angular.module('starter.controllers')
       }
 
 
-  $http.get('http://localhost:8081/getDocument?documentId='+$stateParams.docId)
+  $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+$stateParams.docId)
     .success(function(data){
       $scope.doc = data;
       // get creator
-      $http.get('http://localhost:8082/user?userId='+$scope.doc.creator)
+      $http.get(BackendPath.userServicePath+'/user?userId='+$scope.doc.creator)
         .success(function(data){
           $scope.creator = data;
             
         })
         .error(function(data){
-          console.log('cannot reach user-service port 8082')
+          console.log('cannot reach '+BackendPath.userServicePath)
         });
         // get approver
-      $http.get('http://localhost:8082/user?userId='+$scope.doc.approver)
+      $http.get(BackendPath.userServicePath+'/user?userId='+$scope.doc.approver)
         .success(function(data){
           $scope.approver = data;
             
         })
         .error(function(data){
-          console.log('cannot reach document-service port 8082')
+          console.log('cannot reach '+BackendPath.userServicePath)
         });
         // get file detail
-        $http.get('http://localhost:8084/fileDetail?documentId='+$scope.doc.documentId)
+        $http.get(BackendPath.fileServicePath+'/fileDetail?documentId='+$scope.doc.documentId)
         .success(function(data){
           $scope.filename = data;
             
         })
         .error(function(data){
-          console.log('cannot reach file-service port 8084')
+          console.log('cannot reach '+BackendPath.fileServicePath)
           console.log(data)
         });
 
@@ -59,7 +59,7 @@ angular.module('starter.controllers')
           if(!$scope.savedDocData){
             $http({
                 method: 'POST',
-                url: 'http://localhost:8081/newEditDraft',
+                url: BackendPath.documentServicePath+'/newEditDraft',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 transformRequest: function(obj) {
                     var str = [];
@@ -80,7 +80,7 @@ angular.module('starter.controllers')
               DocumentService.editable(data.documentId, true);
               //Upload file
               Upload.upload({
-              url: 'http://localhost:8084/upload',
+              url: BackendPath.fileServicePath+'/upload',
               method: 'POST',
               data: {file: file, documentId: data.documentId}
                 }).then(function (resp) {
@@ -99,7 +99,7 @@ angular.module('starter.controllers')
 
             }).
             error(function(data, status, headers, config) {
-              console.log('cannot reach document-service port 8081')
+              console.log('cannot reach '+BackendPath.documentServicePath)
             });
 
           }
@@ -107,7 +107,7 @@ angular.module('starter.controllers')
             FileService.delete($scope.savedDocData.documentId);
             $http({
                 method: 'POST',
-                url: 'http://localhost:8081/save',
+                url: BackendPath.documentServicePath+'/save',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 transformRequest: function(obj) {
                     var str = [];
@@ -125,7 +125,7 @@ angular.module('starter.controllers')
               FolderService.update($stateParams.folderId, $scope.doc.documentName);
               //Upload file
               Upload.upload({
-              url: 'http://localhost:8084/upload',
+              url: BackendPath.fileServicePath+'/upload',
               method: 'POST',
               data: {file: file, documentId: data.documentId}
                 }).then(function (resp) {
@@ -144,7 +144,7 @@ angular.module('starter.controllers')
 
             }).
             error(function(data, status, headers, config) {
-              console.log('cannot reach document-service port 8081')
+              console.log('cannot reach '+BackendPath.documentServicePath)
             });
 
           }
@@ -158,7 +158,7 @@ angular.module('starter.controllers')
           if(!$scope.savedDocData){
             $http({
                 method: 'POST',
-                url: 'http://localhost:8081/newEditDraft',
+                url: BackendPath.documentServicePath+'/newEditDraft',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 transformRequest: function(obj) {
                     var str = [];
@@ -180,7 +180,7 @@ angular.module('starter.controllers')
 
             }).
             error(function(data, status, headers, config) {
-              console.log('cannot reach document-service port 8081')
+              console.log('cannot reach '+BackendPath.documentServicePath)
             });
 
           }
@@ -188,7 +188,7 @@ angular.module('starter.controllers')
 
             $http({
                 method: 'POST',
-                url: 'http://localhost:8081/save',
+                url: BackendPath.documentServicePath+'/save',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 transformRequest: function(obj) {
                     var str = [];
@@ -206,7 +206,7 @@ angular.module('starter.controllers')
               FolderService.update($stateParams.folderId, $scope.doc.documentName);
             }).
             error(function(data, status, headers, config) {
-              console.log('cannot reach document-service port 8081')
+              console.log('cannot reach '+BackendPath.documentServicePath)
             });
 
           }
@@ -221,7 +221,7 @@ angular.module('starter.controllers')
             else if(docStatus == 'Reject'){
               $http({
                   method: 'POST',
-                  url: 'http://localhost:8081/newEditDraft',
+                  url: BackendPath.documentServicePath+'/newEditDraft',
                   headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                   transformRequest: function(obj) {
                       var str = [];
@@ -244,7 +244,7 @@ angular.module('starter.controllers')
 
               }).
               error(function(data, status, headers, config) {
-                console.log('cannot reach document-service port 8081')
+                console.log('cannot reach '+BackendPath.documentServicePath)
               });
 
             }
@@ -267,7 +267,7 @@ angular.module('starter.controllers')
         
     })
     .error(function(data){
-      console.log('cannot reach document-service port 8081')
+      console.log('cannot reach '+BackendPath.documentServicePath)
     });
 
   
