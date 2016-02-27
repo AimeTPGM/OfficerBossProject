@@ -193,3 +193,41 @@
     color: #e6b500;
     font-size: 1.2em;
 }
+.all-page-container{
+	position: inherit;
+}
+.overlay{
+	z-index: 10;
+	background: rgba(0,0,0,0.5);
+	height: 100vh;
+	width: 100%;
+	position: absolute;
+}
+.overlay .version-button-wrapper {
+	margin-top: 25vh;
+	background: #fff;
+	min-height: 20vh;
+	width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0;
+}
+.overlay .version-button-wrapper .button-wrapper{
+	margin-left: auto;
+	margin-right: auto;
+	padding: 40px;
+	margin-top: 5vh;
+	text-align: center;
+}
+.overlay .version-button-wrapper .button-wrapper{
+	position: relative;
+}
+.overlay .version-button-wrapper .button-wrapper .header h3{
+	color: #666;
+	margin-bottom: 3vh;
+}
+.overlay .version-button-wrapper .button-wrapper .header .close-button{
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}

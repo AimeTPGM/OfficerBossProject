@@ -1,6 +1,32 @@
 <ion-view cache-view="false" view-title="Add Document">
-	<ion-content>
+	<ion-content class="all-page-container">
+	
+	<div class="overlay" ng-show="showVersionSelector()">
+		<div class="version-button-wrapper">
+			<div class="button-wrapper">
+				<div class="header">
+					<h3>Please Select Update Version of the Document</h3>
+					<button class="button button-clear button-stable close-button icon ion-close" ng-click="hideVersionSelector()">
+					</button>
+				</div>
+				
+				<div class="row padding-0">
+					<div class="col col-50">
+						<button class="button button-full button-positive" ng-click="">Minor Update</button>
+					</div>
+					<div class="col col-50">
+						<button class="button button-full button-positive" ng-click="">Major Update</button>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+
 	<div class="row">
+		
+
 		<div class="col col-80 center">
 			<h1 class="main-header" style="margin-top: 4vh;">Add New Document</h1>
 			<a href="#/app/doc" class="path-link">Back</a><span> / Add New Document</span>
@@ -49,7 +75,10 @@
 								</button>
 							</div>
 							<div class="col col-33 padding-0">
-								<button class="button button-full button-balanced" ng-click="submit()">
+								<!-- <button class="button button-full button-balanced" ng-click="submit()">
+								  Submit
+								</button> -->
+								<button class="button button-full button-balanced" ng-click="testnewsubmit()">
 								  Submit
 								</button>
 							</div>

@@ -11,6 +11,16 @@ angular.module('starter.controllers')
   $scope.showFileName = function(){
     return true;
   }
+  $scope.testnewsubmit = function(){
+    $scope.showVersionSelector = function(){
+      return true;
+    }
+    $scope.hideVersionSelector = function(){
+      $scope.showVersionSelector = function(){
+        return false;
+      }
+    }
+  }
 
   $scope.upload = function (file) {
     // if it never been uploaded
@@ -168,8 +178,7 @@ angular.module('starter.controllers')
             console.log(data);
             $scope.savedFolder = data;
             FolderService.addDocument(data.id, $scope.savedDocData.documentId);
-            //Save box here
-            $window.location.href=('#/app/doc');
+           
 
           
           }).
