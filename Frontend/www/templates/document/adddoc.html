@@ -7,6 +7,7 @@
 			<hr class="main-hr">
 			<div class="row">
 				<div class="col col-75 center">
+					
 					<form>
 						<div class="list">
 						  <label class="item item-input item-stacked-label">
@@ -20,7 +21,7 @@
 						    		<button class="button button-calm" ngf-select="upload($file)" style="margin-top: 15px;margin-bottom: 15px; width:90%;">Select a File</button>
 						    	</div>
 						    	<div class="col-75">
-						    		<span ng-show="showFilename()" id="filename">uploaded: {{filename}}</button>
+						    		<span ng-hide="showFilename()" id="filename">{{filename}}</button>
 						    	</div>
 						    </div>
 						    
@@ -35,18 +36,24 @@
 
 						  </label>
 						</div>
-						<div class="row" show-when="large">
-							<div class="col col-33">
+						<div class="save-notification" ng-show="showNotification()">
+						  <div class="text icon ion-ios-information">
+						    Sucessfully saved document : {{lastModifiedDate}}
+						  </div>
+						</div>
+
+						<div class="row padding-0" show-when="large">
+							<div class="col col-33 padding-0">
 								<button class="button button-full button-energized" ng-click="save()">
 								  Save Draft
 								</button>
 							</div>
-							<div class="col col-33">
+							<div class="col col-33 padding-0">
 								<button class="button button-full button-balanced" ng-click="submit()">
 								  Submit
 								</button>
 							</div>
-							<div class="col col-33">
+							<div class="col col-33 padding-0">
 								<button class="button button-full button-assertive" ng-click="reset()">
 								  Reset
 								</button>
@@ -69,6 +76,7 @@
 				
 						</div>
 					</form>
+
 				</div>
 			</div>
 		</div>

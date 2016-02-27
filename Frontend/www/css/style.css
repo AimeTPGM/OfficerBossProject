@@ -184,3 +184,12 @@
 .list-no-document h3{
 	color: #999;
 }
+
+.save-notification{
+	margin: 0;
+	margin-bottom: 2vh;
+	border: 1px solid #e6b500;
+	padding: 20px;
+    color: #e6b500;
+    font-size: 1.2em;
+}

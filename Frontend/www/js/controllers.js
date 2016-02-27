@@ -158,7 +158,7 @@ angular.module('starter.controllers', ['ngFileUpload'])
   }
 
   this.editable = function(docId, editable){
-    $http.get(BackendPath.documentServicePath+'/getdocument?documentId='+docId)
+    $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+docId)
         .success(function(data){
           console.log('successfully get document');
           if(data.documentStatus == 'Reject' || data.documentStatus == 'Draft'){

@@ -8,6 +8,9 @@ angular.module('starter.controllers')
   var blank = {};
   $scope.savedDocData = null;
   $scope.savedFolder = null;
+  $scope.showFileName = function(){
+    return true;
+  }
 
   $scope.upload = function (file) {
     // if it never been uploaded
@@ -35,6 +38,10 @@ angular.module('starter.controllers')
         console.log('sent POST request: successfully create new draft');
         console.log(data);
         $scope.savedDocData = data;
+        $scope.lastModifiedDate = data.lastModifiedDate;
+        $scope.showNotification = function(){
+          return true;
+        }
 
         //new Folder
         $http({
@@ -55,7 +62,6 @@ angular.module('starter.controllers')
             console.log(data);
             $scope.savedFolder = data;
             FolderService.addDocument(data.id, $scope.savedDocData.documentId);
-            // FileService.upload(file,$scope.savedDocData.documentId);
             Upload.upload({
                 url: BackendPath.fileServicePath+'/upload',
                 method: 'POST',
@@ -63,7 +69,7 @@ angular.module('starter.controllers')
             }).then(function (resp) {
                 $scope.filename = resp.config.data.file.name;
                 $scope.showFileName = function(){
-                  return true;
+                  return false;
                 }
                 console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
             }, function (resp) {
@@ -89,16 +95,16 @@ angular.module('starter.controllers')
     }
 
     else{
-      // FileService.upload(file,$scope.savedDocData.documentId);
        Upload.upload({
                 url: BackendPath.fileServicePath+'/upload',
                 method: 'POST',
                 data: {file: file, documentId: $scope.savedDocData.documentId}
             }).then(function (resp) {
-              $scope.showFileName = function(){
-                  return true;
-                }
+              
                 $scope.filename = resp.config.data.file.name;
+                $scope.showFileName = function(){
+                  return false;
+                }
                 console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
             }, function (resp) {
                 console.log('Error status: ' + resp.status);
@@ -138,6 +144,10 @@ angular.module('starter.controllers')
         console.log('sent POST request: successfully create new draft');
         console.log(data);
         $scope.savedDocData = data;
+        $scope.lastModifiedDate = data.lastModifiedDate;
+        $scope.showNotification = function(){
+          return true;
+        }
 
         //new Folder
         $http({
@@ -176,10 +186,36 @@ angular.module('starter.controllers')
 
     else {
       console.log("updating current draft")
-      DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
-      //Save box here
-      $window.location.href=('#/app/doc');
+      // DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
+      $http({
+        method: 'POST',
+        url: BackendPath.documentServicePath+'/save',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj)
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            return str.join("&");
+        },
+        data: {documentId: $scope.savedDocData.documentId, documentName: $scope.doc.name, description: $scope.doc.desc}
       
+        }).
+        success(function(data, status, headers, config) {
+            console.log('sent POST request: successfully updated current document : '+data.documentStatus);
+            console.log(data);
+            $scope.lastModifiedDate = data.lastModifiedDate;
+            $scope.showNotification = function(){
+              return true;
+            }
+            $scope.savedDocData = data;
+
+            
+          }).
+          error(function(data, status, headers, config) {
+            console.log('cannot reach '+BackendPath.documentServicePath)
+          });
+      
+
     }
     
     
@@ -251,7 +287,9 @@ angular.module('starter.controllers')
     }
     else{
       FolderService.delete($scope.savedFolder.id);
-      document.getElementById("filename").style.display = "none";
+      $scope.showFileName = function(){
+                  return true;
+      }
       $scope.doc = angular.copy(blank);
       $window.location.reload();
     }
