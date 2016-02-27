@@ -71,6 +71,7 @@ angular.module('starter.controllers')
       DocumentService.publish(docId)
       PublishDocumentService.addDocument(docId, docName)
       console.log('change folder status: '+$stateParams.folderId)
+      $window.location.href=('#/app/doc');
 
     }
 

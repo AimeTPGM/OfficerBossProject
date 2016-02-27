@@ -4,9 +4,10 @@ angular.module('starter.controllers')
     disableBack: true
   });
 
-   $scope.publish = function(docId){
+   $scope.publish = function(docId,docName){
       DocumentService.publish(docId);
-      PublishDocumentService.addDocument(docId, docName)
+      PublishDocumentService.addDocument(docId, docName);
+      $window.location.href=('#/app/doc');
     }
 
     $scope.delete = function(docId){

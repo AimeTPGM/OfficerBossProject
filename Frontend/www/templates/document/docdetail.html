@@ -134,18 +134,18 @@
 
 					</div>
 					<div ng-if="doc.editable">
-						<div class="row" show-when="large">
-							<div class="col col-33">
+						<div class="row padding-0" show-when="large">
+							<div class="col col-33 padding-0">
 								<a class="button button-full button-energized" href="#/app/doc/{{folder.id}}/{{doc.documentId}}/edit">
 								  Edit
 								</a>
 							</div>
-							<div class="col col-33">
-								<button class="button button-full button-balanced" ng-click="submit(doc.documentId, doc.documentStatus)">
+							<div class="col col-33 padding-0">
+								<button class="button button-full button-balanced" ng-click="selectVersion(doc.documentId, doc.documentStatus)">
 								  Submit
 								</button>
 							</div>
-							<div class="col col-33">
+							<div class="col col-33 padding-0">
 								<button class="button button-full button-assertive" ng-click="delete(doc.documentId)">
 								  Delete
 								</button>
@@ -155,7 +155,7 @@
 								<a class="button button-full button-energized col-33" href="#/app/doc/{{folder.id}}/{{doc.documentId}}/edit">
 								  Edit
 								</a>
-								<button class="button button-full button-balanced" ng-click="selectVersion(doc.documentId, doc.documentStatus)" ng-click="submit()">
+								<button class="button button-full button-balanced" ng-click="selectVersion(doc.documentId, doc.documentStatus)">
 								  Submit
 								</button>
 								<button class="button button-full button-assertive" ng-click="delete(doc.documentId)">
@@ -165,15 +165,17 @@
 					</div>
 			</form>
 
-					<div ng-if="doc.editable == false" >
-								<a class="button button-block button-dark" href="#/app/doc">
-								  Back
-								</a>
-					</div>
+					
 
 					<div ng-if="doc.documentStatus === 'Approved' && doc.editable == false" >
 								<a class="button button-block button-balanced" ng-click="publish(doc.documentId, doc.documentName)">
 								  Publish
+								</a>
+					</div>
+
+					<div ng-if="doc.editable == false" >
+								<a class="button button-block button-dark" href="#/app/doc">
+								  Back
 								</a>
 					</div>
 
