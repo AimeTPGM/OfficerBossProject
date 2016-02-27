@@ -13,13 +13,23 @@ angular.module('starter.controllers')
       FolderService.delete($stateParams.folderId);
       $window.location.href=('#/app/doc');
     }
-
-    $scope.submit = function(docId, docStatus){
-      if(docStatus == 'Draft'){
-        DocumentService.submit(docId);
+    $scope.selectVersion = function(docId, docStatus){
+      $scope.showVersionSelector = function(){
+        return true;
       }
-      else if(docStatus == 'Reject'){
-         $http({
+      $scope.hideVersionSelector = function(){
+        $scope.showVersionSelector = function(){
+          return false;
+        }
+      }
+      $scope.submit = function(versionType){
+        console.log(versionType);
+        if(docStatus == 'Draft'){
+          DocumentService.submit($stateParams.docId,versionType);
+          $window.location.href=('#/app/doc');
+        }
+        else if(docStatus == 'Reject'){
+          $http({
           method: 'POST',
           url: BackendPath.documentServicePath+'/newEditDraft',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -34,20 +44,21 @@ angular.module('starter.controllers')
             documentId: $stateParams.docId
           }
         
-      }).success(function(data, status, headers, config) {
-        DocumentService.editable($stateParams.docId, false);
-        FolderService.addDocument($stateParams.folderId, data.documentId);
-        DocumentService.submit(data.documentId);
+          }).success(function(data, status, headers, config) {
+            DocumentService.editable($stateParams.docId, false);
+            FolderService.addDocument($stateParams.folderId, data.documentId);
+            DocumentService.submit(data.documentId,versionType);
+            $window.location.href=('#/app/doc');
 
-      }).
-      error(function(data, status, headers, config) {
-        console.log('cannot reach '+BackendPath.documentServicePath)
-      });
-
+          }).
+          error(function(data, status, headers, config) {
+            console.log('cannot reach '+BackendPath.documentServicePath)
+          });
+        }
       }
+      
+      
     }
-
-
 
   $http.get(BackendPath.folderServicePath+'/folder?folderId='+$stateParams.folderId)
     .success(function(data){

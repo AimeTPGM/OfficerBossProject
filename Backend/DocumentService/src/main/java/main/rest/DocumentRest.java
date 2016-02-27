@@ -237,9 +237,8 @@ public class DocumentRest{
 			) {
 		System.out.println("GET Request: newdraft");
 		document = documentDAO.readById(documentId);
-		int temp = document.getMinorVersion();
-		temp++;
-		Document newDocument = new Document(name, description, new Date(), new Draft(), document.getCreator(), "56a0d083d4c607b2e7a60a5c",document.getMajorVersion(),temp,false);
+		
+		Document newDocument = new Document(name, description, new Date(), new Draft(), document.getCreator(), "56a0d083d4c607b2e7a60a5c",document.getMajorVersion(),document.getMinorVersion(),false);
 		documentDAO.create(newDocument);
 		
 		return okStatus(newDocument);
