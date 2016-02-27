@@ -11,16 +11,7 @@ angular.module('starter.controllers')
   $scope.showFileName = function(){
     return true;
   }
-  $scope.testnewsubmit = function(){
-    $scope.showVersionSelector = function(){
-      return true;
-    }
-    $scope.hideVersionSelector = function(){
-      $scope.showVersionSelector = function(){
-        return false;
-      }
-    }
-  }
+
 
   $scope.upload = function (file) {
     // if it never been uploaded
@@ -43,64 +34,64 @@ angular.module('starter.controllers')
         },
         data: {documentName:$scope.doc.name, description:$scope.doc.desc, creatorId:1}
       
-    }).
-    success(function(data, status, headers, config) {
-        console.log('sent POST request: successfully create new draft');
-        console.log(data);
-        $scope.savedDocData = data;
-        $scope.lastModifiedDate = data.lastModifiedDate;
-        $scope.showNotification = function(){
-          return true;
-        }
-
-        //new Folder
-        $http({
-        method: 'POST',
-        url: BackendPath.folderServicePath+'/createFolder',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        transformRequest: function(obj) {
-            var str = [];
-            for(var p in obj)
-            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-            return str.join("&");
-        },
-        data: {folderName: $scope.doc.name, creatorId: 1}
-      
         }).
         success(function(data, status, headers, config) {
-            console.log('sent POST request: add new folder');
+            console.log('sent POST request: successfully create new draft');
             console.log(data);
-            $scope.savedFolder = data;
-            FolderService.addDocument(data.id, $scope.savedDocData.documentId);
-            Upload.upload({
-                url: BackendPath.fileServicePath+'/upload',
-                method: 'POST',
-                data: {file: file, documentId: $scope.savedDocData.documentId}
-            }).then(function (resp) {
-                $scope.filename = resp.config.data.file.name;
-                $scope.showFileName = function(){
-                  return false;
-                }
-                console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
-            }, function (resp) {
-                console.log('Error status: ' + resp.status);
-                console.log(resp.config.data)
-            }, function (evt) {
-                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-            });
+            $scope.savedDocData = data;
+            $scope.lastModifiedDate = data.lastModifiedDate;
+            $scope.showNotification = function(){
+              return true;
+            }
 
+            //new Folder
+            $http({
+            method: 'POST',
+            url: BackendPath.folderServicePath+'/createFolder',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: {folderName: $scope.doc.name, creatorId: 1}
           
+            }).
+            success(function(data, status, headers, config) {
+                console.log('sent POST request: add new folder');
+                console.log(data);
+                $scope.savedFolder = data;
+                FolderService.addDocument(data.id, $scope.savedDocData.documentId);
+                Upload.upload({
+                    url: BackendPath.fileServicePath+'/upload',
+                    method: 'POST',
+                    data: {file: file, documentId: $scope.savedDocData.documentId}
+                }).then(function (resp) {
+                    $scope.filename = resp.config.data.file.name;
+                    $scope.showFileName = function(){
+                      return false;
+                    }
+                    console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+                }, function (resp) {
+                    console.log('Error status: ' + resp.status);
+                    console.log(resp.config.data)
+                }, function (evt) {
+                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                });
+
+              
+              }).
+              error(function(data, status, headers, config) {
+                console.log('cannot reach '+BackendPath.folderServicePath)
+              });
+
+            
           }).
           error(function(data, status, headers, config) {
-            console.log('cannot reach '+BackendPath.folderServicePath)
+            console.log('cannot reach '+BackendPath.documentServicePath)
           });
-
-        
-      }).
-      error(function(data, status, headers, config) {
-        console.log('cannot reach '+BackendPath.documentServicePath)
-      });
 
     }
 
@@ -229,18 +220,33 @@ angular.module('starter.controllers')
     
     
   }
-  
-  $scope.submit = function(){
-    console.log($scope.doc);
-    // if it never been uploaded
-    if(!$scope.savedDocData){
-      console.log("creating new document");
-         // if there is no document name
-    if(!$scope.doc.name){ $scope.doc.name = "Untitled"; }
-    // if there is no description
-    if(!$scope.doc.desc){ $scope.doc.desc = "no description";}
 
-      $http.get(BackendPath.documentServicePath+'/newDocument?documentName='+$scope.doc.name+'&description='+$scope.doc.desc+'&creatorId=1')
+  $scope.selectVersion = function(){
+    $scope.showVersionSelector = function(){
+      return true;
+    }
+
+    $scope.submit = function(versionType){
+      console.log(versionType);
+      if(!$scope.savedDocData){
+        // if there is no document name
+        if(!$scope.doc.name){ $scope.doc.name = "Untitled"; }
+        // if there is no description
+        if(!$scope.doc.desc){ $scope.doc.desc = "no description";}
+
+        $http({
+        method: 'POST',
+        url: BackendPath.documentServicePath+'/newDraft',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj)
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            return str.join("&");
+        },
+        data: {documentName:$scope.doc.name, description:$scope.doc.desc, creatorId:1}
+      
+        })
         .success(function(data){
           console.log('successfully create new document: waiting for approval');
           $scope.savedDocData = data;
@@ -266,6 +272,8 @@ angular.module('starter.controllers')
 
               console.log('adding new doc '+$scope.savedDocData.documentId)
               FolderService.addDocument(data.id, $scope.savedDocData.documentId);
+              console.log("submitting current document : "+versionType)
+              DocumentService.submit($scope.savedDocData.documentId,versionType);
               $window.location.href=('#/app/doc');
 
             
@@ -279,15 +287,20 @@ angular.module('starter.controllers')
           console.log('cannot reach '+BackendPath.documentServicePath)
         });
 
-
+      }
+      else{
+        console.log("updating current document : "+versionType)
+        DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
+        DocumentService.submit($scope.savedDocData.documentId,versionType);
+        $window.location.href=('#/app/doc');
+      }
     }
-    else {
-      console.log("updating current document")
-      DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
-      DocumentService.submit($scope.savedDocData.documentId);
 
+    $scope.hideVersionSelector = function(){
+      $scope.showVersionSelector = function(){
+        return false;
+      }
     }
-    
   }
 
   $scope.reset = function(){

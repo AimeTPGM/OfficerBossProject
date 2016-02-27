@@ -95,11 +95,11 @@ angular.module('starter.controllers', ['ngFileUpload'])
 
   }
 
-  this.submit = function(docId){
-    $http.get(BackendPath.documentServicePath+'/submit?documentId='+docId)
+  this.submit = function(docId,versionType){
+    console.log(versionType)
+    $http.get(BackendPath.documentServicePath+'/submit?documentId='+docId+'&&versionType='+versionType)
         .success(function(data){
           console.log('successfully submit document: change to waiting for approval');
-          $window.location.href=('#/app/doc');
 
         })
         .error(function(data){
