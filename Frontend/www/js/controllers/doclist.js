@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, FolderService, DocumentService, BackendPath) {
+.controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, FolderService, DocumentService, BackendPath,UserService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -73,16 +73,11 @@ angular.module('starter.controllers')
           }
     });
 
-   
-
-  $http.get(BackendPath.userServicePath+'/user?userId=56a0d083d4c607b2e7a60a5c')
-    .success(function(data){
-      $scope.user = data;
-    })
-    .error(function(data){
-      console.log('cannot reach '+BackendPath.userServicePath)
-    });
-
+  $scope.user = {};
+  UserService.getUser('56a0d083d4c607b2e7a60a5c').then(function(resp){
+    $scope.user = resp.data;
+    console.log($scope.user)
+  });
 
   
 

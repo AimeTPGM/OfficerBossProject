@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('DocumentDetailCtrl', function($scope, $stateParams,$ionicHistory, $http,$window, FileService, DocumentService,FolderService,PublishDocumentService, BackendPath) {
+.controller('DocumentDetailCtrl', function($scope, $stateParams,$ionicHistory, $http,$window, FileService, DocumentService,FolderService,PublishDocumentService, BackendPath, UserService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -52,8 +52,6 @@ angular.module('starter.controllers')
   $http.get(BackendPath.folderServicePath+'/folder?folderId='+$stateParams.folderId)
     .success(function(data){
       $scope.folder = data;
-      // var lastDocId = $scope.folder.documentList[($scope.folder.documentList.length)-1];
-      
       
       $scope.versions = {};
       var j = 0;
@@ -68,8 +66,6 @@ angular.module('starter.controllers')
             $scope.versions[j].docId = data.documentId;
             j++;
             
-            
-            
           })
           .error(function(data){
             console.log('cannot reach '+BackendPath.documentServicePath)
@@ -77,13 +73,6 @@ angular.module('starter.controllers')
           });
 
       };
-
-
-
-
-      
-
-
 
     })
     .error(function(data){
@@ -112,23 +101,16 @@ angular.module('starter.controllers')
     .success(function(data){
       $scope.doc = data;
       console.log(data)
+
+      $scope.creator = {};
+      UserService.getUser($scope.doc.creator).then(function(resp){
+        $scope.creator = resp.data;
+      });
       
-      $http.get(BackendPath.userServicePath+'/user?userId='+$scope.doc.creator)
-        .success(function(data){
-          $scope.creator = data;
-            
-        })
-        .error(function(data){
-          console.log('cannot reach '+BackendPath.userServicePath)
-        });
-      $http.get(BackendPath.userServicePath+'/user?userId='+$scope.doc.approver)
-        .success(function(data){
-          $scope.approver = data;
-            
-        })
-        .error(function(data){
-          console.log('cannot reach '+BackendPath.userServicePath)
-        });
+      $scope.approver = {};
+      UserService.getUser($scope.doc.approver).then(function(resp){
+        $scope.approver = resp.data;
+      });
 
       $http.get(BackendPath.fileServicePath+'/fileDetail?documentId='+$scope.doc.documentId)
         .success(function(data){
@@ -139,9 +121,6 @@ angular.module('starter.controllers')
           console.log('cannot reach '+BackendPath.fileServicePath)
           console.log(data)
         });
-
-
-      
 
     })
     .error(function(data){

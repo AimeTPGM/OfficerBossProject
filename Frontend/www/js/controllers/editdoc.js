@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('EditDocumentCtrl', function($scope, $stateParams,$ionicHistory,$http,$window, $state, DocumentService, FolderService, FileService, Upload, BackendPath) {
+.controller('EditDocumentCtrl', function($scope, $stateParams,$ionicHistory,$http,$window, $state,UserService, DocumentService, FolderService, FileService, Upload, BackendPath) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -27,23 +27,17 @@ angular.module('starter.controllers')
     .success(function(data){
       $scope.doc = data;
       // get creator
-      $http.get(BackendPath.userServicePath+'/user?userId='+$scope.doc.creator)
-        .success(function(data){
-          $scope.creator = data;
-            
-        })
-        .error(function(data){
-          console.log('cannot reach '+BackendPath.userServicePath)
-        });
+      $scope.creator = {};
+      UserService.getUser($scope.doc.creator).then(function(resp){
+        $scope.creator = resp.data;
+      });
+
         // get approver
-      $http.get(BackendPath.userServicePath+'/user?userId='+$scope.doc.approver)
-        .success(function(data){
-          $scope.approver = data;
-            
-        })
-        .error(function(data){
-          console.log('cannot reach '+BackendPath.userServicePath)
-        });
+      $scope.approver = {};
+      UserService.getUser($scope.doc.approver).then(function(resp){
+        $scope.approver = resp.data;
+      });
+
         // get file detail
         $http.get(BackendPath.fileServicePath+'/fileDetail?documentId='+$scope.doc.documentId)
         .success(function(data){

@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('HistoryCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, DocumentService, FolderService,PublishDocumentService,BackendPath) {
+.controller('HistoryCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, DocumentService, FolderService,PublishDocumentService,BackendPath,UserService) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -27,15 +27,10 @@ angular.module('starter.controllers')
             for (var j = 0; j < $scope.documents.length; j++) {
               if($scope.documents[j] == data.documentId){
                 $scope.documents[j] = data;
-                $http.get(BackendPath.userServicePath+'/user?userId='+data.approver)
-                  .success(function(data){
-                    $scope.approver = data;
-
-                  })
-                  .error(function(data){
-                    console.log('cannot reach '+BackendPath.userServicePath)
-                  });
-
+                $scope.creator = {};
+                UserService.getUser(data.approver).then(function(resp){
+                  $scope.approver = resp.data;
+                });
                 break;
               }
             };
@@ -45,7 +40,7 @@ angular.module('starter.controllers')
 
           })
           .error(function(data){
-            console.log('cannot reach '+BackendPath.userServicePath)
+            console.log('cannot reach '+BackendPath.documentServicePath)
           });
        
      };
