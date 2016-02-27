@@ -88,7 +88,7 @@ public class DocumentRest{
 			) {
 		System.out.println("GET Request: newdraft");
 		
-		document = new Document(name, description, new Date(), new Draft(), creatorId, "56a0d083d4c607b2e7a60a5c",0,1,false);
+		document = new Document(name, description, new Date(), new Draft(), creatorId, "56a0d083d4c607b2e7a60a5c",0,0,false);
 		documentDAO.create(document);
 		
 		return okStatus(document);
@@ -102,7 +102,7 @@ public class DocumentRest{
 			@QueryParam("description") String description,
 			@QueryParam("creatorId") String creatorId) {
 		System.out.println("GET Request: newdocument");
-		document = new Document(name, description, new Date(), new WaitingForApproval(), creatorId, "56a0d083d4c607b2e7a60a5c", 1,0,false);
+		document = new Document(name, description, new Date(), new WaitingForApproval(), creatorId, "56a0d083d4c607b2e7a60a5c", 0,0,false);
 		documentDAO.create(document);
 		return okStatus(document);
 	}
@@ -124,11 +124,6 @@ public class DocumentRest{
 		document.setDocumentName(name);
 		document.setDescription(description);
 		document.setLastModifiedDate(new Date());
-		int temp = document.getMinorVersion();
-		
-		temp++;
-		document.setMinorVersion(temp);
-		document.setVersion(document.getMajorVersion(), temp);
 		documentDAO.update(document);
 		return okStatus(document);
 	}
@@ -137,18 +132,28 @@ public class DocumentRest{
 	@Path("submit")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response submitDocument(
-			@QueryParam("documentId") String id) {
+			@QueryParam("documentId") String id,
+			@QueryParam("versionType") String versionType) {
 		System.out.println("GET Request: submit");
 		document = documentDAO.readById(id);
 		if (document == null) return notFoundStatus("404 Document not Found");
 		
-		int majorVersion = document.getMajorVersion();
 		document.setDocumentStatus(new WaitingForApproval().getDocumentStatusName());
 		document.setLastModifiedDate(new Date());
-		int temp = majorVersion;
-		temp++;
-		document.setMajorVersion(temp);
-		document.setVersion(temp, document.getMinorVersion());
+		if(versionType.equals("minor")) {
+			int temp = document.getMinorVersion();
+			temp++;
+			document.setMinorVersion(temp);
+			document.setVersion(document.getMajorVersion(), temp);
+		}
+		else if(versionType.equals("major")) {
+			int temp = document.getMajorVersion();
+			temp++;
+			document.setMajorVersion(temp);
+			document.setMinorVersion(0);
+			document.setVersion(temp, 0);
+		}
+		else return Response.status(400).entity("Bad version request").build();
 		document.setEditable(false);
 		documentDAO.update(document);
 		return okStatus(document);
@@ -253,6 +258,7 @@ public class DocumentRest{
 		documentDAO.update(document);
 		return okStatus(document);
 	}
+	
 	
 	
 	

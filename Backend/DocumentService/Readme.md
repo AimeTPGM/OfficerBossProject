@@ -23,7 +23,7 @@ COLLECTION | documenttestonly
 /newDraft	 			|	POST	|documentName=String, description=String, creator=String|create new draft
 /newDocument			|	GET 	|documentName=String, description=String, creator=String|create new document, status = Waiting for Approval
 /save					|	GET 	|documentId=String, documentName=String, description=String| update document, status = current status
-/submit					|	GET 	|documentId=String| submit document, status = Waiting for Approval
+/submit					|	GET 	|documentId=String, versionType=String("minor" || "major")| submit document, status = Waiting for Approval, update document version
 /approve				|	GET 	|documentId=String| approve document, status = Approve
 /publish				|	GET 	|documentId=String| publish document, status = Publish
 /reject					|	GET 	|documentId=String| reject document, status = Reject
