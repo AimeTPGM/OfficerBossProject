@@ -1,19 +1,26 @@
 angular.module('starter.controllers')
-.controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, FolderService, DocumentService, BackendPath,UserFactory) {
+.controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, 
+  FolderService, DocumentService, BackendPath,
+  UserFactory, DocumentFactory, FolderFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
-  
-
   $scope.delete = function(folderId){
     FolderService.delete(folderId);
     $window.location.href=('#/app/doc');
   }
+  FolderFactory.getFolderByCreatorId(1).then(function(resp){
+    if(resp.status == 200){
+      $scope.folders = resp.data;
+      if($scope.folders.length == 0){
+        $scope.noDocument = function(){
+          return true;
+          $scope.showNoConnection = function(){
+            return false;
+          }
+        } 
+      }
 
-  $http.get(BackendPath.folderServicePath+'/getFolderByCreatorId?creatorId=1')
-    .success(function(data){
-      console.log('return folders')
-      $scope.folders = data;
       var temp = {};
       for (var i = 0; i < $scope.folders.length; i++) {
         var index = $scope.folders[i].documentList.length - 1;
@@ -25,62 +32,37 @@ angular.module('starter.controllers')
       var j = 0;
       for (var i = 0; i < $scope.folders.length; i++) {
         console.log(temp[i])
-        $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+temp[i])
-          .success(function(data){
 
+        DocumentFactory.getDocument(temp[i]).then(function(resp){
+          if(resp.status == 200){
             for (var j = 0; j < $scope.folders.length; j++) {
            
-              if(temp[j] == data.documentId){
-                $scope.folders[j].lastDocData = data;
+              if(temp[j] == resp.data.documentId){
+                $scope.folders[j].lastDocData = resp.data;
                 if($scope.folders[j].lastDocData.editable == false){
                   DocumentService.editable($scope.folders[j].lastDocId, true);
                 }
                 break;
               }
             };
+          }
+          else{
+           console.log('cannot reach '+BackendPath.documentServicePath)
+          }
             
-              
-
-            
-            
-          })
-          .error(function(data){
-            console.log('cannot reach '+BackendPath.documentServicePath)
-          });
-        
+        });
       };
+    }
+    else{
+      console.log('cannot reach '+BackendPath.folderServicePath)
+      $scope.showNoConnection = function(){ return true; }
+    }
 
-
-      if($scope.folders.length == 0){
-        $scope.noDocument = function(){
-          return true;
-          $scope.showNoConnection = function(){
-            return false;
-          }
-        } 
-      }
-      else{
-        return false;
-      }
-
-
-      
-    })
-    .error(function(data){
-          console.log('cannot reach '+BackendPath.folderServicePath)
-          $scope.showNoConnection = function(){
-            return true;
-          }
-    });
-
+  });
   $scope.user = {};
   UserFactory.getUser('56a0d083d4c607b2e7a60a5c').then(function(resp){
     $scope.user = resp.data;
     console.log($scope.user)
-  });
-
-  
-
-        
+  });      
 })
 

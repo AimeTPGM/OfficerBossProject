@@ -15,5 +15,17 @@ angular.module('starter.controllers')
      
    }
 
+   folder.getFolderByCreatorId = function(creatorId){
+    return $http.get(BackendPath.folderServicePath+'/getFolderByCreatorId?creatorId='+creatorId)
+    .success(function(data){
+      return data;
+    })
+    .error(function(data){
+      console.log('cannot reach '+BackendPath.folderServicePath)
+      return data;
+    });
+     
+   }
+
    return folder;
 })
