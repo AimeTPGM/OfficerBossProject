@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('DocumentReviewCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, ReviewService,FileService,ReviewService,BackendPath,UserService) {
+.controller('DocumentReviewCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, ReviewService,FileService,ReviewService,BackendPath,UserFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -48,12 +48,12 @@ angular.module('starter.controllers')
       }
 
       $scope.creator = {};
-      UserService.getUser($scope.doc.creator).then(function(resp){
+      UserFactory.getUser($scope.doc.creator).then(function(resp){
         $scope.creator = resp.data;
       });
 
       $scope.approver = {};
-      UserService.getUser($scope.doc.approver).then(function(resp){
+      UserFactory.getUser($scope.doc.approver).then(function(resp){
         $scope.approver = resp.data;
       });
 

@@ -83,8 +83,9 @@
 
 					
 						<a show-when="small" class="col col-85 vertical-center-list-text doclist-link" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}">{{folder.folderName}}</a>
-						<a show-when="small" class="button button-calm" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}" style="margin-right:10px;">More Detail</a>
-						<button show-when="small" class="button button button-assertive button-circle icon ion-trash-a" ng-if="folder.lastDocData.editable" title="Delete" ng-click="delete(folder.id)"></button>
+						<button show-when="small" class="button button-clear button-assertive icon ion-trash-a" ng-if="folder.lastDocData.editable" title="Delete" ng-click="delete(folder.id)" style="margin-right:10px;"></button>
+						<a show-when="small" class="button button-calm" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}">More Detail</a>
+						
 		
 					
 					

@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('EditDocumentCtrl', function($scope, $stateParams,$ionicHistory,$http,$window, $state,UserService, DocumentService, FolderService, FileService, Upload, BackendPath) {
+.controller('EditDocumentCtrl', function($scope, $stateParams,$ionicHistory,$http,$window, $state,UserFactory, DocumentService, FolderService, FileService, Upload, BackendPath) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -28,13 +28,13 @@ angular.module('starter.controllers')
       $scope.doc = data;
       // get creator
       $scope.creator = {};
-      UserService.getUser($scope.doc.creator).then(function(resp){
+      UserFactory.getUser($scope.doc.creator).then(function(resp){
         $scope.creator = resp.data;
       });
 
         // get approver
       $scope.approver = {};
-      UserService.getUser($scope.doc.approver).then(function(resp){
+      UserFactory.getUser($scope.doc.approver).then(function(resp){
         $scope.approver = resp.data;
       });
 

@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('HistoryCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, DocumentService, FolderService,PublishDocumentService,BackendPath,UserService) {
+.controller('HistoryCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, DocumentService, FolderService,PublishDocumentService,BackendPath,UserFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -28,7 +28,7 @@ angular.module('starter.controllers')
               if($scope.documents[j] == data.documentId){
                 $scope.documents[j] = data;
                 $scope.creator = {};
-                UserService.getUser(data.approver).then(function(resp){
+                UserFactory.getUser(data.approver).then(function(resp){
                   $scope.approver = resp.data;
                 });
                 break;

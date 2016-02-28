@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, FolderService, DocumentService, BackendPath,UserService) {
+.controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, FolderService, DocumentService, BackendPath,UserFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -74,7 +74,7 @@ angular.module('starter.controllers')
     });
 
   $scope.user = {};
-  UserService.getUser('56a0d083d4c607b2e7a60a5c').then(function(resp){
+  UserFactory.getUser('56a0d083d4c607b2e7a60a5c').then(function(resp){
     $scope.user = resp.data;
     console.log($scope.user)
   });

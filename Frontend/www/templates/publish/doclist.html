@@ -3,7 +3,7 @@
 		<div class="row padding-0">
 			<div class="col col-20 publish-list-container padding-0">
 				<ul class="list" ng-show="showList()">
-				    <li class="item" ng-repeat="publishDocument in publishDocumentList" ng-click="detail({{publishDocument.documentId}}, {{publishDocument.publishDate}})">
+				    <li class="item" ng-repeat="publishDocument in publishDocumentList" ng-click="detail('{{publishDocument.documentId}}', '{{publishDocument.publishDate}}')">
 				      {{publishDocument.documentName}}
 				    </li>
 				</ul>
@@ -47,7 +47,7 @@
 								Creator
 							</div>
 							<div class="col col-80">
-								{{doc.creatorId}}
+								{{doc.creator}}
 							</div>
 						</div>
 						<div class="row">
@@ -55,7 +55,7 @@
 								Approver
 							</div>
 							<div class="col col-80">
-								{{doc.approverId}}
+								{{doc.approver}}
 							</div>
 						</div>
 						<div class="row">

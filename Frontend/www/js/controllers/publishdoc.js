@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
-.controller('PublishDocumentCtrl', function($scope, $ionicModal, $timeout, $http, BackendPath) {
+.controller('PublishDocumentCtrl', function($scope, $ionicModal, $timeout, $http, BackendPath,PublishDocumentFactory,UserFactory) {
 	$http.get(BackendPath.publishDocumentServicePath+'/publishDocuments')
         .success(function(data){
           if(data.length == 0){
@@ -8,17 +8,44 @@ angular.module('starter.controllers')
           	$scope.publishDocumentList = data;
           	showNoSelect();
           	$scope.detail = function(docId, publishDate){
-          		$http.get(BackendPath.documentServicePath+'/getDocument?documentId='+docId)
-			        .success(function(data){
-			          $scope.doc = data;
-			          $scope.doc.publishDate = publishDate;
-			          console.log($scope.doc);
+          		$scope.doc = {};
+			    PublishDocumentFactory.getDocument(docId).then(function(resp){
+			        if(resp.status == 200){
+			        	console.log('200')
+			        	$scope.doc = resp.data;
+			        	$scope.doc.publishDate = publishDate;
+					    UserFactory.getUser($scope.doc.creator).then(function(resp){
+					    	if(resp.status == 200){ $scope.doc.creator = resp.data.lastname+" "+resp.data.firstname; }
+					    	else{ $scope.doc.creator = "Service is not available"; }
+					        
+					    });
+					    UserFactory.getUser($scope.doc.approver).then(function(resp){
+					        if(resp.status == 200){ $scope.doc.approver = resp.data.lastname+" "+resp.data.firstname; }
+					    	else{ $scope.doc.approver = "Service is not available"; }
+					    });
+			        	showDetail();
+			        }
+			        else{
+			        	console.log(resp)
+			        	showNotFound();
+			        }
+			        
+			        
+			    });
+
+          		
+          	// 	$http.get(BackendPath.documentServicePath+'/getDocument?documentId='+docId)
+			        // .success(function(data){
+			        //   $scope.doc = data;
+			        //   $scope.doc.publishDate = publishDate;
+			        //   console.log($scope.doc);
+			        //   showDetail();
 			          
-			        })
-			        .error(function(data){
-			          console.log('cannot reach '+BackendPath.documentServicePath)
-			          showNotFound();
-			        });
+			        // })
+			        // .error(function(data){
+			        //   console.log('cannot reach '+BackendPath.documentServicePath)
+			        //   showNotFound();
+			        // });
           	}
           }
             
