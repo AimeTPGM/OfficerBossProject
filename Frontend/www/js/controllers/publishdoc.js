@@ -33,19 +33,6 @@ angular.module('starter.controllers')
 			        
 			    });
 
-          		
-          	// 	$http.get(BackendPath.documentServicePath+'/getDocument?documentId='+docId)
-			        // .success(function(data){
-			        //   $scope.doc = data;
-			        //   $scope.doc.publishDate = publishDate;
-			        //   console.log($scope.doc);
-			        //   showDetail();
-			          
-			        // })
-			        // .error(function(data){
-			        //   console.log('cannot reach '+BackendPath.documentServicePath)
-			        //   showNotFound();
-			        // });
           	}
           }
             

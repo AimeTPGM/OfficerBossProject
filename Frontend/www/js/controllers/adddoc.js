@@ -96,6 +96,7 @@ angular.module('starter.controllers')
     }
 
     else{
+       FileService.delete($scope.savedDocData.documentId);
        Upload.upload({
                 url: BackendPath.fileServicePath+'/upload',
                 method: 'POST',
