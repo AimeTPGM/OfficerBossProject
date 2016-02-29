@@ -127,8 +127,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: '/dashboard',
       views: {
         'menuContent': {
-          templateUrl: 'templates/dashboard.html'
-         
+          templateUrl: 'templates/dashboard.html',
+          controller: 'DashboardCtrl'
 
         }
       }
