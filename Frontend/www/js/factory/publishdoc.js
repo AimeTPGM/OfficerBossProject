@@ -6,7 +6,7 @@ angular.module('starter.controllers')
    doc.getDocument = function(docId){
     return $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+docId)
     .then(function(resp){
-      return resp.data;
+      return resp;
     }, function(resp){
       return resp;
     })

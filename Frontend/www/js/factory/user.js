@@ -7,7 +7,7 @@ angular.module('starter.controllers')
    user.getUser = function(userId){
     return $http.get(BackendPath.userServicePath+'/user?userId='+userId)
     .then(function(resp){
-      return resp.data;
+      return resp;
     }, function(resp){
       return resp;
     })
@@ -17,7 +17,7 @@ angular.module('starter.controllers')
    user.getUsers = function(){
     return $http.get(BackendPath.userServicePath+'/users')
     .then(function(resp){
-      return resp.data;
+      return resp;
     }, function(resp){
       return resp;
     })

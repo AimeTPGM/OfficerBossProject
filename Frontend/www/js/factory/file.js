@@ -6,7 +6,7 @@ angular.module('starter.controllers')
    filedetail.getFilename = function(docId){
     return $http.get(BackendPath.fileServicePath+'/fileDetail?documentId='+docId)
     .then(function(resp){
-      return resp.data;
+      return resp;
     }, function(resp){
       return resp;
     })

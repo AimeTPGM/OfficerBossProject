@@ -6,7 +6,7 @@ angular.module('starter.controllers')
    review.getReview = function(docId){
     return $http.get(BackendPath.reviewServicePath+'/getReviewByDocumentId?documentId='+docId)
     .then(function(resp){
-      return resp.data;
+      return resp;
     }, function(resp){
       return resp;
     })

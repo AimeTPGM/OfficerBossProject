@@ -6,7 +6,7 @@ angular.module('starter.controllers')
    folder.getFolder = function(folderId){
     return $http.get(BackendPath.folderServicePath+'/folder?folderId='+folderId)
     .then(function(resp){
-      return resp.data;
+      return resp;
     }, function(resp){
       return resp;
     })
@@ -16,7 +16,7 @@ angular.module('starter.controllers')
    folder.getFolderByCreatorId = function(creatorId){
     return $http.get(BackendPath.folderServicePath+'/getFolderByCreatorId?creatorId='+creatorId)
     .then(function(resp){
-      return resp.data;
+      return resp;
     }, function(resp){
       return resp;
     })
@@ -26,7 +26,7 @@ angular.module('starter.controllers')
    folder.getFolders = function(){
     return $http.get(BackendPath.folderServicePath+'/folders')
     .then(function(resp){
-      return resp.data;
+      return resp;
     }, function(resp){
       return resp;
     })
