@@ -5,13 +5,11 @@ angular.module('starter.controllers')
 
    review.getReview = function(docId){
     return $http.get(BackendPath.reviewServicePath+'/getReviewByDocumentId?documentId='+docId)
-    .success(function(data){
-      return data;
+    .then(function(resp){
+      return resp.data;
+    }, function(resp){
+      return resp;
     })
-    .error(function(data){
-      console.log('cannot reach '+BackendPath.reviewServicePath)
-      return data;
-    });
      
    }
 

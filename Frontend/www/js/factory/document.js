@@ -5,13 +5,11 @@ angular.module('starter.controllers')
 
    doc.getDocument = function(docId){
     return $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+docId)
-    .success(function(data){
-      return data;
+    .then(function(resp){
+      return resp.data;
+    }, function(resp){
+      return resp;
     })
-    .error(function(data){
-      console.log('cannot reach '+BackendPath.documentServicePath)
-      return data;
-    });
      
    }
 

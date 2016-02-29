@@ -5,14 +5,11 @@ angular.module('starter.controllers')
 
    filedetail.getFilename = function(docId){
     return $http.get(BackendPath.fileServicePath+'/fileDetail?documentId='+docId)
-    .success(function(data){
-      return data;
+    .then(function(resp){
+      return resp.data;
+    }, function(resp){
+      return resp;
     })
-    .error(function(data){
-      console.log('cannot reach '+BackendPath.fileServicePath)
-      return data;
-    });
-     
    }
 
    return filedetail;
