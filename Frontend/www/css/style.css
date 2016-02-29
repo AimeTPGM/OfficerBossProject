@@ -231,3 +231,14 @@
 	right: 10px;
 	top: 10px;
 }
+.not-found{
+	text-align: center;
+}
+.not-found h1{
+	font-size: 4em;
+	color: #444;
+}
+.not-found h3{
+	font-size: 2em;
+	color: #444;
+}
