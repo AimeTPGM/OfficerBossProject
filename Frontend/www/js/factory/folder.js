@@ -27,5 +27,17 @@ angular.module('starter.controllers')
      
    }
 
+   folder.getFolders = function(){
+    return $http.get(BackendPath.folderServicePath+'/folders')
+    .success(function(data){
+      return data;
+    })
+    .error(function(data){
+      console.log('cannot reach '+BackendPath.folderServicePath)
+      return data;
+    });
+     
+   }
+
    return folder;
 })

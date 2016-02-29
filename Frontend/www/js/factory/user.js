@@ -2,9 +2,9 @@ angular.module('starter.controllers')
 
 .factory('UserFactory', function($http, BackendPath) {
 
-   var userService = {};
+   var user = {};
 
-   userService.getUser = function(userId){
+   user.getUser = function(userId){
     return $http.get(BackendPath.userServicePath+'/user?userId='+userId)
     .success(function(data){
       return data;
@@ -16,5 +16,18 @@ angular.module('starter.controllers')
      
    }
 
-   return userService;
+   user.getUsers = function(){
+    return $http.get(BackendPath.userServicePath+'/users')
+    .success(function(data){
+      return data;
+    })
+    .error(function(data){
+      console.log('cannot reach '+BackendPath.userServicePath)
+      return data;
+    });
+     
+   }
+
+
+   return user;
 })
