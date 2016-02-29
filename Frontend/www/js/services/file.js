@@ -25,20 +25,6 @@ angular.module('starter.controllers')
 
     };
 
-    this.getFileDetail = function(docId){
-      
-      $http.get(BackendPath.fileServicePath+'/fileDetail?documentId='+docId)
-        .success(function(data){
-          
-        })
-        .error(function(data){
-          console.log('cannot reach '+BackendPath.fileServicePath)
-          console.log(data)
-        });
- 
-
-    }
-
     this.download = function(docId){
       var url = BackendPath.fileServicePath+'/download?documentId='+docId;
       console.log(url)

@@ -1,89 +1,82 @@
 angular.module('starter.controllers')
-.controller('DocumentReviewCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, ReviewService,FileService,ReviewService,BackendPath,UserFactory) {
+.controller('DocumentReviewCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, 
+  ReviewService, FileService, BackendPath,
+  UserFactory, DocumentFactory, FileFactory, FolderFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
 
-  var approverid = "";
+  var approverId = "";
 
-   $http.get(BackendPath.folderServicePath+'/folder?folderId='+$stateParams.folderId)
-    .success(function(data){
-      $scope.folder = data;
-      
+  FolderFactory.getFolder($stateParams.folderId).then(function(resp){
+    if(resp.status == 200){
+      $scope.folder = resp.data;
       $scope.versions = {};
       var j = 0;
       for (var i = 0; i < $scope.folder.documentList.length; i++) {
         var tempDocId = $scope.folder.documentList[i];
-        $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+tempDocId)
-          .success(function(data){
-            var temp = {};
-            temp.version = data.version;
-            temp.docId = tempDocId;
-            $scope.versions[j] = temp;
-            $scope.versions[j].docId = data.documentId;
-            j++;
-
-            
-            
-          })
-          .error(function(data){
-            console.log('cannot reach '+BackendPath.documentServicePath)
-
+        DocumentFactory.getDocument(tempDocId).then(function(resp){
+            if(resp.status == 200){ 
+              var temp = {};
+              temp.version = resp.data.version;
+              temp.docId = tempDocId;
+              $scope.versions[j] = temp;
+              $scope.versions[j].docId = resp.data.documentId;
+              j++;
+            }
+            else{ console.log('cannot reach '+BackendPath.documentServicePath); } 
           });
       };
+    }
+    else{
+      console.log('cannot reach '+BackendPath.folderServicePath);
+    }
+  });
+  
 
+  $scope.doc = {};
+  DocumentFactory.getDocument($stateParams.docId).then(function(resp){
+    if(resp.status == 200){
+      $scope.doc = resp.data;
+      approverId = $scope.doc.approver;
 
-    })
-    .error(function(data){
-      console.log('cannot reach '+BackendPath.folderServicePath)
-    });
+      
 
-  $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+$stateParams.docId)
-    .success(function(data){
-      $scope.doc = data;
-      approverid = $scope.doc.approver;
-
-      $scope.download = function(){
-          FileService.download($stateParams.docId);   
-      }
-
-      $scope.creator = {};
       UserFactory.getUser($scope.doc.creator).then(function(resp){
-        $scope.creator = resp.data;
+        if(resp.status == 200){ $scope.creator = resp.data; }
+        else{ $scope.creator = "Not available"; }
       });
-
-      $scope.approver = {};
       UserFactory.getUser($scope.doc.approver).then(function(resp){
-        $scope.approver = resp.data;
+        if(resp.status == 200){ $scope.approver = resp.data; }
+        else{ $scope.approver = "Not available"; }
       });
-
-        $http.get(BackendPath.fileServicePath+'/fileDetail?documentId='+$scope.doc.documentId)
-        .success(function(data){
-          $scope.filename = data;
-            
-        })
-        .error(function(data){
-          console.log('cannot reach '+BackendPath.fileServicePath)
-          console.log(data)
-        });
-        
+      FileFactory.getFilename($stateParams.docId).then(function(resp){
+        if(resp.status == 200){
+         $scope.filename = resp.data; 
+         $scope.download = function(){
+          FileService.download($stateParams.docId);   
+          }
+        }
+        else{ $scope.filename = "Not available"; }
+      });
         
 
-    })
-    .error(function(data){
-      console.log('cannot reach '+BackendPath.documentServicePath)
-    });
+    }
+    else{ console.log('cannot reach '+BackendPath.documentServicePath) }
+        
+  });
+
+
     $scope.reviewtext = "";
     $scope.approve = function(){
       if($scope.reviewtext == ""){
         $scope.reviewtext = 'Approved!';
       }
-      ReviewService.approve($stateParams.docId,approverid,$scope.reviewtext,$stateParams.folderId);
+      ReviewService.approve($stateParams.docId,approverId,$scope.reviewtext,$stateParams.folderId);
 
     }
     $scope.reject = function(){
-
-      ReviewService.reject($stateParams.docId,approverid,$scope.reviewtext);
+      ReviewService.reject($stateParams.docId,approverId,$scope.reviewtext);
     }
 
 })

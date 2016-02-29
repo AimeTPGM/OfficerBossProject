@@ -1,5 +1,6 @@
 angular.module('starter.controllers')
-.controller('PublishDocumentCtrl', function($scope, $ionicModal, $timeout, $http, BackendPath,PublishDocumentFactory,UserFactory) {
+.controller('PublishDocumentCtrl', function($scope, $ionicModal, $timeout, $http, BackendPath,
+	PublishDocumentFactory, UserFactory, FileFactory) {
 	$http.get(BackendPath.publishDocumentServicePath+'/publishDocuments')
         .success(function(data){
           if(data.length == 0){
@@ -23,6 +24,25 @@ angular.module('starter.controllers')
 					        if(resp.status == 200){ $scope.doc.approver = resp.data.lastname+" "+resp.data.firstname; }
 					    	else{ $scope.doc.approver = "Service is not available"; }
 					    });
+					    FileFactory.getFilename($scope.doc.documentId).then(function(resp){
+					    	if(resp.status == 200){ 
+					    		$scope.filename = resp.data; 
+					    		$scope.hasFile = function(){
+					    			return true;
+					    		}
+					    	}
+					    	else { 
+					    		$scope.hasFile = function(){
+					    			return false;
+					    		}
+					    		$scope.noFile = function(){
+					    			return true;
+					    		}
+					    	}
+					    })
+					    $scope.download = function(){
+					    	FileService.download($scope.doc.documentId);
+					    }
 			        	showDetail();
 			        }
 			        else{

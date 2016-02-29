@@ -73,14 +73,17 @@
 							Attachment(s) 
 							</div>
 							<div class="row">
-								[download button] dummy filename 1 
+								<button ng-click="download()" target="_self" href="http://localhost:8084/downloaddocumentId={{doc.documentId}}" class="button button-calm icon ion-ios-cloud-download-outline button-circle" style="padding: 0 12px;" ng-show="hasFile()"></button>
+
+								 {{filename}}
 							</div>
-							<div class="row">
-								[download button] dummy filename 2
+							<div class="row" ng-show="noFile()">
+								- File Service is not available now - 
 							</div>
 						</div>
 						<div class="col col-20">
-							[download all attachment button]
+							<button ng-click="download()" target="_self" href="http://localhost:8084/downloaddocumentId={{doc.documentId}}" class="button button-balanced" ng-show="hasFile()">Download All File
+							</button>
 						</div>
 					</div>
 						
