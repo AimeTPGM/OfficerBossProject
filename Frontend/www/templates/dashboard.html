@@ -1,14 +1,20 @@
 <ion-view cache-view="false" view-title="Dashboard">
 	<ion-content>
 	<div class="row">
+		<div class="col col-80 center not-found">
+			<h1>We're sorry!</h1>
+			<h3>Dashboard Service is not available</h3>		
+		</div>
+	</div>
+	<div class="row">
 		<div class="col col-80 center">
 			<div class="row">
 				<div class="card col col-60">
 				  <div class="item item-text-wrap">
 				    <div class="item item-avatar">
 					   <img src="avatar.jpg">
-					   <h2>Lastname Firstname</h2>
-					   <p>email</p>
+					   <h2>{{user.lastname}} {{user.firstname}}</h2>
+					   <p>{{user.email}}</p>
 					 </div>
 				  </div>
 				</div>
@@ -44,27 +50,27 @@
 						  <div class="item item-icon-left" href="#">
 						    <i class="icon ion-android-drafts"></i>
 						    Draft
-						    <span class="badge badge-energized">0</span>
+						    <span class="badge badge-energized">{{statistic.draft}}</span>
 						  </div>
 						  <div class="item item-icon-left" href="#">
 						    <i class="icon ion-person-stalker"></i>
 						    Waiting for Approval
-						    <span class="badge badge-positive">0</span>
+						    <span class="badge badge-positive">{{statistic.waiting}}</span>
 						  </div>
 						  <div class="item item-icon-left" href="#">
 						    <i class="icon ion-close-round"></i>
 						    Reject
-						    <span class="badge badge-assertive">0</span>
+						    <span class="badge badge-assertive">{{statistic.reject}}</span>
 						  </div>
 						  <div class="item item-icon-left" href="#">
 						    <i class="icon ion-checkmark-round"></i>
-						    Approve
-						    <span class="badge badge-balanced">0</span>
+						    Approved
+						    <span class="badge badge-balanced">{{statistic.approved}}</span>
 						  </div>
 						  <div class="item item-icon-left" href="#">
 						    <i class="icon ion-ios-cloud-upload"></i>
 						    Publish
-						    <span class="badge badge-stable">0</span>
+						    <span class="badge badge-stable">{{statistic.publish}}</span>
 						  </div>
 						</div>
 				  	</div>
