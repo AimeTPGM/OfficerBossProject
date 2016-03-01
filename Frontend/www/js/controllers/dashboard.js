@@ -21,6 +21,19 @@ angular.module('starter.controllers')
 	UserFactory.getUser(1).then(function(resp){
 		if(resp.status == 200){ 
 			$scope.user = resp.data;
+			$scope.showProfile = function(){
+				return true;
+			}
+			$scope.showEditProfileForm = function(){
+				$scope.showEditProfile = function(){
+					return true;
+				}
+				$scope.close = function(){
+					$scope.showEditProfile = function(){
+						return false;
+					}
+				}
+			}
 		}
 		else { 
 			$scope.user = {};

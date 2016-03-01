@@ -199,9 +199,38 @@
 .overlay{
 	z-index: 10;
 	background: rgba(0,0,0,0.5);
+	min-height: 100vh;
 	height: 100%;
 	width: 100%;
 	position: absolute;
+}
+.overlay .edit-profile-wrapper{
+	margin-top: 10vh;
+	background: #fff;
+	margin-left: auto;
+	margin-right: auto;
+	width: 60%;
+	padding-top: 3vh;
+	padding-bottom: 3vh;
+}
+.overlay .edit-profile-wrapper form{
+	width: 95%;
+	margin: auto;
+}
+.overlay .edit-profile-wrapper .header{
+	position: relative;
+	text-align: center;
+}
+.overlay .edit-profile-wrapper .header h1{
+	color: #444;
+}
+.overlay .edit-profile-wrapper .header .close-button{
+	position: absolute;
+	top: 0;
+	right: 10px;
+}
+.overlay .edit-profile-wrapper .password-form{
+	margin-top: 20px;
 }
 .overlay .version-button-wrapper {
 	margin-top: 25vh;
@@ -244,7 +273,7 @@
 	color: #444;
 }
 .dashbaord-header{
-	margin-top: 10vh;
+	margin-top: 5vh;
 	position: relative;
 }
 .dashbaord-header button{
