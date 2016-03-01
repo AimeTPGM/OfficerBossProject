@@ -232,6 +232,7 @@
 	top: 10px;
 }
 .not-found{
+	margin-top: 35vh;
 	text-align: center;
 }
 .not-found h1{
@@ -241,4 +242,37 @@
 .not-found h3{
 	font-size: 2em;
 	color: #444;
+}
+.dashbaord-header{
+	margin-top: 10vh;
+	position: relative;
+}
+.dashbaord-header button{
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	height: 100%;
+}
+.dashbaord-header h1{
+	color: #444;
+}
+.dashbaord-header h4{
+	color: #444;
+	font-style: italic;
+}
+.dashboard-wrapper{
+	margin-bottom: 4vh;
+}
+.dashboard-graph-wrapper{
+	margin-right: 50px;
+}
+.dashboard-graph{
+	width: 300px;
+	height: 300px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.dashboard-list{
+	width: 100%;
+	padding-top: 25px;
 }

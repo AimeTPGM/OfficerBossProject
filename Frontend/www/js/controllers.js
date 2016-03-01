@@ -1,1 +1,1 @@
-angular.module('starter.controllers', ['ngFileUpload']);
+angular.module('starter.controllers', ['ngFileUpload','chart.js']);
