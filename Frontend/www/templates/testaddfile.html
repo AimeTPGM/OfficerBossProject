@@ -11,7 +11,10 @@
 			<hr class="main-hr">
 			
 			<h1>Multiple upload files test</h1>
-			<div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>
+			<div class="button" ngf-select="uploadFiles($files)" multiple="multiple">Upload on file select</div>
+			<div ng-repeat="file in uploadFileDetail">
+				<span>{{file}}</span>
+			</div>
 			
 		</div>
 	</div>
