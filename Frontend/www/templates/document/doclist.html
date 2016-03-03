@@ -16,7 +16,7 @@
 
 					<label class="item item-input">
 						<i class="icon ion-search placeholder-icon"></i>
-						<input type="text" placeholder="Search">
+						<input type="text" placeholder="Search" ng-change="search()" ng-model="searchText">
 					</label>
 				
 				</div>
@@ -30,12 +30,18 @@
 					<div class="row padding-0">
 						<label class="item item-input" style="width:100%;">
 							<i class="icon ion-search placeholder-icon"></i>
-							<input type="text" placeholder="Search">
+							<input type="text" placeholder="Search" ng-change="search()" ng-model="searchText">
 						</label>
+						
 					</div>
 					
 						
 				</div>
+				<div class="search-box">
+							<ul class="list">
+    							<li class="item" ng-repeat="item in searchList">{{item.docmentName}}</li>
+    						</ul>
+						</div>
 
 
 			<ui class="list">

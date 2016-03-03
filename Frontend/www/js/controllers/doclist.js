@@ -44,7 +44,11 @@ angular.module('starter.controllers')
                 }
                 break;
               }
+
+
             };
+
+
           }
           else{
            console.log('cannot reach '+BackendPath.documentServicePath)
@@ -52,6 +56,23 @@ angular.module('starter.controllers')
             
         });
       };
+      $scope.searchText = "";
+      $scope.searchList = {};
+      var j = 0;
+
+      $scope.search = function(){
+        console.log($scope.searchText);
+        for (var i = 0; i < $scope.folders.length; i++) {
+          if($scope.folders[i].lastDocData.documentName.indexOf($scope.searchText) > -1){
+            $scope.searchList[j] = $scope.folders[i].lastDocId;
+            $scope.searchList[j].documentName = $scope.folders[i].lastDocData.documentName
+            j++;
+          }
+
+        };
+        console.log($scope.searchList);
+        
+      }
     }
     else{
       console.log('cannot reach '+BackendPath.folderServicePath)

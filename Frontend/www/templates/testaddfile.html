@@ -5,19 +5,13 @@
 			<h1 class="main-header" style="margin-top: 4vh;">Add New File (Test)</h1>
 			<a href="#/app/doc" class="path-link">Document List</a><span> / Test add new file</span>
 			<hr class="main-hr">
-			<div class="row">
-				<div class="col col-75 center">
-	
-					<div class="button" ngf-select="upload($file)">Upload on file select</div>
-
-				</div>
-
-				
-			</div>
+			<h1>Single upload files test</h1>
+			<div class="button" ngf-select="upload($file)">Upload on file select</div>
 			
 			<hr class="main-hr">
-			<button ng-click="testget()">click for test GET</div>
-			<hr class="main-hr">
+			
+			<h1>Multiple upload files test</h1>
+			<div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>
 			
 		</div>
 	</div>
