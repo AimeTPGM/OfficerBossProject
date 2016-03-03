@@ -8,6 +8,9 @@ import java.util.Map;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCursor;
@@ -70,6 +73,25 @@ public class FileDAOImpl implements FileDAO{
 		
 		return temp;
 	}
+	
+	public List<MyFile> readAllByDocumentId(String documentId){
+		System.out.println("DAO: Querying all files by document id: "+documentId);
+		BasicDBObject query = new BasicDBObject();
+		query.put("documentId", documentId);
+		List<GridFSDBFile> result = gfs.find(query);
+		if(result.size() == 0) return null;
+		List<MyFile> files = new ArrayList<MyFile>();
+		for (int i = 0; i < result.size(); i++) {
+			MyFile file = new MyFile();
+			file.setId(result.get(i).getId().toString());
+			file.setDocumentId(documentId);
+			file.setFilename(result.get(i).getFilename());
+			file.setInputStream(result.get(i).getInputStream());
+			files.add(file);
+		}
+		return files;
+	}
+
 
 	public InputStream readById(String id) {
 		System.out.println("DAO: querying file by file id: "+id);
@@ -87,7 +109,8 @@ public class FileDAOImpl implements FileDAO{
 		gfs.remove(gfs.findOne(query));
 		System.out.println("DAO: deleted!");
 	}
-
+	
+	
 
 	public void deleteById(String id) {
 		System.out.println("DAO: deleting file by file id: "+id);

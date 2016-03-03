@@ -1,9 +1,17 @@
 package main.rest;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.inject.Named;
 import javax.ws.rs.Consumes;
@@ -17,11 +25,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import main.model.MyFile;
+import main.model.MyFileWithoutIS;
 import mongodb.dao.FileDAO;
 
 
@@ -31,13 +41,14 @@ import mongodb.dao.FileDAO;
 public class FileRest {
 	private ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
 	private FileDAO fileDAO = ctx.getBean("fileDAO", FileDAO.class);
+	
 
 	@GET
 	@Path("files")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllFile(){
 		List<Map> files = fileDAO.getAllFiles();
-		return Response.ok().entity(files)
+		return Response.ok().entity("check at console")
                 .build();
 	}
 	
@@ -65,6 +76,26 @@ public class FileRest {
 		if(temp == null) return Response.status(404).entity("File not Found").build();
 		String filename = temp.getFilename();
 		return Response.ok().entity(filename)
+                .build();
+	}
+	
+	@GET
+	@Path("allFileDetail")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllFileDetail(@QueryParam("documentId") String id){
+		List<MyFile> temp = new ArrayList<MyFile>();
+		temp = fileDAO.readAllByDocumentId(id);
+		if(temp == null) return Response.status(404).entity("File not Found").build();
+		List<MyFileWithoutIS> files = new ArrayList<MyFileWithoutIS>();
+		for (int i = 0; i < temp.size(); i++) {
+			System.out.println(temp.get(i).getFilename());
+			MyFileWithoutIS file = new MyFileWithoutIS();
+			file.setFilename(temp.get(i).getFilename());
+			file.setId(temp.get(i).getId());
+			file.setDocumentId(temp.get(i).getDocumentId());
+			files.add(file);
+		}
+		return Response.ok().entity(files)
                 .build();
 	}
 	
@@ -99,6 +130,8 @@ public class FileRest {
 		
 	}
 	
+	
+	
 	@GET
 	@Path("downloadById")
 	public Response downloadFileById(@QueryParam("id") final String id){
@@ -129,6 +162,9 @@ public class FileRest {
                 .build();
 		
 	}
+	
+	
+	
 
 	@POST
     @Path("upload")
@@ -137,7 +173,7 @@ public class FileRest {
 			@FormDataParam("file") FormDataContentDisposition fileDetail, 
 			@FormDataParam("documentId") String documentId) throws IOException {
 
-	    if (fileDetail ==null || fileIS==null) return Response.status(400).build();
+	    if (fileDetail == null || fileIS == null) return Response.status(400).build();
 	   
 	    
 	    System.out.println("======= Upload to mongo =============");

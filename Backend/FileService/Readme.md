@@ -22,4 +22,8 @@ COLLECTION | filetestonly
 /deleteByDocumentId|	GET 	|documentId=String|delete file by {document id}
 /download	 |	GET	|documentId=String|download file by {document id}
 /upload	 	|	POST	|file=file, documentId=String|upload file
+/fileDetail |	GET	|documentId=String| get one file name and id of {document id}
+/allFileDetail|	GET	|documentId=String| get all file name and id of {document id}
+/downloadById|	GET	|id=String| download file by {file id}
+/copy|	GET	|copyFrom=String, copyTo=String| copy file from {document id} to {document id}
 

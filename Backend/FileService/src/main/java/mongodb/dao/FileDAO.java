@@ -15,6 +15,8 @@ public interface FileDAO {
     public List<Map> getAllFiles();
     
     public MyFile readByDocumentId(String id);
+    
+    public List<MyFile> readAllByDocumentId(String documentId);
      
     public InputStream readById(String id);
      
