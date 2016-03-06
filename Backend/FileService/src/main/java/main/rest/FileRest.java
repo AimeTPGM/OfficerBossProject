@@ -148,14 +148,14 @@ public class FileRest {
 	@GET
 	@Path("downloadById")
 	public Response downloadFileById(@QueryParam("id") final String id){
-		final InputStream temp = fileDAO.readById(id);
+		final MyFile temp = fileDAO.readById(id);
 		StreamingOutput fileStream =  new StreamingOutput() 
         {
             public void write(java.io.OutputStream output) throws IOException, WebApplicationException 
             {
                 try
                 {
-                    InputStream in = temp;
+                    InputStream in = temp.getInputStream();
                     byte[] bytes = new byte[1024];
                     int read = 0;
                     while ((read = in.read(bytes)) != -1) {
@@ -171,7 +171,7 @@ public class FileRest {
         };
         return Response
                 .ok(fileStream, MediaType.APPLICATION_OCTET_STREAM)
-                .header("content-disposition","attachment; filename =")
+                .header("content-disposition","attachment; filename = "+temp.getFilename())
                 .build();
 		
 	}

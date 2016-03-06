@@ -20,6 +20,7 @@ import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 
 import main.model.MyFile;
+import main.model.MyFileWithoutIS;
 import mongodb.main.MongoDBMain;
 
 public class FileDAOImpl implements FileDAO{
@@ -93,13 +94,23 @@ public class FileDAOImpl implements FileDAO{
 	}
 
 
-	public InputStream readById(String id) {
+	public MyFile readById(String id) {
 		System.out.println("DAO: querying file by file id: "+id);
 		BasicDBObject query = new BasicDBObject();
 		query.put("_id", new ObjectId(id));
 		GridFSDBFile result = gfs.findOne(query);
 		System.out.println("DAO: returning a file");
-		return result.getInputStream();
+		MyFile temp = new MyFile();
+		if (result != null){
+			System.out.println("DAO: returning a file, filename: "+result.getFilename());
+			temp.setFilename(result.getFilename());
+			temp.setInputStream(result.getInputStream());
+		}
+		else {
+			temp = null;
+		}
+		
+		return temp;
 	}
 
 	public void deleteByDocumentId(String id) {

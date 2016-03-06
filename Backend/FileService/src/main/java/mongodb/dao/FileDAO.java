@@ -18,7 +18,7 @@ public interface FileDAO {
     
     public List<MyFile> readAllByDocumentId(String documentId);
      
-    public InputStream readById(String id);
+    public MyFile readById(String id);
      
     public void deleteById(String id);
     
