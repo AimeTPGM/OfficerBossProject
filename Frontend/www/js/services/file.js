@@ -41,6 +41,27 @@ angular.module('starter.controllers')
           console.log(data)
         });
     }
+    this.deleteFileById = function(id){
+       $http.get(BackendPath.fileServicePath+'/delete?id='+id)
+        .success(function(data){
+          
+        })
+        .error(function(data){
+          console.log('cannot reach '+BackendPath.fileServicePath)
+          console.log(data)
+        });
+    }
+
+    this.deleteAllFileById = function(docId){
+       $http.get(BackendPath.fileServicePath+'/deleteAllByDocumentId?documentId='+docId)
+        .success(function(data){
+          
+        })
+        .error(function(data){
+          console.log('cannot reach '+BackendPath.fileServicePath)
+          console.log(data)
+        });
+    }
 
     this.copy = function(copyFrom, copyTo){
       $http.get(BackendPath.fileServicePath+'/copy?copyFrom='+copyFrom+'&copyTo='+copyTo)

@@ -50,7 +50,6 @@
 .item-divider-calm{
 	border-color: #0a9dc7;
     background-color: #11c1f3;
-    /*background-image: linear-gradient(0deg, #0a9dc7, #0a9dc7 50%, transparent 50%);*/
     color: #fff;
 }
 
@@ -259,6 +258,45 @@
 	position: absolute;
 	right: 10px;
 	top: 10px;
+}
+.overlay .file-detail-wrapper{
+	width: 60%;
+	background: white;
+	margin: auto;
+	margin-top: 4vh;
+	margin-bottom: 4vh;
+	padding-top: 4vh;
+	padding-bottom: 4vh;
+	max-height: 80vh;
+	overflow: scroll;
+
+}
+.overlay .file-detail-wrapper .file-detail-content{
+	width: 90%;
+	text-align: center;
+	margin: auto;
+}
+.overlay .file-detail-wrapper .file-detail-content .header{
+	position: relative;
+	margin-bottom: 20px;
+}
+.overlay .file-detail-wrapper .file-detail-content .header .close-button{
+	position: absolute;
+	top: -10px;
+	right: -10px;
+}
+.overlay .file-detail-wrapper .file-detail-content h3{
+	color: #444;
+}
+.overlay .file-detail-wrapper .file-detail-content .file-list{
+	text-align: left;
+}
+.overlay .file-detail-wrapper .file-detail-content .file-list ul li .delete-btn{
+	margin-right: 5px;
+}
+.overlay .file-detail-wrapper .file-detail-content .file-list ul li .filename{
+	padding-top: 15px;
+	white-space: initial;
 }
 .not-found{
 	margin-top: 35vh;

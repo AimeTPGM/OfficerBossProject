@@ -69,6 +69,19 @@ public class FileRest {
 	}
 	
 	@GET
+	@Path("deleteAllByDocumentId")
+	public Response deleteAllFileByDocumentId(@QueryParam("documentId") String documentId){
+		List<MyFile> temp = new ArrayList<MyFile>();
+		temp = fileDAO.readAllByDocumentId(documentId);
+		if(temp == null) return Response.status(404).entity("File not Found").build();
+		for (int i = 0; i < temp.size(); i++) {
+			deleteFileById(temp.get(i).getId());
+		}
+		return Response.ok().entity(temp.size())
+                .build();
+	}
+	
+	@GET
 	@Path("fileDetail")
 	public Response getFileDetail(@QueryParam("documentId") String id){
 		MyFile temp = new MyFile();

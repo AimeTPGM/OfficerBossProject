@@ -29,7 +29,7 @@ angular.module('starter.controllers')
     });
    }
 
-   fileDetail.uploadFiles = function(files,docId){
+   filedetail.uploadFiles = function(files,docId){
     if(files && files.length){
       for (var i = 0; i < files.length; i++) {
         Upload.upload({
@@ -49,6 +49,25 @@ angular.module('starter.controllers')
       };
     }
    }
+
+   filedetail.deleteByFileId = function(fileId){
+    return $http.get(BackendPath.fileServicePath+'/delete?id='+fileId)
+    .then(function(resp){
+      return resp;
+    }, function(resp){
+      return resp;
+    })
+   }
+
+   filedetail.allFileDetail = function(docId){
+    return $http.get(BackendPath.fileServicePath+'/allFileDetail?documentId='+docId)
+    .then(function(resp){
+      return resp;
+    }, function(resp){
+      return resp;
+    })
+   }
+   
 
    return filedetail;
 })

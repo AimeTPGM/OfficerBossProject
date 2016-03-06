@@ -55,15 +55,14 @@ angular.module('starter.controllers')
                 });
 
             console.log('deleting file')
-            $http.get(BackendPath.fileServicePath+'/deleteByDocumentId?documentId='+docId)
-                .success(function(data){
-                  console.log('successfully delete file');
-                  
-
-                })
-                .error(function(data){
-                  console.log('cannot reach '+BackendPath.fileServicePath)
-                });
+            $http.get(BackendPath.fileServicePath+'/deleteAllByDocumentId?documentId='+docId)
+              .success(function(data){
+                
+              })
+              .error(function(data){
+                console.log('cannot reach '+BackendPath.fileServicePath)
+                console.log(data)
+              });
 
 
 

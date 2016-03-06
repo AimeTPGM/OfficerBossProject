@@ -17,8 +17,9 @@ angular.module('starter.controllers')
 	          method: 'POST',
 	          data: {file: files[i], documentId: "1"}
 	        }).then(function (resp) {
-	          $scope.uploadFileDetail[j] = resp.data.file.name;
+	          $scope.uploadFileDetail[j] = resp.config.data.file.name;
 	          j++;
+
 	          console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
 	        }, function (resp) {
 	          console.log('Error status: ' + resp.status);
