@@ -5,8 +5,21 @@ angular.module('starter.controllers')
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
-  $scope.download = function(){
-          FileService.download($stateParams.docId);
+  $scope.showNone = function(){
+      return true;
+    }
+  $scope.showUploadedFiles = function(){
+    $scope.showUploadedFileList = function(){
+    return true;
+    }
+  }
+  $scope.closeUploadedFiles = function(){
+    $scope.showUploadedFileList = function(){
+      return false;
+    }
+  }
+  $scope.download = function(fileId){
+    FileService.download(fileId);
   }
   $scope.publish = function(docId,docName){
       DocumentService.publish(docId);
@@ -87,6 +100,7 @@ angular.module('starter.controllers')
     }
   });
     $scope.doc = {};
+    
     DocumentFactory.getDocument($stateParams.docId).then(function(resp){
         if(resp.status == 200){
           $scope.doc = resp.data;
@@ -104,6 +118,24 @@ angular.module('starter.controllers')
             if(resp.status == 200){ $scope.filename = resp.data; }
             else{ $scope.filename = "Not available"; }
           });
+          FileFactory.allFileDetail($stateParams.docId).then(function(resp){
+            if(resp.status == 200){ 
+              $scope.files = resp.data; 
+              $scope.numberOfFiles = $scope.files.length; 
+              $scope.showNone = function(){
+                return false;
+              }
+              $scope.haveFiles = function(){
+                return true;
+              }
+            }
+            else{
+              $scope.showNone = function(){
+                return true;
+              }
+            }
+            
+          })
           ReviewFactory.getReview($stateParams.docId).then(function(resp){
             if(resp.status == 200){ $scope.review = resp.data; }
             else{ $scope.review = "Not available"; }

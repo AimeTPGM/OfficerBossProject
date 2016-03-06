@@ -22,7 +22,24 @@
 			</div>
 		</div>
 	</div>
-
+	<div class="overlay" ng-show="showUploadedFileList()">
+		<div class="file-detail-wrapper">
+			<div class="file-detail-content">
+				<div class="header"><h3>{{numberOfFiles}} Uploaded File</h3>
+					<button class="button button-stable button-clear icon ion-close close-button" ng-click="closeUploadedFiles()"></div>
+				<div class="file-list">
+					<ul class="list">
+					    <li class="item" ng-repeat="file in files">
+					      <div class="row padding-0">
+					      <div class="delete-btn"><button ng-click="download(file.id)" target="_self" class="button button-calm icon ion-ios-cloud-download-outline button-circle"></button></div>
+					      <div class="filename">{{file.filename}}<div>
+					      </div>
+					    </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col col-80 center">
 			<h1 class="main-header" style="margin-top: 4vh;">{{doc.documentName}} Detail</h1>
@@ -61,9 +78,11 @@
 					    <div class="row padding-0">
 					    	<span class="input-label">Uploaded File</span> 
 					    </div>
-					    <div class="row padding-0" style=" margin-top: 20px; margin-bottom: 20px;">
-					    	<span style=" margin-top: 10px; margin-right: 10px;"> {{filename}} </span>
-					    	<button ng-click="download()" target="_self" href="http://localhost:8084/downloaddocumentId={{doc.documentId}}" class="button button-calm icon ion-ios-cloud-download-outline button-circle" style="padding: 0 12px;"></button>
+					    <div ng-show="showNone()">
+					    	None
+					    </div>
+					    <div ng-show="haveFiles()">
+						    <button class="button button-clear button-calm" ng-click="showUploadedFiles()">{{numberOfFiles}} Uploaded File (Click to see detail)</button>
 						</div>
 					  </label>
 

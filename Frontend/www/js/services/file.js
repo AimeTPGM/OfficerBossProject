@@ -25,8 +25,8 @@ angular.module('starter.controllers')
 
     };
 
-    this.download = function(docId){
-      var url = BackendPath.fileServicePath+'/download?documentId='+docId;
+    this.download = function(fileId){
+      var url = BackendPath.fileServicePath+'/downloadById?id='+fileId;
       console.log(url)
       $window.open(url);
     }
