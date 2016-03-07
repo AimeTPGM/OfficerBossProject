@@ -27,22 +27,20 @@
 		<div class="file-detail-wrapper">
 			<div class="file-detail-content">
 				<div class="header"><h3>{{numberOfFiles}} Uploaded File</h3>
-					<button class="button button-stable button-clear icon ion-close close-button" ng-click="closeUploadedFiles()"></div>
+					<button class="button button-stable button-clear icon ion-close close-button" ng-click="closeUploadedFiles()"></button>
+				</div>
 				<div class="file-list">
 					<ul class="list">
 					    <li class="item" ng-repeat="file in uploadFileDetail">
 					      <div class="row padding-0">
-					      <div class="delete-btn"><button class="button button-clear button-assertive icon ion-trash-a" ng-click="deleteFileById(file.id)" style="margin-right: 10px;"></button></div>
+					      <div class="delete-btn"><button class="button button-clear button-assertive icon ion-trash-a" ng-click="deleteFileById(file.id)"></button></div>
+
 					      <div class="filename">{{file.filename}}<div>
 					      </div>
 					    </li>
 					</ul>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div class="overlay" ng-show="showFileList()">
-		<div class="file-list-wrapper">
 		</div>
 	</div>
 
@@ -66,7 +64,10 @@
 						    <div class="row padding-0"><span class="input-label">Upload Files</span></div>
 						    <div class="row row-center padding-0">
 						    	<div class="col-25">
-						    		<button class="button button-calm" ngf-select="upload($files)" multiple="multiple" style="margin-top: 15px;margin-bottom: 15px; width:90%;">Select a File</button>
+						    		<button class="button button-calm" ngf-select="upload($files)" multiple="multiple" style="margin-top: 15px;margin-bottom: 15px; width:90%;">Select File(s)</button>
+						    	</div>
+						    	<div style="margin-top: 10px;" ng-show="showUploading()">
+						    		<ion-spinner icon="spiral" style="margin-right: 10px;"></ion-spinner> Uploading
 						    	</div>
 						    	
 						    </div>
@@ -80,8 +81,10 @@
 						    	<span class="input-label">Uploaded Files</span></div>
 						    <div class="row row-center padding-0" style="margin-top: 10px;" ng-show="showNone()">
 						    	
-						    	<span style="margin-top: 5px;">None</button>
+						    	<span style="margin-top: 5px;">None</span>
+
 						    </div>
+						    
 						    <div ng-show="haveFiles()">
 						    	<button class="button button-clear button-calm" ng-click="showUploadedFiles()">{{numberOfFiles}} Uploaded File (Click to see detail)</button>
 						    </div>
@@ -110,9 +113,6 @@
 								</button>
 							</div>
 							<div class="col col-33 padding-0">
-								<!-- <button class="button button-full button-balanced" ng-click="submit()">
-								  Submit
-								</button> -->
 								<button class="button button-full button-balanced" ng-click="selectVersion()">
 								  Submit
 								</button>

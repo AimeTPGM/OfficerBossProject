@@ -102,6 +102,10 @@ angular.module('starter.controllers')
             $scope.showNotification = function(){
               return true;
             }
+            $scope.showUploading = function(){
+              return true;
+            }
+            
 
             //new Folder
             $http({
@@ -137,6 +141,9 @@ angular.module('starter.controllers')
                         $scope.haveFiles = function(){
                           return true;
                         }
+                        $scope.showUploading = function(){
+                          return false;
+                        }
                         console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
                     }, function (resp) {
                         console.log('Error status: ' + resp.status);
@@ -163,8 +170,11 @@ angular.module('starter.controllers')
     }
 
     else{
-       
+        
         if(files && files.length){
+          $scope.showUploading = function(){
+            return true;
+          }
           for (var i = 0; i < files.length; i++) {
            Upload.upload({
                     url: BackendPath.fileServicePath+'/upload',
@@ -178,6 +188,9 @@ angular.module('starter.controllers')
                     }
                     $scope.haveFiles = function(){
                           return true;
+                    }
+                    $scope.showUploading = function(){
+                      return false;
                     }
                     console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
                 }, function (resp) {
@@ -282,7 +295,7 @@ angular.module('starter.controllers')
               return true;
             }
             $scope.savedDocData = data;
-
+            FolderService.update($scope.savedFolder.id, $scope.doc.name);
             
           }).
           error(function(data, status, headers, config) {
@@ -365,6 +378,7 @@ angular.module('starter.controllers')
       else{
         console.log("updating current document : "+versionType)
         DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
+        FolderService.update($scope.savedFolder.id, $scope.doc.name);
         DocumentService.submit($scope.savedDocData.documentId,versionType);
         $window.location.href=('#/app/doc');
       }

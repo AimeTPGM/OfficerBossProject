@@ -25,6 +25,7 @@ public class DocumentDAOImpl implements DocumentDAO{
 	public void create(Document document) {
 		System.out.println("DAO: Adding new document");
 		this.mongoOps.insert(document, COLLECTION);
+		
 		System.out.println("DAO: Added!");
 	}
 

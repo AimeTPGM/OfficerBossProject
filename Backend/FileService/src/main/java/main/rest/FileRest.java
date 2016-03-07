@@ -204,16 +204,17 @@ public class FileRest {
 	@Path("copy")
 	public Response copyFile(@QueryParam("copyFrom") String copyFromId,
 			@QueryParam("copyTo") String copyToId) throws IOException {
-		
-		MyFile temp = new MyFile();
-		temp = fileDAO.readByDocumentId(copyFromId);
-		if(temp == null) System.out.println("TEMP IS NULL");
-		System.out.println(copyFromId);
-		System.out.println(copyToId);
-		
-		temp.setDocumentId(copyToId);
-		fileDAO.create(temp.getInputStream(), temp.getFilename(), temp.getDocumentId());
-		String output = "successfully copy file from document: "+copyFromId+" to "+copyToId;
+		List<MyFile> files = new ArrayList<MyFile>();
+		files = fileDAO.readAllByDocumentId(copyFromId);
+		for (int i = 0; i < files.size(); i++) {
+			MyFile temp = new MyFile();
+			temp = fileDAO.readById(files.get(i).getDocumentId());
+			if(temp == null) continue;
+			temp.setDocumentId(copyToId);
+			fileDAO.create(temp.getInputStream(), temp.getFilename(), temp.getDocumentId());
+			
+		}
+		String output = "successfully copy "+files.size()+" files from document: "+copyFromId+" to "+copyToId;
 		System.out.println(output);
 	    return Response.status(200).entity(output).build();
 	}

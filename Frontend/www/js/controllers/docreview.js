@@ -8,6 +8,7 @@ angular.module('starter.controllers')
 
   var approverId = "";
 
+
   FolderFactory.getFolder($stateParams.folderId).then(function(resp){
     if(resp.status == 200){
       $scope.folder = resp.data;
@@ -50,15 +51,23 @@ angular.module('starter.controllers')
         if(resp.status == 200){ $scope.approver = resp.data; }
         else{ $scope.approver = "Not available"; }
       });
-      FileFactory.getFilename($stateParams.docId).then(function(resp){
-        if(resp.status == 200){
-         $scope.filename = resp.data; 
-         $scope.download = function(){
-          FileService.download($stateParams.docId);   
-          }
+
+      $scope.closeUploadedFiles = function(){
+        $scope.showUploadedFileList = function(){
+          return false;
         }
-        else{ $scope.filename = "Not available"; }
-      });
+      }
+      $scope.download = function(fileId){
+        FileService.download(fileId);
+      }
+
+      FileFactory.allFileDetail($stateParams.docId).then(function(resp){
+        if(resp.status == 200){
+          $scope.files = resp.data;
+          console.log($scope.files)
+          $scope.numberOfFiles = $scope.uploadFileDetail.length;
+          }
+      })
         
 
     }
