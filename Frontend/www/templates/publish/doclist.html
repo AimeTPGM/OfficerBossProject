@@ -1,5 +1,24 @@
 <ion-view cache-view="false" view-title="Publish Documents">
 	<ion-content>
+	<div class="overlay" ng-show="showUploadedFileList()">
+		<div class="file-detail-wrapper">
+			<div class="file-detail-content">
+				<div class="header"><h3>{{numberOfFiles}} Uploaded File</h3>
+					<button class="button button-stable button-clear icon ion-close close-button" ng-click="closeUploadedFiles()"></div>
+				<div class="file-list">
+					<ul class="list">
+					    <li class="item" ng-repeat="file in files">
+					      <div class="row padding-0">
+					      <div class="delete-btn"><button ng-click="download(file.id)" target="_self" class="button button-calm icon ion-ios-cloud-download-outline button-circle"></button></div>
+					      <div class="filename">{{file.filename}}<div>
+					      </div>
+					    </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+		
 		<div class="row padding-0">
 			<div class="col col-20 publish-list-container padding-0">
 				<ul class="list" ng-show="showList()">
@@ -72,10 +91,11 @@
 							<div class="row">
 							Attachment(s) 
 							</div>
-							<div class="row">
-								<button ng-click="download()" target="_self" href="http://localhost:8084/downloaddocumentId={{doc.documentId}}" class="button button-calm icon ion-ios-cloud-download-outline button-circle" style="padding: 0 12px;" ng-show="hasFile()"></button>
-
-								 {{filename}}
+							<div ng-show="showNone()">
+						    	None
+						    </div>
+						    <div ng-show="haveFiles()">
+							    <button class="button button-clear button-calm" ng-click="showUploadedFiles()">{{numberOfFiles}} Uploaded File (Click to see detail)</button>
 							</div>
 							<div class="row" ng-show="noFile()">
 								- File Service is not available now - 

@@ -114,10 +114,10 @@ angular.module('starter.controllers')
             if(resp.status == 200){ $scope.approver = resp.data; }
             else{ $scope.approver = "Not available"; }
           });
-          FileFactory.getFilename($stateParams.docId).then(function(resp){
-            if(resp.status == 200){ $scope.filename = resp.data; }
-            else{ $scope.filename = "Not available"; }
-          });
+          // FileFactory.getFilename($stateParams.docId).then(function(resp){
+          //   if(resp.status == 200){ $scope.filename = resp.data; }
+          //   else{ $scope.filename = "Not available"; }
+          // });
           FileFactory.allFileDetail($stateParams.docId).then(function(resp){
             if(resp.status == 200){ 
               $scope.files = resp.data; 

@@ -1,5 +1,6 @@
 angular.module('starter.controllers')
-.controller('PublishDocumentCtrl', function($scope, $ionicModal, $timeout, $http, BackendPath,
+.controller('PublishDocumentCtrl', function($scope, $ionicModal, $timeout, $http, 
+	BackendPath, FileService,
 	PublishDocumentFactory, UserFactory, FileFactory) {
 	$http.get(BackendPath.publishDocumentServicePath+'/publishDocuments')
         .success(function(data){
@@ -24,25 +25,37 @@ angular.module('starter.controllers')
 					        if(resp.status == 200){ $scope.doc.approver = resp.data.lastname+" "+resp.data.firstname; }
 					    	else{ $scope.doc.approver = "Service is not available"; }
 					    });
-					    FileFactory.getFilename($scope.doc.documentId).then(function(resp){
-					    	if(resp.status == 200){ 
-					    		$scope.filename = resp.data; 
-					    		$scope.hasFile = function(){
-					    			return true;
-					    		}
-					    	}
-					    	else { 
-					    		$scope.hasFile = function(){
-					    			return false;
-					    		}
-					    		$scope.noFile = function(){
-					    			return true;
-					    		}
-					    	}
-					    })
-					    $scope.download = function(){
-					    	FileService.download($scope.doc.documentId);
-					    }
+					    FileFactory.allFileDetail(docId).then(function(resp){
+				            if(resp.status == 200){               
+				            $scope.files = resp.data; 
+				            $scope.numberOfFiles = $scope.files.length; 
+				            $scope.showNone = function(){
+				              return false;
+				            }
+				            $scope.haveFiles = function(){
+				              return true;
+				            }
+				            $scope.showUploadedFiles = function(){
+							  	$scope.showUploadedFileList = function(){
+									return true;
+								}
+							}
+							$scope.closeUploadedFiles = function(){
+								$scope.showUploadedFileList = function(){
+								      return false;
+							    }
+							}
+							$scope.download = function(fileId){
+							    FileService.download(fileId);
+							  }
+				            }
+				            else{
+				              $scope.showNone = function(){
+				                return true;
+				              }
+				            }
+				            
+				          })
 			        	showDetail();
 			        }
 			        else{
@@ -52,9 +65,11 @@ angular.module('starter.controllers')
 			        
 			        
 			    });
+			
 
           	}
           }
+        	
             
         })
         .error(function(data){
@@ -63,6 +78,7 @@ angular.module('starter.controllers')
         });
 
 
+    
 
 	var showNotFound = function(){
 		$scope.notFound = function(){
