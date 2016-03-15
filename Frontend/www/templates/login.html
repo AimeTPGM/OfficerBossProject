@@ -3,7 +3,7 @@
     <div class="row login">
       <div class="col col-50 center">
         <h1 class="main-header" style="margin-bottom: 2vh; text-align:center;">Document Management System</h1>
-        <form ng-submit="login()">
+        <form>
           <div class="list">
             <label class="item item-input item-stacked-label">
               <span class="input-label">Email</span>
@@ -13,13 +13,19 @@
               <span class="input-label">Password</span>
               <input type="password" placeholder="Password" ng-model="$parent.pw" name="password">
             </label>
-            <label class="item">
-               <input type="submit" id="submit" value="Login" class="button button-block button-positive" />
-            </label>
+          </div>
+          <div class="row padding-0">
+            <div class="col col-50 padding-0">
+              <button type="submit" class="button button-full button-positive" ng-click="login()" style="margin-right: 2.5px;">Login</button>
+            </div>
+            <div class="col col-50 padding-0">
+              <button type="submit" class="button button-full button-balanced" ng-click="goto('register')" style="margin-left: 2.5px;">Register</button>
+            </div>
           </div>
         </form>
+
         <div class="login-option-btn-wrapper">
-          <button class="button button-clear" ng-click="goto('register')">Register</button>
+          <button class="button button-clear" ng-click="goto('app.publishdocument')">Continue as a Guest</button>
           <button id="forgotpw" class="button button-clear" ng-click="goto('forgotpw')">Forgot Password?</button>
         </div>
         
