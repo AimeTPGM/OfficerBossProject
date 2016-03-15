@@ -31,7 +31,30 @@ angular.module('starter.controllers')
         }
       }
     }
-    $scope.register = function(){
+    $scope.bossRegis = function(){
+
+      $http({
+        method: 'POST',
+        url: 'http://localhost:8082/newBoss',
+        headers: {'Content-Type': 'application/json'},
+        data: $scope.user
+    
+      })
+      .success(function(data, status, headers, config) {
+        console.log('sent POST request: successfully create new boss');
+        console.log(data);
+
+
+        $window.location.href=('#/login');
+      })
+      .error(function(data, status, headers, config) {
+        console.log(data);
+        console.log(headers);
+        console.log('cannot reach user-service port 8082');
+      });
+
+    }
+    $scope.officerRegis = function(){
 
       $http({
         method: 'POST',

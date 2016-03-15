@@ -34,16 +34,10 @@
                 <div class="correct-input icon ion-checkmark" ng-show="passwordMatch()"></div>
               </div>
             </label>
-            <label class="item item-input" style="padding-right: 10%;">
-              <span class="input-label">Select Your Role</span>
-              <ion-list style="width: 100%;">
-                <ion-radio ng-model="choice" ng-value="Boss">Boss</ion-radio>
-                <ion-radio ng-model="choice" ng-value="Officer">Officer</ion-radio>
-              </ion-list>
-            </label>
-            <label class="item">
-              <input type="submit" id="submit" value="Register" class="button button-block button-positive" />
-            </label>
+          </div>
+          <div class="row padding-0">
+                <button value="Register" class="button button-full button-positive" ng-click="bossRegis()" style="margin-right: 2.5px;">Register me as a BOSS</button>
+                <button value="Register" class="button button-full button-positive" ng-click="officerRegis()" style="margin-left: 2.5px;">Register me as an OFFICER</button>
           </div>
         </form>
         <div class="login-option-btn-wrapper">
