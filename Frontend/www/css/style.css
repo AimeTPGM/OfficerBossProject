@@ -343,3 +343,10 @@
 	width: 100%;
 	padding-top: 25px;
 }
+
+.correct-input{
+	color: #33cd5f;
+	padding-left: 10px;
+    margin-right: 10px;
+    font-size: 20px;
+}
