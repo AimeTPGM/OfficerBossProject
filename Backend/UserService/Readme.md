@@ -19,6 +19,7 @@ COLLECTION | usertestonly
 ------------------------|-----------|-----------------------|----------
 /users	|	GET		| | Return all users
 /user|	GET 	|userId=String|get user by {user id}
+/deleteUser |	GET 	|userId=String|delete user by {user id}
 /newOfficer|	POST |user=JSON|create new officer user
 /newBoss|	POST	|user=JSON|create new boss
-/login |	POST	|email=String, password=String | dummy login, check password == realPassword.BCrypt
+/login |	POST	|email=String, password=String | login, check password == realPassword.BCrypt if true return user, else return 404

@@ -66,7 +66,7 @@ public class UserRest {
 	}
 	
 	@GET
-	@Path("deleteuser")
+	@Path("deleteUser")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteUser(
 			@QueryParam("userid") String id) {
@@ -103,8 +103,20 @@ public class UserRest {
 	public Response simpleLogin(@FormParam("email") String email, 
 			@FormParam("password") String password){
 		user = userDAO.readByEmail(email);
-		String temp = SimpleAuthentication.passwordMatcher(password, user.getPasssword());
-		return okStatus(temp);
+		if (user == null){
+			return notFoundStatus("incoorect Email or Password");
+		}
+		boolean temp = SimpleAuthentication.passwordMatcher(password, user.getPasssword());
+		if (temp){
+			System.out.println("password matched!");
+			return okStatus(user);
+		}
+		else{
+			System.out.println("password unmatched :(");
+			return notFoundStatus("incoorect Email or Password");
+					
+		}
+		
 	}
 
 }
