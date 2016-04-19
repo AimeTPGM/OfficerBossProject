@@ -1,7 +1,10 @@
 angular.module('starter.controllers')
 .controller('DocumentListCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, 
-  FolderService, DocumentService, BackendPath,
+  FolderService, DocumentService, BackendPath, LoginService,
   UserFactory, DocumentFactory, FolderFactory) {
+  console.log(LoginService.credential)
+  console.log(LoginService.user)
+  var userId = LoginService.user.userId;
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -9,7 +12,7 @@ angular.module('starter.controllers')
     FolderService.delete(folderId);
     $window.location.href=('#/app/doc');
   }
-  FolderFactory.getFolderByCreatorId(1).then(function(resp){
+  FolderFactory.getFolderByCreatorId(userId).then(function(resp){
     if(resp.status == 200){
       $scope.folders = resp.data;
       if($scope.folders.length == 0){

@@ -1,11 +1,32 @@
 angular.module('starter.controllers')
-.controller('LoginCtrl', function($scope, $ionicModal, $timeout, $state, $http,$window) {
+.service('LoginService', function() {
+  this.credential = false;
+  this.user = {};
+  this.setCredential = function(credential, user){
+    this.credential = credential;
+    this.user = user;
+  }
+
+})
+
+.controller('LoginCtrl', function($scope, $ionicModal, $timeout, $state, $http,$window,LoginService) {
+    // for testing
+    // user: test01@test.com
+    // pw: test
+    // type: officer
+
+    // for testing
+    // user: test02@test.com
+    // pw: test
+    // type: boss
+
     $scope.goto=function(toState,params){ 
      $state.go(toState,params) 
     }
 
     $scope.email = "";
     $scope.pw = "";
+    console.log(LoginService.credential);
 
     $scope.login = function(){
       $http({
@@ -21,7 +42,16 @@ angular.module('starter.controllers')
         data: {email:$scope.email, password:$scope.pw}
       })
       .success(function(data, status, headers, config) {
-        
+       
+        LoginService.setCredential(true, data);
+        console.log(LoginService.credential)
+        console.log(LoginService.user)
+        if (data.userStatus == 'Officer'){
+          $window.location.href=('#/app/doc');
+        }
+        else if(data.userStatus == 'Boss'){
+          $window.location.href=('#/app/doclistforboss'); 
+        }
       })
       .error(function(data, status, headers, config) {
         console.log($scope.email);

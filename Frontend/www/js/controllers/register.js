@@ -5,6 +5,7 @@ angular.module('starter.controllers')
     }
 
     $scope.user = {};
+    $scope.confirmpw = {};
     console.log($scope.user)
     $scope.emailCheck = function(){
       var emailFormat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -20,7 +21,7 @@ angular.module('starter.controllers')
       }
     }
     $scope.passwordCheck = function(){
-      if($scope.user.password == $scope.user.confirmpw){
+      if($scope.user.password == $scope.confirmpw.pw){
         $scope.passwordMatch = function(){
           return true;
         }
