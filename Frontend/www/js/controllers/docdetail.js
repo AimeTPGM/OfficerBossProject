@@ -1,10 +1,13 @@
 angular.module('starter.controllers')
 .controller('DocumentDetailCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, 
-  FileService, DocumentService, FolderService, PublishDocumentService, BackendPath, 
+  FileService, DocumentService, FolderService, PublishDocumentService, BackendPath, LoginService,
   UserFactory, DocumentFactory, FileFactory, ReviewFactory, FolderFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
+  console.log(LoginService.credential)
+  console.log(LoginService.user)
+  var userId = LoginService.user.userId;
   $scope.showNone = function(){
       return true;
     }

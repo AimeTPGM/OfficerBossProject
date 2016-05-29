@@ -3,11 +3,7 @@ angular.module('starter.controllers')
 
 .service('ReviewService', function($http,$window,FolderService,BackendPath) {
 
-  this.getReview = function(){
-
-  }
-
-  this.approve = function(docId,approverId,reviewText,folderId){
+  this.approve = function(docId,approverId,reviewText){
     $http.get(BackendPath.reviewServicePath+'/createReview?documentId='+docId+'&approverId='+approverId+'&reviewDesc='+reviewText)
         .success(function(data){
         console.log('created review from '+approverId+' review text: '+reviewText);

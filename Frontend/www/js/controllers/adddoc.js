@@ -2,12 +2,14 @@ angular.module('starter.controllers')
 .controller('AddNewDocumentCtrl', function(
   $window, $http, $scope, $stateParams,$ionicHistory,
   Upload, 
-  DocumentService, FolderService, BackendPath,
+  DocumentService, FolderService, BackendPath, LoginService,
   FileFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
-
+  console.log(LoginService.credential)
+  console.log(LoginService.user)
+  var userId = LoginService.user.userId;
   $scope.doc = {};
   var blank = {};
   $scope.uploadFileDetail = {};
@@ -91,7 +93,7 @@ angular.module('starter.controllers')
             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
             return str.join("&");
         },
-        data: {documentName:$scope.doc.name, description:$scope.doc.desc, creatorId:1}
+        data: {documentName:$scope.doc.name, description:$scope.doc.desc, creatorId: userId}
       
         }).
         success(function(data, status, headers, config) {
@@ -118,7 +120,7 @@ angular.module('starter.controllers')
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
-            data: {folderName: $scope.doc.name, creatorId: 1}
+            data: {folderName: $scope.doc.name, creatorId: userId}
           
             }).
             success(function(data, status, headers, config) {
@@ -226,7 +228,7 @@ angular.module('starter.controllers')
             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
             return str.join("&");
         },
-        data: {documentName:$scope.doc.name, description:$scope.doc.desc, creatorId:1}
+        data: {documentName:$scope.doc.name, description:$scope.doc.desc, creatorId: userId}
       
     }).
     success(function(data, status, headers, config) {
@@ -249,7 +251,7 @@ angular.module('starter.controllers')
             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
             return str.join("&");
         },
-        data: {folderName: $scope.doc.name, creatorId: 1}
+        data: {folderName: $scope.doc.name, creatorId: userId}
       
         }).
         success(function(data, status, headers, config) {
@@ -331,7 +333,7 @@ angular.module('starter.controllers')
             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
             return str.join("&");
         },
-        data: {documentName:$scope.doc.name, description:$scope.doc.desc, creatorId:1}
+        data: {documentName:$scope.doc.name, description:$scope.doc.desc, creatorId: userId}
       
         })
         .success(function(data){
@@ -349,7 +351,7 @@ angular.module('starter.controllers')
               str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
               return str.join("&");
           },
-          data: {folderName: $scope.doc.name, creatorId: 1}
+          data: {folderName: $scope.doc.name, creatorId: userId}
         
           }).
           success(function(data, status, headers, config) {

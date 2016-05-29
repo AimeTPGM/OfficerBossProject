@@ -81,7 +81,7 @@ angular.module('starter.controllers')
       if($scope.reviewtext == ""){
         $scope.reviewtext = 'Approved!';
       }
-      ReviewService.approve($stateParams.docId,approverId,$scope.reviewtext,$stateParams.folderId);
+      ReviewService.approve($stateParams.docId,approverId,$scope.reviewtext);
 
     }
     $scope.reject = function(){

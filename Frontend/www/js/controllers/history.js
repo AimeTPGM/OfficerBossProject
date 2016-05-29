@@ -1,6 +1,6 @@
 angular.module('starter.controllers')
 .controller('HistoryCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, 
-  DocumentService, FolderService, PublishDocumentService, BackendPath,
+  LoginService,DocumentService, FolderService, PublishDocumentService, BackendPath,
   UserFactory, DocumentFactory, FolderFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true

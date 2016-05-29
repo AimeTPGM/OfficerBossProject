@@ -2,12 +2,6 @@ angular.module('starter.controllers')
 
 .service('DocumentService', function($http,$window,FolderService, FileService,BackendPath) {
 
-
-
-  this.newdraft = function(){
-
-  }
-
   this.newdoc = function(docName,docDesc,creatorId){
 
     $http.get(BackendPath.documentServicePath+'/newDocument?documentName='+docName+'&description='+docDesc+'&creatorId='+creatorId)

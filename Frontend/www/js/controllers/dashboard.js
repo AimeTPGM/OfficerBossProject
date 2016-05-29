@@ -1,7 +1,9 @@
 angular.module('starter.controllers')
 .controller('DashboardCtrl', function($scope, $ionicModal, $timeout,
-	FolderFactory, DocumentFactory, UserFactory) {
-	
+	LoginService,FolderFactory, DocumentFactory, UserFactory) {
+	console.log(LoginService.credential)
+  	console.log(LoginService.user)
+  	var userId = LoginService.user.userId;
 	$scope.statistic = {};
 	$scope.statistic.draft = 0;
 	$scope.statistic.waiting = 0;
@@ -18,7 +20,7 @@ angular.module('starter.controllers')
   		"colours" : ['#ffc900','#0a9dc7','#ef473a','#33cd5f','#A4A4A4']
   	}
 
-	UserFactory.getUser(1).then(function(resp){
+	UserFactory.getUser(userId).then(function(resp){
 		if(resp.status == 200){ 
 			$scope.user = resp.data;
 			$scope.showProfile = function(){
@@ -40,7 +42,7 @@ angular.module('starter.controllers')
 		} 
 	})
 
-	FolderFactory.getFolderByCreatorId(1).then(function(resp){
+	FolderFactory.getFolderByCreatorId(userId).then(function(resp){
 		if(resp.status == 200){
 			var folders = resp.data;
 			
