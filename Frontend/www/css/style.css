@@ -350,3 +350,12 @@
     margin-right: 10px;
     font-size: 20px;
 }
+
+.approver-list-icon{
+	font-size: 30px;
+    margin: 0px 10px 0px 0px;
+}
+.approver-list-text{
+
+    margin: 10px 0px 0px 0px;
+}

@@ -24,6 +24,9 @@ angular.module('starter.controllers')
      $state.go(toState,params) 
     }
 
+    var empUser = {};
+    LoginService.setCredential(false, empUser);
+
     $scope.email = "";
     $scope.pw = "";
     console.log(LoginService.credential);

@@ -3,6 +3,9 @@ angular.module('starter.controllers')
   FolderService, DocumentService, BackendPath, LoginService,
   UserFactory, DocumentFactory, FolderFactory) {
   console.log(LoginService.credential)
+  if (LoginService.credential == false){
+    $window.location.href=('#/login');
+  }
   console.log(LoginService.user)
   var userId = LoginService.user.userId;
   $ionicHistory.nextViewOptions({
