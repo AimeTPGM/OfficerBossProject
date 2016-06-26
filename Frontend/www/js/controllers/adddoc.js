@@ -19,6 +19,33 @@ angular.module('starter.controllers')
   $scope.showNone = function(){
     return true;
   }
+  $scope.addApprovers = function(){
+    $scope.showApproverList = function(){
+      return true;
+    }
+  }
+  $scope.hideApproverList = function(){
+    $scope.showApproverList = function(){
+      return false;
+    }
+  }
+
+  $scope.hasApprover = function(){
+      return false;
+  }
+  
+  $scope.select = {
+    availableOptions: [
+      {id: '0', name: 'Please Select ...'},
+      {id: '1', name: 'Option A'},
+      {id: '2', name: 'Option B'},
+      {id: '3', name: 'Option C'}
+    ],
+    selectedOption: {id: '0', name: 'Please Select ...'}
+    };
+  $scope.addApprover = function(){
+    console.log($scope.select.selectedOption);
+  }
 
   $scope.deleteFileById = function(fileId){
     FileFactory.deleteByFileId(fileId).then(function(resp){

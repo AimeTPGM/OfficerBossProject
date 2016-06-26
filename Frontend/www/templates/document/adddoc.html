@@ -23,7 +23,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="overlay" ng-show="showUploadedFileList()">
+	<div class="overlay" ng-show="showUploadedFileList()" id="approverListPopup">
 		<div class="file-detail-wrapper">
 			<div class="file-detail-content">
 				<div class="header"><h3>{{numberOfFiles}} Uploaded File</h3>
@@ -35,11 +35,60 @@
 					      <div class="row padding-0">
 					      <div class="delete-btn"><button class="button button-clear button-assertive icon ion-trash-a" ng-click="deleteFileById(file.id)"></button></div>
 
-					      <div class="filename">{{file.filename}}<div>
+					      <div class="filename">{{file.filename}}</div>
 					      </div>
 					    </li>
 					</ul>
 				</div>
+			</div>
+		</div>
+	</div>
+	<div class="overlay" ng-show="showApproverList()">	
+		<div class="version-button-wrapper">
+			<div class="button-wrapper">
+				<div class="header">
+					<h3>Please Select Approver(s)</h3>
+					<button class="button button-clear button-stable close-button icon ion-close" ng-click="hideApproverList()">
+					</button>
+				</div>
+				
+				<div class="row padding-0">
+					<div class="col-80">
+						
+						<select name="mySelect" id="mySelect"
+      ng-options="option.name for option in select.availableOptions track by option.id"
+      ng-model="select.selectedOption"></select>
+						
+					</div>
+					<div class="col-20">
+						<button class="button button-dark icon-left ion-plus" style="width: 90%;" ng-click="addApprover()">
+						  Add...
+						</button>
+					</div>
+					
+				</div>
+
+				<div class="approver-list-overlay">
+					
+					
+						<div class="row header">
+							<div class="col-10">No.</div>
+							<div class="col-50">Name</div>
+							<div class="col-25">Dept</div>
+							<div class="col-10">Remove</div>
+						</div>
+						<div class="row body" ng-show="hasApprover()">
+							<div class="col-10">No.</div>
+							<div class="col-50">Name</div>
+							<div class="col-25">Dept</div>
+							<div class="col-10"><button class="button button-assertive button-clear icon ion-trash-a"></button></div>
+						</div>
+						
+						
+					
+				
+				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -99,6 +148,18 @@
 						    <textarea id="description" rows="10" placeholder="What is this document used for?" ng-model="doc.desc" required></textarea>
 
 						  </label>
+
+						  <label class="item item-input item-stacked-label">
+						    <span class="input-label">Approver List</span>
+						    <div class="row padding-0">
+							    <div class="col-25">
+							    		<button class="button button-calm" style="margin-top: 15px;margin-bottom: 15px; width:90%;" ng-click="addApprovers()"><span ng-hide="hasApprover()">Choose Approver(s)</span>
+							    		<span ng-show="hasApprover()">xx Approver(s)</span></button>
+							    </div>
+							    
+							</div>
+						  </label>
+
 						</div>
 						<div class="save-notification" ng-show="showNotification()">
 						  <div class="text icon ion-ios-information">
