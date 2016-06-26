@@ -23,7 +23,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="overlay" ng-show="showUploadedFileList()">
+	<div class="overlay" ng-show="showUploadedFileList()" id="approverListPopup">
 		<div class="file-detail-wrapper">
 			<div class="file-detail-content">
 				<div class="header"><h3>{{numberOfFiles}} Uploaded File</h3>
@@ -161,8 +161,8 @@
 						    <span class="input-label">Approver List</span>
 						    <div class="row padding-0">
 							    <div class="col-25">
-							    		<button class="button button-calm" style="margin-top: 15px;margin-bottom: 15px; width:90%;"><span>Choose Approver(s)</span>
-							    		<span>xx Approver(s)</span></button>
+							    		<button class="button button-calm" style="margin-top: 15px;margin-bottom: 15px; width:90%;" ng-click="addApprovers()"><span ng-hide="hasApprover()">Choose Approver(s)</span>
+							    		<span ng-show="hasApprover()">xx Approver(s)</span></button>
 							    </div>
 							    
 							</div>

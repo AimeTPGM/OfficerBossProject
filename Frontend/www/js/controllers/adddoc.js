@@ -19,6 +19,21 @@ angular.module('starter.controllers')
   $scope.showNone = function(){
     return true;
   }
+  $scope.addApprovers = function(){
+    $scope.showApproverList = function(){
+      return true;
+    }
+  }
+  $scope.hideApproverList = function(){
+    $scope.showApproverList = function(){
+      return false;
+    }
+  }
+
+  $scope.hasApprover = function(){
+      return false;
+  }
+  
 
   $scope.deleteFileById = function(fileId){
     FileFactory.deleteByFileId(fileId).then(function(resp){
