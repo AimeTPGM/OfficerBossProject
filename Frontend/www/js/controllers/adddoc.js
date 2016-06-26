@@ -36,13 +36,13 @@ angular.module('starter.controllers')
   
   $scope.select = {
     availableOptions: [
+      {id: '0', name: 'Please Select ...'},
       {id: '1', name: 'Option A'},
       {id: '2', name: 'Option B'},
       {id: '3', name: 'Option C'}
     ],
-    selectedOption: {id: '3', name: 'Option C'} //This sets the default value of the select in the ui
+    selectedOption: {id: '0', name: 'Please Select ...'}
     };
-
   $scope.addApprover = function(){
     console.log($scope.select.selectedOption);
   }
