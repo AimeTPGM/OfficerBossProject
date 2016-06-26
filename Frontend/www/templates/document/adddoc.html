@@ -55,16 +55,13 @@
 				<div class="row padding-0">
 					<div class="col-80">
 						
-						<select class="icon-right ion-home">
-					      <option>Select Approver ... </option>
-					      <option>Blue</option>
-					      <option>Green</option>
-					      <option>Red</option>
-					    </select>
+						<select name="mySelect" id="mySelect"
+      ng-options="option.name for option in select.availableOptions track by option.id"
+      ng-model="select.selectedOption"></select>
 						
 					</div>
 					<div class="col-20">
-						<button class="button button-dark icon-left ion-plus" style="width: 90%;">
+						<button class="button button-dark icon-left ion-plus" style="width: 90%;" ng-click="addApprover()">
 						  Add...
 						</button>
 					</div>

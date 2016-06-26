@@ -34,6 +34,18 @@ angular.module('starter.controllers')
       return false;
   }
   
+  $scope.select = {
+    availableOptions: [
+      {id: '1', name: 'Option A'},
+      {id: '2', name: 'Option B'},
+      {id: '3', name: 'Option C'}
+    ],
+    selectedOption: {id: '3', name: 'Option C'} //This sets the default value of the select in the ui
+    };
+
+  $scope.addApprover = function(){
+    console.log($scope.select.selectedOption);
+  }
 
   $scope.deleteFileById = function(fileId){
     FileFactory.deleteByFileId(fileId).then(function(resp){
