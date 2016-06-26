@@ -43,9 +43,16 @@ angular.module('starter.controllers')
     ],
     selectedOption: {id: '0', name: 'Please Select ...'}
     };
+    $scope.approverList = [];
   $scope.addApprover = function(){
-    console.log($scope.select.selectedOption);
+    $scope.approverList = $scope.approverList.concat([$scope.select.selectedOption]);
+    console.log($scope.approverList);
+
   }
+  $scope.deleteApprover = function(index){
+    $scope.approverList.splice(index, 1);
+  }
+  
 
   $scope.deleteFileById = function(fileId){
     FileFactory.deleteByFileId(fileId).then(function(resp){
