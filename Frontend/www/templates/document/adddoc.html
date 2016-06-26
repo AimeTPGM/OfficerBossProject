@@ -35,11 +35,68 @@
 					      <div class="row padding-0">
 					      <div class="delete-btn"><button class="button button-clear button-assertive icon ion-trash-a" ng-click="deleteFileById(file.id)"></button></div>
 
-					      <div class="filename">{{file.filename}}<div>
+					      <div class="filename">{{file.filename}}</div>
 					      </div>
 					    </li>
 					</ul>
 				</div>
+			</div>
+		</div>
+	</div>
+	<div class="overlay" ng-show="showApproverList()">	
+		<div class="version-button-wrapper">
+			<div class="button-wrapper">
+				<div class="header">
+					<h3>Please Select Approver(s)</h3>
+					<button class="button button-clear button-stable close-button icon ion-close" ng-click="hideApproverList()">
+					</button>
+				</div>
+				
+				<div class="row padding-0">
+					<div class="col-80">
+						
+						<select class="icon-right ion-home">
+					      <option>Select Approver ... </option>
+					      <option>Blue</option>
+					      <option>Green</option>
+					      <option>Red</option>
+					    </select>
+						
+					</div>
+					<div class="col-20">
+						<button class="button button-dark icon-left ion-plus" style="width: 90%;">
+						  Add...
+						</button>
+					</div>
+					
+				</div>
+
+				<div class="approver-list-overlay">
+					
+					
+						<div class="row header">
+							<div class="col-10">No.</div>
+							<div class="col-50">Name</div>
+							<div class="col-25">Dept</div>
+							<div class="col-10">Remove</div>
+						</div>
+						<div class="row body">
+							<div class="col-10">No.</div>
+							<div class="col-50">Name</div>
+							<div class="col-25">Dept</div>
+							<div class="col-10">Remove</div>
+						</div>
+						<div class="row body">
+							<div class="col-10">No.</div>
+							<div class="col-50">Name</div>
+							<div class="col-25">Dept</div>
+							<div class="col-10">Remove</div>
+						</div>
+						
+					
+				
+				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -99,6 +156,18 @@
 						    <textarea id="description" rows="10" placeholder="What is this document used for?" ng-model="doc.desc" required></textarea>
 
 						  </label>
+
+						  <label class="item item-input item-stacked-label">
+						    <span class="input-label">Approver List</span>
+						    <div class="row padding-0">
+							    <div class="col-25">
+							    		<button class="button button-calm" style="margin-top: 15px;margin-bottom: 15px; width:90%;"><span>Choose Approver(s)</span>
+							    		<span>xx Approver(s)</span></button>
+							    </div>
+							    
+							</div>
+						  </label>
+
 						</div>
 						<div class="save-notification" ng-show="showNotification()">
 						  <div class="text icon ion-ios-information">
