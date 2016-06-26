@@ -384,5 +384,10 @@ select {
 .approver-list-overlay .body{
 	margin-top: 20px;
 	margin-bottom: 20px;
-	
+}
+.approver-list-overlay .body div{
+	margin-top: 15px;
+}
+.approver-list-overlay .body div button{
+	margin-top: -15px;
 }
