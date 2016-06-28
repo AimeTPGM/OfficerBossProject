@@ -104,11 +104,22 @@
 					  	<div>
 					    	<span class="input-label">Approver List</span>
 					    </div>
-					    <div>
-					    	<div class="row">
-					    		<div class="approver-list-icon ion-load-a"></div>
-					    		<div class="approver-list-text">{{approver.lastname}} {{approver.firstname}}</div>
-					    	</div>
+					    <div class="">
+					    	<div class="row approver-list-doc-detail-header">
+								<div class="col-10">No.</div>
+								<div class="col-50">Name</div>
+								<div class="col-25">Status</div>
+								<div class="col-10">Review</div>
+							</div>
+						<div class="approver-list-container">
+							<div class="row approver-list-doc-detail-body" ng-repeat="approver in approverList track by $index">
+								<div class="col-10">{{$index+1}}</div>
+								<div class="col-50">{{approver.name}}</div>
+								<div class="col-25">-</div>
+								<div class="col-10"><button class="button button-calm button-clear icon ion-eye"></button></div>
+							</div>
+						
+						</div>	
 					    	
 					    </div>
 					  

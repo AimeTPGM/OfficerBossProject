@@ -395,3 +395,19 @@ select {
 .approver-list-overlay .body div button{
 	margin-top: -15px;
 }
+.approver-list-doc-detail-header{
+	background: #11c1f3;
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+    width: 99%;
+    border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+}
+.approver-list-doc-detail-body div{
+	text-align: center;
+	margin-top: 15px;
+}
+.approver-list-doc-detail-body button{
+	margin-top: -15px;
+}
