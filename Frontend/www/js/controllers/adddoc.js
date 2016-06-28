@@ -47,6 +47,9 @@ angular.module('starter.controllers')
   $scope.addApprover = function(){
     $scope.approverList = $scope.approverList.concat([$scope.select.selectedOption]);
     console.log($scope.approverList);
+    $scope.hasApprover = function(){
+      return true;
+    }
 
   }
   $scope.deleteApprover = function(index){

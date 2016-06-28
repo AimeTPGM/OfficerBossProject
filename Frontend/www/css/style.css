@@ -385,6 +385,10 @@ select {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
+.approver-list-overlay .approver-list-container{
+	height: 50vh;
+	overflow: scroll;
+}
 .approver-list-overlay .body div{
 	margin-top: 15px;
 }
