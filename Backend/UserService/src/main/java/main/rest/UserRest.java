@@ -74,6 +74,24 @@ public class UserRest {
 		int temp = userDAO.deleteById(id);
 		return okStatus("Deleted!");
 	}
+	
+	@GET
+	@Path("getBosses")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getBosses() {
+		System.out.println("GET Request: get bosses");
+		users = userDAO.getUserByRole("Boss");
+		return okStatus(users);
+	}
+	
+	@GET
+	@Path("getOfficers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getOfficers() {
+		System.out.println("GET Request: get officers");
+		users = userDAO.getUserByRole("Officer");
+		return okStatus(users);
+	}
 
 	@POST
 	@Path("newOfficer")

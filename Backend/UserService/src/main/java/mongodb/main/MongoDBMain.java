@@ -2,6 +2,7 @@ package mongodb.main;
 
 import java.net.UnknownHostException;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 
 public class MongoDBMain {
 	 
@@ -13,15 +14,21 @@ public class MongoDBMain {
  
     public static void run() {
     	try {
+    		
         	System.out.println("connecting to mongodb at"+MONGO_HOST+":"+MONGO_PORT+"...\ndatabase name: "+DB_NAME+"\ncollection: "+COLLECTION);
-            mongo = new MongoClient(
+            if (mongo == null){
+        	mongo = new MongoClient(
                     MONGO_HOST, MONGO_PORT);
+            }
             System.out.println("connected!");
              
         } catch (UnknownHostException e) {
         	System.err.println("Cannot connect to "+MONGO_HOST+":"+MONGO_PORT);
             e.printStackTrace();
         }
+    }
+    public static void close(){
+    	mongo.close();
     }
     public static MongoClient getMongoClient(){
     	return mongo;

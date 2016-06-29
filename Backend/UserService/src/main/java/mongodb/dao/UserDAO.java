@@ -5,6 +5,7 @@ import java.util.List;
 import com.mongodb.BasicDBObject;
 
 import main.model.User;
+import main.rest.userstatus.Boss;
 
 public interface UserDAO {
 	 
