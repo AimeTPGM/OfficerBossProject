@@ -88,7 +88,7 @@ public class DocumentRest{
 			) {
 		System.out.println("GET Request: newdraft");
 		
-		document = new Document(name, description, new Date(), new Draft(), creatorId, "56a0d083d4c607b2e7a60a5c",0,0,false);
+		document = new Document(name, description, new Date(), new Draft(), creatorId,0,0,false);
 		documentDAO.create(document);
 		
 		return okStatus(document);
@@ -102,7 +102,7 @@ public class DocumentRest{
 			@QueryParam("description") String description,
 			@QueryParam("creatorId") String creatorId) {
 		System.out.println("GET Request: newdocument");
-		document = new Document(name, description, new Date(), new WaitingForApproval(), creatorId, "56a0d083d4c607b2e7a60a5c", 0,0,false);
+		document = new Document(name, description, new Date(), new WaitingForApproval(), creatorId, 0,0,false);
 		documentDAO.create(document);
 		return okStatus(document);
 	}
@@ -238,7 +238,7 @@ public class DocumentRest{
 		System.out.println("GET Request: newdraft");
 		document = documentDAO.readById(documentId);
 		
-		Document newDocument = new Document(name, description, new Date(), new Draft(), document.getCreator(), "56a0d083d4c607b2e7a60a5c",document.getMajorVersion(),document.getMinorVersion(),false);
+		Document newDocument = new Document(name, description, new Date(), new Draft(), document.getCreator(),document.getMajorVersion(),document.getMinorVersion(),false);
 		documentDAO.create(newDocument);
 		
 		return okStatus(newDocument);

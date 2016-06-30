@@ -1,5 +1,6 @@
 package mongodb.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -7,6 +8,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
 
@@ -14,23 +18,25 @@ import main.model.Document;
 import mongodb.main.MongoDBMain;
 
 public class DocumentDAOImpl implements DocumentDAO{
-	private MongoOperations mongoOps;
+	private static MongoOperations mongoOps;
 	private static final String COLLECTION = MongoDBMain.getCollection();
-	public static final MongoClient mongo = MongoDBMain.getMongoClient();
-
+//	private static MongoClient mongo = MongoDBMain.getMongoClient();
+	
 	public DocumentDAOImpl(MongoOperations mongoOps){
-		this.mongoOps=mongoOps;
+		if (this.mongoOps == null){
+			this.mongoOps=mongoOps;
+		}
     }
 	
 	public void create(Document document) {
 		System.out.println("DAO: Adding new document");
 		this.mongoOps.insert(document, COLLECTION);
-		
 		System.out.println("DAO: Added!");
 	}
 
 	public List<Document> getAllDocuments() {
 		System.out.println("DAO: Return all documents");
+		
 		return this.mongoOps.findAll(Document.class, COLLECTION);
 	}
 

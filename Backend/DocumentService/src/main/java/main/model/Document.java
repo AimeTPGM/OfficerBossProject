@@ -20,7 +20,6 @@ public class Document {
 	private String lastModifiedDate;
 	private String version;
 	private String creatorId;
-	private String approverId;
 	private int majorVersion;
 	private int minorVersion;
 	private boolean editable;
@@ -29,12 +28,11 @@ public class Document {
 		
 	}
 	
-	public Document(String name, String description, Date date, DocumentStatus status, String creatorId, String approverId, int majorVersion, int minorVersion, boolean editable){
+	public Document(String name, String description, Date date, DocumentStatus status, String creatorId, int majorVersion, int minorVersion, boolean editable){
 		this.name = name;
 		this.description = description;
 		this.status = status.getDocumentStatusName();
 		this.creatorId = creatorId;
-		this.approverId = approverId;
 		this.majorVersion = majorVersion;
 		this.minorVersion = minorVersion;
 		setVersion(majorVersion, minorVersion);
@@ -120,12 +118,6 @@ public class Document {
 	}
 	public String getCreator(){
 		return creatorId;
-	}
-	public void setApprover(String approverId){
-		this.approverId = approverId;
-	}
-	public String getApprover(){
-		return approverId;
 	}
 
 }
