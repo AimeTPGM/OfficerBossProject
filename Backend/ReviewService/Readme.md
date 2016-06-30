@@ -18,7 +18,7 @@ COLLECTION | reviewtestonly
 	Path		|	Type	|	Parameter(s)	|	Description
 ---------|-----------|---------------|----------
 /getReviews	|	GET		| | Return all reviews
-/getReviewByDocumentId|	GET 	|documentId=String|get review by {document id}
+/getReviewsByDocumentId|	GET 	|documentId=String|get review by {document id}
 /getReview	|	GET |reviewId=String|get review by {review id}
 /createReview|	GET	|documentId=String, approverId=String, reviewDesc=String |create new review
 /deleteById | GET | id=String | delete review by {review id}

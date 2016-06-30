@@ -10,7 +10,7 @@ public interface ReviewDAO {
     
     public List<Review> getAllReview();
      
-    public Review readByDocumentId(String id);
+    public List<Review> readByDocumentId(String id);
      
     public Review readByReviewId(String id);
     

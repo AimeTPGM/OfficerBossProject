@@ -9,13 +9,13 @@ import org.springframework.data.mongodb.core.query.Query;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
 
+import main.model.Document;
 import main.model.Review;
 import mongodb.main.MongoDBMain;
 
 public class ReviewDAOImpl implements ReviewDAO{
 	private MongoOperations mongoOps;
-	private static final String REVIEW_COLLECTION = MongoDBMain.getReviewCollection();
-	private static final String APPROVER_LIST_COLLECTION = MongoDBMain.getApproverListCollection();
+	private static final String COLLECTION = MongoDBMain.getCollection();
 	public static final MongoClient mongo = MongoDBMain.getMongoClient();
 	
 	public ReviewDAOImpl(MongoOperations mongoOps){
@@ -23,28 +23,29 @@ public class ReviewDAOImpl implements ReviewDAO{
     }
 	public void create(Review review) {
 		System.out.println("DAO: Adding new review");
-		this.mongoOps.insert(review, REVIEW_COLLECTION);
+		this.mongoOps.insert(review, COLLECTION);
 		System.out.println("DAO: Added!");
 		
 	}
 
 	public List<Review> getAllReview() {
 		System.out.println("DAO: Return all reviews");
-		return this.mongoOps.findAll(Review.class, REVIEW_COLLECTION);
+		return this.mongoOps.findAll(Review.class, COLLECTION);
 	}
 
-	public Review readByDocumentId(String id) {
+	public List<Review> readByDocumentId(String id) {
 		System.out.println("DAO: Querying review by document id:"+id);
-		Query query = new Query(Criteria.where("documentId").is(id));
+		Query query = new Query();
+		query.addCriteria(Criteria.where("documentId").is(id));
 		System.out.println("DAO: Return review");
-		return this.mongoOps.findOne(query, Review.class, REVIEW_COLLECTION);
+		return this.mongoOps.find(query, Review.class, COLLECTION);
 	}
 	
 	public Review readByReviewId(String id) {
 		System.out.println("DAO: Querying review id:"+id);
 		Query query = new Query(Criteria.where("_id").is(id));
 		System.out.println("DAO: Return review");
-		return this.mongoOps.findOne(query, Review.class, REVIEW_COLLECTION);
+		return this.mongoOps.findOne(query, Review.class, COLLECTION);
 	}
 
 	public void update(Review review) {
@@ -56,7 +57,7 @@ public class ReviewDAOImpl implements ReviewDAO{
 		System.out.println("DAO: Querying review id:"+id);
 		Query query = new Query(Criteria.where("_id").is(id));
 		System.out.println("DAO: Deleting review id:"+id);
-        WriteResult result = this.mongoOps.remove(query, Review.class, REVIEW_COLLECTION);
+        WriteResult result = this.mongoOps.remove(query, Review.class, COLLECTION);
         System.out.println("DAO: Deleted!");
         return result.getN();
 	}
@@ -65,7 +66,7 @@ public class ReviewDAOImpl implements ReviewDAO{
 		System.out.println("DAO: Querying review id:"+id);
 		Query query = new Query(Criteria.where("documentId").is(id));
 		System.out.println("DAO: Deleting review id:"+id);
-        WriteResult result = this.mongoOps.remove(query, Review.class, REVIEW_COLLECTION);
+        WriteResult result = this.mongoOps.remove(query, Review.class, COLLECTION);
         System.out.println("DAO: Deleted!");
         return result.getN();
 	}
