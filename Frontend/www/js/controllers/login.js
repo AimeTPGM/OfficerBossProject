@@ -20,6 +20,8 @@ angular.module('starter.controllers')
     // pw: test
     // type: boss
 
+
+
     $scope.goto=function(toState,params){ 
      $state.go(toState,params) 
     }
@@ -32,6 +34,7 @@ angular.module('starter.controllers')
     console.log(LoginService.credential);
 
     $scope.login = function(){
+
       $http({
         method: 'POST',
         url: 'http://localhost:8082/login',

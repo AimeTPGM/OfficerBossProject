@@ -3,7 +3,7 @@ angular.module('starter.controllers')
   $window, $http, $scope, $stateParams,$ionicHistory,
   Upload, 
   DocumentService, FolderService, BackendPath, LoginService,
-  FileFactory) {
+  FileFactory, UserFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -30,31 +30,31 @@ angular.module('starter.controllers')
     }
   }
 
-  $scope.hasApprover = function(){
-      return false;
-  }
-  
-  $scope.select = {
-    availableOptions: [
-      {id: '0', name: 'Please Select ...'},
-      {id: '1', name: 'Option A'},
-      {id: '2', name: 'Option B'},
-      {id: '3', name: 'Option C'}
-    ],
-    selectedOption: {id: '0', name: 'Please Select ...'}
-    };
-    $scope.approverList = [];
-  $scope.addApprover = function(){
-    $scope.approverList = $scope.approverList.concat([$scope.select.selectedOption]);
-    console.log($scope.approverList);
-    $scope.hasApprover = function(){
-      return true;
-    }
+  UserFactory.getBosses().then(function(resp){
+    if(resp.status == 200){ 
+      
+      $scope.select = {
+        availableOptions: resp.data,
+        selectedOption: {id: '0', name: 'Please Select ...'}
+        };
+        $scope.approverList = [];
+      $scope.addApprover = function(){
+        $scope.approverList = $scope.approverList.concat([$scope.select.selectedOption]);
+        console.log($scope.approverList);
+        
 
-  }
-  $scope.deleteApprover = function(index){
-    $scope.approverList.splice(index, 1);
-  }
+      }
+      $scope.deleteApprover = function(index){
+        $scope.approverList.splice(index, 1);
+      }
+    }
+    else{ $scope.approvers = "Not available"; }
+            
+  });
+
+  
+  
+  
   
 
   $scope.deleteFileById = function(fileId){

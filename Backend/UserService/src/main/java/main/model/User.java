@@ -12,6 +12,7 @@ public class User {
     
 	private String firstname;
 	private String lastname;
+	private String name;
 	private String email;
 	private String password;
 	private UserStatus status;
@@ -26,6 +27,7 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.status = userstatus;
+		this.name = lastname+" "+firstname;
 	}
 	
 	public void setUserId(String id){
@@ -36,15 +38,23 @@ public class User {
 	}
 	public void setFirstname(String firstname){
 		this.firstname = firstname;
+		setName();
 	}
 	public String getFirstname(){
 		return firstname;
 	}
 	public void setLastname(String lastname){
 		this.lastname = lastname;
+		setName();
 	}
 	public String getLastname(){
 		return lastname;
+	}
+	public void setName(){
+		this.name = this.lastname+" "+this.firstname;
+	}
+	public String getName(){
+		return this.name;
 	}
 	public void setEmail(String email){
 		this.email = email;
