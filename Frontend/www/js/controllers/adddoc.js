@@ -3,7 +3,7 @@ angular.module('starter.controllers')
   $window, $http, $scope, $stateParams,$ionicHistory,
   Upload, 
   DocumentService, FolderService, BackendPath, LoginService,
-  FileFactory, UserFactory) {
+  FileFactory, UserFactory, ApproverListFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -173,6 +173,15 @@ angular.module('starter.controllers')
                         data: {file: files[i], documentId: $scope.savedDocData.documentId}
                     }).then(function (resp) {
                        
+                       ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
+                        if(resp.status == 200){
+                          console.log('added approverlist')
+                        }
+                        else {
+                          console.log('cannot add approverlist')
+                        }
+                       })
+
                         $scope.numberOfFiles++;
                         $scope.showNone = function(){
                           return false;
@@ -296,7 +305,14 @@ angular.module('starter.controllers')
             console.log(data);
             $scope.savedFolder = data;
             FolderService.addDocument(data.id, $scope.savedDocData.documentId);
-           
+            ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
+              if(resp.status == 200){
+                console.log('added approverlist')
+              }
+              else {
+                console.log('cannot add approverlist')
+              }
+            })
 
           
           }).
@@ -335,7 +351,14 @@ angular.module('starter.controllers')
             }
             $scope.savedDocData = data;
             FolderService.update($scope.savedFolder.id, $scope.doc.name);
-            
+            ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
+              if(resp.status == 200){
+                console.log('added approverlist')
+              }
+              else {
+                console.log('cannot add approverlist')
+              }
+            })
           }).
           error(function(data, status, headers, config) {
             console.log('cannot reach '+BackendPath.documentServicePath)
@@ -352,6 +375,11 @@ angular.module('starter.controllers')
       return true;
     }
 
+
+    /*
+    * Maybe we dont have to modify this 
+    * let's check 
+    */
     $scope.submit = function(versionType){
       console.log(versionType);
       if(!$scope.savedDocData){

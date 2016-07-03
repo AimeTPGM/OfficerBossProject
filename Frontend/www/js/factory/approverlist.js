@@ -4,7 +4,7 @@ angular.module('starter.controllers')
 
    var approverList = {};
 
-   approverList.getUser = function(documentId, approverIdList){
+   approverList.addApproverList = function(documentId, approverIdList){
     return $http.get(BackendPath.approverListServicePath+'/addApproverList?documentId='+documentId+'&&approverIdList='+approverIdList)
     .then(function(resp){
       return resp;
