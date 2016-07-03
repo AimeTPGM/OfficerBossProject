@@ -31,7 +31,7 @@ angular.module('starter.controllers')
     }, function(resp){
       return resp;
     })
-     
    }
+   
    return user;
 })
