@@ -62,8 +62,18 @@ public class ApproverListRest {
 	@GET
 	@Path("addApproverList")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response approverList(@QueryParam("documentId") String documentId, @QueryParam("approverIdList") List<String> approverIdList){
+	public Response addApproverList(@QueryParam("documentId") String documentId, @QueryParam("approverIdList") List<String> approverIdList){
 		approverList = new ApproverList(documentId, approverIdList);
+		approverListDAO.create(approverList);
+		return Response.status(200).entity(approverList).build();
+	}
+	
+	@GET
+	@Path("updateApproverList")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateApproverList(@QueryParam("documentId") String documentId, @QueryParam("approverIdList") List<String> approverIdList){
+		approverList = new ApproverList(documentId, approverIdList);
+		approverListDAO.deleteByDocumentId(documentId);
 		approverListDAO.create(approverList);
 		return Response.status(200).entity(approverList).build();
 	}
