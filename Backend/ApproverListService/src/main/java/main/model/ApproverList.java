@@ -9,10 +9,22 @@ public class ApproverList {
 	private String id;
 	private String documentId;
 	private List<String> approverIdList;
+	private int currentApproverIdIndex;
 	
-	public ApproverList(String documentId, List<String> approverIdList){
+	public ApproverList(String documentId, List<String> approverIdList, int currentApproverIdIndex){
 		setApproverIdList(approverIdList);
 		setDocumentId(documentId);
+		setCurrentApproverIdIndex(currentApproverIdIndex);
+	}
+	public ApproverList(ApproverList approverList){
+		this(approverList.getDocumentId(), approverList.getApproverIdList(), approverList.getCurrentApproverIdIndex());
+	}
+	public int getCurrentApproverIdIndex() {
+		return currentApproverIdIndex;
+	}
+
+	public void setCurrentApproverIdIndex(int currentApproverIdIndex) {
+		this.currentApproverIdIndex = currentApproverIdIndex;
 	}
 
 	public List<String> getApproverIdList() {
@@ -32,6 +44,10 @@ public class ApproverList {
 	}
 	public void setDocumentId(String documentId) {
 		this.documentId = documentId;
+	}
+	
+	public void approve(){
+		this.currentApproverIdIndex++;
 	}
 	
 

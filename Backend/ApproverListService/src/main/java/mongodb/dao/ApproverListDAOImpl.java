@@ -38,7 +38,8 @@ public class ApproverListDAOImpl implements ApproverListDAO{
 		System.out.println("DAO: Querying document id:"+documentId);
 		Query query = new Query(Criteria.where("_id").is(documentId));
 		Update update = new Update();
-		update.set("approverIdList", approverIdList);
+		update.set("approverIdList", approverIdList.getApproverIdList());
+		update.set("currentApproverIdIndex", approverIdList.getCurrentApproverIdIndex());
 		System.out.println("DAO: Updating document id:"+documentId);
 		this.mongoOps.findAndModify(query, update, ApproverList.class, COLLECTION);
 		

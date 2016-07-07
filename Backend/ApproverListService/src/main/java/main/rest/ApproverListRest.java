@@ -63,7 +63,7 @@ public class ApproverListRest {
 	@Path("addApproverList")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addApproverList(@QueryParam("documentId") String documentId, @QueryParam("approverIdList") List<String> approverIdList){
-		approverList = new ApproverList(documentId, approverIdList);
+		approverList = new ApproverList(documentId, approverIdList, 0);
 		approverListDAO.create(approverList);
 		return Response.status(200).entity(approverList).build();
 	}
@@ -72,11 +72,20 @@ public class ApproverListRest {
 	@Path("updateApproverList")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateApproverList(@QueryParam("documentId") String documentId, @QueryParam("approverIdList") List<String> approverIdList){
-		approverList = new ApproverList(documentId, approverIdList);
+		approverList = new ApproverList(documentId, approverIdList, 0);
 		approverListDAO.deleteByDocumentId(documentId);
 		approverListDAO.create(approverList);
 		return Response.status(200).entity(approverList).build();
 	}
 	
+	@GET
+	@Path("approve")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response approve(@QueryParam("documentId") String documentId){
+		approverList = approverListDAO.readByDocumentId(documentId);
+		approverList.approve();
+		approverListDAO.update(documentId, approverList);
+		return Response.status(200).entity(approverList).build();
+	}
 
 }
