@@ -85,7 +85,7 @@ public class ApproverListRest {
 		approverList = approverListDAO.readByDocumentId(documentId);
 		approverList.approve();
 		approverListDAO.update(documentId, approverList);
-		return Response.status(200).entity(approverList).build();
+		return Response.status(200).entity(approverList.getApproverIdList().get(approverList.getCurrentApproverIdIndex())).build();
 	}
 	
 	@GET

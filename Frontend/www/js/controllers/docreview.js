@@ -81,7 +81,10 @@ angular.module('starter.controllers')
       if($scope.reviewtext == ""){
         $scope.reviewtext = 'Approved!';
       }
-      ApproverListFactory.update($stateParams.docId);
+      ApproverListFactory.approve($stateParams.docId).then(function(resp){
+        DocumentFactory.changeApprover($stateParams.docId, resp.data);
+      });
+
       ReviewService.approve($stateParams.docId,approverId,$scope.reviewtext);
 
     }
