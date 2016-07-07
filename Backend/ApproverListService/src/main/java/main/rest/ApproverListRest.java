@@ -69,7 +69,7 @@ public class ApproverListRest {
 	}
 	
 	@GET
-	@Path("updateApproverList")
+	@Path("update")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateApproverList(@QueryParam("documentId") String documentId, @QueryParam("approverIdList") List<String> approverIdList){
 		approverList = new ApproverList(documentId, approverIdList, 0);
@@ -85,6 +85,16 @@ public class ApproverListRest {
 		approverList = approverListDAO.readByDocumentId(documentId);
 		approverList.approve();
 		approverListDAO.update(documentId, approverList);
+		return Response.status(200).entity(approverList).build();
+	}
+	
+	@GET
+	@Path("copy")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response copy(@QueryParam("documentId") String documentId){
+		approverList = approverListDAO.readByDocumentId(documentId);
+		ApproverList tempApproverList = new ApproverList(approverList.getDocumentId(), approverList.getApproverIdList(), 0);
+		approverListDAO.create(tempApproverList);
 		return Response.status(200).entity(approverList).build();
 	}
 
