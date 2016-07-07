@@ -82,9 +82,23 @@ angular.module('starter.controllers')
         $scope.reviewtext = 'Approved!';
       }
       ApproverListFactory.approve($stateParams.docId).then(function(resp){
-        DocumentFactory.changeApprover($stateParams.docId, resp.data);
-      });
+        if(resp.status == 200){
+          console.log(resp.data)
+          DocumentFactory.changeApprover($stateParams.docId, resp.data).then(function(resp){
+            if(resp.status == 200){
+              console.log('changed approver')
+            }
+            else {
+              console.log(resp.status)
+            }
+          })
+        }
+        else {
+          console.log('cannot reach -> approve on ApproverList')
+          console.log(resp)
 
+        }
+      })
       ReviewService.approve($stateParams.docId,approverId,$scope.reviewtext);
 
     }
