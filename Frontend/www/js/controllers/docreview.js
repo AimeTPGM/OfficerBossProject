@@ -1,7 +1,7 @@
 angular.module('starter.controllers')
 .controller('DocumentReviewCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, 
   ReviewService, FileService, BackendPath,
-  UserFactory, DocumentFactory, FileFactory, FolderFactory) {
+  UserFactory, DocumentFactory, FileFactory, FolderFactory, ApproverListFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -81,6 +81,7 @@ angular.module('starter.controllers')
       if($scope.reviewtext == ""){
         $scope.reviewtext = 'Approved!';
       }
+      ApproverListFactory.update($stateParams.docId);
       ReviewService.approve($stateParams.docId,approverId,$scope.reviewtext);
 
     }

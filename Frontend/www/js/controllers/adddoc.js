@@ -351,12 +351,12 @@ angular.module('starter.controllers')
             }
             $scope.savedDocData = data;
             FolderService.update($scope.savedFolder.id, $scope.doc.name);
-            ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
+            ApproverListFactory.update($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
               if(resp.status == 200){
-                console.log('added approverlist')
+                console.log('updated approverlist')
               }
               else {
-                console.log('cannot add approverlist')
+                console.log('cannot update approverlist')
               }
             })
           }).
@@ -423,11 +423,19 @@ angular.module('starter.controllers')
               console.log('sent POST request: add new folder');
               console.log(data);
               $scope.savedFolder = data;
-
+              ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
+                if(resp.status == 200){
+                  console.log('added approverlist')
+                }
+                else {
+                  console.log('cannot add approverlist')
+                }
+              })
               console.log('adding new doc '+$scope.savedDocData.documentId)
               FolderService.addDocument(data.id, $scope.savedDocData.documentId);
               console.log("submitting current document : "+versionType)
               DocumentService.submit($scope.savedDocData.documentId,versionType);
+              
               $window.location.href=('#/app/doc');
 
             
