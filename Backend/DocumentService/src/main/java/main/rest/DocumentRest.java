@@ -258,7 +258,18 @@ public class DocumentRest{
 		return okStatus(document);
 	}
 	
-	
+	@GET
+	@Path("changeApprover")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response changeApprover(
+			@QueryParam("documentId") String id, @QueryParam("approverId") String approverId) {
+		System.out.println("GET Request: publish");
+		document = documentDAO.readById(id);
+		if (document == null) return notFoundStatus("404 Document not Found");
+		document.setApproverId(approverId);
+		documentDAO.update(document);
+		return okStatus(document);
+	}
 	
 	
 

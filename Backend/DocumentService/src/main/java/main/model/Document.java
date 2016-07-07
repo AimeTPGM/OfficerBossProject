@@ -20,6 +20,7 @@ public class Document {
 	private String lastModifiedDate;
 	private String version;
 	private String creatorId;
+	private String approverId;
 	private int majorVersion;
 	private int minorVersion;
 	private boolean editable;
@@ -118,6 +119,14 @@ public class Document {
 	}
 	public String getCreator(){
 		return creatorId;
+	}
+
+	public String getApproverId() {
+		return approverId;
+	}
+
+	public void setApproverId(String approverId) {
+		this.approverId = approverId;
 	}
 
 }
