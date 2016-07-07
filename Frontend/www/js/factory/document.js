@@ -66,5 +66,18 @@ angular.module('starter.controllers')
 
    }
 
+   doc.changeApprover = function(docId, approverId){
+    return $http.get(BackendPath.documentServicePath+'/changeApprover?documentId='+docId+'&&approverId='+approverId)
+    .then(function(resp){
+      return resp;
+    }, function(resp){
+      return resp;
+    })
+
+   }
+
+
+   
+
    return doc;
 })
