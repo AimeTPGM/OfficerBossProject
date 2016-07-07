@@ -3,7 +3,7 @@ angular.module('starter.controllers')
   $window, $http, $scope, $stateParams,$ionicHistory,
   Upload, 
   DocumentService, FolderService, BackendPath, LoginService,
-  FileFactory, UserFactory, ApproverListFactory) {
+  FileFactory, UserFactory, ApproverListFactory, DocumentFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -175,7 +175,8 @@ angular.module('starter.controllers')
                        
                        ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
                         if(resp.status == 200){
-                          console.log('added approverlist')
+                          console.log(resp.data);
+                          
                         }
                         else {
                           console.log('cannot add approverlist')
@@ -307,7 +308,7 @@ angular.module('starter.controllers')
             FolderService.addDocument(data.id, $scope.savedDocData.documentId);
             ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
               if(resp.status == 200){
-                console.log('added approverlist')
+                console.log(resp.data)
               }
               else {
                 console.log('cannot add approverlist')
@@ -353,7 +354,7 @@ angular.module('starter.controllers')
             FolderService.update($scope.savedFolder.id, $scope.doc.name);
             ApproverListFactory.update($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
               if(resp.status == 200){
-                console.log('updated approverlist')
+                console.log(resp.data)
               }
               else {
                 console.log('cannot update approverlist')
@@ -425,7 +426,15 @@ angular.module('starter.controllers')
               $scope.savedFolder = data;
               ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
                 if(resp.status == 200){
-                  console.log('added approverlist')
+                  console.log(resp.data)
+                  DocumentFactory.changeApprover($scope.savedDocData.documentId, resp.data.approverIdList[0]).then(function(resp){
+                    if(resp.status == 200){
+                      console.log(resp.data)
+                    }
+                    else {
+                      console.log('cannot determine firstApprover')
+                    }
+                  })
                 }
                 else {
                   console.log('cannot add approverlist')
@@ -454,6 +463,22 @@ angular.module('starter.controllers')
         console.log("updating current document : "+versionType)
         DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
         FolderService.update($scope.savedFolder.id, $scope.doc.name);
+        ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
+          if(resp.status == 200){
+            console.log(resp.data)
+            DocumentFactory.changeApprover($scope.savedDocData.documentId, resp.data.approverIdList[0]).then(function(resp){
+              if(resp.status == 200){
+                console.log(resp.data)
+              }
+              else {
+                console.log('cannot determine firstApprover')
+              }
+            })
+          }
+          else {
+            console.log('cannot add approverlist')
+          }
+        })
         DocumentService.submit($scope.savedDocData.documentId,versionType);
         $window.location.href=('#/app/doc');
       }
