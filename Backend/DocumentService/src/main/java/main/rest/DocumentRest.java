@@ -263,7 +263,7 @@ public class DocumentRest{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response changeApprover(
 			@QueryParam("documentId") String id, @QueryParam("approverId") String approverId) {
-		System.out.println("GET Request: publish");
+		System.out.println("GET Request: change approver");
 		document = documentDAO.readById(id);
 		if (document == null) return notFoundStatus("404 Document not Found");
 		document.setApproverId(approverId);
