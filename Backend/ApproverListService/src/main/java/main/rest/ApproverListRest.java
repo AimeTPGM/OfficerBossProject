@@ -91,9 +91,9 @@ public class ApproverListRest {
 	@GET
 	@Path("copy")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response copy(@QueryParam("documentId") String documentId){
-		approverList = approverListDAO.readByDocumentId(documentId);
-		ApproverList tempApproverList = new ApproverList(approverList.getDocumentId(), approverList.getApproverIdList(), 0);
+	public Response copy(@QueryParam("copyFrom") String copyFrom, @QueryParam("copyTo") String copyTo){
+		approverList = approverListDAO.readByDocumentId(copyFrom);
+		ApproverList tempApproverList = new ApproverList(copyTo, approverList.getApproverIdList(), 0);
 		approverListDAO.create(tempApproverList);
 		return Response.status(200).entity(approverList).build();
 	}

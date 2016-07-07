@@ -5,7 +5,8 @@ angular.module('starter.controllers')
    var approverList = {};
 
    approverList.addApproverList = function(documentId, approverIdList){
-    return $http.get(BackendPath.approverListServicePath+'/addApproverList?documentId='+documentId+'&&approverIdList='+approverIdList)
+    var list = $.param(approverIdList);
+    return $http.get(BackendPath.approverListServicePath+'/addApproverList?documentId='+documentId+'&&approverIdList='+list)
     .then(function(resp){
       return resp;
     }, function(resp){
@@ -15,7 +16,8 @@ angular.module('starter.controllers')
    }
 
    approverList.update = function(documentId, approverIdList){
-    return $http.get(BackendPath.approverListServicePath+'/update?documentId='+documentId+'&&approverIdList='+approverIdList)
+    var list = $.param(approverIdList);
+    return $http.get(BackendPath.approverListServicePath+'/update?documentId='+documentId+'&&approverIdList='+list)
     .then(function(resp){
       return resp;
     }, function(resp){
@@ -25,6 +27,15 @@ angular.module('starter.controllers')
 
    approverList.approve = function(documentId){
     return $http.get(BackendPath.approverListServicePath+'/approve?documentId='+documentId)
+    .then(function(resp){
+      return resp;
+    }, function(resp){
+      return resp;
+    })
+   }
+
+   approverList.copy = function(copyFrom, copyTo){
+    return $http.get(BackendPath.approverListServicePath+'/copy?copyFrom='+copyFrom+'&&copyTo='+copyTo)
     .then(function(resp){
       return resp;
     }, function(resp){
