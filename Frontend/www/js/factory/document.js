@@ -76,6 +76,10 @@ angular.module('starter.controllers')
 
    }
 
+   doc.firstApprover = function(docId, approverId){
+    
+   }
+
 
    
 
