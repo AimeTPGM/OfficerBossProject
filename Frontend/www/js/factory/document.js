@@ -76,8 +76,14 @@ angular.module('starter.controllers')
 
    }
 
-   doc.firstApprover = function(docId, approverId){
-    
+   doc.getDocumentByApproverId = function(approverId){
+    return $http.get(BackendPath.documentServicePath+'/getDocumentByApproverId?approverId='+approverId)
+    .then(function(resp){
+      return resp;
+    }, function(resp){
+      return resp;
+    })
+
    }
 
 

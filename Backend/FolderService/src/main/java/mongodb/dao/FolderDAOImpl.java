@@ -1,5 +1,6 @@
 package mongodb.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -70,6 +71,19 @@ public class FolderDAOImpl implements FolderDAO{
 		Query query = new Query(Criteria.where("creatorId").is(id));
 		System.out.println("DAO: Return folder");
 		return this.mongoOps.find(query, Folder.class, COLLECTION);
+	}
+	
+	public Folder readByDocumentId(String id) {
+		System.out.println("DAO: Querying folders by document id:"+id);
+		List<Folder> queryAll = this.mongoOps.findAll(Folder.class, COLLECTION);
+		Folder result = null;
+		for (int i = 0; i < queryAll.size(); i++) {
+			if (queryAll.get(i).getDocumentList().contains(id)) {
+				result = queryAll.get(i);
+				break;
+			}
+		}
+		return result;
 	}
 	
 	

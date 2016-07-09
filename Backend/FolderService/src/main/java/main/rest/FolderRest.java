@@ -119,6 +119,13 @@ public class FolderRest {
 		String response = "deleted!";
 		return Response.status(200).entity(response).build();
 	}
+	
+	@GET
+	@Path("getFolderByDocumentId")
+	public Response getFolderByDocumentId(@QueryParam("documentId") String id){
+		folder = folderDAO.readByDocumentId(id);
+		return Response.status(200).entity(folder).build();
+	}
 
 	
 	

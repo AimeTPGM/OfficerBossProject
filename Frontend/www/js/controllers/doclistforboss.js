@@ -5,6 +5,37 @@ angular.module('starter.controllers')
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
+
+  DocumentFactory.getDocumentByApproverId().then(function(resp){
+    if(resp.status == 200){
+      var alldoc = resp.data;
+      for (var i = 0; i < alldoc.length; i++) {
+        var tempDocId = alldoc[i].documentId;
+        FolderFactory.getFolderByDocumentId(tempDocId).then(function(resp){
+          if(resp.status == 200){
+            alldoc[i].folder = resp.data;
+          }
+          else {
+            console.log('cannot reach Folder service')
+          }
+        })
+      };
+      
+
+      }
+
+    } 
+    else {
+
+    }
+  })
+
+
+
+
+  /**
+  * Old version
+  **/
   FolderFactory.getFolders().then(function(resp){
     if(resp.status == 200){
       $scope.documents = resp.data;

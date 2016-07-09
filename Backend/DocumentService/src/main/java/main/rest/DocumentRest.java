@@ -70,7 +70,7 @@ public class DocumentRest{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDocumentByUserId(
 			@QueryParam("userId") String id) {
-		System.out.println("GET Request: getalldocumentsbyuserid");
+		System.out.println("GET Request: get all documents by user id");
 		documents = documentDAO.getAllDocumentsByUserId(id);
 		if(documents == null) return notFoundStatus("404 Document Lists not Found");
 		return okStatus(documents);
@@ -269,6 +269,17 @@ public class DocumentRest{
 		document.setApproverId(approverId);
 		documentDAO.update(document);
 		return okStatus(document);
+	}
+	
+	@GET
+	@Path("getDocumentByApproverId")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getDocumentByApproverId(
+			@QueryParam("approverId") String id) {
+		System.out.println("GET Request: get all documents by approver id");
+		documents = documentDAO.getAllDocumentsByApproverId(id);
+		if(documents == null) return notFoundStatus("404 Document Lists not Found");
+		return okStatus(documents);
 	}
 	
 	

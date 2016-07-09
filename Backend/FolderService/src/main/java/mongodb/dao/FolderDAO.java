@@ -14,6 +14,8 @@ public interface FolderDAO {
 	
 	public List<Folder> readByCreatorId(String id);
 	
+	public Folder readByDocumentId(String id);
+	
 	public void update(Folder folder);
 	
 	public void delete(String id);

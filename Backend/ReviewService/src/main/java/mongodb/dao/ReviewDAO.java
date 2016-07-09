@@ -13,8 +13,6 @@ public interface ReviewDAO {
     public List<Review> readByDocumentId(String id);
      
     public Review readByReviewId(String id);
-    
-    public void update(Review review);
      
     public int deleteByReviewId(String id);
     

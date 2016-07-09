@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
 
-import main.model.Document;
 import main.model.Review;
 import mongodb.main.MongoDBMain;
 
@@ -46,11 +45,6 @@ public class ReviewDAOImpl implements ReviewDAO{
 		Query query = new Query(Criteria.where("_id").is(id));
 		System.out.println("DAO: Return review");
 		return this.mongoOps.findOne(query, Review.class, COLLECTION);
-	}
-
-	public void update(Review review) {
-		// TODO Do an update on review <-- go fix document update bug first!
-		
 	}
 
 	public int deleteByReviewId(String id) {

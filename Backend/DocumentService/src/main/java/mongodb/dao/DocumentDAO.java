@@ -11,6 +11,8 @@ public interface DocumentDAO {
     public List<Document> getAllDocuments();
     
     public List<Document> getAllDocumentsByUserId(String id);
+    
+    public List<Document> getAllDocumentsByApproverId(String id);
      
     public Document readById(String id);
      

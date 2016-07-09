@@ -33,5 +33,15 @@ angular.module('starter.controllers')
      
    }
 
+   folder.getFolderByDocumentId = function(docId){
+    return $http.get(BackendPath.folderServicePath+'/getFolderByDocumentId?documentId='+docId)
+    .then(function(resp){
+      return resp;
+    }, function(resp){
+      return resp;
+    })
+     
+   }
+
    return folder;
 })

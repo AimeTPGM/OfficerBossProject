@@ -82,5 +82,12 @@ public class DocumentDAOImpl implements DocumentDAO{
 		System.out.println("DAO: Return documents");
 		return mongoOps.find(query, Document.class, COLLECTION);
 	}
+	
+	public List<Document> getAllDocumentsByApproverId(String id) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("approverId").is(id));
+		System.out.println("DAO: Return documents");
+		return mongoOps.find(query, Document.class, COLLECTION);
+	}
 
 }
