@@ -113,10 +113,17 @@ angular.module('starter.controllers')
             else{ $scope.creator = "Not available"; }
             
           });
+          $scope.approverList = [];
           ApproverListFactory.getApproverList($stateParams.docId).then(function(resp){
             if(resp.status == 200){
               for (var i = 0; i < resp.data.approverIdList.length; i++) {
-                console.log('hello');
+                UserFactory.getUser(resp.data.approverIdList[i]).then(function(resp){
+                  if(resp.status == 200){ 
+                    $scope.approverList = $scope.approverList.concat([resp.data]); 
+                  }
+                  else{ $scope.creator = "Not available"; }
+                  
+                });
               };
             }
             else { console.log(resp) }
@@ -140,10 +147,10 @@ angular.module('starter.controllers')
             }
             
           })
-          ReviewFactory.getReview($stateParams.docId).then(function(resp){
-            if(resp.status == 200){ $scope.review = resp.data; }
-            else{ $scope.review = "Not available"; }
-          });
+          // ReviewFactory.getReview($stateParams.docId).then(function(resp){
+          //   if(resp.status == 200){ $scope.review = resp.data; }
+          //   else{ $scope.review = "Not available"; }
+          // });
         }
         else{
           console.log('cannot reach '+BackendPath.documentServicePath)

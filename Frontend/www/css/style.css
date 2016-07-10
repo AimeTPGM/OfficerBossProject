@@ -359,7 +359,7 @@
 
     margin: 10px 0px 0px 0px;
 }
-select {
+#approver-list-selector {
   -webkit-appearance: none;
   width: 100%;
   height: 100%;

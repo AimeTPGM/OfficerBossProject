@@ -18,9 +18,6 @@ angular.module('starter.controllers')
     console.log(documentId)
     var list = $httpParamSerializerJQLike(approverIdList);
 
-    
-
-
     return $http({
         method: 'GET',
         url: BackendPath.approverListServicePath+'/addApproverList',
@@ -34,16 +31,21 @@ angular.module('starter.controllers')
     }, function(resp){
       return resp;
     })
-
-
-    // $http.get(BackendPath.approverListServicePath+'/addApproverList?documentId='+documentId+'&&approverIdList='+list)
     
      
    }
 
    approverList.update = function(documentId, approverIdList){
    
-    return $http.get(BackendPath.approverListServicePath+'/update?documentId='+documentId+'&&approverIdList='+approverIdList)
+    return $http({
+        method: 'GET',
+        url: BackendPath.approverListServicePath+'/update',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        params: {
+          'documentId': documentId, 
+          'approverIdList[]' : approverIdList }
+      
+        })
     .then(function(resp){
       return resp;
     }, function(resp){

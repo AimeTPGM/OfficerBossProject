@@ -48,6 +48,7 @@ angular.module('starter.controllers')
       }
       $scope.deleteApprover = function(index){
         $scope.approverList.splice(index, 1);
+        $scope.approverIdList.splice(index, 1);
       }
     }
     else{ $scope.approvers = "Not available"; }
@@ -354,6 +355,8 @@ angular.module('starter.controllers')
             }
             $scope.savedDocData = data;
             FolderService.update($scope.savedFolder.id, $scope.doc.name);
+            console.log('changing approver list')
+            console.log($scope.approverIdList)
             ApproverListFactory.update($scope.savedDocData.documentId, $scope.approverIdList).then(function(resp){
               if(resp.status == 200){
                 console.log(resp.data)
@@ -465,7 +468,8 @@ angular.module('starter.controllers')
         console.log("updating current document : "+versionType)
         DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
         FolderService.update($scope.savedFolder.id, $scope.doc.name);
-        ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverIdList).then(function(resp){
+
+        ApproverListFactory.update($scope.savedDocData.documentId, $scope.approverIdList).then(function(resp){
           if(resp.status == 200){
             console.log(resp.data)
             DocumentFactory.changeApprover($scope.savedDocData.documentId, resp.data.approverIdList[0]).then(function(resp){
