@@ -73,11 +73,15 @@ public class ApproverListRest {
 	@GET
 	@Path("update")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateApproverList(@QueryParam("documentId") String documentId, @QueryParam("approverIdList") List<String> approverIdList){
-		approverList = new ApproverList(documentId, approverIdList, 0);
-		approverListDAO.deleteByDocumentId(documentId);
-		approverListDAO.create(approverList);
-		return Response.status(200).entity(approverList).build();
+	public Response updateApproverList(@QueryParam("documentId") String documentId, @QueryParam("approverIdList[]") List<String> approverIdList){
+		System.out.println("GET request : update approver");
+		for (int i = 0; i < approverIdList.size(); i++) {
+			System.out.println(approverIdList.get(i));
+		}
+		ApproverList temp = new ApproverList(documentId, approverIdList, 0);
+		approverListDAO.update(documentId, temp);
+		System.out.println("GET request : updated!");
+		return Response.status(200).entity(temp).build();
 	}
 	
 	@GET

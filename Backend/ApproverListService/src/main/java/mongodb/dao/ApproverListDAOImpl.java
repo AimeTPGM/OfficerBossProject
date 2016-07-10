@@ -36,7 +36,7 @@ public class ApproverListDAOImpl implements ApproverListDAO{
 
 	public void update(String documentId, ApproverList approverIdList) {
 		System.out.println("DAO: Querying document id:"+documentId);
-		Query query = new Query(Criteria.where("_id").is(documentId));
+		Query query = new Query(Criteria.where("documentId").is(documentId));
 		Update update = new Update();
 		update.set("approverIdList", approverIdList.getApproverIdList());
 		update.set("currentApproverIdIndex", approverIdList.getCurrentApproverIdIndex());
