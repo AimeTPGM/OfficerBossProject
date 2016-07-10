@@ -40,6 +40,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<div class="row">
 		<div class="col col-80 center">
 			<h1 class="main-header" style="margin-top: 4vh;">{{doc.documentName}} Detail</h1>
@@ -92,12 +93,7 @@
 					    <textarea rows="10" disabled>{{doc.description}}</textarea>
 
 					  </label>
-					  <!-- <label class="item item-input item-stacked-label">
-					    <span class="input-label">Comment</span>
-					    
-					    <textarea rows="10" disabled>{{review.reviewDesc}}</textarea>
-
-					  </label> -->
+					  
 					  
 					  
 					  <label class="item item-input item-stacked-label">
@@ -112,11 +108,26 @@
 								<div class="col-10">Review</div>
 							</div>
 						<div class="approver-list-container">
-							<div class="row approver-list-doc-detail-body" ng-repeat="approver in approverList track by $index">
-								<div class="col-10">{{$index+1}}</div>
-								<div class="col-50">{{approver.name}}</div>
-								<div class="col-25">-</div>
-								<div class="col-10"><button class="button button-calm button-clear icon ion-eye"></button></div>
+							<div ng-repeat="approver in approverList track by $index">
+
+								<div class="row approver-list-doc-detail-body">
+									<div class="col-10">{{$index+1}}</div>
+									<div class="col-50">{{approver.name}}</div>
+									<div class="col-25">
+										{{approver.review}}
+									</div>
+									
+									<div class="col-10">
+										<button class="button button-calm button-clear icon ion-eye" ng-click="showReviewOf{{approver.userId}}=true" ng-hide="showReviewOf{{approver.userId}}"></button>
+										<button class="button button-dark button-clear icon ion-eye" ng-click="showReviewOf{{approver.userId}}=false" ng-show="showReviewOf{{approver.userId}}"></button>
+
+									</div>
+								</div>
+								<div class="review-detail" ng-show="showReviewOf{{approver.userId}}">
+									<span>Detail:</span>
+									{{approver.review}}
+								</div>
+								
 							</div>
 						
 						</div>	
