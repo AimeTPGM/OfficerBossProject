@@ -8,23 +8,31 @@ angular.module('starter.controllers')
 
   DocumentFactory.getDocumentByApproverId().then(function(resp){
     if(resp.status == 200){
-      var alldoc = resp.data;
-      for (var i = 0; i < alldoc.length; i++) {
-        var tempDocId = alldoc[i].documentId;
+      $scope.alldoc = resp.data;
+      for (var i = 0; i < $scope.alldoc.length; i++) {
+        var tempDocId = $scope.alldoc[i].documentId;
         FolderFactory.getFolderByDocumentId(tempDocId).then(function(resp){
           if(resp.status == 200){
-            alldoc[i].folder = resp.data;
+            $scope.alldoc[i].folder = resp.data;
           }
           else {
             console.log('cannot reach Folder service')
           }
         })
+
+        var tempCreatorId = $scope.alldoc[i].creatorId;
+        UserFactory.getUser(tempCreatorId).then(function(resp){
+        if(resp.status == 200){
+            $scope.alldoc[i].creator = resp.data;
+          }
+          else {
+            console.log('cannot reach User service')
+          }
+        })
+
       };
-      
-
-      }
-
-    } 
+    }
+     
     else {
 
     }
@@ -35,7 +43,7 @@ angular.module('starter.controllers')
 
   /**
   * Old version
-  **/
+  
   FolderFactory.getFolders().then(function(resp){
     if(resp.status == 200){
       $scope.documents = resp.data;
@@ -84,5 +92,6 @@ angular.module('starter.controllers')
         return true;
       }
     }
-  })    
+  }) 
+  **/   
 })

@@ -10,15 +10,28 @@ angular.module('starter.controllers')
 })
 
 .controller('LoginCtrl', function($scope, $ionicModal, $timeout, $state, $http,$window,LoginService) {
-    // for testing
-    // user: test01@test.com
-    // pw: test
-    // type: officer
-
-    // for testing
-    // user: test02@test.com
-    // pw: test
-    // type: boss
+    /**
+    * Boss
+    * Boss1
+    * boss@test.com
+    * boss
+    *
+    * Boss2
+    * boss2@test.com
+    * boss
+    *
+    * Boss3
+    * boss3@test.com
+    * boss
+    * 
+    * Officer
+    * officer1@test.com
+    * officer
+    * 
+    * Officer2
+    * officer2@test.com
+    * officer
+    */
 
 
 

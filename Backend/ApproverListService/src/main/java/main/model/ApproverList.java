@@ -16,9 +16,7 @@ public class ApproverList {
 		setDocumentId(documentId);
 		setCurrentApproverIdIndex(currentApproverIdIndex);
 	}
-	public ApproverList(ApproverList approverList){
-		this(approverList.getDocumentId(), approverList.getApproverIdList(), approverList.getCurrentApproverIdIndex());
-	}
+	
 	public int getCurrentApproverIdIndex() {
 		return currentApproverIdIndex;
 	}

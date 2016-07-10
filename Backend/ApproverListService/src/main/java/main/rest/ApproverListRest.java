@@ -36,7 +36,7 @@ public class ApproverListRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response approverLists(){
 		approverLists = approverListDAO.getApproverLists();
-		return Response.status(200).entity(approverList).build();
+		return Response.status(200).entity(approverLists).build();
 	}
 	
 	@GET
@@ -52,7 +52,7 @@ public class ApproverListRest {
 	@GET
 	@Path("approverListByDocumentId")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response approverListByDocumentId(@QueryParam("approverListId") String documentId){
+	public Response approverListByDocumentId(@QueryParam("documentId") String documentId){
 
 		approverList = approverListDAO.readByDocumentId(documentId);
 		if(approverList == null) return Response.status(404).entity("404 publish document not found").build();
@@ -62,9 +62,11 @@ public class ApproverListRest {
 	@GET
 	@Path("addApproverList")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addApproverList(@QueryParam("documentId") String documentId, @QueryParam("approverIdList") List<String> approverIdList){
+	public Response addApproverList(@QueryParam("documentId") String documentId, @QueryParam("approverIdList[]") List<String> approverIdList){
+		System.out.println("GET : Add Approver List");
 		approverList = new ApproverList(documentId, approverIdList, 0);
 		approverListDAO.create(approverList);
+		System.out.println("GET : Added!");
 		return Response.status(200).entity(approverList).build();
 	}
 	

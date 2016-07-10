@@ -86,10 +86,6 @@ angular.module('starter.controllers')
     }
 
   });
-  $scope.user = {};
-  UserFactory.getUser('56a0d083d4c607b2e7a60a5c').then(function(resp){
-    $scope.user = resp.data;
-    console.log($scope.user)
-  });      
+       
 })
 

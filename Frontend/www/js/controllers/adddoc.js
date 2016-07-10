@@ -38,9 +38,11 @@ angular.module('starter.controllers')
         selectedOption: {id: '0', name: 'Please Select ...'}
         };
         $scope.approverList = [];
+        $scope.approverIdList = [];
       $scope.addApprover = function(){
         $scope.approverList = $scope.approverList.concat([$scope.select.selectedOption]);
-        console.log($scope.approverList);
+        $scope.approverIdList = $scope.approverIdList.concat([$scope.select.selectedOption.userId]);
+        console.log($scope.approverIdList);
         
 
       }
@@ -173,7 +175,7 @@ angular.module('starter.controllers')
                         data: {file: files[i], documentId: $scope.savedDocData.documentId}
                     }).then(function (resp) {
                        
-                       ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
+                       ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverIdList).then(function(resp){
                         if(resp.status == 200){
                           console.log(resp.data);
                           
@@ -306,7 +308,7 @@ angular.module('starter.controllers')
             console.log(data);
             $scope.savedFolder = data;
             FolderService.addDocument(data.id, $scope.savedDocData.documentId);
-            ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
+            ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverIdList).then(function(resp){
               if(resp.status == 200){
                 console.log(resp.data)
               }
@@ -352,7 +354,7 @@ angular.module('starter.controllers')
             }
             $scope.savedDocData = data;
             FolderService.update($scope.savedFolder.id, $scope.doc.name);
-            ApproverListFactory.update($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
+            ApproverListFactory.update($scope.savedDocData.documentId, $scope.approverIdList).then(function(resp){
               if(resp.status == 200){
                 console.log(resp.data)
               }
@@ -424,7 +426,7 @@ angular.module('starter.controllers')
               console.log('sent POST request: add new folder');
               console.log(data);
               $scope.savedFolder = data;
-              ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
+              ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverIdList).then(function(resp){
                 if(resp.status == 200){
                   console.log(resp.data)
                   DocumentFactory.changeApprover($scope.savedDocData.documentId, resp.data.approverIdList[0]).then(function(resp){
@@ -463,7 +465,7 @@ angular.module('starter.controllers')
         console.log("updating current document : "+versionType)
         DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
         FolderService.update($scope.savedFolder.id, $scope.doc.name);
-        ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverList).then(function(resp){
+        ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverIdList).then(function(resp){
           if(resp.status == 200){
             console.log(resp.data)
             DocumentFactory.changeApprover($scope.savedDocData.documentId, resp.data.approverIdList[0]).then(function(resp){

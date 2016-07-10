@@ -1,7 +1,7 @@
 angular.module('starter.controllers')
 .controller('DocumentDetailCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, 
   FileService, DocumentService, FolderService, PublishDocumentService, BackendPath, LoginService,
-  UserFactory, DocumentFactory, FileFactory, ReviewFactory, FolderFactory) {
+  UserFactory, DocumentFactory, FileFactory, ReviewFactory, FolderFactory, ApproverListFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -113,14 +113,15 @@ angular.module('starter.controllers')
             else{ $scope.creator = "Not available"; }
             
           });
-          UserFactory.getUser($scope.doc.approver).then(function(resp){
-            if(resp.status == 200){ $scope.approver = resp.data; }
-            else{ $scope.approver = "Not available"; }
-          });
-          // FileFactory.getFilename($stateParams.docId).then(function(resp){
-          //   if(resp.status == 200){ $scope.filename = resp.data; }
-          //   else{ $scope.filename = "Not available"; }
-          // });
+          ApproverListFactory.getApproverList($stateParams.docId).then(function(resp){
+            if(resp.status == 200){
+              for (var i = 0; i < resp.data.approverIdList.length; i++) {
+                console.log('hello');
+              };
+            }
+            else { console.log(resp) }
+          })
+          
           FileFactory.allFileDetail($stateParams.docId).then(function(resp){
             if(resp.status == 200){ 
               $scope.files = resp.data; 
