@@ -31,40 +31,33 @@
 				
 				</div>
 			</div>
-				<li class="item" ng-repeat="document in documents" 
-				ng-if="document.lastDocData.documentStatus !== 'Draft' && document.lastDocData.documentStatus !== 'Publish' ">
+				<li class="item" ng-repeat="document in documents" >
 					<div class="row">
 
 					
 					
-						<a show-when="large" class="col col-20 vertical-center-list-text doclist-link" href="#/app/doc/{{document.id}}/{{document.lastDocId}}/review" ng-if="document.lastDocData.documentStatus === 'Waiting for Approval'">{{document.folderName}}</a>
-						<a show-when="large" class="col col-20 vertical-center-list-text doclist-link" href="#/app/doc/{{document.id}}/{{document.lastDocId}}" ng-if="document.lastDocData.documentStatus === 'Approved' || folder.lastDocData.documentStatus === 'Publish'">{{document.folderName}}</a>
-						<div show-when="large" class="col col-20 vertical-center-list-text doclist-link" ng-if="document.lastDocData.documentStatus === 'Reject'">{{document.folderName}}</div>
+						<a show-when="large" class="col col-20 vertical-center-list-text doclist-link" href="#/app/doc/{{document.folder.id}}/{{document.documentId}}/review">{{document.documentName}}</a>
+						
 
 
 						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{document.creatorName}}</div>
+					
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text waiting-for-approval-status word-wrap">{{document.documentStatus}}</div>
 						
 						
-						<!-- For Waiting for approval -->
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text waiting-for-approval-status word-wrap" ng-if="document.lastDocData.documentStatus === 'Waiting for Approval'">{{document.lastDocData.documentStatus}}</div>
-						<!-- For Reject -->
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text reject-status word-wrap" ng-if="document.lastDocData.documentStatus === 'Reject'">{{document.lastDocData.documentStatus}}</div>
-						<!-- For Approved -->
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text approved-status word-wrap" ng-if="document.lastDocData.documentStatus === 'Approved'">{{document.lastDocData.documentStatus}}</div>
-						<!-- For Publish -->
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text publish-status word-wrap" ng-if="document.lastDocData.documentStatus === 'Publish'">{{document.lastDocData.documentStatus}}</div>
 						
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{document.folder.lastUpdate}}</div>
+
+						<div show-when="large" class="col col-10 center-header vertical-center-list-text word-wrap">{{document.folder.numberOfDocuments}}</div>
 						
-						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{document.lastUpdate}}</div>
-						<div show-when="large" class="col col-10 center-header vertical-center-list-text">{{document.numberOfDocuments}}</div>
 						<div show-when="large" class="col col-10 center-header">
-							<a class="button button-energized button-circle icon ion-compose" href="#/app/doc/{{document.id}}/{{document.lastDocId}}/review" title="Review" ng-if="document.lastDocData.documentStatus === 'Waiting for Approval'"></a>
+							<a class="button button-energized button-circle icon ion-compose" href="#/app/doc/{{document.folder.id}}/{{document.lastDocId}}/review" title="Review"></a>
 						</div>
 					
 
 					
-						<a show-when="small" class="col col-85 vertical-center-list-text doclist-link" href="#/app/doc/{{document.id}}/{{document.lastDocId}}/review">{{document.folderName}}</a>
-						<a show-when="small" class="button button-energized" href="#/app/doc/{{document.id}}/{{document.lastDocId}}/review" style="margin-right:10px;" ng-if="document.lastDocData.documentStatus === 'Waiting for Approval'">Review</a>
+						<a show-when="small" class="col col-85 vertical-center-list-text doclist-link" href="#/app/doc/{{document.folder.id}}/{{document.documentId}}/review">{{document.documentName}}</a>
+						<a show-when="small" class="button button-energized" href="#/app/doc/{{document.id}}/{{document.folder.id}}/{{document.documentId}}/review" style="margin-right:10px;" ng-if="document.lastDocData.documentStatus === 'Waiting for Approval'">Review</a>
 					
 					
 					

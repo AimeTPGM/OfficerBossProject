@@ -1,36 +1,53 @@
 angular.module('starter.controllers')
 .controller('DocumentListForBossCtrl', function($scope, $stateParams,$ionicHistory, $http, 
-  BackendPath,
+  BackendPath, LoginService,
   FolderFactory, UserFactory, DocumentFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
-
-  DocumentFactory.getDocumentByApproverId().then(function(resp){
+  console.log(LoginService.credential)
+  console.log(LoginService.user)
+  var userId = LoginService.user.userId;
+  console.log(userId)
+  DocumentFactory.getDocumentByApproverId(userId).then(function(resp){
     if(resp.status == 200){
-      $scope.alldoc = resp.data;
-      for (var i = 0; i < $scope.alldoc.length; i++) {
-        var tempDocId = $scope.alldoc[i].documentId;
-        FolderFactory.getFolderByDocumentId(tempDocId).then(function(resp){
-          if(resp.status == 200){
-            $scope.alldoc[i].folder = resp.data;
-          }
-          else {
-            console.log('cannot reach Folder service')
-          }
-        })
-
-        var tempCreatorId = $scope.alldoc[i].creatorId;
-        UserFactory.getUser(tempCreatorId).then(function(resp){
-        if(resp.status == 200){
-            $scope.alldoc[i].creator = resp.data;
-          }
-          else {
-            console.log('cannot reach User service')
-          }
+      console.log(resp.data)
+      $scope.documents = resp.data;
+      var j = 0, k = 0;
+      for (var i = 0; i < resp.data.length; i++) {
+        FolderFactory.getFolderByDocumentId(resp.data[j].documentId).then(function(resp){
+          $scope.documents[j].folder = resp.data;
+          UserFactory.getUser($scope.documents[k].creator).then(function(resp){
+            $scope.documents[k].creatorName =  resp.data.lastname +" "+resp.data.firstname;
+            k++;
+          })
+          j++;
         })
 
       };
+      
+      // for (var i = 0; i < $scope.alldoc.length; i++) {
+      //   var tempDocId = $scope.alldoc[i].documentId;
+      //   FolderFactory.getFolderByDocumentId(tempDocId).then(function(resp){
+      //     if(resp.status == 200){
+      //       $scope.alldoc[i].folder = resp.data;
+      //     }
+      //     else {
+      //       console.log('cannot reach Folder service')
+      //     }
+      //   })
+
+        // var tempCreatorId = $scope.alldoc[i].creatorId;
+        // UserFactory.getUser(tempCreatorId).then(function(resp){
+        // if(resp.status == 200){
+        //     $scope.alldoc[i].creator = resp.data;
+        //   }
+        //   else {
+        //     console.log('cannot reach User service')
+        //   }
+        // })
+
+      // };
     }
      
     else {

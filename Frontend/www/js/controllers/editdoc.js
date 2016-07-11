@@ -51,17 +51,6 @@ angular.module('starter.controllers')
   $scope.savedDocData = null;
   var count = 0;
 
-  $http.get(BackendPath.reviewServicePath+'/getReviewByDocumentId?documentId='+$stateParams.docId)
-    .success(function(data){
-      $scope.review = data;
-      
-      
-
-    })
-    .error(function(data){
-      console.log('cannot reach '+BackendPath.reviewServicePath)
-    });
-
     $scope.files = {};
   $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+$stateParams.docId)
     .success(function(data){
@@ -72,11 +61,142 @@ angular.module('starter.controllers')
         $scope.creator = resp.data;
       });
 
-        // get approver
-      $scope.approver = {};
-      UserFactory.getUser($scope.doc.approver).then(function(resp){
-        $scope.approver = resp.data;
-      });
+      $scope.approverList = [];
+      ApproverListFactory.getApproverList($stateParams.docId).then(function(resp){
+            if(resp.status == 200){
+              $scope.selectVersion = function(docId, docStatus){
+                $scope.showVersionSelector = function(){
+                    return true;
+                }
+                $scope.hideVersionSelector = function(){
+                  $scope.showVersionSelector = function(){
+                      return false;
+                  }
+                }
+                $scope.submit = function(versionType){
+                  console.log(versionType);
+
+                  if($scope.doc.documentStatus == 'Draft'){
+                    if(!$scope.savedDocData){
+                      console.log("updating and submitting current draft : "+versionType)
+                      DocumentService.save($stateParams.docId,$scope.doc.name,$scope.doc.desc);
+                      FolderService.update($stateParams.folderId, $scope.doc.name);
+                      DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[resp.data.currentApproverIdIndex])
+                        .then(function(resp){
+                          if(resp.status == 200){
+                            console.log(resp.data)
+                          }
+                          else {
+                            console.log('cannot change approver')
+                          }
+                        })
+                      DocumentService.submit($stateParams.docId,versionType);
+                      $window.location.href=('#/app/doc');
+                    }
+                    else{
+                      console.log("updating and submitting current draft : "+versionType)
+                      DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
+                      FolderService.update($stateParams.folderId, $scope.doc.name);
+                      DocumentFactory.changeApprover($scope.savedDocData.documentId, resp.data.approverIdList[resp.data.currentApproverIdIndex])
+                        .then(function(resp){
+                          if(resp.status == 200){
+                            console.log(resp.data)
+                          }
+                          else {
+                            console.log('cannot change approver')
+                          }
+                        })
+                      DocumentService.submit($scope.savedDocData.documentId,versionType);
+                      $window.location.href=('#/app/doc');
+                    }
+                  } // if 'Draft'
+                   else{
+                    if(!$scope.savedDocData){
+                      DocumentFactory.newEditDraft($stateParams.docId,$scope.doc.documentName,$scope.doc.description).then(function(resp){
+
+                        $scope.savedDocData = resp.data;
+                        DocumentService.editable($stateParams.docId, false);
+                        FolderService.update($stateParams.folderId, $scope.doc.documentName);
+                        FolderService.addDocument($stateParams.folderId, data.documentId);
+                        if($scope.files.length > 0){
+                          for (var i = 0; i < $scope.files.length; i++) {
+                            FileService.copy($stateParams.docId, $scope.savedDocData.documentId);
+                          };
+                        }
+                        ApproverListFactory.copy($stateParams.folderId, data.documentId).then(function(resp){
+                          if(resp.status == 200) {
+                            console.log('copied approver list')
+                            $scope.approverList = resp.data;
+                            DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[resp.data.currentApproverIdIndex])
+                                .then(function(resp){
+                                  if(resp.status == 200){
+                                    console.log(resp.data)
+                                  }
+                                  else {
+                                    console.log('cannot change approver')
+                                  }
+                                })
+
+                          }
+                        })
+                        DocumentService.submit($scope.savedDocData.documentId);
+                        $window.location.href=('#/app/doc');
+                      })
+                    }
+                    else{
+                      DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
+                      DocumentService.editable($scope.savedDocData.docId, false);
+                      FolderService.update($stateParams.folderId, $scope.doc.documentName);
+                      DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[resp.data.currentApproverIdIndex])
+                        .then(function(resp){
+                                  if(resp.status == 200){
+                                    console.log(resp.data)
+                                  }
+                                  else {
+                                    console.log('cannot change approver')
+                                  }
+                                })
+                      DocumentService.submit($scope.savedDocData.documentId);
+                      $window.location.href=('#/app/doc');
+                    }
+
+                  } // if not 'Draft'
+                }    
+              }
+              var j = 0;
+              for (var i = 0; i < resp.data.approverIdList.length; i++) {
+                
+                UserFactory.getUser(resp.data.approverIdList[i]).then(function(resp){
+                  if(resp.status == 200){ 
+                    $scope.approverList = $scope.approverList.concat([resp.data]); 
+                   console.log($scope.approverList)
+                    ReviewFactory.getReview($stateParams.docId, $scope.approverList[j]).then(function(resp){
+                      if(resp.status == 200){ 
+                        if(resp.data == ""){
+                          $scope.approverList[j].review = "Pending"
+                        }
+                        else {
+                          $scope.approverList[j].review = resp.data;
+                        }
+                        
+
+                        j++;
+                      }
+                      else{ $scope.review = "Not available"; }
+                    });
+              
+
+                  }
+                  else{ $scope.creator = "Not available"; }
+                  
+                });
+                console.log($scope.approverList)
+              };
+
+            }
+            else { console.log(resp) }
+      })
+          
 
       FileFactory.allFileDetail($stateParams.docId).then(function(resp){
         if(resp.status == 200){ 
@@ -240,6 +360,8 @@ angular.module('starter.controllers')
                       FileService.copy($stateParams.docId, $scope.savedDocData.documentId);
                     };
                   }
+
+
                   //Upload files
                   if(files && files.length){
                       for (var i = 0; i < files.length; i++) {
@@ -406,52 +528,7 @@ angular.module('starter.controllers')
             return true;
           }
         }
-        //TODO debug submit to minor and major version
-        $scope.submit = function(versionType){
-          console.log(versionType);
-          if($scope.doc.documentStatus == 'Draft'){
-            if(!$scope.savedDocData){
-              console.log("updating and submitting current draft : "+versionType)
-              DocumentService.save($stateParams.docId,$scope.doc.name,$scope.doc.desc);
-              FolderService.update($stateParams.folderId, $scope.doc.name);
-              DocumentService.submit($stateParams.docId,versionType);
-              $window.location.href=('#/app/doc');
-            }
-            else{
-              console.log("updating and submitting current draft : "+versionType)
-              DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
-              FolderService.update($stateParams.folderId, $scope.doc.name);
-              DocumentService.submit($scope.savedDocData.documentId,versionType);
-              $window.location.href=('#/app/doc');
-            }
-          } // if 'Draft'
-          else{
-            if(!$scope.savedDocData){
-              DocumentFactory.newEditDraft($stateParams.docId,$scope.doc.documentName,$scope.doc.description).then(function(resp){
-
-                $scope.savedDocData = resp.data;
-                DocumentService.editable($stateParams.docId, false);
-                FolderService.update($stateParams.folderId, $scope.doc.documentName);
-                FolderService.addDocument($stateParams.folderId, data.documentId);
-                if($scope.files.length > 0){
-                  for (var i = 0; i < $scope.files.length; i++) {
-                    FileService.copy($stateParams.docId, $scope.savedDocData.documentId);
-                  };
-                }
-                DocumentService.submit($scope.savedDocData.documentId);
-                $window.location.href=('#/app/doc');
-              })
-            }
-            else{
-              DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
-              DocumentService.editable($scope.savedDocData.docId, false);
-              FolderService.update($stateParams.folderId, $scope.doc.documentName);
-              DocumentService.submit($scope.savedDocData.documentId);
-              $window.location.href=('#/app/doc');
-            }
-
-          } // if not 'Draft'
-        }
+     
 
         $scope.showUploadedFiles = function(){
           if(!$scope.savedDocData){
