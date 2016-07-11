@@ -70,8 +70,47 @@
 					    	<h2><span style=" margin-top: 10px; margin-right: 10px;">{{doc.description}}</span></h2>
 						</div>
 					  </label>
+					  <label class="item item-input item-stacked-label">
+					  	<div>
+					    	<span class="input-label">Approver List</span>
+					    </div>
+					    <div class="">
+					    	<div class="row approver-list-doc-detail-header">
+								<div class="col-10">No.</div>
+								<div class="col-50">Name</div>
+								<div class="col-25">Status</div>
+								<div class="col-10">Review</div>
+							</div>
+						<div class="approver-list-container">
+							<div ng-repeat="approver in approverList track by $index">
+
+								<div class="row approver-list-doc-detail-body">
+									<div class="col-10">{{$index+1}}</div>
+									<div class="col-50">{{approver.name}}</div>
+									<div class="col-25">
+										{{approver.review}}
+									</div>
+									
+									<div class="col-10">
+										<button class="button button-calm button-clear icon ion-eye" ng-click="showReviewOf{{approver.userId}}=true" ng-hide="showReviewOf{{approver.userId}}"></button>
+										<button class="button button-dark button-clear icon ion-eye" ng-click="showReviewOf{{approver.userId}}=false" ng-show="showReviewOf{{approver.userId}}"></button>
+
+									</div>
+								</div>
+								<div class="review-detail" ng-show="showReviewOf{{approver.userId}}">
+									<span>Detail:</span>
+									{{approver.review}}
+								</div>
+								
+							</div>
+						
+						</div>	
+					    	
+					    </div>
+					  
+					  </label>
 					  <label class="item item-input item-stacked-label" style="background: #F7FC7C;">
-					    <span class="input-label">Comment</span>
+					    <span class="input-label">Your Comment</span>
 					    
 					    <textarea rows="10" placeholder="Decline? Please provide your opinion about this document for further improvement." style="background: #F7FC7C;" ng-model="$parent.reviewtext"></textarea>
 
@@ -81,10 +120,7 @@
 						    <span class="input-label">Creator</span>
 						    <input type="text" value="{{creator.lastname}} {{creator.firstname}}" disabled>
 						  </label>
-						  <label class="item item-input item-stacked-label">
-						    <span class="input-label">Approver</span>
-						    <input type="text" value="{{approver.lastname}} {{approver.firstname}}" disabled>
-						  </label>
+						 
 						  <label class="item item-input item-stacked-label">
 						    <span class="input-label">Created Date</span>
 						    <input type="text" value="{{doc.createdDate}}" disabled>
@@ -99,9 +135,7 @@
 					    	<div class="col">
 					    		<span class="input-label">Creator</span>
 					    	</div>
-					    	<div class="col">
-					    		<span class="input-label">Approver</span>
-					    	</div>
+					    	
 					    	<div class="col">
 					    		<span class="input-label">Created Date</span>
 					    	</div>
@@ -115,9 +149,7 @@
 					    	<div class="col">
 					    		<input type="text" class="word-wrap" value="{{creator.lastname}} {{creator.firstname}}" disabled>
 					    	</div>
-					    	<div class="col">
-					    		<input type="text" class="word-wrap" value="{{approver.lastname}} {{approver.firstname}}" disabled>
-					    	</div>
+					    	
 					    	<div class="col">
 					    		<input type="text" class="word-wrap" value="{{doc.createdDate}}" disabled>
 					    	</div>
