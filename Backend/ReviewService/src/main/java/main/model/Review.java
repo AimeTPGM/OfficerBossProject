@@ -13,15 +13,17 @@ public class Review {
 	private String approverId;
 	private String reviewDesc;
 	private String reviewDate;
+	private String reviewStatus;
 	
 	public Review(){
 		
 	}
 	
-	public Review(String documentId, String approverId, String reviewDesc, Date date){
+	public Review(String documentId, String approverId, String reviewDesc, Date date, String reviewStatus){
 		this.documentId = documentId;
 		this.approverId = approverId;
 		this.reviewDesc = reviewDesc;
+		this.setReviewStatus(reviewStatus);
 		setReviewDate(date);
 	}
 	
@@ -55,6 +57,14 @@ public class Review {
 	}
 	public String getReviewDate(){
 		return this.reviewDate;
+	}
+
+	public String getReviewStatus() {
+		return reviewStatus;
+	}
+
+	public void setReviewStatus(String reviewStatus) {
+		this.reviewStatus = reviewStatus;
 	}
 
 }

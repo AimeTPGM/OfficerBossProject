@@ -39,10 +39,12 @@ public class ReviewRest {
 	
 	
 	@GET
-	@Path("getReviewsByDocumentId")
+	@Path("getReviewByDocument")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getReviewByDocumentId(@QueryParam("documentId") String id) {
-		reviews = reviewDAO.readByDocumentId(id);
+	public Response getReviewByDocumentId(@QueryParam("documentId") String id, @QueryParam("approverId") String approverId) {
+		System.out.println("GET request : get review by document");
+		review = reviewDAO.readByDocument(id, approverId);
+		System.out.println("GET request : return review");
 		return okStatus(review);
 	}
 	
@@ -83,14 +85,27 @@ public class ReviewRest {
 	
 	
 	@GET
-	@Path("createReview")
+	@Path("approve")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createReview(
+	public Response approve(
 			@QueryParam("documentId") String documentId,
 			@QueryParam("approverId") String approverId,
 			@QueryParam("reviewDesc") String reviewDesc) {
 
-		review = new Review(documentId, approverId, reviewDesc, new Date());
+		review = new Review(documentId, approverId, reviewDesc, new Date(), "Approved");
+		reviewDAO.create(review);
+		return okStatus(review);
+	}
+	
+	@GET
+	@Path("reject")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response reject(
+			@QueryParam("documentId") String documentId,
+			@QueryParam("approverId") String approverId,
+			@QueryParam("reviewDesc") String reviewDesc) {
+
+		review = new Review(documentId, approverId, reviewDesc, new Date(), "Rejected");
 		reviewDAO.create(review);
 		return okStatus(review);
 	}
