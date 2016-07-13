@@ -71,6 +71,7 @@ angular.module('starter.controllers')
             
           });
           $scope.approverList = [];
+          $scope.approverList.review = [];
           ApproverListFactory.getApproverList($stateParams.docId).then(function(resp){
             if(resp.status == 200){
               $scope.selectVersion = function(docId, docStatus){
@@ -85,7 +86,11 @@ angular.module('starter.controllers')
                 $scope.submit = function(versionType){
                   console.log(versionType);
                   if(docStatus == 'Draft'){
-                    DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[resp.data.currentApproverIdIndex])
+                    console.log('here')
+                    console.log(resp.data.approverIdList[resp.data.currentApproverIdIndex])
+                    console.log(resp.data)
+
+                    DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[resp.data.currentApproverIdIndex].userId)
                     .then(function(resp){
                       if(resp.status == 200){
                         console.log(resp.data)
@@ -116,7 +121,7 @@ angular.module('starter.controllers')
                       }).success(function(data, status, headers, config) {
                         DocumentService.editable($stateParams.docId, false);
                         FolderService.addDocument($stateParams.folderId, data.documentId);
-                        DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[resp.data.currentApproverIdIndex])
+                        DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[resp.data.currentApproverIdIndex].userId)
                         .then(function(resp){
                           if(resp.status == 200){
                             console.log(resp.data)
@@ -135,35 +140,44 @@ angular.module('starter.controllers')
                   }
                 }    
               }
-              var j = 0;
+
+              var idList = resp.data.approverIdList;
               for (var i = 0; i < resp.data.approverIdList.length; i++) {
                 
                 UserFactory.getUser(resp.data.approverIdList[i]).then(function(resp){
                   if(resp.status == 200){ 
-                    $scope.approverList = $scope.approverList.concat([resp.data]); 
-                   console.log($scope.approverList)
-                    ReviewFactory.getReview($stateParams.docId, $scope.approverList[j]).then(function(resp){
-                      if(resp.status == 200){ 
-                        if(resp.data == ""){
-                          $scope.approverList[j].review = "Pending"
-                        }
-                        else {
-                          $scope.approverList[j].review = resp.data;
-                        }
-                        
-
-                        j++;
+                    for (var j = 0; j < idList.length; j++) {
+                      if (resp.data.userId == idList[j]) {
+                        idList[j] = resp.data;
+                        $scope.approverList[j] = idList[j];
+                        break;
                       }
-                      else{ $scope.review = "Not available"; }
-                    });
-              
+                    };
+                    ReviewFactory.getReview($stateParams.docId, idList[i]).then(function(resp){
+                    if(resp.status == 200){ 
+                    for (var j = 0; j < idList.length; j++) {
+                      if(resp.data == ""){
+                          $scope.approverList[j].review = "Pending";
+                      }
+                      else if (resp.data.approverId == idList[j]) {
+                          $scope.approverList[j].review  = resp.data.reviewStatus;
+                        break;
+                      }
+                    };
 
                   }
                   else{ $scope.creator = "Not available"; }
                   
                 });
-                console.log($scope.approverList)
+
+
+                  }
+                  else{ $scope.creator = "Not available"; }
+                  
+                });
+                
               };
+
 
             }
             else { console.log(resp) }

@@ -1,7 +1,7 @@
 angular.module('starter.controllers')
 .controller('DocumentReviewCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, 
   ReviewService, FileService, BackendPath,
-  UserFactory, DocumentFactory, FileFactory, FolderFactory, ApproverListFactory) {
+  UserFactory, DocumentFactory, FileFactory, FolderFactory, ApproverListFactory, ReviewFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -36,97 +36,43 @@ angular.module('starter.controllers')
   $scope.approverList = [];
           ApproverListFactory.getApproverList($stateParams.docId).then(function(resp){
             if(resp.status == 200){
-              $scope.selectVersion = function(docId, docStatus){
-                $scope.showVersionSelector = function(){
-                    return true;
-                }
-                $scope.hideVersionSelector = function(){
-                  $scope.showVersionSelector = function(){
-                      return false;
-                  }
-                }
-                $scope.submit = function(versionType){
-                  console.log(versionType);
-                  if(docStatus == 'Draft'){
-                    DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[resp.data.currentApproverIdIndex])
-                    .then(function(resp){
-                      if(resp.status == 200){
-                        console.log(resp.data)
-                      }
-                      else {
-                        console.log('cannot determine firstApprover')
-                      }
-                    })
-                    DocumentService.submit($stateParams.docId,versionType);
-                    $window.location.href=('#/app/doc');
-                  }
-                  else if(docStatus == 'Reject'){
-                    $http({
-                    method: 'POST',
-                    url: BackendPath.documentServicePath+'/newEditDraft',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    transformRequest: function(obj) {
-                      var str = [];
-                      for(var p in obj)
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                        return str.join("&");
-                      },
-                      data: {documentName:$scope.doc.documentName, 
-                        description:$scope.doc.description, 
-                        documentId: $stateParams.docId
-                      }
-                    
-                      }).success(function(data, status, headers, config) {
-                        DocumentService.editable($stateParams.docId, false);
-                        FolderService.addDocument($stateParams.folderId, data.documentId);
-                        DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[resp.data.currentApproverIdIndex])
-                        .then(function(resp){
-                          if(resp.status == 200){
-                            console.log(resp.data)
-                          }
-                          else {
-                            console.log('cannot determine firstApprover')
-                          }
-                        })
-                        DocumentService.submit(data.documentId,versionType);
-                        $window.location.href=('#/app/doc');
-
-                      }).
-                      error(function(data, status, headers, config) {
-                        console.log('cannot reach '+BackendPath.documentServicePath)
-                      });
-                  }
-                }    
-              }
-              var j = 0;
+              var idList = resp.data.approverIdList;
               for (var i = 0; i < resp.data.approverIdList.length; i++) {
                 
                 UserFactory.getUser(resp.data.approverIdList[i]).then(function(resp){
                   if(resp.status == 200){ 
-                    $scope.approverList = $scope.approverList.concat([resp.data]); 
-                   console.log($scope.approverList)
-                    ReviewFactory.getReview($stateParams.docId, $scope.approverList[j]).then(function(resp){
-                      if(resp.status == 200){ 
-                        if(resp.data == ""){
-                          $scope.approverList[j].review = "Pending"
-                        }
-                        else {
-                          $scope.approverList[j].review = resp.data;
-                        }
-                        
-
-                        j++;
+                    for (var j = 0; j < idList.length; j++) {
+                      if (resp.data.userId == idList[j]) {
+                        idList[j] = resp.data;
+                        $scope.approverList[j] = idList[j];
+                        break;
                       }
-                      else{ $scope.review = "Not available"; }
-                    });
-              
+                    };
+                    ReviewFactory.getReview($stateParams.docId, idList[i]).then(function(resp){
+                    if(resp.status == 200){ 
+                    for (var j = 0; j < idList.length; j++) {
+                      if(resp.data == ""){
+                          $scope.approverList[j].review = "Pending";
+                      }
+                      else if (resp.data.approverId == idList[j]) {
+                          $scope.approverList[j].review  = resp.data.reviewStatus;
+                        break;
+                      }
+                    };
 
                   }
                   else{ $scope.creator = "Not available"; }
                   
                 });
-                console.log($scope.approverList)
+
+
+                  }
+                  else{ $scope.creator = "Not available"; }
+                  
+                });
+                
               };
+              
 
             }
             else { console.log(resp) }
@@ -137,7 +83,7 @@ angular.module('starter.controllers')
   DocumentFactory.getDocument($stateParams.docId).then(function(resp){
     if(resp.status == 200){
       $scope.doc = resp.data;
-      approverId = $scope.doc.approver;
+      var approverId = $scope.doc.approver;
 
       
 
@@ -145,10 +91,7 @@ angular.module('starter.controllers')
         if(resp.status == 200){ $scope.creator = resp.data; }
         else{ $scope.creator = "Not available"; }
       });
-      UserFactory.getUser($scope.doc.approver).then(function(resp){
-        if(resp.status == 200){ $scope.approver = resp.data; }
-        else{ $scope.approver = "Not available"; }
-      });
+    
 
       $scope.closeUploadedFiles = function(){
         $scope.showUploadedFileList = function(){
@@ -166,13 +109,6 @@ angular.module('starter.controllers')
           $scope.numberOfFiles = $scope.uploadFileDetail.length;
           }
       })
-        
-
-    }
-    else{ console.log('cannot reach '+BackendPath.documentServicePath) }
-        
-  });
-
 
     $scope.reviewtext = "";
     $scope.approve = function(){
@@ -182,26 +118,44 @@ angular.module('starter.controllers')
       ApproverListFactory.approve($stateParams.docId).then(function(resp){
         if(resp.status == 200){
           console.log(resp.data)
-          DocumentFactory.changeApprover($stateParams.docId, resp.data).then(function(resp){
+          if(resp.data == "done"){
+            ReviewService.approve($stateParams.docId,approverId,$scope.reviewtext);
+            ReviewService.changeDocumentToApprove($stateParams.docId);
+          }
+          else {
+            DocumentFactory.changeApprover($stateParams.docId, resp.data).then(function(resp){
             if(resp.status == 200){
               console.log('changed approver')
+              ReviewService.approve($stateParams.docId,approverId,$scope.reviewtext);
             }
             else {
               console.log(resp.status)
             }
           })
+
+          }
+          
         }
         else {
           console.log('cannot reach -> approve on ApproverList')
-          console.log(resp)
+          
 
         }
       })
-      ReviewService.approve($stateParams.docId,approverId,$scope.reviewtext);
+      
 
     }
     $scope.reject = function(){
       ReviewService.reject($stateParams.docId,approverId,$scope.reviewtext);
     }
+        
+
+    }
+    else{ console.log('cannot reach '+BackendPath.documentServicePath) }
+        
+  });
+
+
+    
 
 })
