@@ -1,7 +1,7 @@
 angular.module('starter.controllers')
 .controller('EditDocumentCtrl', function($scope, $stateParams,$ionicHistory,$http, $window, $state,
   UserFactory, FileFactory, DocumentFactory,LoginService,
-  DocumentService, FolderService, FileService, Upload, BackendPath) {
+  DocumentService, FolderService, FileService, Upload, BackendPath, ApproverListFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -239,6 +239,14 @@ angular.module('starter.controllers')
                   $scope.savedDocData = resp.data;
                   FolderService.update($stateParams.folderId, $scope.doc.documentName);
                   DocumentService.editable(resp.data.documentId, true);
+                  ApproverListFactory.copy($stateParams.docId, resp.data.documentId).then(function(resp){
+                    if (resp.status == 200){
+                      console.log('copied approver list')
+                    }
+                    else {
+                      console.log('cannot copy approver list')
+                    }
+                  })
                   //Upload files
                   if(files && files.length){
                       for (var i = 0; i < files.length; i++) {
@@ -353,6 +361,14 @@ angular.module('starter.controllers')
                   FolderService.update($stateParams.folderId, $scope.doc.documentName);
                   FolderService.addDocument($stateParams.folderId, resp.data.documentId);
                   DocumentService.editable(resp.data.documentId, true);
+                  ApproverListFactory.copy($stateParams.docId, resp.data.documentId).then(function(resp){
+                    if (resp.status == 200){
+                      console.log('copied approver list')
+                    }
+                    else {
+                      console.log('cannot copy approver list')
+                    }
+                  })
 
                   //copy files
                   if($scope.files.length > 0){
@@ -485,6 +501,14 @@ angular.module('starter.controllers')
                   FolderService.update($stateParams.folderId, $scope.doc.documentName);
                   FolderService.addDocument($stateParams.folderId, resp.data.documentId);
                   DocumentService.editable(resp.data.documentId, true);
+                  ApproverListFactory.copy($stateParams.docId, resp.data.documentId).then(function(resp){
+                    if (resp.status == 200){
+                      console.log('copied approver list')
+                    }
+                    else {
+                      console.log('cannot copy approver list')
+                    }
+                  })
 
                   // get files
                   FileFactory.allFileDetail($stateParams.docId).then(function(resp){
