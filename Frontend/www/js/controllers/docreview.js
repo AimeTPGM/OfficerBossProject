@@ -127,6 +127,7 @@ angular.module('starter.controllers')
             if(resp.status == 200){
               console.log('changed approver')
               ReviewService.approve($stateParams.docId,approverId,$scope.reviewtext);
+              $window.location.href=('#/app/doclistforboss');
             }
             else {
               console.log(resp.status)
@@ -138,7 +139,7 @@ angular.module('starter.controllers')
         }
         else {
           console.log('cannot reach -> approve on ApproverList')
-          
+          console.log(resp)
 
         }
       })
