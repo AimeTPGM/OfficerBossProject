@@ -1,7 +1,7 @@
 angular.module('starter.controllers')
 .controller('EditDocumentCtrl', function($scope, $stateParams,$ionicHistory,$http, $window, $state,
   UserFactory, FileFactory, DocumentFactory,LoginService,
-  DocumentService, FolderService, FileService, Upload, BackendPath, ApproverListFactory) {
+  DocumentService, FolderService, FileService, Upload, BackendPath, ApproverListFactory, ReviewFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
@@ -79,8 +79,8 @@ angular.module('starter.controllers')
                   if($scope.doc.documentStatus == 'Draft'){
                     if(!$scope.savedDocData){
                       console.log("updating and submitting current draft : "+versionType)
-                      DocumentService.save($stateParams.docId,$scope.doc.name,$scope.doc.desc);
-                      FolderService.update($stateParams.folderId, $scope.doc.name);
+                      DocumentService.save($stateParams.docId,$scope.doc.documentName,$scope.doc.desc);
+                      FolderService.update($stateParams.folderId, $scope.doc.documentName);
                       DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[resp.data.currentApproverIdIndex])
                         .then(function(resp){
                           if(resp.status == 200){
@@ -95,8 +95,8 @@ angular.module('starter.controllers')
                     }
                     else{
                       console.log("updating and submitting current draft : "+versionType)
-                      DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
-                      FolderService.update($stateParams.folderId, $scope.doc.name);
+                      DocumentService.save($scope.savedDocData.documentId,$scope.doc.documentName,$scope.doc.desc);
+                      FolderService.update($stateParams.folderId, $scope.doc.documentName);
                       DocumentFactory.changeApprover($scope.savedDocData.documentId, resp.data.approverIdList[resp.data.currentApproverIdIndex])
                         .then(function(resp){
                           if(resp.status == 200){
@@ -117,17 +117,17 @@ angular.module('starter.controllers')
                         $scope.savedDocData = resp.data;
                         DocumentService.editable($stateParams.docId, false);
                         FolderService.update($stateParams.folderId, $scope.doc.documentName);
-                        FolderService.addDocument($stateParams.folderId, data.documentId);
+                        FolderService.addDocument($stateParams.folderId, $scope.savedDocData.documentId);
                         if($scope.files.length > 0){
                           for (var i = 0; i < $scope.files.length; i++) {
                             FileService.copy($stateParams.docId, $scope.savedDocData.documentId);
                           };
                         }
-                        ApproverListFactory.copy($stateParams.folderId, data.documentId).then(function(resp){
+                        ApproverListFactory.copy($stateParams.docId, $scope.savedDocData.documentId).then(function(resp){
                           if(resp.status == 200) {
                             console.log('copied approver list')
                             $scope.approverList = resp.data;
-                            DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[resp.data.currentApproverIdIndex])
+                            DocumentFactory.changeApprover($scope.savedDocData.documentId, resp.data.approverIdList[resp.data.currentApproverIdIndex])
                                 .then(function(resp){
                                   if(resp.status == 200){
                                     console.log(resp.data)
@@ -139,12 +139,12 @@ angular.module('starter.controllers')
 
                           }
                         })
-                        DocumentService.submit($scope.savedDocData.documentId);
+                        DocumentService.submit($scope.savedDocData.documentId, versionType);
                         $window.location.href=('#/app/doc');
                       })
                     }
                     else{
-                      DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
+                      DocumentService.save($scope.savedDocData.documentId,$scope.doc.documentName,$scope.doc.desc);
                       DocumentService.editable($scope.savedDocData.docId, false);
                       FolderService.update($stateParams.folderId, $scope.doc.documentName);
                       DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[resp.data.currentApproverIdIndex])
@@ -156,7 +156,7 @@ angular.module('starter.controllers')
                                     console.log('cannot change approver')
                                   }
                                 })
-                      DocumentService.submit($scope.savedDocData.documentId);
+                      DocumentService.submit($scope.savedDocData.documentId, versionType);
                       $window.location.href=('#/app/doc');
                     }
 
@@ -224,7 +224,7 @@ angular.module('starter.controllers')
             // if it have never been saved
             if(!$scope.savedDocData){
               // if there is no document name
-              if(!$scope.doc.name){ $scope.doc.name = "Untitled"; }
+              if(!$scope.doc.documentName){ $scope.doc.documentName = "Untitled"; }
               // if there is no description
               if(!$scope.doc.desc){ $scope.doc.desc = "no description";}
 
@@ -239,7 +239,7 @@ angular.module('starter.controllers')
                   $scope.savedDocData = resp.data;
                   FolderService.update($stateParams.folderId, $scope.doc.documentName);
                   DocumentService.editable(resp.data.documentId, true);
-                  ApproverListFactory.copy($stateParams.docId, resp.data.documentId).then(function(resp){
+                  ApproverListFactory.copy($stateParams.docId, $scope.savedDocData.documentId).then(function(resp){
                     if (resp.status == 200){
                       console.log('copied approver list')
                     }
@@ -286,7 +286,7 @@ angular.module('starter.controllers')
             } // if !$scope.savedDocData
             else{
               // if there is no document name
-              if(!$scope.doc.name){ $scope.doc.name = "Untitled"; }
+              if(!$scope.doc.documentName){ $scope.doc.documentName = "Untitled"; }
               // if there is no description
               if(!$scope.doc.desc){ $scope.doc.desc = "no description";}
               DocumentFactory.save($scope.savedDocData.docId, $scope.doc.documentName, $scope.doc.description)
@@ -345,7 +345,7 @@ angular.module('starter.controllers')
             // if it have never been saved
             if(!$scope.savedDocData){
               // if there is no document name
-              if(!$scope.doc.name){ $scope.doc.name = "Untitled"; }
+              if(!$scope.doc.documentName){ $scope.doc.documentName = "Untitled"; }
               // if there is no description
               if(!$scope.doc.desc){ $scope.doc.desc = "no description";}
 
@@ -361,7 +361,7 @@ angular.module('starter.controllers')
                   FolderService.update($stateParams.folderId, $scope.doc.documentName);
                   FolderService.addDocument($stateParams.folderId, resp.data.documentId);
                   DocumentService.editable(resp.data.documentId, true);
-                  ApproverListFactory.copy($stateParams.docId, resp.data.documentId).then(function(resp){
+                  ApproverListFactory.copy($stateParams.docId, $scope.savedDocData.documentId).then(function(resp){
                     if (resp.status == 200){
                       console.log('copied approver list')
                     }
@@ -461,7 +461,7 @@ angular.module('starter.controllers')
         $scope.save = function(){
           if ($scope.doc.documentStatus == 'Draft'){
             if(!$scope.savedDocData){
-              DocumentFactory.save($stateParams.docId, $scope.doc.name, $scope.doc.description).then(function(resp){
+              DocumentFactory.save($stateParams.docId, $scope.doc.documentName, $scope.doc.description).then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
                     $scope.showNotification = function(){
@@ -474,7 +474,7 @@ angular.module('starter.controllers')
               })
             }
             else{
-              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.name, $scope.doc.description).then(function(resp){
+              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.documentName, $scope.doc.description).then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
                     $scope.showNotification = function(){
@@ -490,18 +490,19 @@ angular.module('starter.controllers')
           } // if 'Draft'
           else{
             if(!$scope.savedDocData){
-              DocumentFactory.newEditDraft($stateParams.docId, $scope.doc.name, $scope.doc.description).then(function(resp){
+              DocumentFactory.newEditDraft($stateParams.docId, $scope.doc.documentName, $scope.doc.description).then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
                     $scope.showNotification = function(){
                       return true;
                   }
+                  console.log(resp.data)
                   $scope.savedDocData = resp.data;
                   DocumentService.editable($stateParams.docId, false);
                   FolderService.update($stateParams.folderId, $scope.doc.documentName);
                   FolderService.addDocument($stateParams.folderId, resp.data.documentId);
                   DocumentService.editable(resp.data.documentId, true);
-                  ApproverListFactory.copy($stateParams.docId, resp.data.documentId).then(function(resp){
+                  ApproverListFactory.copy($stateParams.docId, $scope.savedDocData.documentId).then(function(resp){
                     if (resp.status == 200){
                       console.log('copied approver list')
                     }
@@ -530,7 +531,7 @@ angular.module('starter.controllers')
                
             } // if !$scope.savedDocData
             else{
-              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.name, $scope.doc.description).then(function(resp){
+              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.documentName, $scope.doc.description).then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
                     $scope.showNotification = function(){
@@ -538,7 +539,15 @@ angular.module('starter.controllers')
                   }
                   $scope.savedDocData = resp.data;
                   FolderService.update($stateParams.folderId, $scope.doc.documentName);
-                  DocumentService.editable(resp.data.documentId, true);
+                  ApproverListFactory.copy($stateParams.docId, $scope.savedDocData.documentId).then(function(resp){
+                    if (resp.status == 200){
+                      console.log('copied approver list')
+                    }
+                    else {
+                      console.log('cannot copy approver list')
+                    }
+                  })
+                  DocumentService.editable($scope.savedDocData.documentId, true);
                 }
               })
             }
