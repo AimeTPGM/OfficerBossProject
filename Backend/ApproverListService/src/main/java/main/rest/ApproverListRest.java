@@ -112,7 +112,7 @@ public class ApproverListRest {
 		approverList = approverListDAO.readByDocumentId(copyFrom);
 		ApproverList tempApproverList = new ApproverList(copyTo, approverList.getApproverIdList(), 0);
 		approverListDAO.create(tempApproverList);
-		return Response.status(200).entity(approverList).build();
+		return Response.status(200).entity(tempApproverList).build();
 	}
 
 }
