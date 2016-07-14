@@ -75,9 +75,7 @@ public class ApproverListRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateApproverList(@QueryParam("documentId") String documentId, @QueryParam("approverIdList[]") List<String> approverIdList){
 		System.out.println("GET request : update approver");
-		for (int i = 0; i < approverIdList.size(); i++) {
-			System.out.println(approverIdList.get(i));
-		}
+		
 		ApproverList temp = new ApproverList(documentId, approverIdList, 0);
 		approverListDAO.update(documentId, temp);
 		System.out.println("GET request : updated!");
@@ -86,12 +84,25 @@ public class ApproverListRest {
 	
 	@GET
 	@Path("approve")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response approve(@QueryParam("documentId") String documentId){
 		approverList = approverListDAO.readByDocumentId(documentId);
-		approverList.approve();
-		approverListDAO.update(documentId, approverList);
-		return Response.status(200).entity(approverList.getApproverIdList().get(approverList.getCurrentApproverIdIndex())).build();
+		if(approverList != null){
+			approverList.approve();
+			approverListDAO.update(documentId, approverList);
+			if (approverList.getApproverIdList().size() == approverList.getCurrentApproverIdIndex()){
+				System.out.println("this document "+documentId+" review is done");
+				return Response.status(200).entity("done").build();
+			}
+			else{
+				System.out.println("return approver id: "+approverList.getApproverIdList().get(approverList.getCurrentApproverIdIndex()));
+				return Response.status(200).entity(approverList.getApproverIdList().get(approverList.getCurrentApproverIdIndex())).build();
+			}
+		}
+		else return Response.status(404).entity("ApproverList not found").build();
+		
+		
+		
 	}
 	
 	@GET
