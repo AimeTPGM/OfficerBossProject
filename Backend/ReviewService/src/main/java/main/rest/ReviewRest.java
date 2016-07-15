@@ -45,6 +45,7 @@ public class ReviewRest {
 		System.out.println("GET request : get review by document");
 		review = reviewDAO.readByDocument(id, approverId);
 		System.out.println("GET request : return review");
+		
 		return okStatus(review);
 	}
 	

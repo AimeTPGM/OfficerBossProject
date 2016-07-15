@@ -35,8 +35,9 @@ public class ReviewDAOImpl implements ReviewDAO{
 	public Review readByDocument(String id,String approverId) {
 		System.out.println("DAO: Querying review by document id:"+id);
 		Query query = new Query();
-		query.addCriteria(Criteria.where("documentId").is(id));
-		query.addCriteria(Criteria.where("approverId").is(approverId));
+		query.addCriteria(Criteria.where("documentId").is(id)
+				.andOperator(Criteria.where("approverId").is(approverId)));
+		
 		System.out.println("DAO: Return review");
 		return this.mongoOps.findOne(query, Review.class, COLLECTION);
 	}
