@@ -1,12 +1,12 @@
 angular.module('starter.controllers')
 .controller('DocumentReviewCtrl', function($scope, $stateParams,$ionicHistory, $http, $window, 
-  ReviewService, FileService, BackendPath,
+  ReviewService, FileService, BackendPath, LoginService,
   UserFactory, DocumentFactory, FileFactory, FolderFactory, ApproverListFactory, ReviewFactory) {
   $ionicHistory.nextViewOptions({
     disableBack: true
   });
 
-  var approverId = "";
+  var userId = LoginService.user.userId;
 
 
   FolderFactory.getFolder($stateParams.folderId).then(function(resp){
@@ -119,14 +119,14 @@ angular.module('starter.controllers')
         if(resp.status == 200){
           console.log(resp.data)
           if(resp.data == "done"){
-            ReviewService.approve($stateParams.docId,approverId,$scope.reviewtext);
+            ReviewService.approve($stateParams.docId,userId,$scope.reviewtext);
             ReviewService.changeDocumentToApprove($stateParams.docId);
           }
           else {
             DocumentFactory.changeApprover($stateParams.docId, resp.data).then(function(resp){
             if(resp.status == 200){
               console.log('changed approver')
-              ReviewService.approve($stateParams.docId,approverId,$scope.reviewtext);
+              ReviewService.approve($stateParams.docId,userId,$scope.reviewtext);
               $window.location.href=('#/app/doclistforboss');
             }
             else {
@@ -147,7 +147,7 @@ angular.module('starter.controllers')
 
     }
     $scope.reject = function(){
-      ReviewService.reject($stateParams.docId,approverId,$scope.reviewtext);
+      ReviewService.reject($stateParams.docId,userId,$scope.reviewtext);
     }
         
 
