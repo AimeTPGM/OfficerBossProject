@@ -13,35 +13,34 @@
 			<ui class="list">
 			<div class="item item-divider item-divider-calm">
 				<div class="row">
-					<div show-when="large" class="col col-25 vertical-center-list-text">Title</div>
+					<div show-when="large" class="col vertical-center-list-text">Title</div>
 					<div show-when="small" class="col col-80 vertical-center-list-text">Title</div>
-					<div show-when="large" class="col col-10 center-header vertical-center-list-text">Status</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Status</div>
 					<div show-when="large" class="col col-10 center-header vertical-center-list-text word-wrap">Version</div>
-					<div show-when="large" class="col col-10 center-header vertical-center-list-text">Approver</div>
-					<div show-when="large" class="col col-15 center-header vertical-center-list-text word-wrap">Last Modified</div>
+					
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">Last Modified</div>
 					<div class="col col-20 center-header vertical-center-list-text">Actions</div>
 				</div>
 			</div>
 				<li class="item" ng-repeat="document in documents" ng-class="isLast($last)">
 					<div class="row">
-					<div show-when="large" class="col col-25 vertical-center-list-text"> <a class="doclist-link" href="#/app/doc/{{folder.id}}/{{document.documentId}}">{{document.documentName | limitTo: 33 }}{{document.documentName.length > 33 ? '...' : ''}}</a></div>
+					<div show-when="large" class="col vertical-center-list-text"> <a class="doclist-link" href="#/app/doc/{{folder.id}}/{{document.documentId}}">{{document.documentName | limitTo: 33 }}{{document.documentName.length > 33 ? '...' : ''}}</a></div>
 					<div show-when="small" class="col col-80 vertical-center-list-text"><a class="doclist-link" href="#/app/doc/{{folder.id}}/{{document.documentId}}">{{document.documentName | limitTo: 25 }}{{document.documentName.length > 25 ? '...' : ''}}</a></div>
 					
 					<!-- For draft -->
-					<div show-when="large" class="col col-10 center-header vertical-center-list-text draft-status word-wrap" ng-if="document.documentStatus === 'Draft'">{{document.documentStatus}}</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text draft-status word-wrap" ng-if="document.documentStatus === 'Draft'">{{document.documentStatus}}</div>
 					<!-- For Waiting for approval -->
-					<div show-when="large" class="col col-10 center-header vertical-center-list-text waiting-for-approval-status word-wrap" ng-if="document.documentStatus === 'Waiting for Approval'">{{document.documentStatus}}</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text waiting-for-approval-status word-wrap" ng-if="document.documentStatus === 'Waiting for Approval'">{{document.documentStatus}}</div>
 					<!-- For Reject -->
-					<div show-when="large" class="col col-10 center-header vertical-center-list-text reject-status word-wrap" ng-if="document.documentStatus === 'Reject'">{{document.documentStatus}}</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text reject-status word-wrap" ng-if="document.documentStatus === 'Reject'">{{document.documentStatus}}</div>
 					<!-- For Approved -->
-					<div show-when="large" class="col col-10 center-header vertical-center-list-text approved-status word-wrap" ng-if="document.documentStatus === 'Approved'">{{document.documentStatus}}</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text approved-status word-wrap" ng-if="document.documentStatus === 'Approved'">{{document.documentStatus}}</div>
 					<!-- For Publish -->
-					<div show-when="large" class="col col-10 center-header vertical-center-list-text publish-status word-wrap" ng-if="document.documentStatus === 'Publish'">{{document.documentStatus}}</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text publish-status word-wrap" ng-if="document.documentStatus === 'Publish'">{{document.documentStatus}}</div>
 
 					<div show-when="large" class="col col-10 center-header vertical-center-list-text word-wrap">{{document.version}}</div>
 
-					<div show-when="large" class="col col-10 center-header vertical-center-list-text word-wrap">{{approver.lastname}} {{approver.firstname}}</div>
-					<div show-when="large" class="col col-15 center-header vertical-center-list-text word-wrap">{{document.lastModifiedDate}}</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{document.lastModifiedDate}}</div>
 					
 					<div show-when="large" class="col col-20" ng-if="!$last">
 						<!-- more detail button -->

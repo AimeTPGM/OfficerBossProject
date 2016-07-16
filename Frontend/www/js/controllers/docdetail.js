@@ -94,13 +94,15 @@ angular.module('starter.controllers')
                     .then(function(resp){
                       if(resp.status == 200){
                         console.log(resp.data)
+                        DocumentService.submit($stateParams.docId,versionType);
+                        $window.location.href=('#/app/doc');
                       }
                       else {
                         console.log('cannot determine firstApprover')
+                        $window.location.href=('#/app/doc');
                       }
                     })
-                    DocumentService.submit($stateParams.docId,versionType);
-                    $window.location.href=('#/app/doc');
+                    
                   }
                   else if(docStatus == 'Reject'){
                     $http({
@@ -125,13 +127,15 @@ angular.module('starter.controllers')
                         .then(function(resp){
                           if(resp.status == 200){
                             console.log(resp.data)
+                            DocumentService.submit(data.documentId,versionType);
+                            $window.location.href=('#/app/doc');
                           }
                           else {
                             console.log('cannot determine firstApprover')
+                            $window.location.href=('#/app/doc');
                           }
                         })
-                        DocumentService.submit(data.documentId,versionType);
-                        $window.location.href=('#/app/doc');
+                        
 
                       }).
                       error(function(data, status, headers, config) {

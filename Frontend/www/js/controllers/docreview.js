@@ -43,27 +43,29 @@ angular.module('starter.controllers')
                   if(resp.status == 200){ 
                     for (var j = 0; j < idList.length; j++) {
                       if (resp.data.userId == idList[j]) {
-                        idList[j] = resp.data;
-                        $scope.approverList[j] = idList[j];
+                       
+                        $scope.approverList[j] = resp.data;
+                        ReviewFactory.getReview($stateParams.docId, idList[j]).then(function(resp){
+                          if(resp.status == 200){ 
+                            console.log(resp)
+                            if(resp.data == ""){
+                              $scope.approverList[j].review = [];
+                              $scope.approverList[j].review.reviewStatus = "";
+                              $scope.approverList[j].review.reviewDesc = "Currently no data";
+                            }
+                            else if (resp.data.approverId == idList[j]) {
+                              $scope.approverList[j].review = [];
+                              $scope.approverList[j].review.reviewStatus  = resp.data.reviewStatus;
+                              $scope.approverList[j].review.reviewDesc = resp.data.reviewDesc;
+                             
+                            }
+                          }
+                          else{ $scope.creator = "Not available"; }
+                        });
                         break;
                       }
                     };
-                    ReviewFactory.getReview($stateParams.docId, idList[i]).then(function(resp){
-                    if(resp.status == 200){ 
-                    for (var j = 0; j < idList.length; j++) {
-                      if(resp.data == ""){
-                          $scope.approverList[j].review = "Pending";
-                      }
-                      else if (resp.data.approverId == idList[j]) {
-                          $scope.approverList[j].review  = resp.data.reviewStatus;
-                        break;
-                      }
-                    };
-
-                  }
-                  else{ $scope.creator = "Not available"; }
-                  
-                });
+                    
 
 
                   }
@@ -72,6 +74,7 @@ angular.module('starter.controllers')
                 });
                 
               };
+              
               
 
             }
