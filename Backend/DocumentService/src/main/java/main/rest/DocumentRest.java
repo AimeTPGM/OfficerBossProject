@@ -49,7 +49,7 @@ public class DocumentRest{
 	@Path("getDocuments")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDocuments() {
-		System.out.println("GET Request: getalldocuments");
+		System.out.println("GET Request: get all documents");
 		documents = documentDAO.getAllDocuments();
 		return okStatus(documents);
 	}
