@@ -29,7 +29,11 @@
           <button id="forgotpw" class="button button-clear" ng-click="goto('forgotpw')">Forgot Password?</button>
         </div>
         
-        <div>Temp: <button id="forgotpw" class="button button-clear" ng-click="goto('app.doclistforboss')">Document List for Boss</button></div>
+        <div>This user is:
+          <br>{{user.firstname}} {{user.lastname}}
+          <br>{{user.email}}
+          <br>{{user.userStatus}}
+        </div>
       </div>
     </div>
   </ion-content>
