@@ -14,6 +14,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+/* require async for http in loop*/
+var async = require('async');
 
 /* path of services */
 var documentServicePath = "http://localhost:8081/";
@@ -56,32 +58,32 @@ app.get('/review/:docId/:approverListId', function (req, res){
 	console.log('document id: '+docId)
 	console.log('approver list id id: '+approverListId)
 	console.log('=================================')
-
+	/* Step 1 get approver list */
 	requestify.get(approverListServicePath+'approverListByDocumentId?documentId='+docId).then(function(response){
 		console.log('✓ approver list')
 		finalResponse = response.getBody();
 		var approverIdList = response.getBody().approverIdList;
+		var reviews = [];
+
+		/* Step 2 get review's of each :approverId of :docId */
+		var q = async.queue(function (i) {
+			getEachReview(i);
+		}, 5);
 		var getEachReview = function(i){
 			requestify.get(reviewServicePath+'getReviewByDocument?documentId='+docId+'&&approverId='+approverIdList[i]).then(function(response){
 				console.log('✓ review by '+approverIdList[i]);
-				finalResponse.approverIdList[i] = response.getBody();
+				reviews.push(response.getBody());
+				if(i == approverIdList.length-1){
+					finalResponse.approverIdList = reviews;
+					console.log('--- END REQUEST ---')
+					res.json(finalResponse);
+				}
 			});
 		}
-
 		for (var i = 0; i < approverIdList.length; i++) {
-			getEachReview(i);
-			if(i == approverIdList.length - 1) res.json(finalResponse)
+			q.push(i);
 		};
-
-		
-		
-		
-
 	});
-	
-	// requestify.get(reviewServicePath+'getReviewByDocument?documentId='+docId+'&&approverId='+approverId).then(function(response){
-	// 	res.json(response.getBody());
-	// });
 });
 
 /* for officer */
@@ -109,34 +111,53 @@ app.get('/documentDetail/:folderId/:docId', function (req, res) {
 	requestify.get(documentServicePath+'getDocument?documentId='+docId).then(function(response) {
 		console.log('✓ document detail')
 		finalResponse = response.getBody();
-	/* Step 2 get user information from creator */
+		/* Step 2 get user information from creator */
 		var creatorId = response.getBody().creator;
 		requestify.get(userServicePath+'user?userId='+creatorId).then(function(response) {
 			console.log('✓ creator detail')
 			finalResponse.creator = response.getBody();
 
-	/* Step 3 get approver list from :docId */
+			/* Step 3 get approver list from :docId */
 			requestify.get(approverListServicePath+'approverListByDocumentId?documentId='+docId).then(function(response) {
 				console.log('✓ approver list id')
+				var approverIdList = [];
+				approverIdList = response.getBody().approverIdList;
 				finalResponse.approverList = {};
 				finalResponse.approverList.approverListId = response.getBody().id;                          // approverListId => id of this object
 				finalResponse.approverList.approverIdList = response.getBody().approverIdList;              // approverIdList => list of approverId
 				
-	/* Step 4 get all file detail */
+				/* Step 4 get all file detail */
 				requestify.get(fileServicePath+'allFileDetail?documentId='+docId).then(function(response) {
 					console.log('✓ files')
 					finalResponse.files = {};
 					finalResponse.files = response.getBody();
 					
-	/* Step 5 get folder detail */
+					/* Step 5 get folder detail */
 					requestify.get(folderServicePath+'folder?folderId='+folderId).then(function(response){
 						console.log('✓ folder detail')
 						finalResponse.folder = {};
 						finalResponse.folder.folderId = folderId;
 						finalResponse.folder.documentList = response.getBody().documentList;
-						console.log('--- END REQUEST ---')
-						res.json(finalResponse)
 
+						/* Step 6 get reviews */
+						var reviews = [];
+						var q = async.queue(function (i) {
+							getEachReview(i);
+						}, 5);
+						var getEachReview = function(i){
+							requestify.get(reviewServicePath+'getReviewByDocument?documentId='+docId+'&&approverId='+approverIdList[i]).then(function(response){
+								console.log('✓ review by '+approverIdList[i]);
+								reviews.push(response.getBody());
+								if(i == approverIdList.length-1){
+									finalResponse.approverList.approverIdList = reviews;
+									console.log('--- END REQUEST ---')
+									res.json(finalResponse);
+								}
+							});
+						}
+						for (var i = 0; i < approverIdList.length; i++) {
+							q.push(i);
+						};
 					});
 				});
 			});
@@ -213,8 +234,8 @@ app.post('/submit/reject', function (req, res) {
 	/* Step 1 create new edit draft */
 	requestify.post(documentServicePath+'newEditDraft',{
 		documentName: docName, 
-        description: description, 
-        documentId: docId
+		description: description, 
+		documentId: docId
 	})
 	.then(function(response){
 		var doc = response.getBody();
