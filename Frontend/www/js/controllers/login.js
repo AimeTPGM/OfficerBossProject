@@ -68,13 +68,12 @@ angular.module('starter.controllers')
         console.log(LoginService.user)
         console.log(data.firstname)
         console.log(data.lastname)
-        $scope.user = data;
-        // if (data.userStatus == 'Officer'){
-        //   $window.location.href=('#/app/doc');
-        // }
-        // else if(data.userStatus == 'Boss'){
-        //   $window.location.href=('#/app/doclistforboss'); 
-        // }
+        if (data.userStatus == 'Officer'){
+          $window.location.href=('#/app/doc');
+        }
+        else if(data.userStatus == 'Boss'){
+          $window.location.href=('#/app/doclistforboss'); 
+        }
       })
       .error(function(data, status, headers, config) {
         console.log($scope.email);
