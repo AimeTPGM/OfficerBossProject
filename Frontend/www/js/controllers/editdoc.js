@@ -12,7 +12,16 @@ angular.module('starter.controllers')
       return true;
     }
 
-  
+  $scope.addApprovers = function(){
+    $scope.showApproverList = function(){
+      return true;
+    }
+  }
+  $scope.hideApproverList = function(){
+    $scope.showApproverList = function(){
+      return false;
+    }
+  }
   $scope.closeUploadedFiles = function(){
     $scope.showUploadedFileList = function(){
       return false;
@@ -62,11 +71,16 @@ angular.module('starter.controllers')
       });
 
       $scope.approverList = [];
+      $scope.approverIdList = [];
       ApproverListFactory.getApproverList($stateParams.docId).then(function(resp){
             if(resp.status == 200){
               
               var idList = resp.data.approverIdList;
               $scope.approverList = idList;
+
+
+
+
               for (var i = 0; i < resp.data.approverIdList.length; i++) {
                 
                 UserFactory.getUser(resp.data.approverIdList[i]).then(function(resp){
@@ -75,6 +89,31 @@ angular.module('starter.controllers')
                       if (resp.data.userId == idList[j]) {
                        
                         $scope.approverList[j] = resp.data;
+
+                        UserFactory.getBosses().then(function(resp){
+                          if(resp.status == 200){ 
+                            
+                            $scope.select = {
+                              availableOptions: resp.data,
+                              selectedOption: {id: '0', name: 'Please Select ...'}
+                              };
+                              $scope.approverIdList = idList;
+                            $scope.addApprover = function(){
+                              $scope.approverList = $scope.approverList.concat([$scope.select.selectedOption]);
+                              $scope.approverIdList = $scope.approverIdList.concat([$scope.select.selectedOption.userId]);
+                              console.log($scope.approverIdList);
+                              
+
+                            }
+                            $scope.deleteApprover = function(index){
+                              $scope.approverList.splice(index, 1);
+                              $scope.approverIdList.splice(index, 1);
+                            }
+                          }
+                          else{ $scope.approvers = "Not available"; }
+                                  
+                        });
+
                         ReviewFactory.getReview($stateParams.docId, idList[j]).then(function(resp){
                           if(resp.status == 200){ 
                             console.log(resp)
@@ -96,6 +135,7 @@ angular.module('starter.controllers')
                       }
                     };
                     
+
 
 
                   }

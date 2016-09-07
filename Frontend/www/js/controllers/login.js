@@ -64,10 +64,7 @@ angular.module('starter.controllers')
        
         LoginService.setCredential(true, data);
         console.log(LoginService.credential)
-        console.log('this is the test for this presentation')
         console.log(LoginService.user)
-        console.log(data.firstname)
-        console.log(data.lastname)
         if (data.userStatus == 'Officer'){
           $window.location.href=('#/app/doc');
         }

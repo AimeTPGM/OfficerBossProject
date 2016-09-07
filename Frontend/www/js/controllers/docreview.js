@@ -105,20 +105,11 @@ angular.module('starter.controllers')
         FileService.download(fileId);
       }
 
-      $scope.showUploadedFiles = function(){
-        $scope.showUploadedFileList = function(){
-          return true;
-        }
-      }
-
       FileFactory.allFileDetail($stateParams.docId).then(function(resp){
         if(resp.status == 200){
           $scope.files = resp.data;
           console.log($scope.files)
-          $scope.numberOfFiles = $scope.files.length;
-          $scope.haveFiles = function(){
-            return true;
-          }
+          $scope.numberOfFiles = $scope.uploadFileDetail.length;
           }
       })
 

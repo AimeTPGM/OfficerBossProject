@@ -122,7 +122,7 @@ angular.module('starter.controllers')
     // if there is no description
     if(!$scope.doc.desc){ $scope.doc.desc = "no description";}
     console.log($scope.doc);
-
+      //doing middle layer
       $http({
         method: 'POST',
         url: BackendPath.documentServicePath+'/newDraft',
@@ -148,7 +148,7 @@ angular.module('starter.controllers')
               return true;
             }
             
-
+            //doing middlw layer
             //new Folder
             $http({
             method: 'POST',
