@@ -1,0 +1,216 @@
+<ion-view cache-view="false" view-title="Add Document">
+	<ion-content class="all-page-container">
+	
+	<div class="overlay" ng-show="showVersionSelector()">
+		<div class="version-button-wrapper">
+			<div class="button-wrapper">
+				<div class="header">
+					<h3>Please Select Update Version of the Document</h3>
+					<button class="button button-clear button-stable close-button icon ion-close" ng-click="hideVersionSelector()">
+					</button>
+				</div>
+				
+				<div class="row padding-0">
+					<div class="col col-50">
+						<button class="button button-full button-positive" ng-click="submit('minor')">Minor Update</button>
+					</div>
+					<div class="col col-50">
+						<button class="button button-full button-positive" ng-click="submit('major')">Major Update</button>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+	<div class="overlay" ng-show="showUploadedFileList()" id="approverListPopup">
+		<div class="file-detail-wrapper">
+			<div class="file-detail-content">
+				<div class="header"><h3>{{numberOfFiles}} Uploaded File</h3>
+					<button class="button button-stable button-clear icon ion-close close-button" ng-click="closeUploadedFiles()"></button>
+				</div>
+				<div class="file-list">
+					<ul class="list">
+					    <li class="item" ng-repeat="file in uploadFileDetail">
+					      <div class="row padding-0">
+					      <div class="delete-btn"><button class="button button-clear button-assertive icon ion-trash-a" ng-click="deleteFileById(file.id)"></button></div>
+
+					      <div class="filename">{{file.filename}}</div>
+					      </div>
+					    </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="overlay" ng-show="showApproverList()">	
+		<div class="version-button-wrapper">
+			<div class="button-wrapper">
+				<div class="header">
+					<h3>Please Select Approver(s)</h3>
+					<button class="button button-clear button-stable close-button icon ion-close" ng-click="hideApproverList()">
+					</button>
+				</div>
+				
+				<div class="row padding-0">
+					<div class="col-80">
+						
+						<select class="" name="mySelect" id="approver-list-selector"
+      ng-options="option.name for option in select.availableOptions" value="{{option.firstname}} {{option.lastname}}"
+      ng-model="select.selectedOption"></select>
+						
+					</div>
+					<div class="col-20">
+						<button class="button button-dark icon-left ion-plus" style="width: 90%;" ng-click="addApprover()">
+						  Add...
+						</button>
+					</div>
+					
+				</div>
+
+				<div class="approver-list-overlay">
+
+					
+						<div class="row header">
+							<div class="col-10">No.</div>
+							<div class="col-50">Name</div>
+							<div class="col-25">Email</div>
+							<div class="col-10">Remove</div>
+						</div>
+						<div class="approver-list-container">
+							<div class="row body" ng-repeat="approver in approverList track by $index">
+								<div class="col-10">{{$index+1}}</div>
+								<div class="col-50">{{approver.lastname}} {{approver.firstname}}</div>
+								<div class="col-25">{{approver.email}}</div>
+								<div class="col-10"><button class="button button-assertive button-clear icon ion-trash-a" ng-click="deleteApprover($index)"></button></div>
+							</div>
+						
+						</div>
+						
+						
+					
+				
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		
+
+		<div class="col col-80 center">
+			<h1 class="main-header" style="margin-top: 4vh;">Add New Document</h1>
+			<a href="#/app/doc" class="path-link">Back</a><span> / Add New Document</span>
+			<hr class="main-hr">
+			<div class="row">
+				<div class="col col-75 center">
+					
+					<form>
+						<div class="list">
+						  <label class="item item-input item-stacked-label">
+						    <span class="input-label">Document Name</span>
+						    <input type="text" placeholder="example: Document 01" ng-model="doc.name" required>
+						  </label>
+						  <label class="item item-input item-stacked-label">
+						    <div class="row padding-0"><span class="input-label">Upload Files</span></div>
+						    <div class="row row-center padding-0">
+						    	<div class="col-25">
+						    		<button class="button button-calm" ngf-select="upload($files)" multiple="multiple" style="margin-top: 15px;margin-bottom: 15px; width:90%;">Select File(s)</button>
+						    	</div>
+						    	<div style="margin-top: 10px;" ng-show="showUploading()">
+						    		<ion-spinner icon="spiral" style="margin-right: 10px;"></ion-spinner> Uploading
+						    	</div>
+						    	
+						    </div>
+						    
+						   
+
+							
+						  </label>
+						  <label class="item item-input item-stacked-label" style="padding-bottom: 15px;">
+						    <div class="row padding-0">
+						    	<span class="input-label">Uploaded Files</span></div>
+						    <div class="row row-center padding-0" style="margin-top: 10px;" ng-show="showNone()">
+						    	
+						    	<span style="margin-top: 5px;">None</span>
+
+						    </div>
+						    
+						    <div ng-show="haveFiles()">
+						    	<button class="button button-clear button-calm" ng-click="showUploadedFiles()">{{numberOfFiles}} Uploaded File (Click to see detail)</button>
+						    </div>
+						  </label>
+						  
+						 
+
+						
+						  <label class="item item-input item-stacked-label">
+						    <span class="input-label">Description</span>
+						    
+						    <textarea id="description" rows="10" placeholder="What is this document used for?" ng-model="doc.desc" required></textarea>
+
+						  </label>
+
+						  <label class="item item-input item-stacked-label">
+						    <span class="input-label">Approver List</span>
+
+						    
+						    
+						    <div class="row padding-0">
+							    <div class="col-25">
+							    		<button class="button button-calm" style="margin-top: 15px;margin-bottom: 15px; width:90%;" ng-click="addApprovers()">
+							    		<span>{{approverList.length}} Approver(s)</span></button>
+							    </div>
+							    
+							</div>
+						  </label>
+
+						</div>
+						<div class="save-notification" ng-show="showNotification()">
+						  <div class="text icon ion-ios-information">
+						    Sucessfully saved document : {{lastModifiedDate}}
+						  </div>
+						</div>
+
+						<div class="row padding-0" show-when="large">
+							<div class="col col-33 padding-0">
+								<button class="button button-full button-energized" ng-click="save()">
+								  Save Draft
+								</button>
+							</div>
+							<div class="col col-33 padding-0">
+								<button class="button button-full button-balanced" ng-click="selectVersion()">
+								  Submit
+								</button>
+							</div>
+							<div class="col col-33 padding-0">
+								<button class="button button-full button-assertive" ng-click="reset()">
+								  Reset
+								</button>
+							</div>
+						</div>
+						<div class="row" show-when="small">
+				
+								<button class="button button-full button-energized" ng-click="save()">
+								  Save Draft
+								</button>
+			
+								<button class="button button-full button-balanced" ng-click="selectVersion()">
+								  Submit
+								</button>
+			
+					
+								<button class="button button-full button-assertive" ng-click="reset()">
+								  Delete
+								</button>
+				
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	</ion-content>
+</ion-view>

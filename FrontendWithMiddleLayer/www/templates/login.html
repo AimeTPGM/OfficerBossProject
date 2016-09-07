@@ -1,0 +1,35 @@
+<ion-view cache-view="false" view-title="Login">
+  <ion-content>
+    <div class="row login">
+      <div class="col col-50 center">
+        <h1 class="main-header" style="margin-bottom: 2vh; text-align:center;">Document Management System</h1>
+        <form>
+          <div class="list">
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Email</span>
+              <input type="text" placeholder="Email" ng-model="$parent.email" name="email">
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Password</span>
+              <input type="password" placeholder="Password" ng-model="$parent.pw" name="password">
+            </label>
+          </div>
+          <div class="row padding-0">
+            <div class="col col-50 padding-0">
+              <button type="submit" class="button button-full button-positive" ng-click="login()" style="margin-right: 2.5px;">Login</button>
+            </div>
+            <div class="col col-50 padding-0">
+              <button type="submit" class="button button-full button-balanced" ng-click="goto('register')" style="margin-left: 2.5px;">Register</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="login-option-btn-wrapper">
+          <button class="button button-clear" ng-click="goto('app.publishdocument')">Continue as a Guest</button>
+          <button id="forgotpw" class="button button-clear" ng-click="goto('forgotpw')">Forgot Password?</button>
+        </div>
+      
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

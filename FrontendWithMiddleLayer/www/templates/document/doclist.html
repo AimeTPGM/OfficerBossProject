@@ -1,0 +1,114 @@
+<ion-view cache-view="false" view-title="Document Management">
+	<ion-content>
+	<div class="row">
+		<div class="col col-80 center">
+			<h1 class="main-header" style="margin-top: 4vh;">Document List</h1>
+			<hr class="main-hr">
+			<div show-when="large" class="row padding-0 header-action-button">
+
+				<div class="col col-20 padding-0">
+					
+					<a class="button button button-dark btn-new-task" href="#/app/doc/new">New Document </a>
+					
+				</div>
+				
+				<!-- <div class="col col-30 search">
+
+					<label class="item item-input">
+						<i class="icon ion-search placeholder-icon"></i>
+						<input type="text" placeholder="Search" ng-change="search()" ng-model="searchText">
+					</label>
+				
+				</div> -->
+			</div>
+
+
+				<div show-when="small" class="search btn-new-task padding-0">
+					<div class="row padding-0">
+						<a class="button button button-dark btn-new-task" href="#/app/doc/new">New Document </a>
+					</div>
+					<div class="row padding-0">
+						<label class="item item-input" style="width:100%;">
+							<i class="icon ion-search placeholder-icon"></i>
+							<input type="text" placeholder="Search" ng-change="search()" ng-model="searchText">
+						</label>
+						
+					</div>
+					
+						
+				</div>
+				<div class="search-box">
+							<ul class="list">
+    							<li class="item" ng-repeat="item in searchList">{{item.docmentName}}</li>
+    						</ul>
+						</div>
+
+
+			<ui class="list">
+			<div class="item item-divider item-divider-calm">
+				<div class="row">
+					<div show-when="large" class="col vertical-center-list-text">Title</div>
+					<div show-when="small" class="col col-85 vertical-center-list-text">Title</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Status</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Last Update</div>
+					<div show-when="large" class="col col-10 center-header vertical-center-list-text word-wrap">No. of History</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Action</div>
+				
+				</div>
+			</div>
+				<li class="item" ng-repeat="folder in folders">
+					<div class="row">
+
+					
+					
+						<a show-when="large" class="col vertical-center-list-text doclist-link" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}">{{folder.folderName}}</a>
+
+						<!-- For draft -->
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text draft-status word-wrap" ng-if="folder.lastDocData.documentStatus === 'Draft'">{{folder.lastDocData.documentStatus}}</div>
+						<!-- For Waiting for approval -->
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text waiting-for-approval-status word-wrap" ng-if="folder.lastDocData.documentStatus === 'Waiting for Approval'">{{folder.lastDocData.documentStatus}}</div>
+						<!-- For Reject -->
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text reject-status word-wrap" ng-if="folder.lastDocData.documentStatus === 'Reject'">{{folder.lastDocData.documentStatus}}</div>
+						<!-- For Approved -->
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text approved-status word-wrap" ng-if="folder.lastDocData.documentStatus === 'Approved'">{{folder.lastDocData.documentStatus}}</div>
+						<!-- For Publish -->
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text publish-status word-wrap" ng-if="folder.lastDocData.documentStatus === 'Publish'">{{folder.lastDocData.documentStatus}}</div>
+
+
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{folder.lastUpdate}}</div>
+						<div show-when="large" class="col col-10 center-header vertical-center-list-text">{{folder.numberOfDocuments}}</div>
+						<div show-when="large" class="col col-20">
+							<a class="button button-positive button-circle icon ion-eye" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}" title="See Detail"></a>
+							<button class="button button button-assertive button-circle icon ion-trash-a"
+							ng-if="folder.lastDocData.editable" title="Delete" ng-click="delete(folder.id)"></button>
+						</div>
+					
+
+					
+						<a show-when="small" class="col col-85 vertical-center-list-text doclist-link" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}">{{folder.folderName}}</a>
+						<button show-when="small" class="button button-clear button-assertive icon ion-trash-a" ng-if="folder.lastDocData.editable" title="Delete" ng-click="delete(folder.id)" style="margin-right:10px;"></button>
+						<a show-when="small" class="button button-calm" href="#/app/doc/{{folder.id}}/{{folder.lastDocId}}">More Detail</a>
+						
+		
+					
+					
+					
+					
+				</div>
+				</li>
+				<li class="item" ng-show="noDocument()">
+					<div style="text-align: center;color: #999;padding: 50px;">
+						There is no document yet, <a class="doclist-link" href="#/app/doc/new">create one</a>!
+					</div>
+				</li>
+				
+				<li class="item" ng-show="showNoConnection()">
+					<div style="text-align: center;color: #999;padding: 50px;">
+						We're sorry. The services are not available.
+					</div>
+				</li>
+		</ui>
+		</div>
+	</div>
+	</ion-content>
+</ion-view>
