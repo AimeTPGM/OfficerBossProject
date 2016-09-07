@@ -80,9 +80,8 @@ app.post('/login', function (req, res){
 	.fail(function(){
 		console.log('invalid username and password');
 		console.log(response.getCode());
-		console.log(response.getBody());
 		console.log('--- END REQUEST ---')
-		res.send();		
+		res.status(404).send('404 Not Found');		
 	});
 
 });
