@@ -26,7 +26,7 @@ angular.module('starter.controllers')
 
       $http({
         method: 'POST',
-        url: Backend'',
+        url: BackendPath+'/login',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         transformRequest: function(obj) {
             var str = [];
@@ -49,11 +49,7 @@ angular.module('starter.controllers')
         }
       })
       .error(function(data, status, headers, config) {
-        console.log($scope.email);
-        console.log($scope.pw);
         console.log(data);
-        console.log(headers);
-        console.log('cannot reach user-service port 8082');
       });
       
 
