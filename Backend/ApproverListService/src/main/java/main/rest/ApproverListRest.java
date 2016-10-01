@@ -1,6 +1,5 @@
 package main.rest;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -113,6 +112,14 @@ public class ApproverListRest {
 		ApproverList tempApproverList = new ApproverList(copyTo, approverList.getApproverIdList(), 0);
 		approverListDAO.create(tempApproverList);
 		return Response.status(200).entity(tempApproverList).build();
+	}
+	
+	@GET
+	@Path("deleteByDocumentId")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response delete(@QueryParam("documentId") String documentId){
+		approverListDAO.deleteByDocumentId(documentId);
+		return Response.status(200).build();
 	}
 
 }

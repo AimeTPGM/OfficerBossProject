@@ -13,6 +13,7 @@
 <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
     <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
 </bean>
+
 <bean id="publishDocumentDAO" class="mongodb.dao.PublishDocumentDAOImpl">
     <constructor-arg name="mongoOps" ref="mongoTemplate"/>
 </bean>

@@ -98,7 +98,7 @@ public class FileRest {
 	public Response getAllFileDetail(@QueryParam("documentId") String id){
 		List<MyFile> temp = new ArrayList<MyFile>();
 		temp = fileDAO.readAllByDocumentId(id);
-		if(temp == null) return Response.status(404).entity("File not Found").build();
+		if(temp == null) return Response.status(200).entity(temp).build();
 		List<MyFileWithoutIS> files = new ArrayList<MyFileWithoutIS>();
 		for (int i = 0; i < temp.size(); i++) {
 			System.out.println(temp.get(i).getFilename());

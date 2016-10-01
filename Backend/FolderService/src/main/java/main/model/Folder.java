@@ -87,4 +87,18 @@ public class Folder {
 		return this.creatorId;
 	}
 
+	public String toString(){
+		String temp = "";
+		for (int i = 0; i < documentIdList.size(); i++) {
+			if(i == documentIdList.size()-1) temp += documentIdList.get(i);
+			else temp += documentIdList.get(i)+", ";
+			
+		}
+		return "id: "+this.id+
+				"\nname: "+this.folderName+
+				"\nlastUpdate: "+this.lastUpdate+
+				"\ncreatorId: "+this.creatorId+
+				"\nno. of doc: "+this.numberOfDocument+
+				"\ndoclist: "+temp;
+	}
 }

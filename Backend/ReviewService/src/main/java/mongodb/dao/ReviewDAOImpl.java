@@ -62,9 +62,9 @@ public class ReviewDAOImpl implements ReviewDAO{
 		System.out.println("DAO: Querying review id:"+id);
 		Query query = new Query(Criteria.where("documentId").is(id));
 		System.out.println("DAO: Deleting review id:"+id);
-        WriteResult result = this.mongoOps.remove(query, Review.class, COLLECTION);
+        List<Review> result = this.mongoOps.findAllAndRemove(query, Review.class, COLLECTION);
         System.out.println("DAO: Deleted!");
-        return result.getN();
+        return result.size();
 	}
 
 }

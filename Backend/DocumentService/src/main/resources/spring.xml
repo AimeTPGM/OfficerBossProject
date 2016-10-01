@@ -13,10 +13,8 @@
 <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
     <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
 </bean>
+
 <bean id="documentDAO" class="mongodb.dao.DocumentDAOImpl">
-    <constructor-arg name="mongoOps" ref="mongoTemplate"/>
-</bean>
-<bean id="userDAO" class="mongodb.dao.UserDAOImpl">
     <constructor-arg name="mongoOps" ref="mongoTemplate"/>
 </bean>
 </beans>

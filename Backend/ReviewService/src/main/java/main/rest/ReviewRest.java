@@ -33,19 +33,13 @@ public class ReviewRest {
 		return Response.status(200).entity(obj).build();
 	}
 	
-	public Response notFoundStatus(Object obj){
-		return Response.status(404).entity(obj).build();
-	}
-	
-	
 	@GET
-	@Path("getReviewByDocument")
+	@Path("getReviewByDocumentId")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getReviewByDocumentId(@QueryParam("documentId") String id, @QueryParam("approverId") String approverId) {
 		System.out.println("GET request : get review by document");
 		review = reviewDAO.readByDocument(id, approverId);
 		System.out.println("GET request : return review");
-		
 		return okStatus(review);
 	}
 	
@@ -62,7 +56,6 @@ public class ReviewRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getReview(@QueryParam("reviewId") String id) {
 		review = reviewDAO.readByReviewId(id);
-		if(review == null) return notFoundStatus("404 Review not Found");
 		return okStatus(review);
 	}
 	

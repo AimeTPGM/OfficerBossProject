@@ -88,7 +88,7 @@ public class DocumentRest{
 			) {
 		System.out.println("GET Request: newdraft");
 		
-		document = new Document(name, description, new Date(), new Draft(), creatorId,0,0,false);
+		document = new Document(name, description, new Date(), new Draft(), creatorId,0,0,true);
 		documentDAO.create(document);
 		
 		return okStatus(document);
@@ -124,6 +124,7 @@ public class DocumentRest{
 		document.setDocumentName(name);
 		document.setDescription(description);
 		document.setLastModifiedDate(new Date());
+		document.setEditable(true);
 		documentDAO.update(document);
 		return okStatus(document);
 	}
@@ -237,8 +238,9 @@ public class DocumentRest{
 			) {
 		System.out.println("GET Request: newdraft");
 		document = documentDAO.readById(documentId);
-		
-		Document newDocument = new Document(name, description, new Date(), new Draft(), document.getCreator(),document.getMajorVersion(),document.getMinorVersion(),false);
+		document.setEditable(false);
+		documentDAO.update(document);
+		Document newDocument = new Document(name, description, new Date(), new Draft(), document.getCreator(),document.getMajorVersion(),document.getMinorVersion(),true);
 		documentDAO.create(newDocument);
 		
 		return okStatus(newDocument);
@@ -263,7 +265,7 @@ public class DocumentRest{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response changeApprover(
 			@QueryParam("documentId") String id, @QueryParam("approverId") String approverId) {
-		System.out.println("GET Request: change approver");
+		System.out.println("GET Request: change approver to "+approverId);
 		document = documentDAO.readById(id);
 		if (document == null) return notFoundStatus("404 Document not Found");
 		document.setApproverId(approverId);

@@ -41,6 +41,18 @@ public class Document {
 		setLastModifiedDate(date);
 	}
 	
+	public Document(String documentId, String name, String description,String createdDate, String lastModifiedDate, String status, String creatorId, String approverId, String version, String editable){
+		this.documentId = documentId;
+		this.name = name;
+		this.description = description;
+		this.creatorId = creatorId;
+		this.approverId = approverId;
+		this.version = version;
+		this.createdDate = createdDate;
+		this.lastModifiedDate = lastModifiedDate;
+		this.status = status;
+	}
+	
 	
 	public boolean isEditable() {
 		return editable;
@@ -127,6 +139,19 @@ public class Document {
 
 	public void setApproverId(String approverId) {
 		this.approverId = approverId;
+	}
+	
+	public String toString(){
+		return "id: "+this.documentId+
+				"\nname: "+this.name+
+				"\ndesc: "+this.description+
+				"\nstatus: "+this.status+
+				"\ncreated date: "+this.createdDate+
+				"\nlast modified: "+this.lastModifiedDate+
+				"\nversion: "+this.version+
+				"\ncreator id: "+this.creatorId+
+				"\napprover id: "+this.approverId+
+				"\neditable: "+this.editable;
 	}
 
 }
