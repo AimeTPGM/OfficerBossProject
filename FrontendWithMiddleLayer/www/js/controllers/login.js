@@ -26,7 +26,7 @@ angular.module('starter.controllers')
 
       $http({
         method: 'POST',
-        url: BackendPath+'/login',
+        url: BackendPath.middleLayer+'/login',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         transformRequest: function(obj) {
             var str = [];
@@ -37,7 +37,7 @@ angular.module('starter.controllers')
         data: {email:$scope.email, password:$scope.pw}
       })
       .success(function(data, status, headers, config) {
-       
+        console.log('successful')
         LoginService.setCredential(true, data);
         console.log(LoginService.credential)
         console.log(LoginService.user)
@@ -49,6 +49,9 @@ angular.module('starter.controllers')
         }
       })
       .error(function(data, status, headers, config) {
+        console.log('fail')
+        console.log(headers);
+        console.log(status);
         console.log(data);
       });
       

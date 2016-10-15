@@ -6,6 +6,11 @@ angular.module('starter.controllers')
     disableBack: true
   });
 
+  $scope.showUploadedFiles = function(){
+    $scope.showUploadedFileList = function(){
+      return true;
+    }
+  }
   var userId = LoginService.user.userId;
 
 
@@ -109,7 +114,10 @@ angular.module('starter.controllers')
         if(resp.status == 200){
           $scope.files = resp.data;
           console.log($scope.files)
-          $scope.numberOfFiles = $scope.uploadFileDetail.length;
+          $scope.numberOfFiles = $scope.files.length;
+          $scope.haveFiles = function(){
+            return true;
+          }
           }
       })
 

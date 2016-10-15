@@ -8,7 +8,7 @@ angular.module('starter.controllers')
   this.folderServicePath = "http://localhost:8085";
   this.publishDocumentServicePath = "http://localhost:8086";
   this.approverListServicePath = "http://localhost:8087";
-  this.middleLayerServicePath = "http://localhost:7777";
+  this.middleLayer = "http://localhost:7777";
 
 
 })
