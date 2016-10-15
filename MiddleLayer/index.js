@@ -35,7 +35,7 @@ app.listen(port, function() {
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8100');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -69,9 +69,13 @@ app.get('/', function (req, res) {
 app.post('/login', function (req, res){
 	var email = req.body.email;
 	var password = req.body.password;
-	requestify.post(userServicePath+'login', {
-		email: email,
-		password: password
+	requestify.request(userServicePath+'login', {
+		method: 'POST',
+		body: { 
+			email: email,
+			password: password
+		},
+        dataType: 'form-url-encoded'
 	})
 	.then(function (response){
 		console.log('--- END REQUEST ---');
@@ -79,7 +83,6 @@ app.post('/login', function (req, res){
 	})
 	.fail(function(){
 		console.log('invalid username and password');
-		console.log(response.getCode());
 		console.log('--- END REQUEST ---')
 		res.status(404).send('404 Not Found');		
 	});
@@ -104,7 +107,7 @@ app.post('/register', function (req, res){
 
 	if (role == 'officer'){
 		requestify.post(userServicePath+'newOfficer',{
-			user: user;
+			user: user
 		})
 		.then(function (response){
 			console.log('--- END REQUEST ---');
@@ -113,7 +116,7 @@ app.post('/register', function (req, res){
 	}
 	else if (role == 'boss'){
 		requestify.post(userServicePath+'newBoss',{
-			user: user;
+			user: user
 		})
 		.then(function (response){
 			console.log('--- END REQUEST ---');
@@ -154,7 +157,7 @@ app.get('/review/:docId/:approverListId', function (req, res){
 			getEachReview(i);
 		}, 5);
 		var getEachReview = function(i){
-			requestify.get(reviewServicePath+'getReviewByDocument?documentId='+docId+'&&approverId='+approverIdList[i]).then(function (response){
+			requestify.get(reviewServicePath+'getReviewByDocumentId?documentId='+docId+'&&approverId='+approverIdList[i]).then(function (response){
 				console.log('✓ review by '+approverIdList[i]);
 				reviews.push(response.getBody());
 				if(i == approverIdList.length-1){
@@ -222,38 +225,41 @@ app.get('/documentDetail/:folderId/:docId', function (req, res) {
 						finalResponse.folder = {};
 						finalResponse.folder.folderId = folderId;
 						finalResponse.folder.documentList = response.getBody().documentList;
-
-						/* Step 6 get reviews */
-						var reviews = [];
-						var q = async.queue(function (i) {
-							getEachReview(i);
-						}, 3);
-						var getEachReview = function(i){
-							requestify.get(reviewServicePath+'getReviewByDocument?documentId='+docId+'&&approverId='+approverIdList[i]).then(function (response){
-								console.log('✓ review by '+approverIdList[i]);
-								reviews.push(response.getBody());
-								if(i == approverIdList.length-1){
-									finalResponse.approverList.approverIdList = reviews;
-									
-									/* Step 7 get approvers' detail */ 
-									for (var i = 0; i < Things.length; i++) {
-										Things[i]
-									};
-
-									console.log('--- END REQUEST ---')
-									res.json(finalResponse);
-								}
-							});
+						res.json(finalResponse);
+						if(approverIdList.length == 0){
+							console.log('--- END REQUEST ---')
+							res.json(finalResponse);
 						}
-						for (var i = 0; i < approverIdList.length; i++) {
-							q.push(i);
-						};
+						else{
+							/* Step 6 get reviews */
+							var reviews = [];
+							var q = async.queue(function (i) {
+								getEachReview(i);
+							}, 3);
+							var getEachReview = function(i){
+								requestify.get(reviewServicePath+'getReviewByDocumentId?documentId='+docId+'&&approverId='+approverIdList[i]).then(function (response){
+									console.log('✓ review by '+approverIdList[i]);
+									reviews.push(response.getBody());
+									if(i == approverIdList.length-1){
+										finalResponse.approverList.approverIdList = reviews;
+	
+										console.log('--- END REQUEST ---')
+										res.json(finalResponse);
+									}
+								});
+							}
+							for (var i = 0; i < approverIdList.length; i++) {
+								q.push(i);
+							};
+
+						}
 					});
 				});
 			});
 		});
 	});
 });
+
 
 // TOTEST
 /* for officer */
@@ -337,7 +343,7 @@ app.post('/submit/reject', function (req, res) {
 		/* Step 2 set :docId to editable:false */
 		requestify.get(documentServicePath+'editable?documentId='+docId+'&&editable='+editable).then(function (response){
 			console.log('✓ changed editable to '+editable)
-			
+			å
 			/* Step 3 add step1.response.documentId to :folderId */
 			requestify.get(folderServicePath+'addDocument?folderId='+folderId+'&documentId='+doc.documentId).then(function (response){
 				console.log('✓ added this document to folder')
@@ -387,9 +393,13 @@ app.post('/new/draft', function (req, res) {
 
 	/* Step 1 create a new docment status:draft */
 	requestify.post(documentServicePath+'newDraft',{
-		documentName: docName,
-		description: description,
-		creatorId: creatorId;
+		method: 'POST',
+		body: { 
+			documentName: docName,
+			description: description,
+			creatorId: creatorId
+		},
+        dataType: 'form-url-encoded'
 	})
 	.then(function (response){
 		console.log('✓ created new draft document');
@@ -490,19 +500,27 @@ app.post('/submit/newDraft', function (req, res) {
 	console.log('=================================')
 
 	/* Step 1 create a new docment status:draft */
-	requestify.post(documentServicePath+'newDraft',{
-		documentName: docName,
-		description: description,
-		creatorId: creatorId;
+	requestify.request(documentServicePath+'newDocument', {
+		method: 'POST',
+		body: { 
+			documentName: docName,
+			description: description,
+			creatorId: creatorId
+		},
+        dataType: 'form-url-encoded'
 	})
 	.then(function (response){
 		console.log('✓ created new draft document');
 		var doc = request.getBody();
-
+		console.log(doc);
 		/* Step 2 create folder */
-		requestify.post(folderServicePath+'createFolder',{
-			folderName: docName,
-			creatorId: creatorId
+		requestify.request(folderServicePath+'createFolder', {
+			method: 'POST',
+			body: { 
+				folderName: description,
+				creatorId: creatorId
+			},
+	        dataType: 'form-url-encoded'
 		})
 		.then(function (response){
 			console.log('✓ created new folder');
@@ -694,31 +712,58 @@ app.get('/doclist/officer/:userId', function (req, res){
 
 	/* Step 1 get folders those are created by userId */
 	requestify.get(folderServicePath+'getFolderByCreatorId?creatorId='+userId).then(function (response){
-		console.log('✓ get folders: '+docId);
-		finalResponse = folders;
-
-		/* Step 2 get documents for last document id */
+		console.log('✓ get folders of '+userId);
+		finalResponse = response.getBody();
 		var folders = response.getBody();
-
-		var q = async.queue(function (docId, i) {
-			getEachDocument(docId, i);
-		}, 3);
-		var getEachDocument = function(docId, i){
-			requestify.get(documentServicePath+'getDocument?documentId='+docId).then(function (response){
-				console.log('✓ get document: '+docId);
-				finalResponse[i].lastDocData = [];
-				finalResponse[i].lastDocData.push(response.getBody());
-				if(i == folders.length-1){
-					console.log('--- END REQUEST ---')
-					res.json(finalResponse);
-				}
-			});
+		
+		if(folders.length == 0){
+			res.json(finalResponse);
+			console.log('0 folders')
+			console.log('--- END REQUEST ---')
 		}
-		for (var i = 0; i < folders.length; i++) {
-			var index = folders[i].documentList.length - 1;
-			var id = folders[i].documentList[index];
-			q.push(id, i);
-		};
+		// else if(folders.length == 1){
+		// 	var index = folders[0].documentList.length - 1;
+		// 	var docId = folders[0].documentList[index];
+		// 	requestify.get(documentServicePath+'getDocument?documentId='+docId).then(function (response){
+		// 		console.log('✓ get document: '+docId);
+		// 		finalResponse.lastDocData = [];
+		// 		finalResponse.lastDocData = response.getBody();
+		// 		console.log('1 folders')
+		// 		console.log('--- END REQUEST ---')
+		// 		res.json(finalResponse);
+		// 	});
+		// }
+		else {
+			console.log('had folder(s)')
+			var i = 0;
+			var j = 0;
+			/* Step 2 get documents for last document id */
+			var q = async.queue(function (docId) {
+				console.log('here')
+				getEachDocument(docId);
+			}, 3);
+			var getEachDocument = function(docId){
+				requestify.get(documentServicePath+'getDocument?documentId='+docId).then(function (response){
+					console.log('✓ get document: '+docId);
+					finalResponse[j].lastDocData = [];
+					finalResponse[j].lastDocData.push(response.getBody());
+					j = increment();
+					if(j == folders.length){
+						console.log('--- END REQUEST ---')
+						res.json(finalResponse);
+					}
+				});
+			}
+			var increment = function(){
+				j++;
+				return j;
+			}
+			for (i = 0; i < folders.length; i++) {
+				var index = folders[i].documentList.length - 1;
+				var id = folders[i].documentList[index];
+				q.push(id);
+			};
+		}
 	});
 });
 
@@ -733,6 +778,11 @@ app.get('/doclist/officer/:userId', function (req, res){
 app.get('/history/:folderId', function (req, res){
 	var folderId = req.params.folderId;
 	var finalResponse = [];
+	
+	console.log('=================================')
+	console.log('GET REQUEST: history')
+	console.log('=================================')
+
 	requestify.get(folderServicePath+'folder?folderId='+folderId).then(function (response){
 		finalResponse = response.getBody();
 
@@ -745,8 +795,8 @@ app.get('/history/:folderId', function (req, res){
 		var getEachDocument = function(i){
 			requestify.get(documentServicePath+'getDocument?documentId='+folder.documentList[i]).then(function (response){
 				console.log('✓ get document: '+folder.documentList[i]);
-				finalResponse[i].folder.documentList[i].push(response.getBody());
-				if(i == folders.length-1){
+				finalResponse.documentList[i] = response.getBody();
+				if(i == folder.documentList.length-1){
 					console.log('--- END REQUEST ---')
 					res.json(finalResponse);
 				}
