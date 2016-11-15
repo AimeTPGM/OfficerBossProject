@@ -352,13 +352,13 @@ angular.module('starter.controllers')
                   DocumentService.editable(resp.data.documentId, true);
              
 
-                  // // get files
-                  // FileFactory.allFileDetail($stateParams.docId).then(function(resp){
-                  //   if(resp.status == 200){ 
-                  //     $scope.files = resp.data; 
-                  //     $scope.numberOfFiles = $scope.files.length;
-                  //     }
-                  // })
+                  // get files
+                  FileFactory.allFileDetail($stateParams.docId).then(function(resp){
+                    if(resp.status == 200){ 
+                      $scope.files = resp.data; 
+                      $scope.numberOfFiles = $scope.files.length;
+                      }
+                  })
 
                   // Copy files
                   if($scope.files.length > 0){
@@ -436,7 +436,14 @@ angular.module('starter.controllers')
                   FolderService.update($stateParams.folderId, $scope.doc.documentName);
                   FolderService.addDocument($stateParams.folderId, resp.data.documentId);
                   DocumentService.editable(resp.data.documentId, true);
-          
+                  
+                  // get files
+                  FileFactory.allFileDetail($stateParams.docId).then(function(resp){
+                    if(resp.status == 200){ 
+                      $scope.files = resp.data; 
+                      $scope.numberOfFiles = $scope.files.length;
+                      }
+                  })
 
                   // Copy files
                   if($scope.files.length > 0){
