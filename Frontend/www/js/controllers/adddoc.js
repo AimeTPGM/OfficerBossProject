@@ -19,46 +19,6 @@ angular.module('starter.controllers')
   $scope.showNone = function(){
     return true;
   }
-  $scope.addApprovers = function(){
-    $scope.showApproverList = function(){
-      return true;
-    }
-  }
-  $scope.hideApproverList = function(){
-    $scope.showApproverList = function(){
-      return false;
-    }
-  }
-
-  UserFactory.getBosses().then(function(resp){
-    if(resp.status == 200){ 
-      
-      $scope.select = {
-        availableOptions: resp.data,
-        selectedOption: {id: '0', name: 'Please Select ...'}
-        };
-        $scope.approverList = [];
-        $scope.approverIdList = [];
-      $scope.addApprover = function(){
-        $scope.approverList = $scope.approverList.concat([$scope.select.selectedOption]);
-        $scope.approverIdList = $scope.approverIdList.concat([$scope.select.selectedOption.userId]);
-        console.log($scope.approverIdList);
-        
-
-      }
-      $scope.deleteApprover = function(index){
-        $scope.approverList.splice(index, 1);
-        $scope.approverIdList.splice(index, 1);
-      }
-    }
-    else{ $scope.approvers = "Not available"; }
-            
-  });
-
-  
-  
-  
-  
 
   $scope.deleteFileById = function(fileId){
     FileFactory.deleteByFileId(fileId).then(function(resp){
@@ -113,7 +73,6 @@ angular.module('starter.controllers')
       return false;
     }
   }
-  
   $scope.upload = function (files) {
     // if it never been uploaded
     if(!$scope.savedDocData){
@@ -169,6 +128,7 @@ angular.module('starter.controllers')
                 $scope.savedFolder = data;
                 FolderService.addDocument(data.id, $scope.savedDocData.documentId);
                 if(files && files.length){
+                  
                   for (var i = 0; i < files.length; i++) {
                     Upload.upload({
                         url: BackendPath.fileServicePath+'/upload',
@@ -376,18 +336,10 @@ angular.module('starter.controllers')
     
   }
 
-  $scope.selectVersion = function(){
-    $scope.showVersionSelector = function(){
-      return true;
-    }
 
 
-    /*
-    * Maybe we dont have to modify this 
-    * let's check 
-    */
-    $scope.submit = function(versionType){
-      console.log(versionType);
+      $scope.submit = function(){
+ 
       if(!$scope.savedDocData){
         // if there is no document name
         if(!$scope.doc.name){ $scope.doc.name = "Untitled"; }
@@ -429,28 +381,11 @@ angular.module('starter.controllers')
               console.log('sent POST request: add new folder');
               console.log(data);
               $scope.savedFolder = data;
-              ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverIdList).then(function(resp){
-                if(resp.status == 200){
-                  console.log(resp.data)
-                  DocumentFactory.changeApprover($scope.savedDocData.documentId, resp.data.approverIdList[0]).then(function(resp){
-                    if(resp.status == 200){
-                      console.log(resp.data)
-                    }
-                    else {
-                      console.log('cannot determine firstApprover')
-                    }
-                  })
-                }
-                else {
-                  console.log('cannot add approverlist')
-                }
-              })
+              
               console.log('adding new doc '+$scope.savedDocData.documentId)
               FolderService.addDocument(data.id, $scope.savedDocData.documentId);
-              console.log("submitting current document : "+versionType)
-              DocumentService.submit($scope.savedDocData.documentId,versionType);
               
-              $window.location.href=('#/app/doc');
+              $window.location.href=('#/app/doc/'+data.id+'/'+$scope.savedDocData.documentId+'/approver');
 
             
             }).
@@ -465,38 +400,11 @@ angular.module('starter.controllers')
 
       }
       else{
-        console.log("updating current document : "+versionType)
         DocumentService.save($scope.savedDocData.documentId,$scope.doc.name,$scope.doc.desc);
         FolderService.update($scope.savedFolder.id, $scope.doc.name);
-
-        ApproverListFactory.update($scope.savedDocData.documentId, $scope.approverIdList).then(function(resp){
-          if(resp.status == 200){
-            console.log(resp.data)
-            DocumentFactory.changeApprover($scope.savedDocData.documentId, resp.data.approverIdList[0]).then(function(resp){
-              if(resp.status == 200){
-                console.log(resp.data)
-              }
-              else {
-                console.log('cannot determine firstApprover')
-              }
-            })
-          }
-          else {
-            console.log('cannot add approverlist')
-          }
-        })
-        DocumentService.submit($scope.savedDocData.documentId,versionType);
-        $window.location.href=('#/app/doc');
+        $window.location.href=('#/app/doc/'+$scope.savedFolder.id+'/'+$scope.savedDocData.documentId+'/approver');
       }
     }
-
-
-    $scope.hideVersionSelector = function(){
-      $scope.showVersionSelector = function(){
-        return false;
-      }
-    }
-  }
 
   $scope.reset = function(){
     if(!$scope.savedDocData){
