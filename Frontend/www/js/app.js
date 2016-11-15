@@ -90,6 +90,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       }
     })
+    .state('app.approver', {
+      url: '/doc/:folderId/:docId/approver',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/document/approver.html',
+          controller: 'ApproverCtrl'
+        }
+      }
+    })
 
     .state('app.docdetail', {
       url: '/doc/:folderId/:docId',
