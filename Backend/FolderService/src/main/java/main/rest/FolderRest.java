@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -61,6 +62,8 @@ public class FolderRest {
 	
 	@POST
 	@Path("createFolder")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response createFolder(
 			@FormParam("folderName") String folderName,
 			@FormParam("creatorId") String creatorId){

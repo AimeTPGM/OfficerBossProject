@@ -94,13 +94,14 @@ public class DocumentRest{
 		return okStatus(document);
 	}
 	
-	@GET
+	@POST
 	@Path("newDocument")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createNewDocument(
-			@QueryParam("documentName") String name, 
-			@QueryParam("description") String description,
-			@QueryParam("creatorId") String creatorId) {
+			@FormParam("documentName") String name, 
+			@FormParam("description") String description,
+			@FormParam("creatorId") String creatorId) {
 		System.out.println("GET Request: newdocument");
 		document = new Document(name, description, new Date(), new WaitingForApproval(), creatorId, 0,0,false);
 		documentDAO.create(document);
