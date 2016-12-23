@@ -434,3 +434,33 @@
     width: 99%;
     border-radius: 4px;
 }
+
+.approver-selection-wrapper{
+	background: #387ef5;
+	height: 100vh;
+}
+
+.approver-selection-wrapper h1{
+	color: white;
+	font-size: 25px;
+	text-align: center;
+	margin-top: 40px;
+	margin-bottom: 20px;
+}
+
+.approver-selection-wrapper .selected-approver .list .item{
+	padding: 5px;
+}
+.approver-selection-wrapper .selected-approver .list .item .name{
+	margin-top: 15px;
+    padding-left: 5px;
+}
+
+circle {
+  stroke-width: 1.5px;
+}
+
+line {
+  stroke: #999;
+  stroke-width: 1.5px;
+}

@@ -34,6 +34,11 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     templateUrl: 'templates/register.html',
     controller: 'RegisterCtrl'
   })
+    .state('organization', {
+    url: '/org',
+    templateUrl: 'templates/org.html',
+    controller: 'OrgCtrl'
+  })
     .state('forgotpw', {
     url: '/forgotpw',
     templateUrl: 'templates/forgotpw.html',
