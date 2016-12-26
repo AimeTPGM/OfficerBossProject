@@ -38,7 +38,7 @@ angular.module('starter.controllers')
             if(resp.status == 200){
               var idList = resp.data.approverIdList;
               for (var i = 0; i < resp.data.approverIdList.length; i++) {
-                
+                console.log(resp.data.approverIdList[i]);
                 UserFactory.getUser(resp.data.approverIdList[i]).then(function(resp){
                   if(resp.status == 200){ 
                     for (var j = 0; j < idList.length; j++) {
@@ -91,7 +91,11 @@ angular.module('starter.controllers')
       
 
       UserFactory.getUser($scope.doc.creator).then(function(resp){
-        if(resp.status == 200){ $scope.creator = resp.data; }
+        if(resp.status == 200){
+
+         $scope.doc.creator = resp.data; 
+         console.log($scope.doc.creator)
+       }
         else{ $scope.creator = "Not available"; }
       });
     
@@ -109,7 +113,27 @@ angular.module('starter.controllers')
         if(resp.status == 200){
           $scope.files = resp.data;
           console.log($scope.files)
-          $scope.numberOfFiles = $scope.uploadFileDetail.length;
+          $scope.numberOfFiles = $scope.files.length;
+          if ($scope.numberOfFiles > 0){
+            $scope.haveFiles = function(){
+              return true;
+            }
+            $scope.showUploadedFiles = function(){
+              $scope.showUploadedFileList = function(){
+                return true;
+              }
+              $scope.closeUploadedFiles =function(){
+                $scope.showUploadedFileList = function(){
+                  return false;
+                }
+              }
+            }
+          }
+          else{
+            $scope.showNone = function(){
+              return true;
+            }
+          }
           }
       })
 
