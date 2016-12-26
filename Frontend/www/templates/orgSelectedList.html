@@ -1,0 +1,22 @@
+<div class="row padding-0">
+      <div class="col col-50 center">
+       <svg></svg>
+      </div>
+      <div class="col col-20 center approver-selection-wrapper">
+        <h1>Selected Approver</h1>
+        <div class="selected-approver">
+          <ul class="list">
+            <li class="item" ng-repeat="user in users">
+              <div class="row padding-0">
+                <div class="col col-80 padding-0 name">
+                  {{user.firstname}}
+                </div>
+                <div class="col col-20 padding-0">
+                  <button class="button button-assertive button-clear icon ion-trash-a"></button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
