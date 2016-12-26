@@ -1,12 +1,16 @@
 angular.module('starter.controllers')
 
 .directive('orgGraph', ['$window', function($window) {
+  
   function link(scope, elem, attrs) {
-  this.users = [];
-  var userArray = this.users;
-  var orgData=scope[attrs.graphData];
-	var d3 = $window.d3;
-	var width = 960,
+  scope.users = [];
+  
+  ngOnInit();
+  
+  function ngOnInit(){
+  var userArray = scope.users;
+  var d3 = $window.d3;
+  var width = 960,
     height = 500,
     radius = 6;
 
@@ -35,11 +39,12 @@ var div = d3.select("body").append("div")
             .style("border", "0px")
             .style("border-radius", "8px")
             .style("pointer-events", "none");
+
+
         d3.json("http://localhost:5001/nodeAndLink", function (error, json) {
             // d3.json("data.json", function(error, json) {
             if (error)
                 throw error;
-            console.log(userArray);
             var link = svg.selectAll("line")
                 .data(json.links)
                 .enter().append("line")
@@ -82,7 +87,6 @@ var div = d3.select("body").append("div")
                 .on("tick", tick)
                 .start();
             function mouseover(d) {
-                console.log("over " + d.firstname);
                 d3.select(this).attr("r", 10);
                 // d3.select(this).append("text")
                 //     .attr("class", "hover")
@@ -114,11 +118,12 @@ var div = d3.select("body").append("div")
             }
             function click(d) {
                 d3.select(this).attr("r", radius);
-                console.log(d);
                 console.log(d.firstname);
                 userArray.push(d);
                 console.log(userArray);
+                
             }
+
             function tick(e) {
                 var k = 6 * e.alpha;
                 // Push sources up and targets down to form a weak tree.
@@ -137,7 +142,16 @@ var div = d3.select("body").append("div")
                     .attr("x", function (d) { return d.x - (11 + d.firstname.length); })
                     .attr("y", function (d) { return d.y - 10; });
             }
+
         });
+  
+  
+  }
+  
+        
+        
+
+
   }
   return {
   	restrict: "EA",

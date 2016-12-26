@@ -39,6 +39,10 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     templateUrl: 'templates/org.html',
     controller: 'OrgCtrl'
   })
+    .state('orgstruct', {
+    url: '/orgstruct',
+    templateUrl: 'templates/orgSelectedList.html'
+  })
     .state('forgotpw', {
     url: '/forgotpw',
     templateUrl: 'templates/forgotpw.html',
@@ -50,6 +54,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
+    .state('app.preferences', {
+      url: '/preferences',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/preferences.html',
+          controller: 'PreferencesCtrl'
+        }
+      }
+    })
     .state('app.doc', {
       url: '/doc',
       views: {
