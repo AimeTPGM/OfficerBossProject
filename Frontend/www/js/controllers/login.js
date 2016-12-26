@@ -64,11 +64,19 @@ angular.module('starter.controllers')
         
     })
       .success(function(data, status, headers, config) {
-       
-        LoginService.setCredential(true, data);
-        console.log(LoginService.credential)
-        console.log(LoginService.user)
-        $window.location.href=('#/app/doc');
+        if (data.response == false){
+            console.log($scope.email);
+            console.log($scope.pw);
+            console.log(data);
+        }
+        else {
+            LoginService.setCredential(true, data);
+            console.log(LoginService.credential)
+            console.log(LoginService.user)
+            $window.location.href=('#/app/doc');
+            
+        }
+        
         // if (data.userStatus == 'Officer'){
         //   $window.location.href=('#/app/doc');
         // }

@@ -1,18 +1,30 @@
 angular.module('starter.controllers')
-.controller('OrgCtrl', function($scope, $document,  $ionicModal, $timeout, $state,$http,$window) {
+.controller('OrgCtrl', function($scope, $document,  $ionicModal, $timeout, $state,$http,$window,
+  ApproverListFactory, $stateParams, DocumentFactory, DocumentService) {
   $scope.goto=function(toState,params){ 
    $state.go(toState,params);
  }
 
+
+
  $scope.users = [];
  var userIdList = [];
-$scope.confirm = function(){
+  $scope.confirm = function(){
   console.log(userIdList);
   if(userIdList.length == 0){
     alert('Please select an approver');
   }
   else{
-    ApproverListFactory.addApproverList($stateParams.docId, userIdList).then(function(resp){
+    $scope.showVersionSelector = function(){
+      return true;
+    }
+    $scope.hideVersionSelector = function(){
+      $scope.showVersionSelector = function(){
+        return false;
+      }
+    }
+    $scope.submit = function(versionType){
+      ApproverListFactory.addApproverList($stateParams.docId, userIdList).then(function(resp){
         if(resp.status == 200){
           console.log(resp.data)
           DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[0]).then(function(resp){
@@ -31,7 +43,10 @@ $scope.confirm = function(){
           console.log('cannot add approverlist')
         }
       })
+    }
   }
+  
+  
 }
 $scope.deleteApprover = function(index){
   userIdList.splice(index, 1);

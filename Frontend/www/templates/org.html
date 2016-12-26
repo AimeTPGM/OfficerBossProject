@@ -1,6 +1,27 @@
 <ion-view cache-view="false" view-title="Organization Chart">
   <ion-content>
-
+  <div class="overlay" ng-show="showVersionSelector()">
+    <div class="version-button-wrapper">
+      <div class="button-wrapper">
+        <div class="header">
+          <h3>Please Select Update Version of the Document</h3>
+          <button class="button button-clear button-stable close-button icon ion-close" ng-click="hideVersionSelector()">
+          </button>
+        </div>
+        
+        <div class="row padding-0">
+          <div class="col col-50">
+            <button class="button button-full button-positive" ng-click="submit('minor')">Minor Update</button>
+          </div>
+          <div class="col col-50">
+            <button class="button button-full button-positive" ng-click="submit('major')">Major Update</button>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
     <div class="row padding-0">
       <div class="col col-50 center">
        <!-- <div org-graph></div> -->

@@ -34,15 +34,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     templateUrl: 'templates/register.html',
     controller: 'RegisterCtrl'
   })
-    .state('organization', {
-    url: '/org',
-    templateUrl: 'templates/org.html',
-    controller: 'OrgCtrl'
-  })
-    .state('orgstruct', {
-    url: '/orgstruct',
-    templateUrl: 'templates/orgSelectedList.html'
-  })
+    
     .state('forgotpw', {
     url: '/forgotpw',
     templateUrl: 'templates/forgotpw.html',
@@ -108,14 +100,28 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       }
     })
+    // .state('app.approver', {
+    //   url: '/doc/:folderId/:docId/approver',
+    //   views: {
+    //     'menuContent': {
+    //       templateUrl: 'templates/document/approver.html',
+    //       controller: 'ApproverCtrl'
+    //     }
+    //   }
+    // })
     .state('app.approver', {
       url: '/doc/:folderId/:docId/approver',
       views: {
         'menuContent': {
-          templateUrl: 'templates/document/approver.html',
-          controller: 'ApproverCtrl'
+          templateUrl: 'templates/org.html',
+          controller: 'OrgCtrl'
         }
       }
+    })
+    .state('organization', {
+      url: '/org',
+      templateUrl: 'templates/org.html',
+      controller: 'OrgCtrl'
     })
 
     .state('app.docdetail', {

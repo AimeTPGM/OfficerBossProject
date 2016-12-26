@@ -136,15 +136,7 @@ angular.module('starter.controllers')
                         data: {file: files[i], documentId: $scope.savedDocData.documentId}
                     }).then(function (resp) {
                        
-                       ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverIdList).then(function(resp){
-                        if(resp.status == 200){
-                          console.log(resp.data);
-                          
-                        }
-                        else {
-                          console.log('cannot add approverlist')
-                        }
-                       })
+                    
 
                         $scope.numberOfFiles++;
                         $scope.showNone = function(){
@@ -269,17 +261,7 @@ angular.module('starter.controllers')
             console.log(data);
             $scope.savedFolder = data;
             FolderService.addDocument(data.id, $scope.savedDocData.documentId);
-            ApproverListFactory.addApproverList($scope.savedDocData.documentId, $scope.approverIdList).then(function(resp){
-              if(resp.status == 200){
-                console.log(resp.data)
-              }
-              else {
-                console.log('cannot add approverlist')
-              }
-            })
-
-          
-          }).
+        }).
           error(function(data, status, headers, config) {
             console.log('cannot reach '+BackendPath.folderServicePath)
           });
@@ -317,14 +299,7 @@ angular.module('starter.controllers')
             FolderService.update($scope.savedFolder.id, $scope.doc.name);
             console.log('changing approver list')
             console.log($scope.approverIdList)
-            ApproverListFactory.update($scope.savedDocData.documentId, $scope.approverIdList).then(function(resp){
-              if(resp.status == 200){
-                console.log(resp.data)
-              }
-              else {
-                console.log('cannot update approverlist')
-              }
-            })
+            
           }).
           error(function(data, status, headers, config) {
             console.log('cannot reach '+BackendPath.documentServicePath)

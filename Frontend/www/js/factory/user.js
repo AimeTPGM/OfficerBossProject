@@ -5,7 +5,7 @@ angular.module('starter.controllers')
    var user = {};
 
    user.getUser = function(userId){
-    return $http.get(BackendPath.userServicePath+'/user?userId='+userId)
+    return $http.get(BackendPath.userServicePath+'/user/'+userId)
     .then(function(resp){
       return resp;
     }, function(resp){
@@ -22,15 +22,6 @@ angular.module('starter.controllers')
       return resp;
     })
      
-   }
-
-   user.getBosses = function(){
-    return $http.get(BackendPath.userServicePath+'/getBosses')
-    .then(function(resp){
-      return resp;
-    }, function(resp){
-      return resp;
-    })
    }
    
    return user;
