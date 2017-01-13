@@ -112,14 +112,6 @@ public class FileDAOImpl implements FileDAO{
 		
 		return temp;
 	}
-
-	public void deleteByDocumentId(String id) {
-		System.out.println("DAO: deleting file by document id: "+id);
-		BasicDBObject query = new BasicDBObject();
-		query.put("documentId", id);
-		gfs.remove(gfs.findOne(query));
-		System.out.println("DAO: deleted!");
-	}
 	
 	
 

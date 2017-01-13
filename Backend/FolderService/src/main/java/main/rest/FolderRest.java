@@ -74,6 +74,8 @@ public class FolderRest {
 	
 	@POST
 	@Path("update")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateFolder(
 			@FormParam("folderId") String id,
 			@FormParam("folderName") String folderName){
@@ -81,11 +83,13 @@ public class FolderRest {
 		folder.setFolderName(folderName);
 		folder.setLastUpdate(new Date());
 		folderDAO.update(folder);
+		System.out.println("updated folder");
 		return Response.status(200).entity(folder).build();
 	}
 	
 	@GET
 	@Path("addDocument")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response addDocument(@QueryParam("folderId") String id,
 			@QueryParam("documentId") String documentId){
 		folder = folderDAO.readById(id);
@@ -96,27 +100,10 @@ public class FolderRest {
 		return Response.status(200).entity(folder).build();
 	}
 	
-	@GET
-	@Path("deleteDocument")
-	public Response deleteDocument(@QueryParam("folderId") String id, 
-			@QueryParam("documentId") String documentId){
-		folder = folderDAO.readById(id);
-		List<String> temp = folder.getDocumentList();
-		for (int i = 0; i < temp.size(); i++) {
-			if(temp.get(i).equals(documentId)) {
-				temp.remove(i);
-				break;
-			}
-		}
-		folder.setNumberOfDocument(temp.size());
-		folder.setDocumentList(temp);
-		folder.setLastUpdate(new Date());
-		folderDAO.update(folder);
-		return Response.status(200).entity(folder).build();
-	}
 	
 	@GET
 	@Path("deleteById")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteById(@QueryParam("folderId") String id){
 		folderDAO.delete(id);
 		String response = "deleted!";
@@ -125,6 +112,7 @@ public class FolderRest {
 	
 	@GET
 	@Path("getFolderByDocumentId")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getFolderByDocumentId(@QueryParam("documentId") String id){
 		folder = folderDAO.readByDocumentId(id);
 		return Response.status(200).entity(folder).build();

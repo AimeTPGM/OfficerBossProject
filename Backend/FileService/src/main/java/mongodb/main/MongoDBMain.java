@@ -8,7 +8,7 @@ public class MongoDBMain {
     public static final String DB_NAME = "filetest";
     public static final String COLLECTION = "filetestonly";
     public static final String MONGO_HOST = "localhost";
-    public static final int MONGO_PORT = 27020;
+    public static final int MONGO_PORT = 27017;
     private static MongoClient mongo;
  
     public static void run() {

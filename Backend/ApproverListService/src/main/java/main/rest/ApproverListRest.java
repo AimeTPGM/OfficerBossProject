@@ -105,21 +105,11 @@ public class ApproverListRest {
 	}
 	
 	@GET
-	@Path("copy")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response copy(@QueryParam("copyFrom") String copyFrom, @QueryParam("copyTo") String copyTo){
-		approverList = approverListDAO.readByDocumentId(copyFrom);
-		ApproverList tempApproverList = new ApproverList(copyTo, approverList.getApproverIdList(), 0);
-		approverListDAO.create(tempApproverList);
-		return Response.status(200).entity(tempApproverList).build();
-	}
-	
-	@GET
 	@Path("deleteByDocumentId")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response delete(@QueryParam("documentId") String documentId){
 		approverListDAO.deleteByDocumentId(documentId);
-		return Response.status(200).build();
+		return Response.status(200).entity("Deleted!").build();
 	}
 
 }

@@ -56,15 +56,7 @@ public class FileRest {
 	@Path("delete")
 	public Response deleteFileById(@QueryParam("id") String id){
 		fileDAO.deleteById(id);
-		return Response.ok()
-                .build();
-	}
-	
-	@GET
-	@Path("deleteByDocumentId")
-	public Response deleteFileByDocumentId(@QueryParam("documentId") String documentId){
-		fileDAO.deleteByDocumentId(documentId);
-		return Response.ok()
+		return Response.ok().entity("Deleted!")
                 .build();
 	}
 	
@@ -77,18 +69,7 @@ public class FileRest {
 		for (int i = 0; i < temp.size(); i++) {
 			deleteFileById(temp.get(i).getId());
 		}
-		return Response.ok().entity(temp.size())
-                .build();
-	}
-	
-	@GET
-	@Path("fileDetail")
-	public Response getFileDetail(@QueryParam("documentId") String id){
-		MyFile temp = new MyFile();
-		temp = fileDAO.readByDocumentId(id);
-		if(temp == null) return Response.status(404).entity("File not Found").build();
-		String filename = temp.getFilename();
-		return Response.ok().entity(filename)
+		return Response.ok().entity("Deleted all")
                 .build();
 	}
 	
@@ -111,39 +92,6 @@ public class FileRest {
 		return Response.ok().entity(files)
                 .build();
 	}
-	
-	@GET
-	@Path("download")
-	public Response downloadFile(@QueryParam("documentId") final String documentId){
-		final MyFile temp = fileDAO.readByDocumentId(documentId);
-		StreamingOutput fileStream =  new StreamingOutput() 
-        {
-            public void write(java.io.OutputStream output) throws IOException, WebApplicationException 
-            {
-                try
-                {
-                    InputStream in = temp.getInputStream();
-                    byte[] bytes = new byte[1024];
-                    int read = 0;
-                    while ((read = in.read(bytes)) != -1) {
-    					output.write(bytes, 0, read);
-    				}
-                    output.flush();
-                } 
-                catch (Exception e) 
-                {
-                    throw new WebApplicationException("File Not Found !!");
-                }
-            }
-        };
-        return Response
-                .ok(fileStream, MediaType.APPLICATION_OCTET_STREAM)
-                .header("content-disposition","attachment; filename = "+temp.getFilename())
-                .build();
-		
-	}
-	
-	
 	
 	@GET
 	@Path("downloadById")

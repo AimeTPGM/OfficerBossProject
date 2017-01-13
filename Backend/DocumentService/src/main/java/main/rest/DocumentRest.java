@@ -141,7 +141,6 @@ public class DocumentRest{
 		if (document == null) return notFoundStatus("404 Document not Found");
 		
 		document.setDocumentStatus(new WaitingForApproval().getDocumentStatusName());
-		document.setLastModifiedDate(new Date());
 		if(versionType.equals("minor")) {
 			int temp = document.getMinorVersion();
 			temp++;
@@ -170,7 +169,6 @@ public class DocumentRest{
 		document = documentDAO.readById(id);
 		if (document == null) return notFoundStatus("404 Document not Found");
 		document.setDocumentStatus(new Approved().getDocumentStatusName());
-		document.setLastModifiedDate(new Date());
 		document.setEditable(false);
 		documentDAO.update(document);
 		return okStatus(document);
@@ -199,7 +197,6 @@ public class DocumentRest{
 		document = documentDAO.readById(id);
 		if (document == null) return notFoundStatus("404 Document not Found");
 		document.setDocumentStatus(new Reject().getDocumentStatusName());
-		document.setLastModifiedDate(new Date());
 		document.setEditable(false);
 		documentDAO.update(document);
 		return okStatus(document);
