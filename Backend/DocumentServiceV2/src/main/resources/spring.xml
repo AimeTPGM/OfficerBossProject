@@ -7,7 +7,7 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
         http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.5.xsd">
  
-<mongo:mongo host="localhost" port="27018" id="mongo" />
+<mongo:mongo host="localhost" port="27040" id="mongo" />
 <mongo:db-factory dbname="documenttest" mongo-ref="mongo" id="mongoDbFactory" />
  
 <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
@@ -17,4 +17,9 @@
 <bean id="documentDAO" class="mongodb.dao.DocumentDAOImpl">
     <constructor-arg name="mongoOps" ref="mongoTemplate"/>
 </bean>
+
+<bean id="folderDAO" class="mongodb.dao.FolderDAOImpl">
+    <constructor-arg name="mongoOps" ref="mongoTemplate"/>
+</bean>
+
 </beans>

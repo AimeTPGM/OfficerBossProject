@@ -16,12 +16,16 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.client.RestTemplate;
 
 import main.model.Document;
+import main.model.Folder;
 import main.model.documentstatus.*;
 import mongodb.dao.DocumentDAO;
+import mongodb.dao.FolderDAO;
 
 @Named
 @Path("/")
@@ -30,8 +34,12 @@ public class DocumentRest{
 
 	private Document document;
 	private static List<Document> documents = new ArrayList<Document>();
+	private static List<String> documentIdList = new ArrayList<String>();
+	private static List<Folder> folders = new ArrayList<Folder>();
+	private static Folder folder = new Folder();
 	private ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
 	private DocumentDAO documentDAO = ctx.getBean("documentDAO", DocumentDAO.class);
+	private FolderDAO folderDAO = ctx.getBean("folderDAO", FolderDAO.class);
 	
 	@Inject
 	private RestTemplate restTemplate;
@@ -44,6 +52,12 @@ public class DocumentRest{
 		return Response.status(404).entity(obj).build();
 	}
 	
+	public void clear(){
+		documents = new ArrayList<Document>();
+		documentIdList = new ArrayList<String>();
+		folders = new ArrayList<Folder>();
+		folder = new Folder();	
+	}
 	
 	@GET
 	@Path("getDocuments")
@@ -66,6 +80,25 @@ public class DocumentRest{
 	}
 	
 	@GET
+	@Path("getFolders")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getFolders() {
+		System.out.println("GET Request: get all folders");
+		folders = folderDAO.getAllFolders();
+		return okStatus(folders);
+	}
+	
+	
+	@GET
+	@Path("getDocumentsAndFolder")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getDocumentsAndFolder(
+			@QueryParam("folderId") String folderId){
+		
+		return okStatus("yes");
+	}
+	
+	@GET
 	@Path("getDocumentsByUserId")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDocumentByUserId(
@@ -76,6 +109,48 @@ public class DocumentRest{
 		return okStatus(documents);
 	}
 	
+	public void newDraft(String name, String description, String creatorId){
+		System.out.println("creating Draft document");
+		Date date = new Date();
+		document = new Document(name, description, date, date, new Draft().getDocumentStatusName(), creatorId, 0, 0, true);
+		List<String> doc = documentDAO.create(document);
+		document.setDocumentId(doc.get(0));
+		documentIdList.add(doc.get(0));
+		System.out.println("created!");
+	}
+	
+	public void newDocument(String name, String description, String creatorId){
+		System.out.println("creating Waiting for Approval document");
+		Date date = new Date();
+		document = new Document(name, description, date, date, new WaitingForApproval().getDocumentStatusName(), creatorId, 0, 0, true);
+		List<String> doc = documentDAO.create(document);
+		document.setDocumentId(doc.get(0));
+		documentIdList.add(doc.get(0));
+		System.out.println("created!");
+	}
+	
+	public void newFolder(){
+		System.out.println("creating new folder");
+		
+		folder = new Folder(documentIdList, document.getDocumentName(), document.getLastModifiedDate(), document.getCreatorId());
+		folderDAO.create(folder);
+		System.out.println("created!");
+	}
+	public void addDocumentToFolder(String folderId){
+		System.out.println("addinng new draft document to an exisiting folder");
+		folder = folderDAO.readById(folderId);
+		folder.setFolderName(document.getDocumentName());
+		folder.setLastUpdate(document.getLastModifiedDate());
+		folder.addDocument(document.getDocumentId());
+		folder = folderDAO.update(folder);
+	}
+	
+	public void getAllDocumentInFolder(String folderId){
+		System.out.println("getting all document in folder");
+		for (int i = 0; i < folder.getDocumentList().size(); i++) {
+			documents.add(documentDAO.readById(folder.getDocumentList().get(i)));
+		}
+	}
 	
 	@POST
 	@Path("newDraft")
@@ -84,14 +159,24 @@ public class DocumentRest{
 	public Response createNewDraftdocument(
 			@FormParam("documentName") String name, 
 			@FormParam("description") String description,
-			@FormParam("creatorId") String creatorId
+			@FormParam("creatorId") String creatorId,
+			@FormParam("folderId") String folderId
 			) {
-		System.out.println("GET Request: newdraft");
+		clear();
+		System.out.println("GET Request: new draft");
+		newDraft(name, description, creatorId);
+		if(folderId == null){
+			newFolder();
+		}
+		else if(folderId != null){
+			addDocumentToFolder(folderId);
+		}
+		getAllDocumentInFolder(folderId);
+		List<Object> jsonResponse = new ArrayList<Object>();
+		jsonResponse.add(folder);
+		jsonResponse.add(documents);
 		
-		document = new Document(name, description, new Date(), new Draft(), creatorId,0,0,true);
-		documentDAO.create(document);
-		
-		return okStatus(document);
+		return okStatus(jsonResponse);
 	}
 	
 	@POST
@@ -101,11 +186,23 @@ public class DocumentRest{
 	public Response createNewDocument(
 			@FormParam("documentName") String name, 
 			@FormParam("description") String description,
-			@FormParam("creatorId") String creatorId) {
-		System.out.println("GET Request: newdocument");
-		document = new Document(name, description, new Date(), new WaitingForApproval(), creatorId, 0,0,false);
-		documentDAO.create(document);
-		return okStatus(document);
+			@FormParam("creatorId") String creatorId,
+			@FormParam("folderId") String folderId) {
+		clear();
+		System.out.println("GET Request: new draft");
+		newDocument(name, description, creatorId);
+		if(folderId == null){
+			newFolder();
+		}
+		else if(folderId != null){
+			addDocumentToFolder(folderId);
+		}
+		getAllDocumentInFolder(folderId);
+		List<Object> jsonResponse = new ArrayList<Object>();
+		jsonResponse.add(folder);
+		jsonResponse.add(documents);
+		
+		return okStatus(jsonResponse);
 	}
 	
 
@@ -145,14 +242,15 @@ public class DocumentRest{
 			int temp = document.getMinorVersion();
 			temp++;
 			document.setMinorVersion(temp);
-			document.setVersion(document.getMajorVersion(), temp);
+			document.setVersion();
+			
 		}
 		else if(versionType.equals("major")) {
 			int temp = document.getMajorVersion();
 			temp++;
 			document.setMajorVersion(temp);
 			document.setMinorVersion(0);
-			document.setVersion(temp, 0);
+			document.setVersion();
 		}
 		else return Response.status(400).entity("Bad version request").build();
 		document.setEditable(false);
@@ -238,7 +336,8 @@ public class DocumentRest{
 		document = documentDAO.readById(documentId);
 		document.setEditable(false);
 		documentDAO.update(document);
-		Document newDocument = new Document(name, description, new Date(), new Draft(), document.getCreator(),document.getMajorVersion(),document.getMinorVersion(),true);
+		Date date = new Date();
+		Document newDocument = new Document(name, description, date, date, new Draft().getDocumentStatusName(), document.getCreatorId(),document.getMajorVersion(),document.getMinorVersion(),true);
 		documentDAO.create(newDocument);
 		
 		return okStatus(newDocument);
@@ -280,6 +379,57 @@ public class DocumentRest{
 		documents = documentDAO.getAllDocumentsByApproverId(id);
 		if(documents == null) return notFoundStatus("404 Document Lists not Found");
 		return okStatus(documents);
+	}
+	
+	@GET
+	@Path("getFolderByCreatorId")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getFolderByCreatorId(@QueryParam("creatorId") String id) {
+		
+		folders = folderDAO.readByCreatorId(id);
+		
+		return okStatus(folders);
+	}
+	
+	@GET
+	@Path("folder")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getFolder(@QueryParam("folderId") String id) {
+		List<Object> response = new ArrayList<Object>();
+		folder = folderDAO.readById(id);
+		for (int i = 0; i < folder.getDocumentList().size(); i++) {
+			documents.add(documentDAO.readById(folder.getDocumentList().get(i)));
+		}
+		response.add(folder);
+		response.add(documents);
+		return okStatus(response);
+	}
+	
+	@GET
+	@Path("deleteFolderById")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteById(@QueryParam("folderId") String id){
+		folder = folderDAO.readById(id);
+		for (int i = 0; i < folder.getDocumentList().size(); i++) {
+			documentDAO.deleteById(folder.getDocumentList().get(i));
+		}
+		folderDAO.delete(id);
+		String response = "deleted!";
+		return okStatus(response);
+	}
+	
+	@GET
+	@Path("getFolderByDocumentId")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getFolderByDocumentId(@QueryParam("documentId") String id){
+		folder = folderDAO.readByDocumentId(id);
+		for (int i = 0; i < folder.getDocumentList().size(); i++) {
+			documents.add(documentDAO.readById(folder.getDocumentList().get(i)));
+		}
+		List<Object> response = new ArrayList<Object>();
+		response.add(folder);
+		response.add(documents);
+		return okStatus(response);
 	}
 	
 	

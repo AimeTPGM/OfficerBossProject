@@ -28,18 +28,21 @@ public class Document {
 	public Document(){
 		
 	}
-	
-	public Document(String name, String description, Date date, DocumentStatus status, String creatorId, int majorVersion, int minorVersion, boolean editable){
+	public Document(String name, String description,Date createdDate, Date lastModifiedDate, String status, String creatorId, int majorVersion, int minorVersion, boolean editable){
+		
 		this.name = name;
 		this.description = description;
-		this.status = status.getDocumentStatusName();
 		this.creatorId = creatorId;
 		this.majorVersion = majorVersion;
 		this.minorVersion = minorVersion;
-		setVersion(majorVersion, minorVersion);
-		setCreatedDate(date);
-		setLastModifiedDate(date);
+		setVersion();
+		setCreatedDate(createdDate);
+		setLastModifiedDate(lastModifiedDate);
+		this.status = status;
+		this.editable = editable;
 	}
+	
+	
 	
 	public Document(String documentId, String name, String description,String createdDate, String lastModifiedDate, String status, String creatorId, String approverId, String version, String editable){
 		this.documentId = documentId;
@@ -53,7 +56,12 @@ public class Document {
 		this.status = status;
 	}
 	
-	
+	public String getCreatorId() {
+		return creatorId;
+	}
+	public void setCreatorId(String creatorId) {
+		this.creatorId = creatorId;
+	}
 	public boolean isEditable() {
 		return editable;
 	}
@@ -100,7 +108,7 @@ public class Document {
 	public String getLastModifiedDate(){
 		return lastModifiedDate;
 	}
-	public void setVersion(int majorVersion, int minorVersion){
+	public void setVersion(){
 		this.version = majorVersion+"."+minorVersion;
 	}
 	public String getVersion(){
@@ -123,14 +131,6 @@ public class Document {
 
 	public void setMinorVersion(int minorVersion) {
 		this.minorVersion = minorVersion;
-	}
-
-
-	public void setCreator(String creatorId){
-		this.creatorId = creatorId;
-	}
-	public String getCreator(){
-		return creatorId;
 	}
 
 	public String getApproverId() {

@@ -35,7 +35,7 @@ public class FolderDAOImpl implements FolderDAO{
 		return this.mongoOps.findAll(Folder.class, COLLECTION);
 	}
 
-	public void update(Folder folder) {
+	public Folder update(Folder folder) {
 		System.out.println("DAO: Querying folder id:"+folder.getId());
 		Query query = new Query(Criteria.where("_id").is(folder.getId()));
 		Update update = new Update();
@@ -46,6 +46,9 @@ public class FolderDAOImpl implements FolderDAO{
 		update.set("creatorId", folder.getCreatorId());
 		System.out.println("DAO: Updating folder id:"+folder.getId());
 		this.mongoOps.findAndModify(query, update, Folder.class, COLLECTION);
+		query = new Query(Criteria.where("_id").is(folder.getId()));
+		System.out.println("DAO: Return folder");
+		return this.mongoOps.findOne(query, Folder.class, COLLECTION);
 		
 	}
 

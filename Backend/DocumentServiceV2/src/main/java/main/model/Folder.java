@@ -19,19 +19,10 @@ public class Folder {
 		documentIdList = new ArrayList<String>();
 	}
 	
-	public Folder(String folderName, Date date, String creatorId){
-		setFolderName(folderName);
-		setLastUpdate(date);
-		setCreatorId(creatorId);
-		documentIdList = new ArrayList<String>();
-		setNumberOfDocument(documentIdList.size());
-		
-	}
-	
-	public Folder(List<String> documentIdList, String folderName, Date date, String creatorId){
-		setFolderName(folderName);
-		setLastUpdate(date);
-		setCreatorId(creatorId);
+	public Folder(List<String> documentIdList, String folderName, String date, String creatorId){
+		this.folderName = folderName;
+		this.lastUpdate = date;
+		this.creatorId = creatorId;
 		this.documentIdList = documentIdList;
 		setNumberOfDocument(documentIdList.size());
 		
@@ -65,9 +56,8 @@ public class Folder {
 		return numberOfDocument;
 	}
 	
-	public void setLastUpdate(Date date){
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		this.lastUpdate = dateFormat.format(date);
+	public void setLastUpdate(String date){
+		this.lastUpdate = date;
 	}
 	public String getLastUpdate(){
 		return lastUpdate;

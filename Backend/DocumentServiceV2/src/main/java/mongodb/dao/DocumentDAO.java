@@ -6,7 +6,7 @@ import main.model.Document;
 
 public interface DocumentDAO {
 	 
-    public void create(Document document);
+    public List<String> create(Document document);
     
     public List<Document> getAllDocuments();
     
