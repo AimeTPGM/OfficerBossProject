@@ -1,0 +1,119 @@
+<ion-view cache-view="false" view-title="Add Document">
+	<ion-content class="all-page-container">
+
+	<div class="overlay" ng-show="showVersionSelector()">
+		<div class="version-button-wrapper">
+			<div class="button-wrapper">
+				<div class="header">
+					<h3>Please Select Update Version of the Document</h3>
+					<button class="button button-clear button-stable close-button icon ion-close" ng-click="hideVersionSelector()">
+					</button>
+				</div>
+				
+				<div class="row padding-0">
+					<div class="col col-50">
+						<button class="button button-full button-positive" ng-click="submit('minor')">Minor Update</button>
+					</div>
+					<div class="col col-50">
+						<button class="button button-full button-positive" ng-click="submit('major')">Major Update</button>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		
+
+		<div class="col col-80 center">
+			<h1 class="main-header" style="margin-top: 4vh;">Select Approver(s)</h1>
+			<a href="#/app/doc" class="path-link">Back</a><span> / Add New Document / Add Approver(s)</span>
+
+			<hr class="main-hr">
+			<div class="row">
+				<div class="col col-75 center">
+					
+					<form>
+						<div class="list">
+						  
+							 
+						<label class="item item-input item-stacked-label">
+
+
+						    <span class="input-label">Approver List</span>
+
+						    
+						    
+						    <div class="row">
+						    	<div class="col col-20">
+								<button class="button button-dark icon ion-plus" style="width:100%;" ng-click="addApprover()"></button>
+							</div>
+							
+						    	<div class="col col-80">
+							
+								<select class="" name="mySelect" id="approver-list-selector"
+		      ng-options="option.name for option in select.availableOptions" value="{{option.firstname}} {{option.lastname}}"
+		      ng-model="select.selectedOption"></select>
+							</div>
+							
+							    
+							</div>
+						
+								
+							</label>
+							<label class="item item-input item-stacked-label">
+							<div class="approver-list-overlay">
+								<div class="row header">
+									<div class="col-10">No.</div>
+									<div class="col-50">Name</div>
+									<div class="col-25">Email</div>
+									<div class="col-10">Remove</div>
+								</div>
+								<div class="approver-list-container">
+									<div class="row body" ng-repeat="approver in approverList track by $index">
+										<div class="col-10">{{$index+1}}</div>
+										<div class="col-50">{{approver.lastname}} {{approver.firstname}}</div>
+										<div class="col-25">{{approver.email}}</div>
+										<div class="col-10"><button class="button button-assertive button-clear icon ion-trash-a" ng-click="deleteApprover($index)"></button></div>
+									</div>
+								</div>
+							</div>
+						</label>
+
+						</div>
+						
+
+						<div class="row padding-0" show-when="large">
+							<div class="col padding-0">
+								<button class="button button-full button-dark" ng-click="back()">
+								  Back
+								</button>
+							</div>
+							<div class="col padding-0">
+								<button class="button button-full button-positive" ng-click="selectVersion()">
+								  Next
+								</button>
+							</div>
+						</div>
+						<div class="row" show-when="small">
+				
+								<button class="button button-full button-dark" ng-click="back()">
+								  Back
+								</button>
+			
+					
+								<button class="button button-full button-positive" ng-click="selectVersion()">
+								  Next
+								</button>
+				
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	</ion-content>
+</ion-view>

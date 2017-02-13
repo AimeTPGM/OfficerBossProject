@@ -1,0 +1,105 @@
+<ion-view cache-view="false" view-title="Dashboard">
+	<ion-content>
+	<div class="overlay" ng-show="showEditProfile()">
+		<div class="edit-profile-wrapper">
+			<div class="header">
+				<h1>Edit Profile</h1>
+				<button class="button button-clear button-stable icon ion-close close-button" ng-click="close()"></button>
+			</div>
+			
+			<div class="row">
+				<form>
+					<div class="list">
+					  <label class="item item-input">
+					    <span class="input-label">Lastname</span>
+					    <input type="text" value="{{user.lastname}}">
+					  </label>
+					  <label class="item item-input">
+					    <span class="input-label">Firstname</span>
+					    <input type="text" value="{{user.firstname}}">
+					  </label>
+					  <label class="item item-input">
+					    <span class="input-label">Email</span>
+					    <input type="text" value="{{user.email}}">
+					  </label>
+					</div>
+					<button class="button button-full button-positive">Change Profile</button>
+				</form>
+			</div>
+			<div class="row">
+				<form class="password-form">
+					<div class="list">
+						<label class="item item-input">
+					    	<span class="input-label">Old Password</span>
+					    	<input type="password">
+					  	</label>
+					  	<label class="item item-input">
+					    	<span class="input-label">New Password</span>
+					    	<input type="password">
+					  	</label>
+					  	<label class="item item-input">
+					    	<span class="input-label">Confirm Password</span>
+					    	<input type="password">
+					  	</label>
+					</div>
+					<button class="button button-full button-assertive">Change Password</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col col-80 center not-found" ng-show="notFound()">
+			<h1>We're sorry!</h1>
+			<h3>Dashboard Service is not available</h3>		
+		</div>
+	</div>
+	<div class="row" ng-show="available()">
+		<div class="col col-80 center">
+			<div class="row dashbaord-header" ng-show="showProfile()">
+				<div class="col col-80">
+					<h1>{{user.lastname}} {{user.firstname}}</h1>
+					<h4 class="icon ion-mail">{{user.email}}</h4>
+				</div>
+				<div class="col col-20">
+					<button class="button button-positive" ng-click="showEditProfileForm()">Edit Profile</button>
+				</div>
+			</div>
+			<hr class="main-hr">
+			<div class="row padding-0 dashboard-wrapper">
+				<div class="dashboard-graph-wrapper">
+					<canvas id="doughnut" class="chart chart-doughnut dashboard-graph" chart-data="chart.data" chart-labels="chart.label" chart-colours="chart.colours"></canvas>
+				</div>
+				<div class="row padding-0">
+				<div class="list dashboard-list">
+					<div class="item item-icon-left" href="#">
+						<i class="icon ion-android-drafts"></i>
+						    Draft
+						<span class="badge badge-energized">{{statistic.draft}}</span>
+					</div>
+					<div class="item item-icon-left" href="#">
+						<i class="icon ion-person-stalker"></i>
+						Waiting for Approval
+						<span class="badge badge-positive">{{statistic.waiting}}</span>
+					</div>
+					<div class="item item-icon-left" href="#">
+					    <i class="icon ion-close-round"></i>
+					    Reject
+					    <span class="badge badge-assertive">{{statistic.reject}}</span>
+					</div>
+					<div class="item item-icon-left" href="#">
+					    <i class="icon ion-checkmark-round"></i>
+					    Approved
+					    <span class="badge badge-balanced">{{statistic.approved}}</span>
+					</div>
+					 <div class="item item-icon-left" href="#">
+					    <i class="icon ion-ios-cloud-upload"></i>
+					    Publish
+					    <span class="badge badge-stable">{{statistic.publish}}</span>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+	</ion-content>
+</ion-view>

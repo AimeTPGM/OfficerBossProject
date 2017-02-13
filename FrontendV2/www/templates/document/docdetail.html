@@ -1,0 +1,238 @@
+<ion-view cache-view="false" view-title="Document Detail">
+	<ion-content class="all-page-container">
+	<div class="overlay" ng-show="showVersionSelector()">
+		<div class="version-button-wrapper">
+			<div class="button-wrapper">
+				<div class="header">
+					<h3>Please Select Update Version of the Document</h3>
+					<button class="button button-clear button-stable close-button icon ion-close" ng-click="hideVersionSelector()">
+					</button>
+				</div>
+				
+				<div class="row padding-0">
+					<div class="col col-50">
+						<button class="button button-full button-positive" ng-click="submit('minor')">Minor Update</button>
+					</div>
+					<div class="col col-50">
+						<button class="button button-full button-positive" ng-click="submit('major')">Major Update</button>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+	<div class="overlay" ng-show="showUploadedFileList()">
+		<div class="file-detail-wrapper">
+			<div class="file-detail-content">
+				<div class="header"><h3>{{numberOfFiles}} Uploaded File</h3>
+					<button class="button button-stable button-clear icon ion-close close-button" ng-click="closeUploadedFiles()"></div>
+				<div class="file-list">
+					<ul class="list">
+					    <li class="item" ng-repeat="file in files">
+					      <div class="row padding-0">
+					      <div class="delete-btn"><button ng-click="download(file.id)" target="_self" class="button button-calm icon ion-ios-cloud-download-outline button-circle"></button></div>
+					      <div class="filename">{{file.filename}}<div>
+					      </div>
+					    </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col col-80 center">
+			<h1 class="main-header" style="margin-top: 4vh;">{{doc.documentName}} Detail</h1>
+			<a href="#/app/doc" class="path-link">Document List</a>
+			<span> / </span>
+			<a href="#/app/doc/{{folder.id}}/history" class="path-link"> History </a>
+			<span> / {{doc.documentName}}</span>
+
+			
+			<!-- For draft -->
+			<span class="draft-status" ng-if="doc.documentStatus === 'Draft'">({{doc.documentStatus}})</span>
+			<!-- For Waiting for approval -->
+			<span class="waiting-for-approval-status" ng-if="doc.documentStatus === 'Waiting for Approval'">({{doc.documentStatus}})</span>
+			<!-- For Reject -->
+			<span class="reject-status" ng-if="doc.documentStatus === 'Reject'">({{doc.documentStatus}})</span>
+			<!-- For Approved -->
+			<span class="approved-status" ng-if="doc.documentStatus === 'Approved'">({{doc.documentStatus}})</span>
+			<!-- For Publish -->
+			<span class="publish-status" ng-if="doc.documentStatus === 'Publish'">({{doc.documentStatus}})</span>
+
+			<select onchange="location = this.options[this.selectedIndex].value;">
+				
+
+				<option ng-selected="version.docId === doc.documentId" ng-repeat="version in versions track by $index" value="#/app/doc/{{folder.id}}/{{version.docId}}">Version {{version.version}}</option>
+			</select>
+
+			<hr class="main-hr">
+			<div class="row">
+				<div class="col col-75 center">
+					<div class="list">
+					  <label class="item item-input item-stacked-label">
+					    <span class="input-label">Document Name</span>
+					    <input type="text" value="{{doc.documentName}}" disabled>
+					  </label>
+					  <label class="item item-input item-stacked-label">
+					    <div class="row padding-0">
+					    	<span class="input-label">Uploaded File</span> 
+					    </div>
+					    <div ng-show="showNone()">
+					    	None
+					    </div>
+					    <div ng-show="haveFiles()">
+						    <button class="button button-clear button-calm" ng-click="showUploadedFiles()">{{numberOfFiles}} Uploaded File (Click to see detail)</button>
+						</div>
+					  </label>
+
+					  <label class="item item-input item-stacked-label">
+					    <span class="input-label">Description</span>
+					    
+					    <textarea rows="10" disabled>{{doc.description}}</textarea>
+
+					  </label>
+					  
+					  
+					  
+					  <label class="item item-input item-stacked-label">
+					  	<div>
+					    	<span class="input-label">Approver List</span>
+					    </div>
+					    <div class="">
+					    	<div class="row approver-list-doc-detail-header">
+								<div class="col-10">No.</div>
+								<div class="col-50">Name</div>
+								<div class="col-25">Status</div>
+								<div class="col-10">Review</div>
+							</div>
+						<div class="approver-list-container">
+							<div ng-repeat="approver in approverList track by $index">
+
+								<div class="row approver-list-doc-detail-body">
+									<div class="col-10">{{$index+1}}</div>
+									<div class="col-50">{{approver.lastname}} {{approver.firstname}}</div>
+									<div class="col-25">
+										{{approver.review.reviewStatus}}
+									</div>
+									
+									<div class="col-10">
+										<button class="button button-calm button-clear icon ion-eye" ng-click="showReviewOf{{approver.userId}}=true" ng-hide="showReviewOf{{approver.userId}}"></button>
+										<button class="button button-dark button-clear icon ion-eye" ng-click="showReviewOf{{approver.userId}}=false" ng-show="showReviewOf{{approver.userId}}"></button>
+
+									</div>
+								</div>
+								<div class="review-detail" ng-show="showReviewOf{{approver.userId}}">
+									<span>Detail:</span>
+									{{approver.review.reviewDesc}}
+								</div>
+								
+							</div>
+						
+						</div>	
+					    	
+					    </div>
+					  
+					  </label>
+					  <div show-when="small">
+						  <label class="item item-input item-stacked-label">
+						    <span class="input-label">Creator</span>
+						    <input type="text" class="word-wrap" value="{{creator.lastname}} {{creator.firstname}}" disabled>
+						  </label>
+						  <label class="item item-input item-stacked-label">
+						    <span class="input-label">Created Date</span>
+						    <input type="text" class="word-wrap" value="{{doc.createdDate}}" disabled>
+						  </label>
+						  <label class="item item-input item-stacked-label">
+						    <span class="input-label">Last Modified Date</span>
+						    <input type="text" class="word-wrap" value="{{doc.lastModifiedDate}}" disabled>
+						  </label>
+					  </div>
+					  <label class="item item-input item-stacked-label" show-when="large">
+					    <div class="row">
+					    	<div class="col">
+					    		<span class="input-label">Creator</span>
+					    	</div>
+					    	<div class="col">
+					    		<span class="input-label">Created Date</span>
+					    	</div>
+					    	<div class="col">
+					    		<span class="input-label">Last Modified Date</span>
+					    	</div>
+					    
+					    </div>
+
+					    <div class="row">
+					    	<div class="col">
+					    		<input type="text" class="word-wrap" value="{{creator.lastname}} {{creator.firstname}}" disabled>
+					    	</div>
+					    
+					    	<div class="col">
+					    		<input type="text" class="word-wrap" value="{{doc.createdDate}}" disabled>
+					    	</div>
+					    	<div class="col">
+					    		<input type="text" class="word-wrap" value="{{doc.lastModifiedDate}}" disabled>
+					    	</div>
+					    </div>
+					  </label>
+
+					  
+
+					</div>
+					<div ng-if="doc.editable">
+						<div class="row padding-0" show-when="large">
+							<div class="col col-33 padding-0">
+								<a class="button button-full button-energized" href="#/app/doc/{{folder.id}}/{{doc.documentId}}/edit">
+								  Edit
+								</a>
+							</div>
+							<div class="col col-33 padding-0">
+								<button class="button button-full button-balanced" ng-click="selectVersion(doc.documentId, doc.documentStatus)">
+								  Submit
+								</button>
+							</div>
+							<div class="col col-33 padding-0">
+								<button class="button button-full button-assertive" ng-click="delete(doc.documentId)">
+								  Delete
+								</button>
+							</div>
+						</div>
+						<div class="row" show-when="small">
+								<a class="button button-full button-energized col-33" href="#/app/doc/{{folder.id}}/{{doc.documentId}}/edit">
+								  Edit
+								</a>
+								<button class="button button-full button-balanced" ng-click="selectVersion(doc.documentId, doc.documentStatus)">
+								  Submit
+								</button>
+								<button class="button button-full button-assertive" ng-click="delete(doc.documentId)">
+								  Delete
+								</button>
+						</div>
+					</div>
+			</form>
+
+					
+
+					<div ng-if="doc.documentStatus === 'Approved' && doc.editable == false" >
+								<a class="button button-block button-balanced" ng-click="publish(doc.documentId, doc.documentName)">
+								  Publish
+								</a>
+					</div>
+
+					<div ng-if="doc.editable == false" >
+								<a class="button button-block button-dark" href="#/app/doc">
+								  Back
+								</a>
+					</div>
+
+					
+					
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	</ion-content>
+</ion-view>

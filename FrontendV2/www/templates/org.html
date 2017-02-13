@@ -1,0 +1,54 @@
+<ion-view cache-view="false" view-title="Organization Chart">
+  <ion-content>
+  <div class="overlay" ng-show="showVersionSelector()">
+    <div class="version-button-wrapper">
+      <div class="button-wrapper">
+        <div class="header">
+          <h3>Please Select Update Version of the Document</h3>
+          <button class="button button-clear button-stable close-button icon ion-close" ng-click="hideVersionSelector()">
+          </button>
+        </div>
+        
+        <div class="row padding-0">
+          <div class="col col-50">
+            <button class="button button-full button-positive" ng-click="submit('minor')">Minor Update</button>
+          </div>
+          <div class="col col-50">
+            <button class="button button-full button-positive" ng-click="submit('major')">Major Update</button>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
+    <div class="row padding-0">
+      <div class="col col-50 center">
+       <!-- <div org-graph></div> -->
+       <svg id="chart"></svg>
+      </div>
+      <div class="col col-20 center approver-selection-wrapper">
+        <h1>Selected Approver</h1>
+        <button class="button button-positive button-full" ng-click="showSelectedApprover">update selected approver list</button>
+        <div class="selected-approver">
+          <ul class="list">
+            <li class="item" ng-repeat="user in users track by $index">
+              <div class="row padding-0">
+                <div class="col col-80 padding-0 name">
+                  {{user.firstname}}
+                </div>
+                <div class="col col-20 padding-0">
+                  <button class="button button-assertive button-clear icon ion-trash-a" ng-click="deleteApprover({{$index}})"></button>
+                </div>
+              </div>
+            </li>
+          </ul>
+          
+        </div>
+        <div>
+            <button class="button button-full" ng-click="confirm()">Confirm</button>
+          </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

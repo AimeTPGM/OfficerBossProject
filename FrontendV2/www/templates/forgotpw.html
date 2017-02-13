@@ -1,0 +1,24 @@
+<ion-view cache-view="false" view-title="Reset password">
+  <ion-content>
+    <div class="row login">
+      <div class="col col-50 center">
+        <h1 class="main-header" style="margin-bottom: 4vh; text-align:center;">Forgot your password?</h1>
+        <form ng-submit="doLogin()">
+          <div class="list">
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Enter your email address and we will send you a link to reset your password.</span>
+              <input type="text" placeholder="youremail@example.com">
+            </label>
+            <label class="item">
+              <button class="button button-block button-positive" type="submit">Send</button>
+            </label>
+          </div>
+        </form>
+        <div class="login-option-btn-wrapper" style="text-align:center;">
+          <button class="button button-clear" ng-click="goto('login')" >Back</button>
+        </div>
+
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,188 @@
+<ion-view cache-view="false" view-title="Edit Document">
+	<ion-content>
+
+	<div class="overlay" ng-show="showUploadedFileList()">
+		<div class="file-detail-wrapper">
+			<div class="file-detail-content">
+				<div class="header"><h3>{{numberOfFiles}} Uploaded File</h3>
+					<button class="button button-stable button-clear icon ion-close close-button" ng-click="closeUploadedFiles()"></button>
+				</div>
+				<div class="file-list">
+					<ul class="list">
+					    <li class="item" ng-repeat="file in files">
+					      <div class="row padding-0">
+					      <div class="delete-btn"><button ng-click="download(file.id)" target="_self" class="button button-calm button-clear icon ion-ios-cloud-download-outline button-circle"></button></div>
+					      <div class="delete-btn"><button class="button button-clear button-assertive icon ion-trash-a" ng-click="deleteFileById(file.id)"></button></div>
+					      <div class="filename">{{file.filename}}<div>
+					      </div>
+					    </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col col-80 center">
+			<h1 class="main-header" style="margin-top: 4vh;">Editing: {{doc.documentName}}</h1>
+			<a href="#/app/doc" class="path-link">Document List</a><span> / Editing: <a class="path-link" href="#/doc/{{folder.id}}/{{doc.documentId}}">{{doc.documentName}}</a></span>
+
+			
+			<!-- For draft -->
+			<span class="draft-status" ng-if="doc.documentStatus === 'Draft'">({{doc.documentStatus}})</span>
+			<!-- For Waiting for approval -->
+			<span class="waiting-for-approval-status" ng-if="document.documentStatus === 'Waiting for Approval'">({{doc.documentStatus}})</span>
+			<!-- For Reject -->
+			<span class="reject-status" ng-if="doc.documentStatus === 'Reject'">({{doc.documentStatus}})</span>
+			<!-- For Approved -->
+			<span class="approved-status" ng-if="doc.documentStatus === 'Approved'">({{doc.documentStatus}})</span>
+			<!-- For Publish -->
+			<span class="publish-status" ng-if="doc.documentStatus === 'Publish'">({{doc.documentStatus}})</span>
+
+			<hr class="main-hr">
+			<form>
+				<div class="row">
+					<div class="col col-75 center">
+						<div class="list">
+						  <label class="item item-input item-stacked-label">
+						    <span class="input-label">Document Name</span>
+						    <input type="text" ng-model="doc.documentName" ng-required="true">
+						</label>
+						  <label class="item item-input item-stacked-label">
+						    <div class="row padding-0">
+						    	<span class="input-label">Uploaded Files</span> 
+						    </div>
+						    <div class="row row-center padding-0" style="margin-top: 10px;" ng-show="showNone()">
+						    	
+						    	<span style="margin-top: 5px; margin-bottom: 5px;">None</button>
+						    </div>
+						    <div ng-show="haveFiles()">
+						    	<button class="button button-clear button-calm" ng-click="showUploadedFiles()">{{numberOfFiles}} Uploaded File (Click to see detail)</button>
+						    </div>
+						  </label>
+
+						  <label class="item item-input item-stacked-label">
+						    <div class="row padding-0">
+						    	<span class="input-label">Add More Files</span> 
+						    </div>
+						    <div style="margin-top: 20px; margin-bottom: 20px;">
+						
+						    	<div class="row padding-0">
+						    		
+							    	<div class="col-25">
+							    		<button class="button button-calm" ngf-select="upload($files)" multiple="multiple" style="margin-top: 15px;margin-bottom: 15px; width:90%;">Select File(s)</button>
+							    	</div>
+						    	</div>
+							</div>
+						  </label>
+
+						
+
+						  <label class="item item-input item-stacked-label">
+						    <span class="input-label">Description</span>
+						    
+						    <textarea rows="10" ng-model="doc.description" ng-required="true">{{doc.description}}</textarea>
+
+						  </label>
+						
+						  <div show-when="small">
+							  <label class="item item-input item-stacked-label">
+							    <span class="input-label">Creator</span>
+							    <input type="text" value="{{creator.lastname}} {{creator.firstname}}" disabled>
+							  </label>
+							 
+							  <label class="item item-input item-stacked-label">
+							    <span class="input-label">Created Date</span>
+							    <input type="text" value="{{doc.createdDate}}" disabled>
+							  </label>
+							  <label class="item item-input item-stacked-label">
+							    <span class="input-label">Last Modified Date</span>
+							    <input type="text" value="{{doc.lastModifiedDate}}" disabled>
+							  </label>
+						  </div>
+						  <label class="item item-input item-stacked-label" show-when="large">
+						    <div class="row">
+						    	<div class="col">
+						    		<span class="input-label">Creator</span>
+						    	</div>
+						    	
+						    	<div class="col">
+						    		<span class="input-label">Created Date</span>
+						    	</div>
+						    	<div class="col">
+						    		<span class="input-label">Last Modified Date</span>
+						    	</div>
+						    
+						    </div>
+
+						    <div class="row">
+						    	<div class="col">
+						    		<input type="text" value="{{creator.lastname}} {{creator.firstname}}" disabled>
+						    	</div>
+						    	
+						    	<div class="col">
+						    		<input type="text" value="{{doc.createdDate}}" disabled>
+						    	</div>
+						    	<div class="col">
+						    		<input type="text" value="{{doc.lastModifiedDate}}" disabled>
+						    	</div>
+						    </div>
+						  </label>
+
+						  
+
+						</div>
+						<div class="save-notification" ng-show="showNotification()">
+						  <div class="text icon ion-ios-information">
+						    Sucessfully saved document : {{lastModifiedDate}}
+						  </div>
+						</div>
+						<div ng-if="doc.editable">
+							<div class="row padding-0" show-when="large">
+								<div class="col col-33 padding-0">
+									<button class="button button-full button-energized" ng-click="save()">
+									  Save Draft
+									</button>
+								</div>
+								<div class="col col-33 padding-0">
+									<button class="button button-full button-balanced" ng-click="submit()">
+									  Submit
+									</button>
+								</div>
+								<div class="col col-33 padding-0">
+									<button class="button button-full button-assertive" ng-click="delete()">
+									  Delete
+									</button>
+								</div>
+							</div>
+							
+							<div class="row" show-when="small">
+									<button class="button button-full button-energized col-33" ng-click="save()">
+									  Save
+									</button>
+									<button class="button button-full button-balanced" ng-click="submit()">
+									  Submit
+									</button>
+									<button class="button button-full button-assertive" ng-click="delete()">
+									  Delete
+									</button>
+							</div>
+					</div>
+			</form>
+
+						<div ng-if="doc.editable == false" >
+									<a class="button button-block button-dark" href="#/app/doc">
+									  Back
+									</a>
+						</div>
+
+						<div ng-if="doc.documentStatus === 'Approved' && doc.editable == false" >
+									<a class="button button-block button-balanced">
+									  Publish
+									</a>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
+	</ion-content>
+</ion-view>

@@ -1,0 +1,107 @@
+<ion-view cache-view="false" view-title="Preferences">
+	<ion-content>
+	<div class="overlay" ng-show="showUser()">
+		<div class="edit-profile-wrapper" >
+			<div class="header">
+				<h1>Select a user to be direct boss</h1>
+				<button class="button button-clear button-stable icon ion-close close-button" ng-click="close()"></button>
+			</div>
+			
+			<div class="row">
+				<div class="row">
+					<div class="col col-20">
+						<button class="button button-dark icon ion-plus" style="width:100%;" ng-click="addBoss()"></button>
+					</div>
+					<div class="col col-80">
+
+						<select class="" name="mySelect" id="approver-list-selector"
+						ng-options="option.firstname for option in select.availableOptions" value="{{option.firstname}} {{option.lastname}}"
+						ng-model="select.selectedOption"></select>
+					</div>
+				</div>
+			</div>
+			<div class="list direct-boss-list">
+				<label class="item item-input" ng-repeat="directBoss in directBossList">
+					<div class="row padding-0">
+						<div class="col col-90">
+							<p class="content">{{directBoss.lastname}} {{directBoss.firstname}}</p>
+							<p class="content">{{directBoss.email}}</p>
+						</div>
+						<div class="col col-10">
+							<button class="button button-assertive button-clear ion-trash-a delete-btn" ng-click="removeRelationship(directBoss.userId, $index)"></button>
+						</div>
+					</div>
+				</label>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col col-80 center">
+			<h1>Your Direct Boss</h1>
+			<button class="button button-positive icon-left ion-plus" ng-click="showUsertoAdd()">Add</button>
+			<div class="row padding-0">
+				
+				<div class="list direct-boss-list">
+					<label class="item item-input" ng-repeat="directBoss in directBossList">
+						<div class="row padding-0">
+							<div class="col col-90">
+								<p class="content">{{directBoss.lastname}} {{directBoss.firstname}}</p>
+								<p class="content">{{directBoss.email}}</p>
+							</div>
+							<div class="col col-10">
+								<button class="button button-assertive button-clear ion-trash-a delete-btn" ng-click="removeRelationship(directBoss.userId, $index)"></button>
+							</div>
+						</div>
+				  	</label>
+				</div>
+			</div>
+			<!-- <h1>Change Password</h1>
+			<div class="row">
+				<form class="change-password">
+					<div class="list">
+						<label class="item item-input">
+					    	<span class="input-label">Old Password</span>
+					    	<input type="password">
+					  	</label>
+					  	<label class="item item-input">
+					    	<span class="input-label">New Password</span>
+					    	<input type="password">
+					  	</label>
+					  	<label class="item item-input">
+					    	<span class="input-label">Confirm Password</span>
+					    	<input type="password">
+					  	</label>
+					</div>
+					<button class="button button-full button-assertive">Change Password</button>
+				</form>
+			</div> -->
+		</div>
+	</div>
+			
+			<!-- <div class="row">
+				<form>
+					<div class="list">
+					  <label class="item item-input">
+					    <span class="input-label">Lastname</span>
+					    <input type="text" value="{{user.lastname}}">
+					  </label>
+					  <label class="item item-input">
+					    <span class="input-label">Firstname</span>
+					    <input type="text" value="{{user.firstname}}">
+					  </label>
+					  <label class="item item-input">
+					    <span class="input-label">Email</span>
+					    <input type="text" value="{{user.email}}">
+					  </label>
+					</div>
+					<button class="button button-full button-positive">Change Profile</button>
+				</form>
+			</div> -->
+
+			
+
+	
+	
+	
+	</ion-content>
+</ion-view>

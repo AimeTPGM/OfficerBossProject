@@ -1,0 +1,56 @@
+<ion-view cache-view="false" view-title="Register">
+  <ion-content>
+    <div class="row">
+      <div class="col col-50 center">
+        <h1 class="main-header" style="margin-bottom: 2vh; text-align:center;">Register</h1>
+        <form ng-submit="register()" class="css-form">
+          <div class="list">
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">First Name</span>
+              <input type="text" placeholder="John" ng-model="user.firstname" required>  
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Last Name</span>     
+              <input type="text" placeholder="Smith" ng-model="user.lastname" required>
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Email</span>
+              <div class="row">
+                <input type="text" placeholder="john.s@example.com" ng-change="emailCheck()" ng-model="user.email" required>
+                <div class="correct-input icon ion-checkmark" ng-show="emailCorrect()"></div>
+              </div>
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Password</span>
+              <div class="row">
+                <input type="password" placeholder="Password" ng-model="user.password" required>
+                <div class="correct-input icon ion-checkmark" ng-show="passwordMatch()"></div>
+              </div>
+            </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Confirm Password</span>
+              <div class="row">
+                <input type="password" placeholder="Confirm Password" ng-model="confirmpw.pw" ng-change="passwordCheck()" required>
+                <div class="correct-input icon ion-checkmark" ng-show="passwordMatch()"></div>
+              </div>
+            </label>
+          </div>
+          <div class="row padding-0">
+            <!-- <div class="col col-50 padding-0">
+              <button value="Register" class="button button-full button-positive" ng-click="bossRegis()" style="margin-right: 2.5px;">Register me as a BOSS</button>
+            </div>
+            <div class="col col-50 padding-0">
+              <button value="Register" class="button button-full button-positive" ng-click="officerRegis()" style="margin-left: 2.5px;">Register me as an OFFICER</button>
+            </div> -->
+          
+              <button value="Register" class="button button-full button-positive" ng-click="userRegis()" style="margin-right: 2.5px;">Register</button>
+            
+          </div>
+        </form>
+        <div class="login-option-btn-wrapper">
+          <button class="button button-clear" ng-click="goto('login')">Back</button>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

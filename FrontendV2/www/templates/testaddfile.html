@@ -1,0 +1,22 @@
+<ion-view cache-view="false" view-title="Add File">
+	<ion-content>
+	<div class="row">
+		<div class="col col-80 center">
+			<h1 class="main-header" style="margin-top: 4vh;">Add New File (Test)</h1>
+			<a href="#/app/doc" class="path-link">Document List</a><span> / Test add new file</span>
+			<hr class="main-hr">
+			<h1>Single upload files test</h1>
+			<div class="button" ngf-select="upload($file)">Upload on file select</div>
+			
+			<hr class="main-hr">
+			
+			<h1>Multiple upload files test</h1>
+			<div class="button" ngf-select="uploadFiles($files)" multiple="multiple">Upload on file select</div>
+			<div ng-repeat="file in uploadFileDetail">
+				<span>{{file}}</span>
+			</div>
+			
+		</div>
+	</div>
+	</ion-content>
+</ion-view>

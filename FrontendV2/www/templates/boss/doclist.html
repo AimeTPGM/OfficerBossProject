@@ -1,0 +1,75 @@
+<ion-view cache-view="false" view-title="Document Management">
+	<ion-content>
+	<div class="row">
+		<div class="col col-80 center">
+			<h1 class="main-header" style="margin-top: 4vh;">Review List</h1>
+			<hr class="main-hr">
+			<div show-when="large" class="row padding-0">
+				<div class="col col-20 padding-0">
+					
+				</div>
+				<!-- <div class="col col-30 col-offset-50">
+
+					<label class="item item-input">
+						<i class="icon ion-search placeholder-icon"></i>
+						<input type="text" placeholder="Search">
+					</label>
+				
+				</div> -->
+			</div>
+
+			<ui class="list">
+			<div class="item item-divider item-divider-calm">
+				<div class="row">
+					<div show-when="large" class="col vertical-center-list-text">Title</div>
+					<div show-when="small" class="col col-85 vertical-center-list-text">Title</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Creator</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Status</div>
+					<div show-when="large" class="col col-20 center-header vertical-center-list-text">Last Update</div>
+					<div show-when="large" class="col col-10 center-header vertical-center-list-text">Action</div>
+				
+				</div>
+			</div>
+				<li class="item" ng-repeat="document in documents" ng-if="document.documentStatus === 'Waiting for Approval'">
+					<div class="row">
+
+					
+					
+						<a show-when="large" class="col vertical-center-list-text doclist-link" href="#/app/doc/{{document.folder.id}}/{{document.documentId}}/review">{{document.documentName}}</a>
+
+
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{document.creator}}</div>
+					
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text waiting-for-approval-status word-wrap">{{document.documentStatus}}</div>
+						
+						
+						
+						<div show-when="large" class="col col-20 center-header vertical-center-list-text word-wrap">{{document.folder.lastUpdate}}</div>
+
+						
+						
+						<div show-when="large" class="col col-10 center-header">
+							<a class="button button-energized button-circle icon ion-compose" href="#/app/doc/{{document.folder.id}}/{{document.documentId}}/review" ng-if="document.documentStatus === 'Waiting for Approval'" title="Review"></a>
+						</div>
+					
+
+					
+						<a show-when="small" class="col col-85 vertical-center-list-text doclist-link" href="#/app/doc/{{document.folder.id}}/{{document.documentId}}/review" ng-if="document.documentStatus === 'Waiting for Approval'">{{document.documentName}}</a>
+						<a show-when="small" class="button button-energized" href="#/app/doc/{{document.id}}/{{document.folder.id}}/{{document.documentId}}/review" style="margin-right:10px;" ng-if="document.documentStatus === 'Waiting for Approval'">Review</a>
+					
+					
+					
+					
+					
+				</div>
+				</li>
+				<li class="item" ng-show="showNoConnection()">
+					<div style="text-align: center;color: #999;padding: 50px;">
+						We're sorry. The services are not available.
+					</div>
+				</li>
+		</ui>
+		</div>
+	</div>
+	</ion-content>
+</ion-view>
