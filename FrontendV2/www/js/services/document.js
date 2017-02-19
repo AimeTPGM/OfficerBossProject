@@ -32,7 +32,7 @@ angular.module('starter.controllers')
 
   }
 
-  this.save = function(docId,docName,docDesc){
+  this.save = function(docId,docName,docDesc,folderId){
     $http({
         method: 'POST',
         url: BackendPath.documentServicePath+'/save',
@@ -43,7 +43,7 @@ angular.module('starter.controllers')
             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
             return str.join("&");
         },
-        data: {documentId: docId, documentName: docName, description: docDesc}
+        data: {documentId: docId, documentName: docName, description: docDesc, folderId: folderId}
       
     }).
     success(function(data, status, headers, config) {
