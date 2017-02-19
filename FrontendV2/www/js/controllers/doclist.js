@@ -15,9 +15,10 @@ angular.module('starter.controllers')
     FolderService.delete(folderId);
     $window.location.href=('#/app/doc');
   }
+
   FolderFactory.getFolderByCreatorId(userId).then(function(resp){
     if(resp.status == 200){
-      $scope.folders = resp.data;
+      $scope.folders = resp.data[0];
       if($scope.folders.length == 0){
         $scope.noDocument = function(){
           return true;
@@ -26,42 +27,45 @@ angular.module('starter.controllers')
           }
         } 
       }
+      else{
+        for (var i = 0; i < $scope.folders.length; i++) {
+          var index = $scope.folders[i].documentList.length - 1;
+          $scope.folders[i].lastDocId = $scope.folders[i].documentList[index];
+          var tempLastDocId = $scope.folders[i].documentList[index];
+          $scope.folders[i].lastDocData = resp.data[1][i];
+
+        };
+      }
 
       var temp = {};
-      for (var i = 0; i < $scope.folders.length; i++) {
-        var index = $scope.folders[i].documentList.length - 1;
-        $scope.folders[i].lastDocId = $scope.folders[i].documentList[index];
-        var tempLastDocId = $scope.folders[i].documentList[index];
-        temp[i] = $scope.folders[i].documentList[index];
+      
+      // var j = 0;
+      // for (var i = 0; i < $scope.folders.length; i++) {
+      //   console.log(temp[i])
 
-      };
-      var j = 0;
-      for (var i = 0; i < $scope.folders.length; i++) {
-        console.log(temp[i])
-
-        DocumentFactory.getDocument(temp[i]).then(function(resp){
-          if(resp.status == 200){
-            for (var j = 0; j < $scope.folders.length; j++) {
+      //   DocumentFactory.getDocument(temp[i]).then(function(resp){
+      //     if(resp.status == 200){
+      //       for (var j = 0; j < $scope.folders.length; j++) {
            
-              if(temp[j] == resp.data.documentId){
-                $scope.folders[j].lastDocData = resp.data;
-                if($scope.folders[j].lastDocData.editable == false){
-                  DocumentService.editable($scope.folders[j].lastDocId, true);
-                }
-                break;
-              }
+      //         if(temp[j] == resp.data.documentId){
+                
+      //           if($scope.folders[j].lastDocData.editable == false){
+      //             DocumentService.editable($scope.folders[j].lastDocId, true);
+      //           }
+      //           break;
+      //         }
 
 
-            };
+      //       };
 
 
-          }
-          else{
-           console.log('cannot reach '+BackendPath.documentServicePath)
-          }
+      //     }
+      //     else{
+      //      console.log('cannot reach '+BackendPath.documentServicePath)
+      //     }
             
-        });
-      };
+      //   });
+      // };
       $scope.searchText = "";
       $scope.searchList = {};
       var j = 0;

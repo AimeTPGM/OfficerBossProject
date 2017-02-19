@@ -64,7 +64,7 @@
 			<select onchange="location = this.options[this.selectedIndex].value;">
 				
 
-				<option ng-selected="version.docId === doc.documentId" ng-repeat="version in versions track by $index" value="#/app/doc/{{folder.id}}/{{version.docId}}">Version {{version.version}}</option>
+				<option ng-selected="version.docId === doc.documentId" ng-repeat="version in versions track by $index" value="#/app/doc/{{folder.id}}/{{version.documentId}}">Version {{version.version}}</option>
 			</select>
 
 			<hr class="main-hr">
@@ -182,30 +182,30 @@
 					</div>
 					<div ng-if="doc.editable">
 						<div class="row padding-0" show-when="large">
-							<div class="col col-33 padding-0">
+							<div class="col col-50 padding-0">
 								<a class="button button-full button-energized" href="#/app/doc/{{folder.id}}/{{doc.documentId}}/edit">
 								  Edit
 								</a>
 							</div>
-							<div class="col col-33 padding-0">
+							<!-- <div class="col col-33 padding-0">
 								<button class="button button-full button-balanced" ng-click="selectVersion(doc.documentId, doc.documentStatus)">
 								  Submit
 								</button>
-							</div>
-							<div class="col col-33 padding-0">
+							</div> -->
+							<div class="col col-50 padding-0">
 								<button class="button button-full button-assertive" ng-click="delete(doc.documentId)">
 								  Delete
 								</button>
 							</div>
 						</div>
 						<div class="row" show-when="small">
-								<a class="button button-full button-energized col-33" href="#/app/doc/{{folder.id}}/{{doc.documentId}}/edit">
+								<a class="button button-full button-energized col col-50" href="#/app/doc/{{folder.id}}/{{doc.documentId}}/edit">
 								  Edit
 								</a>
-								<button class="button button-full button-balanced" ng-click="selectVersion(doc.documentId, doc.documentStatus)">
+								<!-- <button class="button button-full button-balanced" ng-click="selectVersion(doc.documentId, doc.documentStatus)">
 								  Submit
-								</button>
-								<button class="button button-full button-assertive" ng-click="delete(doc.documentId)">
+								</button> -->
+								<button class="button button-full button-assertive col col-50" ng-click="delete(doc.documentId)">
 								  Delete
 								</button>
 						</div>

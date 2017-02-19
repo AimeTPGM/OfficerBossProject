@@ -35,36 +35,40 @@ angular.module('starter.controllers')
   }
 
 
-  FolderFactory.getFolder($stateParams.folderId).then(function(resp){
-    if(resp.status == 200){
-      $scope.folder = resp.data;
-      $scope.versions = {};
-      var j = 0;
-      for (var i = 0; i < $scope.folder.documentList.length; i++) {
-        var tempDocId = $scope.folder.documentList[i];
-        DocumentFactory.getDocument(tempDocId).then(function(resp){
-            if(resp.status == 200){ 
-              var temp = {};
-              temp.version = resp.data.version;
-              temp.docId = tempDocId;
-              $scope.versions[j] = temp;
-              $scope.versions[j].docId = resp.data.documentId;
-              j++;
-            }
-            else{ console.log('cannot reach '+BackendPath.documentServicePath); } 
-          });
-      };
-    }
-    else{
-      console.log('cannot reach '+BackendPath.folderServicePath);
-    }
-  });
-    $scope.doc = {};
+  // FolderFactory.getFolder($stateParams.folderId).then(function(resp){
+  //   if(resp.status == 200){
+  //     $scope.folder = resp.data;
+  //     $scope.versions = {};
+  //     var j = 0;
+  //     for (var i = 0; i < $scope.folder.documentList.length; i++) {
+  //       var tempDocId = $scope.folder.documentList[i];
+  //       DocumentFactory.getDocument(tempDocId).then(function(resp){
+  //           if(resp.status == 200){ 
+  //             var temp = {};
+  //             temp.version = resp.data.version;
+  //             temp.docId = tempDocId;
+  //             $scope.versions[j] = temp;
+  //             $scope.versions[j].docId = resp.data.documentId;
+  //             j++;
+  //           }
+  //           else{ console.log('cannot reach '+BackendPath.documentServicePath); } 
+  //         });
+  //     };
+  //   }
+  //   else{
+  //     console.log('cannot reach '+BackendPath.folderServicePath);
+  //   }
+  // });
+  //   $scope.doc = {};
+
+
     
-    DocumentFactory.getDocument($stateParams.docId).then(function(resp){
+    DocumentFactory.getDocument($stateParams.docId, $stateParams.folderId).then(function(resp){
         if(resp.status == 200){
-          $scope.doc = resp.data;
-          
+          $scope.folder = resp.data[0];
+          $scope.doc = resp.data[1];
+          $scope.versions = resp.data[2];
+
           UserFactory.getUser($scope.doc.creator).then(function(resp){
             if(resp.status == 200){ $scope.creator = resp.data; }
             else{ $scope.creator = "Not available"; }
@@ -82,67 +86,7 @@ angular.module('starter.controllers')
                   $scope.showVersionSelector = function(){
                       return false;
                   }
-                }
-                $scope.submit = function(versionType){
-                  console.log(versionType);
-                  if(docStatus == 'Draft'){
-                    console.log('here')
-                    console.log(resp.data.approverIdList[resp.data.currentApproverIdIndex])
-                    console.log(resp.data)
-
-                    DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[resp.data.currentApproverIdIndex].userId)
-                    .then(function(resp){
-                      if(resp.status == 200){
-                        console.log(resp.data)
-                        DocumentService.submit($stateParams.docId,versionType);
-                        $window.location.href=('#/app/doc');
-                      }
-                      else {
-                        console.log('cannot determine firstApprover')
-                        $window.location.href=('#/app/doc');
-                      }
-                    })
-                    
-                  }
-                  else if(docStatus == 'Reject'){
-                    $http({
-                    method: 'POST',
-                    url: BackendPath.documentServicePath+'/newEditDraft',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    transformRequest: function(obj) {
-                      var str = [];
-                      for(var p in obj)
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                        return str.join("&");
-                      },
-                      data: {documentName:$scope.doc.documentName, 
-                        description:$scope.doc.description, 
-                        documentId: $stateParams.docId
-                      }
-                    
-                      }).success(function(data, status, headers, config) {
-                        DocumentService.editable($stateParams.docId, false);
-                        FolderService.addDocument($stateParams.folderId, data.documentId);
-                        DocumentFactory.changeApprover($stateParams.docId, resp.data.approverIdList[resp.data.currentApproverIdIndex].userId)
-                        .then(function(resp){
-                          if(resp.status == 200){
-                            console.log(resp.data)
-                            DocumentService.submit(data.documentId,versionType);
-                            $window.location.href=('#/app/doc');
-                          }
-                          else {
-                            console.log('cannot determine firstApprover')
-                            $window.location.href=('#/app/doc');
-                          }
-                        })
-                        
-
-                      }).
-                      error(function(data, status, headers, config) {
-                        console.log('cannot reach '+BackendPath.documentServicePath)
-                      });
-                  }
-                }    
+                }   
               }
 
               var idList = resp.data.approverIdList;

@@ -45,9 +45,6 @@ angular.module('starter.controllers')
       }
     }
   }
-  // $scope.addApprover = function(){
-  //      console.log('aime')
-  // }
 
   UserFactory.getBosses().then(function(resp){
     if(resp.status == 200){ 

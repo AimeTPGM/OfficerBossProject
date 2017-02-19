@@ -3,8 +3,8 @@ angular.module('starter.controllers')
 
    var doc = {};
 
-   doc.getDocument = function(docId){
-    return $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+docId)
+   doc.getDocument = function(docId, folderId){
+    return $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+docId+'&folderId='+folderId)
     .then(function(resp){
       return resp;
     }, function(resp){
