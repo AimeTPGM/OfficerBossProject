@@ -98,8 +98,10 @@ angular.module('starter.controllers')
         success(function(data, status, headers, config) {
             console.log('sent POST request: successfully create new draft');
             console.log(data);
-            $scope.savedDocData = data;
-            $scope.lastModifiedDate = data.lastModifiedDate;
+            var dataLength = data[1].length-1;
+            $scope.savedDocData = data[1][dataLength];
+            $scope.lastModifiedDate = $scope.savedDocData.lastModifiedDate;
+            $scope.savedFolder = data[0];
             $scope.showNotification = function(){
               return true;
             }
@@ -107,26 +109,26 @@ angular.module('starter.controllers')
               return true;
             }
             
-            //doing middlw layer
-            //new Folder
-            $http({
-            method: 'POST',
-            url: BackendPath.folderServicePath+'/createFolder',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            transformRequest: function(obj) {
-                var str = [];
-                for(var p in obj)
-                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                return str.join("&");
-            },
-            data: {folderName: $scope.doc.name, creatorId: userId}
+            // //doing middlw layer
+            // //new Folder
+            // $http({
+            // method: 'POST',
+            // url: BackendPath.folderServicePath+'/createFolder',
+            // headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            // transformRequest: function(obj) {
+            //     var str = [];
+            //     for(var p in obj)
+            //     str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            //     return str.join("&");
+            // },
+            // data: {folderName: $scope.doc.name, creatorId: userId}
           
-            }).
-            success(function(data, status, headers, config) {
-                console.log('sent POST request: add new folder');
-                console.log(data);
-                $scope.savedFolder = data;
-                FolderService.addDocument(data.id, $scope.savedDocData.documentId);
+            // }).
+            // success(function(data, status, headers, config) {
+            //     console.log('sent POST request: add new folder');
+            //     console.log(data);
+            //     $scope.savedFolder = data[0];
+            //     FolderService.addDocument(data.id, $scope.savedDocData.documentId);
                 if(files && files.length){
                   
                   for (var i = 0; i < files.length; i++) {
@@ -160,15 +162,16 @@ angular.module('starter.controllers')
                 }
 
               
-              }).
-              error(function(data, status, headers, config) {
-                console.log('cannot reach '+BackendPath.folderServicePath)
-              });
+              // })
+              // .error(function(data, status, headers, config) {
+              //   console.log('cannot reach '+BackendPath.folderServicePath)
+              // });
 
             
           }).
           error(function(data, status, headers, config) {
             console.log('cannot reach '+BackendPath.documentServicePath)
+            console.error(config)
           });
 
     }
