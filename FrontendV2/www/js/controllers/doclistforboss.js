@@ -18,7 +18,6 @@ angular.module('starter.controllers')
       var k=0;
       for (var i = 0; i < $scope.documents.length; i++) {
         UserFactory.getUser($scope.documents[i].creator).then(function(resp){
-          
           for (var j = 0; j < $scope.documents.length; j++) {
             if(resp.data.userId == $scope.documents[j].creator){
               $scope.documents[j].creator = resp.data.lastname +" "+resp.data.firstname;

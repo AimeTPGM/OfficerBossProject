@@ -62,7 +62,7 @@ angular.module('starter.controllers')
               $scope.submit = function(versionType){
                   console.log(versionType);
                   if(docStatus == 'Draft'){
-                    $window.location.href=('#/app/doc/'+data.id+'/'+$scope.savedDocData.documentId+'/approver');
+                    $window.location.href=('#/app/doc/'+$scope.folder.id+'/'+$$scope.doc.documentId+'/approver');
                     
                   }
                   else if(docStatus == 'Reject'){
