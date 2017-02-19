@@ -34,41 +34,12 @@ angular.module('starter.controllers')
       $window.location.href=('#/app/doc');
   }
 
-
-  // FolderFactory.getFolder($stateParams.folderId).then(function(resp){
-  //   if(resp.status == 200){
-  //     $scope.folder = resp.data;
-  //     $scope.versions = {};
-  //     var j = 0;
-  //     for (var i = 0; i < $scope.folder.documentList.length; i++) {
-  //       var tempDocId = $scope.folder.documentList[i];
-  //       DocumentFactory.getDocument(tempDocId).then(function(resp){
-  //           if(resp.status == 200){ 
-  //             var temp = {};
-  //             temp.version = resp.data.version;
-  //             temp.docId = tempDocId;
-  //             $scope.versions[j] = temp;
-  //             $scope.versions[j].docId = resp.data.documentId;
-  //             j++;
-  //           }
-  //           else{ console.log('cannot reach '+BackendPath.documentServicePath); } 
-  //         });
-  //     };
-  //   }
-  //   else{
-  //     console.log('cannot reach '+BackendPath.folderServicePath);
-  //   }
-  // });
-  //   $scope.doc = {};
-
-
-    
     DocumentFactory.getDocument($stateParams.docId, $stateParams.folderId).then(function(resp){
         if(resp.status == 200){
           $scope.folder = resp.data[0];
           $scope.doc = resp.data[1];
           $scope.versions = resp.data[2];
-
+          console.log($scope.versions)
           UserFactory.getUser($scope.doc.creator).then(function(resp){
             if(resp.status == 200){ $scope.creator = resp.data; }
             else{ $scope.creator = "Not available"; }
@@ -88,6 +59,42 @@ angular.module('starter.controllers')
                   }
                 }   
               }
+              $scope.submit = function(versionType){
+                  console.log(versionType);
+                  if(docStatus == 'Draft'){
+                    $window.location.href=('#/app/doc/'+data.id+'/'+$scope.savedDocData.documentId+'/approver');
+                    
+                  }
+                  else if(docStatus == 'Reject'){
+                    $http({
+                    method: 'POST',
+                    url: BackendPath.documentServicePath+'/newEditDraft',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function(obj) {
+                      var str = [];
+                      for(var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        return str.join("&");
+                      },
+                      data: {
+                        documentName:$scope.doc.documentName, 
+                        description:$scope.doc.description, 
+                        documentId: $stateParams.docId, 
+                        folderId: $stateParams.folderId
+                      }
+                    
+                      }).success(function(data, status, headers, config) {
+                        $scope.savedFolder = data[0];
+                        $scope.savedDocData = data[1];
+                        $window.location.href=('#/app/doc/'+$scope.savedFolder.id+'/'+$scope.savedDocData.documentId+'/edit');
+                        
+
+                      }).
+                      error(function(data, status, headers, config) {
+                        console.log('cannot reach '+BackendPath.documentServicePath)
+                      });
+                  }
+                }
 
               var idList = resp.data.approverIdList;
               for (var i = 0; i < resp.data.approverIdList.length; i++) {

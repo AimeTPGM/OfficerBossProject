@@ -284,7 +284,7 @@ angular.module('starter.controllers')
           $scope.savedDocData = data[1][dataLength];
           $scope.lastModifiedDate = $scope.savedDocData.lastModifiedDate;
           $scope.savedFolder = data[0];
-          $window.location.href=('#/app/doc/'+data.id+'/'+$scope.savedDocData.documentId+'/approver');
+          $window.location.href=('#/app/doc/'+$scope.savedFolder.id+'/'+$scope.savedDocData.documentId+'/approver');
 
         })
         .error(function(data){

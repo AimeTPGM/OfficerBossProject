@@ -36,36 +36,6 @@ angular.module('starter.controllers')
 
         };
       }
-
-      var temp = {};
-      
-      // var j = 0;
-      // for (var i = 0; i < $scope.folders.length; i++) {
-      //   console.log(temp[i])
-
-      //   DocumentFactory.getDocument(temp[i]).then(function(resp){
-      //     if(resp.status == 200){
-      //       for (var j = 0; j < $scope.folders.length; j++) {
-           
-      //         if(temp[j] == resp.data.documentId){
-                
-      //           if($scope.folders[j].lastDocData.editable == false){
-      //             DocumentService.editable($scope.folders[j].lastDocId, true);
-      //           }
-      //           break;
-      //         }
-
-
-      //       };
-
-
-      //     }
-      //     else{
-      //      console.log('cannot reach '+BackendPath.documentServicePath)
-      //     }
-            
-      //   });
-      // };
       $scope.searchText = "";
       $scope.searchList = {};
       var j = 0;

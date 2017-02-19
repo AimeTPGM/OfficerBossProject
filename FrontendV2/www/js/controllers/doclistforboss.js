@@ -9,11 +9,15 @@ angular.module('starter.controllers')
   $scope.documents = [];
   DocumentFactory.getDocumentByApproverId(userId).then(function(resp){
     if(resp.status == 200){
-      $scope.documents = resp.data;
+      $scope.documents = resp.data[1];
+      for (var i = 0; i < $scope.documents.length; i++) {
+        $scope.documents[i].folder = [];
+        $scope.documents[j].folder = resp.data[0][i];
+      };
       var doc = resp.data;
       var k=0;
-      for (var i = 0; i < resp.data.length; i++) {
-        UserFactory.getUser(resp.data[i].creator).then(function(resp){
+      for (var i = 0; i < $scope.documents.length; i++) {
+        UserFactory.getUser($scope.documents[i].creator).then(function(resp){
           
           for (var j = 0; j < $scope.documents.length; j++) {
             if(resp.data.userId == $scope.documents[j].creator){
@@ -21,28 +25,10 @@ angular.module('starter.controllers')
               console.log($scope.documents[j])
               break;
             }
-
           };
         })
-        FolderFactory.getFolderByDocumentId(resp.data[i].documentId).then(function(resp){
-
-          for (var j = 0; j < $scope.documents.length; j++) {
-            for (var k = 0; k < resp.data.documentList.length; k++) {
-              if($scope.documents[j].documentId == resp.data.documentList[k]){
-                $scope.documents[j].folder = [];
-                $scope.documents[j].folder = resp.data;
-              }
-            };
-          };
-        })
-
-
-
       };
-      
-     
     }
-     
     else {
 
     }
