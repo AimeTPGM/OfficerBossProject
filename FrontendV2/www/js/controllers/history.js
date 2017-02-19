@@ -8,38 +8,10 @@ angular.module('starter.controllers')
 
   FolderFactory.getFolder($stateParams.folderId).then(function(resp){
     if(resp.status == 200){
-      $scope.folder = resp.data;
-      $scope.documents = {};
-      if($scope.folder.numberOfDocuments > 0){
-      console.log('this folder has '+$scope.folder.numberOfDocuments+' documents')
+      $scope.folder = resp.data[0];
+      $scope.documents = resp.data[1];
       $scope.noDocument = function(){
         return false;
-      }
-      var j = 0;
-      $scope.documents = $scope.folder.documentList;
-      for (var i = 0; i < $scope.folder.numberOfDocuments; i++) {
-        console.log($scope.folder.documentList[i])
-        DocumentFactory.getDocument($scope.folder.documentList[i]).then(function(resp){
-          if(resp.status == 200){
-            for (var j = 0; j < $scope.documents.length; j++) {
-                if($scope.documents[j] == resp.data.documentId){
-                  $scope.documents[j] = resp.data;
-                  $scope.creator = {};
-                  UserFactory.getUser(data.approver).then(function(resp){
-                    $scope.approver = resp.data;
-                  });
-                  break;
-                }
-            };
-          }
-          else{ console.log('cannot reach '+BackendPath.documentServicePath) }
-        });
-       };
-      }
-      else{
-        $scope.noDocument = function(){
-          return true;
-        }
       }
     }
     else{ console.log('cannot reach '+BackendPath.folderServicePath) }
