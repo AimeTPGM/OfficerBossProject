@@ -40,7 +40,7 @@ angular.module('starter.controllers')
 
    }
 
-   doc.save = function(docId, docName, docDesc){
+   doc.save = function(docId, docName, docDesc, folderId){
     return $http({
                 method: 'POST',
                 url: BackendPath.documentServicePath+'/save',
@@ -54,7 +54,8 @@ angular.module('starter.controllers')
                 data: {
                   documentName: docName, 
                   description: docDesc, 
-                  documentId: docId
+                  documentId: docId,
+                  folderId: folderId
                 }
               
             })

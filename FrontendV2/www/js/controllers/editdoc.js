@@ -52,12 +52,13 @@ angular.module('starter.controllers')
   var count = 0;
 
     $scope.files = {};
-  $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+$stateParams.docId)
+  $http.get(BackendPath.documentServicePath+'/getDocument?documentId='+$stateParams.docId+'&folderId='+$stateParams.folderId)
     .success(function(data){
-      $scope.doc = data;
+      console.log(data)
+      $scope.doc = data[1];
       // get creator
       $scope.creator = {};
-      UserFactory.getUser($scope.doc.creator).then(function(resp){
+      UserFactory.getUser($scope.doc.creatorId).then(function(resp){
         $scope.creator = resp.data;
       });
           
@@ -92,7 +93,7 @@ angular.module('starter.controllers')
               // if there is no description
               if(!$scope.doc.description){ $scope.doc.description = "no description";}
 
-              DocumentFactory.save($stateParams.docId, $scope.doc.documentName, $scope.doc.description)
+              DocumentFactory.save($stateParams.docId, $scope.doc.documentName, $scope.doc.description, $stateParams.folderId)
               .then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
@@ -101,8 +102,8 @@ angular.module('starter.controllers')
                   }
 
                   $scope.savedDocData = resp.data;
-                  FolderService.update($stateParams.folderId, $scope.doc.documentName);
-                  DocumentService.editable(resp.data.documentId, true);
+                  // FolderService.update($stateParams.folderId, $scope.doc.documentName);
+                  // DocumentService.editable(resp.data.documentId, true);
                   
                   //Upload files
                   if(files && files.length){
@@ -146,7 +147,7 @@ angular.module('starter.controllers')
               if(!$scope.doc.documentName){ $scope.doc.documentName = "Untitled"; }
               // if there is no description
               if(!$scope.doc.description){ $scope.doc.description = "no description";}
-              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.documentName, $scope.doc.description)
+              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.documentName, $scope.doc.description, $stateParams.folderId)
               .then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
@@ -154,8 +155,8 @@ angular.module('starter.controllers')
                       return true;
                   }
                   $scope.savedDocData = resp.data;
-                  FolderService.update($stateParams.folderId, $scope.doc.documentName);
-                  DocumentService.editable(resp.data.documentId, true);
+                  // FolderService.update($stateParams.folderId, $scope.doc.documentName);
+                  // DocumentService.editable(resp.data.documentId, true);
                   //Upload files
                   if(files && files.length){
                       for (var i = 0; i < files.length; i++) {
@@ -206,18 +207,19 @@ angular.module('starter.controllers')
               // if there is no description
               if(!$scope.doc.description){ $scope.doc.description = "no description";}
 
-              DocumentFactory.newEditDraft($stateParams.docId, $scope.doc.documentName, $scope.doc.description)
+              DocumentFactory.newEditDraft($stateParams.docId, $scope.doc.documentName, $scope.doc.description, $stateParams.folderId)
               .then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
                     $scope.showNotification = function(){
                       return true;
                   }
-                  $scope.savedDocData = resp.data;
-                  DocumentService.editable($stateParams.docId, false);
-                  FolderService.update($stateParams.folderId, $scope.doc.documentName);
-                  FolderService.addDocument($stateParams.folderId, resp.data.documentId);
-                  DocumentService.editable(resp.data.documentId, true);
+
+                  $scope.savedDocData = resp.data[1];
+                  // DocumentService.editable($stateParams.docId, false);
+                  // FolderService.update($stateParams.folderId, $scope.doc.documentName);
+                  // FolderService.addDocument($stateParams.folderId, resp.data.documentId);
+                  // DocumentService.editable(resp.data.documentId, true);
 
                   //copy files
                   if($scope.files.length > 0){
@@ -263,7 +265,7 @@ angular.module('starter.controllers')
             } // if !$scope.savedDocData
             else{
 
-              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.documentName, $scope.doc.description)
+              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.documentName, $scope.doc.description, $stateParams.folderId)
               .then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
@@ -271,7 +273,7 @@ angular.module('starter.controllers')
                       return true;
                   }
                   $scope.savedDocData = resp.data;
-                  FolderService.update($stateParams.folderId, resp.data.documentName);
+                  // FolderService.update($stateParams.folderId, resp.data.documentName);
                   //Upload files
                   if(files && files.length){
                     for (var i = 0; i < files.length; i++) {
@@ -309,28 +311,28 @@ angular.module('starter.controllers')
         $scope.save = function(){
           if ($scope.doc.documentStatus == 'Draft'){
             if(!$scope.savedDocData){
-              DocumentFactory.save($stateParams.docId, $scope.doc.documentName, $scope.doc.description).then(function(resp){
+              DocumentFactory.save($stateParams.docId, $scope.doc.documentName, $scope.doc.description, $stateParams.folderId).then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
                     $scope.showNotification = function(){
                       return true;
                   }
                   $scope.savedDocData = resp.data;
-                  FolderService.update($stateParams.folderId, $scope.doc.documentName);
-                  DocumentService.editable(resp.data.documentId, true);
+                  // FolderService.update($stateParams.folderId, $scope.doc.documentName);
+                  // DocumentService.editable(resp.data.documentId, true);
                 }
               })
             }
             else{
-              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.documentName, $scope.doc.description).then(function(resp){
+              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.documentName, $scope.doc.description, $stateParams.folderId).then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
                     $scope.showNotification = function(){
                       return true;
                   }
                   $scope.savedDocData = resp.data;
-                  FolderService.update($stateParams.folderId, $scope.doc.documentName);
-                  DocumentService.editable(resp.data.documentId, true);
+                  // FolderService.update($stateParams.folderId, $scope.doc.documentName);
+                  // DocumentService.editable(resp.data.documentId, true);
                 }
               })
             }
@@ -338,7 +340,7 @@ angular.module('starter.controllers')
           } // if 'Draft'
           else{
             if(!$scope.savedDocData){
-              DocumentFactory.newEditDraft($stateParams.docId, $scope.doc.documentName, $scope.doc.description).then(function(resp){
+              DocumentFactory.newEditDraft($stateParams.docId, $scope.doc.documentName, $scope.doc.description, $stateParams.folderId).then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
                     $scope.showNotification = function(){
@@ -346,10 +348,10 @@ angular.module('starter.controllers')
                   }
                   console.log(resp.data)
                   $scope.savedDocData = resp.data;
-                  DocumentService.editable($stateParams.docId, false);
-                  FolderService.update($stateParams.folderId, $scope.doc.documentName);
-                  FolderService.addDocument($stateParams.folderId, resp.data.documentId);
-                  DocumentService.editable(resp.data.documentId, true);
+                  // DocumentService.editable($stateParams.docId, false);
+                  // FolderService.update($stateParams.folderId, $scope.doc.documentName);
+                  // FolderService.addDocument($stateParams.folderId, resp.data.documentId);
+                  // DocumentService.editable(resp.data.documentId, true);
              
 
                   // get files
@@ -372,16 +374,16 @@ angular.module('starter.controllers')
                
             } // if !$scope.savedDocData
             else{
-              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.documentName, $scope.doc.description).then(function(resp){
+              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.documentName, $scope.doc.description, $stateParams.folderId).then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
                     $scope.showNotification = function(){
                       return true;
                   }
                   $scope.savedDocData = resp.data;
-                  FolderService.update($stateParams.folderId, $scope.doc.documentName);
+                  // FolderService.update($stateParams.folderId, $scope.doc.documentName);
                  
-                  DocumentService.editable($scope.savedDocData.documentId, true);
+                  // DocumentService.editable($scope.savedDocData.documentId, true);
                 }
               })
             }
@@ -393,29 +395,29 @@ angular.module('starter.controllers')
         $scope.submit = function(){
           if ($scope.doc.documentStatus == 'Draft'){
             if(!$scope.savedDocData){
-              DocumentFactory.save($stateParams.docId, $scope.doc.documentName, $scope.doc.description).then(function(resp){
+              DocumentFactory.save($stateParams.docId, $scope.doc.documentName, $scope.doc.description, $stateParams.folderId).then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
                     $scope.showNotification = function(){
                       return true;
                   }
                   $scope.savedDocData = resp.data;
-                  FolderService.update($stateParams.folderId, $scope.doc.documentName);
-                  DocumentService.editable(resp.data.documentId, true);
+                  // FolderService.update($stateParams.folderId, $scope.doc.documentName);
+                  // DocumentService.editable(resp.data.documentId, true);
                   $window.location.href=('#/app/doc/'+$stateParams.folderId+'/'+resp.data.documentId+'/approver');
                 }
               })
             }
             else{
-              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.documentName, $scope.doc.description).then(function(resp){
+              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.documentName, $scope.doc.description, $stateParams.folderId).then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
                     $scope.showNotification = function(){
                       return true;
                   }
                   $scope.savedDocData = resp.data;
-                  FolderService.update($stateParams.folderId, $scope.doc.documentName);
-                  DocumentService.editable(resp.data.documentId, true);
+                  // FolderService.update($stateParams.folderId, $scope.doc.documentName);
+                  // DocumentService.editable(resp.data.documentId, true);
                   $window.location.href=('#/app/doc/'+$stateParams.folderId+'/'+resp.data.documentId+'/approver');
                 }
               })
@@ -424,7 +426,7 @@ angular.module('starter.controllers')
           } // if 'Draft'
           else{
             if(!$scope.savedDocData){
-              DocumentFactory.newEditDraft($stateParams.docId, $scope.doc.documentName, $scope.doc.description).then(function(resp){
+              DocumentFactory.newEditDraft($stateParams.docId, $scope.doc.documentName, $scope.doc.description, $stateParams.folderId).then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
                     $scope.showNotification = function(){
@@ -432,10 +434,10 @@ angular.module('starter.controllers')
                   }
                   console.log(resp.data)
                   $scope.savedDocData = resp.data;
-                  DocumentService.editable($stateParams.docId, false);
-                  FolderService.update($stateParams.folderId, $scope.doc.documentName);
-                  FolderService.addDocument($stateParams.folderId, resp.data.documentId);
-                  DocumentService.editable(resp.data.documentId, true);
+                  // DocumentService.editable($stateParams.docId, false);
+                  // FolderService.update($stateParams.folderId, $scope.doc.documentName);
+                  // FolderService.addDocument($stateParams.folderId, resp.data.documentId);
+                  // DocumentService.editable(resp.data.documentId, true);
                   
                   // get files
                   FileFactory.allFileDetail($stateParams.docId).then(function(resp){
@@ -459,16 +461,16 @@ angular.module('starter.controllers')
                
             } // if !$scope.savedDocData
             else{
-              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.documentName, $scope.doc.description).then(function(resp){
+              DocumentFactory.save($scope.savedDocData.documentId, $scope.doc.documentName, $scope.doc.description, $stateParams.folderId).then(function(resp){
                 if(resp.status == 200){
                   $scope.lastModifiedDate = resp.data.lastModifiedDate;
                     $scope.showNotification = function(){
                       return true;
                   }
                   $scope.savedDocData = resp.data;
-                  FolderService.update($stateParams.folderId, $scope.doc.documentName);
+                  // FolderService.update($stateParams.folderId, $scope.doc.documentName);
                  
-                  DocumentService.editable($scope.savedDocData.documentId, true);
+                  // DocumentService.editable($scope.savedDocData.documentId, true);
                   $window.location.href=('#/app/doc/'+$stateParams.folderId+'/'+resp.data.documentId+'/approver');
                 }
               })
