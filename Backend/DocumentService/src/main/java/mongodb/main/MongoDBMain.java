@@ -2,6 +2,9 @@ package mongodb.main;
 
 import java.net.UnknownHostException;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
@@ -17,6 +20,7 @@ public class MongoDBMain {
     private static final int MONGO_PORT = 27018;
     private static MongoClient mongo;
     private static DB db;
+    private static ApplicationContext ctx;
  
     public static void run() {
         try {
@@ -63,6 +67,13 @@ public class MongoDBMain {
 			}
         }
         return db.getCollection(collection);
+    }
+    
+    public static ApplicationContext getContext(){
+    	if (ctx == null){
+    		ctx = new ClassPathXmlApplicationContext("spring.xml");
+    	}
+    	return ctx;
     }
  
 }

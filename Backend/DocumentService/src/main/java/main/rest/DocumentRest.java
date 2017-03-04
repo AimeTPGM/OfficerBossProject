@@ -16,12 +16,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.client.RestTemplate;
 
 import main.model.Document;
 import main.model.documentstatus.*;
 import mongodb.dao.DocumentDAO;
+import mongodb.main.MongoDBMain;
 
 @Named
 @Path("/")
@@ -30,7 +32,7 @@ public class DocumentRest{
 
 	private Document document;
 	private static List<Document> documents = new ArrayList<Document>();
-	private ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+	private ApplicationContext ctx = MongoDBMain.getContext();
 	private DocumentDAO documentDAO = ctx.getBean("documentDAO", DocumentDAO.class);
 	
 	@Inject
