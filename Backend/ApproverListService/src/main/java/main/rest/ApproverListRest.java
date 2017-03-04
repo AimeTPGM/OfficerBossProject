@@ -11,11 +11,13 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.client.RestTemplate;
 
 import main.model.ApproverList;
 import mongodb.dao.ApproverListDAO;
+import mongodb.main.MongoDBMain;
 
 @Named
 @Path("/")
@@ -24,7 +26,7 @@ public class ApproverListRest {
 	private ApproverList approverList;
 	private List<ApproverList> approverLists;
 	
-	private ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+	private ApplicationContext ctx = MongoDBMain.getContext();
 	private ApproverListDAO approverListDAO = ctx.getBean("approverListDAO", ApproverListDAO.class);
 	
 	@Inject

@@ -1,6 +1,10 @@
 package mongodb.main;
 
 import java.net.UnknownHostException;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.mongodb.MongoClient;
 
 
@@ -11,6 +15,7 @@ public class MongoDBMain {
     private static final String MONGO_HOST = "localhost";
     private static final int MONGO_PORT = 27023;
     private static MongoClient mongo;
+    private static ApplicationContext ctx;
  
     public static void run() {
         try {
@@ -39,5 +44,11 @@ public class MongoDBMain {
     }
     public static int getPort(){
     	return MONGO_PORT;
+    }
+    public static ApplicationContext getContext(){
+    	if(ctx == null){
+    		ctx =  new ClassPathXmlApplicationContext("spring.xml");
+    	}
+    	return ctx;
     }
 }
