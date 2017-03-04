@@ -18,6 +18,15 @@ public class Review {
 	public Review(){
 		
 	}
+	public Review(String reviewId, String documentId, String approverId, String reviewDesc, String date, String reviewStatus){
+		this.reviewId = reviewId;
+		this.documentId = documentId;
+		this.approverId = approverId;
+		this.reviewDesc = reviewDesc;
+		this.reviewStatus = reviewStatus;
+		this.reviewDate = date;
+	}
+	
 	
 	public Review(String documentId, String approverId, String reviewDesc, Date date, String reviewStatus){
 		this.documentId = documentId;

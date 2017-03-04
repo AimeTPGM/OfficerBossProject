@@ -12,18 +12,19 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.client.RestTemplate;
 
+import database.dao.ReviewDAO;
+import main.Application;
 import main.model.Review;
-import mongodb.dao.ReviewDAO;
 
 @Named
 @Path("/")
 public class ReviewRest {
 	private Review review;
 	private List<Review> reviews;
-	private ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+	private ApplicationContext ctx = Application.database.getContext();
 	private ReviewDAO reviewDAO = ctx.getBean("reviewDAO", ReviewDAO.class);
 	
 	@Inject

@@ -1,4 +1,4 @@
-package mongodb.dao;
+package database.mongodb;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
 
+import database.dao.ReviewDAO;
 import main.model.Review;
-import mongodb.main.MongoDBMain;
 
 public class ReviewDAOImpl implements ReviewDAO{
 	private MongoOperations mongoOps;

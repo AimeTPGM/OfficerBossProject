@@ -1,18 +1,24 @@
-package mongodb.main;
+package database.mongodb;
 
 import java.net.UnknownHostException;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.mongodb.MongoClient;
 
+import database.dao.DatabaseModel;
 
-public class MongoDBMain {
+
+public class MongoDBMain implements DatabaseModel{
 	 
     private static final String DB_NAME = "reviewtest";
     private static final String COLLECTION = "reviewtestonly";
     private static final String MONGO_HOST = "localhost";
     private static final int MONGO_PORT = 27019;
     private static MongoClient mongo;
+    private ClassPathXmlApplicationContext ctx = null;
  
-    public static void run() {
+    public void run() {
         try {
         	System.out.println("connecting to mongodb at "+MONGO_HOST+":"+MONGO_PORT+"...\ndatabase name: "+DB_NAME+"\ncollection: "+COLLECTION);
             mongo = new MongoClient(
@@ -41,4 +47,11 @@ public class MongoDBMain {
     public static int getPort(){
     	return MONGO_PORT;
     }
+
+	public ClassPathXmlApplicationContext getContext() {
+		if(ctx == null){
+			ctx = new ClassPathXmlApplicationContext("mongodb/Spring-MongoDB.xml");
+		}
+		return ctx; 
+	}
 }
