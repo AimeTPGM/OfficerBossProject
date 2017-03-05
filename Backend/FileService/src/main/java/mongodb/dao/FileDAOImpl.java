@@ -122,4 +122,9 @@ public class FileDAOImpl implements FileDAO{
 		gfs.remove(gfs.findOne(query));
 		System.out.println("DAO: deleted!");
 	}
+
+	public void deleteByDocumentId(String id) {
+		// TODO Auto-generated method stub
+		
+	}
 }

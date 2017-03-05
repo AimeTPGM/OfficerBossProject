@@ -28,18 +28,20 @@ import javax.ws.rs.core.StreamingOutput;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import main.model.MyFile;
 import main.model.MyFileWithoutIS;
 import mongodb.dao.FileDAO;
+import mongodb.main.MongoDBMain;
 
 
 
 @Named
 @Path("/")
 public class FileRest {
-	private ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+	private ApplicationContext ctx = MongoDBMain.getContext();
 	private FileDAO fileDAO = ctx.getBean("fileDAO", FileDAO.class);
 	
 
