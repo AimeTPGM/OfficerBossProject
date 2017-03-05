@@ -16,11 +16,13 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.client.RestTemplate;
 
 import main.model.Folder;
 import mongodb.dao.FolderDAO;
+import mongodb.main.MongoDBMain;
 
 
 @Named
@@ -30,7 +32,7 @@ public class FolderRest {
 	public List<Folder> folders = new ArrayList<Folder>();
 	public Folder folder;
 	
-	private ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+	private ApplicationContext ctx = MongoDBMain.getContext();
 	private FolderDAO folderDAO = ctx.getBean("folderDAO", FolderDAO.class);
 	
 	@Inject
