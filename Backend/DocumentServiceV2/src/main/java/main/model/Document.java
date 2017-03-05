@@ -112,7 +112,7 @@ public class Document {
 		this.version = majorVersion+"."+minorVersion;
 	}
 	public String getVersion(){
-		return version;
+		return majorVersion+"."+minorVersion;
 	}
 	public int getMajorVersion() {
 		return majorVersion;
