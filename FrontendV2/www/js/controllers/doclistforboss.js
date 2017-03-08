@@ -11,20 +11,13 @@ angular.module('starter.controllers')
     if(resp.status == 200){
       $scope.documents = resp.data[1];
       for (var i = 0; i < $scope.documents.length; i++) {
-        $scope.documents[i].folder = [];
-        $scope.documents[j].folder = resp.data[0][i];
+        $scope.documents[i].folder = {};
+        $scope.documents[i].folder = resp.data[0][i];
       };
-      var doc = resp.data;
-      var k=0;
       for (var i = 0; i < $scope.documents.length; i++) {
-        UserFactory.getUser($scope.documents[i].creator).then(function(resp){
-          for (var j = 0; j < $scope.documents.length; j++) {
-            if(resp.data.userId == $scope.documents[j].creator){
-              $scope.documents[j].creator = resp.data.lastname +" "+resp.data.firstname;
-              console.log($scope.documents[j])
-              break;
-            }
-          };
+        UserFactory.getUser($scope.documents[i].creatorId).then(function(resp){
+          $scope.documents[i] = {};
+          $scope.documents[i].creator = resp.data.lastname +" "+resp.data.firstname;  
         })
       };
     }

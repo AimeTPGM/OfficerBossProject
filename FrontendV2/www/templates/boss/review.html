@@ -1,4 +1,4 @@
-ใ<ion-view cache-view="false" view-title="Review Document">
+<ion-view cache-view="false" view-title="Review Document">
 	<ion-content>
 	<div class="overlay" ng-show="showUploadedFileList()">
 		<div class="file-detail-wrapper">
@@ -32,7 +32,7 @@
 			<select onchange="location = this.options[this.selectedIndex].value;">
 				
 
-				<option selected="version.docId === doc.documentId" ng-repeat="version in versions track by $index" value="#/app/doc/{{folder.id}}/{{version.docId}}">Version {{version.version}}</option>
+				<option selected="version.docId === doc.documentId" ng-repeat="version in versions track by $index" value="#/app/doc/{{folder.id}}/{{version.docId}}">Version {{version}}</option>
 			</select>
 
 			<hr class="main-hr">

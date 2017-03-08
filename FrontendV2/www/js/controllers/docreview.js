@@ -8,31 +8,6 @@ angular.module('starter.controllers')
 
   var userId = LoginService.user.userId;
 
-
-  // FolderFactory.getFolder($stateParams.folderId).then(function(resp){
-  //   if(resp.status == 200){
-  //     $scope.folder = resp.data;
-  //     $scope.versions = {};
-  //     var j = 0;
-  //     for (var i = 0; i < $scope.folder.documentList.length; i++) {
-  //       var tempDocId = $scope.folder.documentList[i];
-  //       DocumentFactory.getDocument(tempDocId).then(function(resp){
-  //           if(resp.status == 200){ 
-  //             var temp = {};
-  //             temp.version = resp.data.version;
-  //             temp.docId = tempDocId;
-  //             $scope.versions[j] = temp;
-  //             $scope.versions[j].docId = resp.data.documentId;
-  //             j++;
-  //           }
-  //           else{ console.log('cannot reach '+BackendPath.documentServicePath); } 
-  //         });
-  //     };
-  //   }
-  //   else{
-  //     console.log('cannot reach '+BackendPath.folderServicePath);
-  //   }
-  // });
   $scope.approverList = [];
           ApproverListFactory.getApproverList($stateParams.docId).then(function(resp){
             if(resp.status == 200){
@@ -83,15 +58,14 @@ angular.module('starter.controllers')
   
 
   $scope.doc = {};
+  $scope.versions = [];
   DocumentFactory.getDocument($stateParams.docId, $stateParams.folderId).then(function(resp){
     if(resp.status == 200){
       $scope.folder = resp.data[0];
       $scope.doc = resp.data[1];
-      $scope.versions = {};
-
       for (var i = 0; i < resp.data[2].length; i++) {
-        $scope.versions[i] = resp.data[2].version;
-        $scope.versions[j].docId = resp.data[2].documentId;
+        $scope.versions[i] = resp.data[2][i].version;
+        $scope.versions[i].docId = resp.data[2][i].documentId;
       };
 
       var approverId = $scope.doc.approver;

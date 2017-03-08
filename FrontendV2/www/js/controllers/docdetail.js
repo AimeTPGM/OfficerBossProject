@@ -40,7 +40,7 @@ angular.module('starter.controllers')
           $scope.doc = resp.data[1];
           $scope.versions = resp.data[2];
           console.log($scope.versions)
-          UserFactory.getUser($scope.doc.creator).then(function(resp){
+          UserFactory.getUser($scope.doc.creatorId).then(function(resp){
             if(resp.status == 200){ $scope.creator = resp.data; }
             else{ $scope.creator = "Not available"; }
             

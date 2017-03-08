@@ -241,8 +241,9 @@ angular.module('starter.controllers')
         success(function(data, status, headers, config) {
             console.log('sent POST request: successfully updated current document : '+data.documentStatus);
             console.log(data);
-            var dataLength = data[1].length-1;
-            $scope.savedDocData = data[1][dataLength];
+            // var dataLength = data[1].length-1;
+            // $scope.savedDocData = data[1][dataLength];
+            $scope.savedDocData = data;
             $scope.lastModifiedDate = $scope.savedDocData.lastModifiedDate;
             $scope.savedFolder = data[0];
             $scope.showNotification = function(){
