@@ -180,18 +180,13 @@
 					  
 
 					</div>
-					<div ng-if="doc.editable">
+					<div ng-if="doc.editable ">
 						<div class="row padding-0" show-when="large">
 							<div class="col col-50 padding-0">
 								<a class="button button-full button-energized" href="#/app/doc/{{folder.id}}/{{doc.documentId}}/edit">
 								  Edit
 								</a>
 							</div>
-							<!-- <div class="col col-33 padding-0">
-								<button class="button button-full button-balanced" ng-click="selectVersion(doc.documentId, doc.documentStatus)">
-								  Submit
-								</button>
-							</div> -->
 							<div class="col col-50 padding-0">
 								<button class="button button-full button-assertive" ng-click="delete(doc.documentId)">
 								  Delete
@@ -202,12 +197,31 @@
 								<a class="button button-full button-energized col col-50" href="#/app/doc/{{folder.id}}/{{doc.documentId}}/edit">
 								  Edit
 								</a>
-								<!-- <button class="button button-full button-balanced" ng-click="selectVersion(doc.documentId, doc.documentStatus)">
-								  Submit
-								</button> -->
 								<button class="button button-full button-assertive col col-50" ng-click="delete(doc.documentId)">
 								  Delete
 								</button>
+						</div>
+					</div>
+					<div ng-if="doc.documentStatus === 'Reject'">
+						<div class="row padding-0" show-when="large">
+							<div class="col col-50 padding-0">
+								<a class="button button-full button-energized" href="#/app/doc/{{folder.id}}/{{doc.documentId}}/edit">
+								  Edit
+								</a>
+							</div>
+							<div class="col col-50 padding-0">
+								<a class="button button-full button-dark" href="#/app/doc">
+								  Back
+								</a>
+							</div>
+						</div>
+						<div class="row" show-when="small">
+								<a class="button button-full button-energized col col-50" href="#/app/doc/{{folder.id}}/{{doc.documentId}}/edit">
+								  Edit
+								</a>
+								<a class="button button-full button-dark" href="#/app/doc">
+								  Back
+								</a>
 						</div>
 					</div>
 			</form>
@@ -215,16 +229,14 @@
 					
 
 					<div ng-if="doc.documentStatus === 'Approved' && doc.editable == false" >
-								<a class="button button-block button-balanced" ng-click="publish(doc.documentId, doc.documentName)">
+								<a class="button button-full button-balanced" ng-click="publish(doc.documentId, doc.documentName)">
 								  Publish
 								</a>
-					</div>
-
-					<div ng-if="doc.editable == false" >
-								<a class="button button-block button-dark" href="#/app/doc">
+								<a class="button button-full button-dark" href="#/app/doc">
 								  Back
 								</a>
 					</div>
+
 
 					
 					

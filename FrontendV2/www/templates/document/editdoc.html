@@ -30,7 +30,7 @@
 			<!-- For draft -->
 			<span class="draft-status" ng-if="doc.documentStatus === 'Draft'">({{doc.documentStatus}})</span>
 			<!-- For Waiting for approval -->
-			<span class="waiting-for-approval-status" ng-if="document.documentStatus === 'Waiting for Approval'">({{doc.documentStatus}})</span>
+			<span class="waiting-for-approval-status" ng-if="doc.documentStatus === 'Waiting for Approval'">({{doc.documentStatus}})</span>
 			<!-- For Reject -->
 			<span class="reject-status" ng-if="doc.documentStatus === 'Reject'">({{doc.documentStatus}})</span>
 			<!-- For Approved -->
@@ -136,7 +136,7 @@
 						    Sucessfully saved document : {{lastModifiedDate}}
 						  </div>
 						</div>
-						<div ng-if="doc.editable">
+						<div ng-if="doc.editable || doc.documentStatus === 'Reject'">
 							<div class="row padding-0" show-when="large">
 								<div class="col col-33 padding-0">
 									<button class="button button-full button-energized" ng-click="save()">
@@ -169,7 +169,7 @@
 					</div>
 			</form>
 
-						<div ng-if="doc.editable == false" >
+						<div ng-if="doc.editable == false && doc.documentStatus !== 'Reject'" >
 									<a class="button button-block button-dark" href="#/app/doc">
 									  Back
 									</a>
